@@ -1,0 +1,442 @@
+import ast
+import logging
+from typing import List, Any, Generator, TypeVar, Tuple
+from fractions import Fraction as frac
+
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+from pitchtypes import SpelledIntervalClass, SpelledPitchClass
+from scipy.signal import argrelextrema
+
+from utils.htypes import Key
+from utils.metrics import all_Ls
+
+
+def int2bool(s):
+    try:
+        return bool(int(s))
+    except:
+        return s
+
+
+str2inttuple = lambda l: tuple() if l == '' else tuple(int(s) for s in l.split(', '))
+
+CONVERTERS = {
+    'added_tones': str2inttuple,
+    'act_dur': frac,
+    'chord_tones': str2inttuple,
+    'duration': frac,
+    'globalkey_is_minor': int2bool,
+    'localkey_is_minor': int2bool,
+    'mc_offset': frac,
+    'mc_onset': frac,
+    'mn_onset': frac,
+    'next': str2inttuple,
+    'nominal_duration': frac,
+    'scalar': frac,
+}
+
+STRING = 'string'  # not str
+
+DTYPES = {
+    'alt_label': STRING,
+    'barline': STRING,
+    'bass_note': 'Int64',
+    'breaks': STRING,
+    'changes': STRING,
+    'chord': STRING,
+    'chord_id': int,
+    'chord_type': STRING,
+    'dont_count': 'Int64',
+    'duration_qb': float,
+    'figbass': STRING,
+    'form': STRING,
+    'globalkey': STRING,
+    'keysig': int,
+    'label': STRING,
+    'localkey': STRING,
+    'mc': int,
+    'midi': int,
+    'mn': int,
+    'numbering_offset': 'Int64',
+    'numeral': STRING,
+    'pedal': STRING,
+    'phraseend': STRING,
+    'relativeroot': STRING,
+    'repeats': STRING,
+    'root': 'Int64',
+    'special': STRING,
+    'staff': int,
+    'tied': 'Int64',
+    'timesig': STRING,
+    'tpc': int,
+    'voice': int,
+    'volta': 'Int64'
+}
+
+A = TypeVar('A')
+
+
+# Function to safely parse values
+def safe_literal_eval(s):
+    try:
+        return list([ast.literal_eval(s)])
+    except (ValueError, SyntaxError):
+        return []
+
+
+# jitter ____________________________________________________________________________________________________________
+def rand_jitter(arr, scale: float = .01):
+    stdev = scale * (max(arr) - min(arr))
+    return arr + np.random.randn(len(arr)) * stdev
+
+
+# flatten list _______________________________________________________________________________________________________
+def flatten(lst: List[Any]) -> Generator[Any, None, None]:
+    for item in lst:
+        if isinstance(item, list):
+            yield from flatten(item)
+        else:
+            yield item
+
+
+# Function to flatten and convert elements to integers
+def flatten_to_list(element):
+    if isinstance(element, (list, tuple)):
+        return [item for sublist in element for item in (sublist if isinstance(sublist, (list, tuple)) else [sublist])]
+    else:
+        return []
+
+
+# set logger ________________________________________________________________________________________________________
+
+def setup_logger(name, log_file, level=logging.WARNING):
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    handler = logging.FileHandler(log_file)
+    handler.setFormatter(formatter)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+
+    return logger
+
+
+def get_spc_from_fifths(k: str, fifth_step: int) -> str:
+    """
+    This function takes the fifth step of a pitch in key k and returns the spelled pitch class.
+    Building <fifth_steps> of 5th from the tonic of the key k.
+    For instance, get_spc_from_fifths(fifth_step=-1 , k="a")=D
+    :param k:
+    :param fifth_step: int
+    :return:
+    """
+    tonic = Key.from_string(s=k).tonic
+    if fifth_step == 0:
+        ic = SpelledIntervalClass("P1")
+    else:
+        ic = SpelledIntervalClass("P5") * fifth_step
+    result = tonic + ic
+    return result
+
+
+def str_to_fifths(str_list: List[str]) -> List[int]:
+    fifths_list = [SpelledPitchClass(x).fifths() for x in str_list]
+    return fifths_list
+
+
+def potential_diatonic_pcs_for_maximally_covered_tones(k: str, S: List) -> List:
+    """
+    :param S: a list of all tones in the chord expressed in the fifth steps referencing the local key
+    :param k: str, key, assume the key is in roman numeral
+    :return: the spelled pitch class (in str) of the list L
+    """
+    # L is a list of integers in fifths steps with reference to the local key.
+    Ls = all_Ls(S=S)
+    result = [[get_spc_from_fifths(k=k, fifth_step=x) for x in L] for L in Ls]
+    return result
+
+
+# GPR plotting related ________________________________________________________________________________________________
+def find_local_extrema(data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    ext_max_indices = argrelextrema(data, np.greater)[0]
+    ext_min_indices = argrelextrema(data, np.less)[0]
+    return ext_max_indices, ext_min_indices
+
+
+def annotate_local_maxima(ax: plt.Axes, x: np.ndarray, y: np.ndarray, indices: np.ndarray, data: np.ndarray,
+                          offset_x: int = 0, offset_y: int = 0) -> None:
+    for i, (xi, yi) in enumerate(zip(x[indices], y[indices])):
+        overlap = False
+        for j in range(i):
+            if abs(xi - x[indices[j]]) < offset_x and abs(yi - y[indices[j]]) < offset_y:
+                overlap = True
+                break
+        if not overlap:
+            ax.annotate(f'{data[indices[i]]:.2f}', (xi, yi), textcoords="offset points", xytext=(0, 10), ha='center')
+
+
+# corpus composer corpus Dictionary
+
+corpus_composer_dict = {
+    'gastoldi_baletti',
+    'peri_euridice',
+    'monteverdi_madrigals',
+    'sweelinck_keyboard',
+    'frescobaldi_fiori_musicali',
+    'kleine_geistliche_konzerte',
+    'corelli',
+    'couperin_clavecin',
+    'handel_keyboard',
+    'bach_solo',
+    'bach_en_fr_suites',
+    'couperin_concerts',
+    'pergolesi_stabat_mater',
+    'scarlatti_sonatas',
+    'wf_bach_sonatas',
+    'jc_bach_sonatas',
+    'mozart_piano_sonatas',
+    'pleyel_quartets',
+    'beethoven_piano_sonatas',
+    'kozeluh_sonatas',
+    'ABC',
+    'schubert_dances',
+    'schubert_winterreise',
+    'mendelssohn_quartets',
+    'chopin_mazurkas',
+    'schumann_kinderszenen',
+    'schumann_liederkreis',
+    'c_schumann_lieder',
+    'liszt_pelerinage',
+    'wagner_overtures',
+    'tchaikovsky_seasons',
+    'dvorak_silhouettes',
+    'grieg_lyric_pieces',
+    'ravel_piano',
+    'mahler_kindertotenlieder',
+    'debussy_suite_bergamasque',
+    'bartok_bagatelles',
+    'medtner_tales',
+    'poulenc_mouvements_perpetuels',
+    'rachmaninoff_piano',
+    'schulhoff_suite_dansante_en_jazz'
+}
+
+corpus_collection_dict = {
+    'gastoldi_baletti',
+    'peri_euridice',
+    'monteverdi_madrigals',
+    'sweelinck_keyboard',
+    'frescobaldi_fiori_musicali',
+    'kleine_geistliche_konzerte',
+    'corelli',
+    'couperin_clavecin',
+    'handel_keyboard',
+    'bach_solo',
+    'bach_en_fr_suites',
+    'couperin_concerts',
+    'pergolesi_stabat_mater',
+    'scarlatti_sonatas',
+    'wf_bach_sonatas',
+    'jc_bach_sonatas',
+    'mozart_piano_sonatas',
+    'pleyel_quartets',
+    'beethoven_piano_sonatas',
+    'kozeluh_sonatas',
+    'ABC',
+    'schubert_dances',
+    'schubert_winterreise',
+    'mendelssohn_quartets',
+    'chopin_mazurkas',
+    'schumann_kinderszenen',
+    'schumann_liederkreis',
+    'c_schumann_lieder',
+    'liszt_pelerinage',
+    'wagner_overtures',
+    'tchaikovsky_seasons',
+    'dvorak_silhouettes',
+    'grieg_lyric_pieces',
+    'ravel_piano',
+    'mahler_kindertotenlieder',
+    'debussy_suite_bergamasque',
+    'bartok_bagatelles',
+    'medtner_tales',
+    'poulenc_mouvements_perpetuels',
+    'rachmaninoff_piano',
+    'schulhoff_suite_dansante_en_jazz'
+}
+
+
+# computing stats _____________________________________________________________________________________________________
+
+def compute_fifths_range_max_min_percentage():
+    df = pd.read_csv("../old_data/piecelevel_chromaticities.tsv", sep="\t")
+    diatonic_roots = df["root_fifths_range"]
+
+
+def fifths_range_summary():
+    df = pd.read_csv("../old_data/piecelevel_chromaticities.tsv", sep="\t")
+
+    pd.set_option('display.max_rows', None)  # Show all rows
+    pd.set_option('display.max_columns', None)  # Show all columns
+
+    num_of_piece_with_all_diatonic_root = ((df['root_fifths_range'] >= 0) & (df['root_fifths_range'] <= 6)).sum()
+    perc_of_piece_with_all_diatonic_root = num_of_piece_with_all_diatonic_root / df.shape[0]
+
+    num_of_piece_with_all_diatonic_ct = ((df['ct_fifths_range'] >= 0) & (df['ct_fifths_range'] <= 6)).sum()
+    perc_of_piece_with_all_diatonic_ct = num_of_piece_with_all_diatonic_ct / df.shape[0]
+
+    num_of_piece_with_all_diatonic_pc = ((df['pc_fifths_range'] >= 0) & (df['pc_fifths_range'] <= 6)).sum()
+    perc_of_piece_with_all_diatonic_pc = num_of_piece_with_all_diatonic_pc / df.shape[0]
+
+    result_df = pd.DataFrame({
+        'Num. of pieces with all diatonic root': [num_of_piece_with_all_diatonic_root],
+        'Perc. of pieces with all diatonic root': [perc_of_piece_with_all_diatonic_root],
+
+        'Num. of pieces with all diatonic ct': [num_of_piece_with_all_diatonic_ct],
+        'Perc. of pieces with all diatonic ct': [perc_of_piece_with_all_diatonic_ct],
+
+        'Num. of pieces with all diatonic pc': [num_of_piece_with_all_diatonic_pc],
+        'Perc. of pieces with all diatonic pc': [perc_of_piece_with_all_diatonic_pc],
+
+    })
+
+    result_df = result_df.to_dict()
+    # result_df = result_df.to_latex(index=False, escape=False)
+
+    print(f'{result_df}')
+
+
+def get_corpus_summary_table(metadata_path: str = "../data/all_subcorpora/all_subcorpora.metadata.tsv",
+                             result_corpus_path: str = "../data/piecelevel_chromaticities.tsv"):
+    piece_df = pd.read_csv(result_corpus_path, sep="\t")
+    metadata_df = pd.read_csv(metadata_path, sep="\t")
+
+    # Create a dictionary with a default value (e.g., 'Not Found') for unmatched keys
+    # corpus_composer_dict = dict(zip(corpus_df['corpus'], metadata_df.set_index('corpus')['composer'].fillna('Not Found')))
+
+    corpus_composer_dict = {
+        'gastoldi_baletti': 'Giovanni Giacomo Gastoldi',
+        'peri_euridice': 'Jacopo Peri',
+        'monteverdi_madrigals': 'Claudio Monteverdi',
+        'sweelinck_keyboard': 'Jan Pieterszoon Sweelinck',
+        'frescobaldi_fiori_musicali': 'Girolamo Frescobaldi',
+        'kleine_geistliche_konzerte': 'Heinrich Schütz',
+        'corelli': 'Arcangelo Corelli',
+        'couperin_clavecin': 'François Couperin',
+        'handel_keyboard': 'George Frideric Handel',
+        'bach_solo': 'J.S. Bach',
+        'bach_en_fr_suites': 'J.S. Bach',
+        'couperin_concerts': ' François Couperin',
+        'pergolesi_stabat_mater': 'Giovanni Battista Pergolesi',
+        'scarlatti_sonatas': 'Domenico Scarlatti',
+        'wf_bach_sonatas': 'W.F. Bach',
+        'jc_bach_sonatas': 'J.C. Bach',
+        'mozart_piano_sonatas': 'Wolfgang Amadeus Mozart',
+        'pleyel_quartets': 'Ignaz Pleyel',
+        'beethoven_piano_sonatas': 'Ludwig van Beethoven',
+        'kozeluh_sonatas': 'Leopold Koželuh',
+        'ABC': 'Ludwig van Beethoven',
+        'schubert_dances': 'Franz Schubert',
+        'schubert_winterreise': 'Franz Schubert',
+        'mendelssohn_quartets': 'Felix Mendelssohn',
+        'chopin_mazurkas': 'Frédéric Chopin',
+        'schumann_kinderszenen': 'Robert Schumann',
+        'schumann_liederkreis': 'Robert Schumann',
+        'c_schumann_lieder': 'Clara Schumann',
+        'liszt_pelerinage': 'Franz Liszt',
+        'wagner_overtures': 'Richard Wagner',
+        'tchaikovsky_seasons': 'Pyotr Tchaikovsky',
+        'dvorak_silhouettes': 'Antonín Dvořák',
+        'grieg_lyric_pieces': 'Edvard Grieg',
+        'ravel_piano': 'Maurice Ravel',
+        'mahler_kindertotenlieder': 'Gustav Mahler',
+        'debussy_suite_bergamasque': 'Claude Debussy',
+        'bartok_bagatelles': 'Béla Bartók',
+        'medtner_tales': 'Nikolai Medtner',
+        'poulenc_mouvements_perpetuels': 'Francis Poulenc',
+        'rachmaninoff_piano': 'Sergei Rachmaninoff',
+        'schulhoff_suite_dansante_en_jazz': 'Erwin Schulhoff'
+    }
+
+    corpus_collection_dict = {
+        'gastoldi_baletti': "Balletti",
+        'peri_euridice': "Euridice Opera",
+        'monteverdi_madrigals': "Madrigal",
+        'sweelinck_keyboard': 'Fantasia Cromatica',
+        'frescobaldi_fiori_musicali': 'Fiori Musicali',
+        'kleine_geistliche_konzerte': 'Kleinen geistlichen Konzerte',
+        'corelli': 'Trio Sonatas',
+        'couperin_clavecin': "L´Art de Toucher le Clavecin",
+        'handel_keyboard': "Air and 5 variations 'The Harmonious Blacksmith'",
+        'bach_solo': 'Solo Pieces',
+        'bach_en_fr_suites': 'Suites',
+        'couperin_concerts': "Concerts Royaux, Les Goûts-réunis",
+        'pergolesi_stabat_mater': 'Stabat Mater',
+        'scarlatti_sonatas': 'Harpsichord Sonatas',
+        'wf_bach_sonatas': 'Keyboard Sonatas',
+        'jc_bach_sonatas': 'Sonatas',
+        'mozart_piano_sonatas': 'Piano Sonatas',
+        'pleyel_quartets': 'String Quartets',
+        'beethoven_piano_sonatas': 'Piano Sonatas',
+        'kozeluh_sonatas': 'Sonatas',
+        'ABC': 'String Quartets',
+        'schubert_dances': 'Piano Dances',
+        'schubert_winterreise': 'Winterreise',
+        'mendelssohn_quartets': 'String Quartets',
+        'chopin_mazurkas': 'Mazurkas',
+        'schumann_kinderszenen': 'Kinderszenen',
+        'schumann_liederkreis': 'Liederkreis',
+        'c_schumann_lieder': 'Lieder',
+        'liszt_pelerinage': 'Années de Pèlerinage',
+        'wagner_overtures': 'Overtures',
+        'tchaikovsky_seasons': 'The Seasons',
+        'dvorak_silhouettes': 'Silhouettes',
+        'grieg_lyric_pieces': 'Lyric Pieces',
+        'ravel_piano': 'Piano',
+        'mahler_kindertotenlieder': 'Kindertotenlieder',
+        'debussy_suite_bergamasque': 'Suite Bergamasque',
+        'bartok_bagatelles': 'Bagatelles',
+        'medtner_tales': 'Tales',
+        'poulenc_mouvements_perpetuels': 'Mouvements Perpétuels',
+        'rachmaninoff_piano': 'Piano',
+        'schulhoff_suite_dansante_en_jazz': 'Suite dansante en jazz'
+    }
+
+    piece_num = piece_df.groupby('corpus').agg(
+        Piece_Number=('piece', 'count')
+    ).reset_index()
+
+    result_df = pd.DataFrame.from_dict(corpus_composer_dict, orient='index').reset_index()
+    result_df["Collection"] = result_df['index'].map(corpus_collection_dict)
+    result_df = result_df.rename(columns={'index': 'corpus', '0': 'Composer'})
+    result_df = pd.merge(result_df, piece_num, on='corpus', how='left')
+
+    result_df = result_df.drop(columns=["corpus"])
+    latex_table = result_df.to_latex()
+    print(latex_table)
+
+
+def corpus_summary_stats():
+    raise NotImplementedError
+
+
+if __name__ == "__main__":
+    # corpus_df = pd.read_csv("../data/core_cl_chromaticities.tsv", sep="\t")
+    # corpus_list = corpus_df["corpus"].to_list()
+    # print(corpus_list)
+
+    # get_corpus_summary_table()
+
+    import scipy.io
+
+    mat = scipy.io.loadmat('/Users/xinyiguan/Downloads/overall_information_content.mat')
+    m = min(mat)
+    print(f'{mat=}')
+
+    # df = pd.read_table('/Users/xinyiguan/Downloads/99030222111752-cpitch_onset-cpitch_onset-66030222111752-nil-melody-nil-1-both-nil-t-nil-c-nil-t-t-x-3.dat', sep='\t')
+    # a=df.columns
+    # print(a)
+
+
