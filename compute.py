@@ -10,6 +10,7 @@ from utils.htypes import Numeral, Key
 from utils.metrics import tone_to_diatonic_set_distance, cumulative_distance_to_diatonic_set, \
     min_distance_from_S_to_L
 
+
 def load_dcml_harmonies_tsv(harmony_tsv_path: str, meatadata_tsv_path: str) -> pd.DataFrame:
     """
     An intermediate step for loading and process the filtered dcml harmonies tsv before computing chromaticity
@@ -91,9 +92,7 @@ def compute_chord_chromaticity(df: pd.DataFrame) -> pd.DataFrame:
     # the cumulative distance of the concurrent pitch class set to the local key scale set
     df["pcs_chromaticity"] = df.apply(lambda row: cumulative_distance_to_diatonic_set(tonic=None,
                                                                                       ts=row["tones_in_span"],
-                                                                                      diatonic_mode=row["lk_mode"]),
-                                      axis=1)
-
+                                                                                      diatonic_mode=row["lk_mode"]), axis=1)
     # diatonicity of chord tones:
     df["ct_diatonicity"] = df.apply(
         lambda row: min_distance_from_S_to_L(S=row["ct"]), axis=1)
@@ -102,34 +101,10 @@ def compute_chord_chromaticity(df: pd.DataFrame) -> pd.DataFrame:
     df["nct_diatonicity"] = df.apply(
         lambda row: min_distance_from_S_to_L(S=row["nct"]), axis=1)
 
-    # diatonicity of concurrent pitch class set:
-    df["pcs_diatonicity"] = df.apply(
-        lambda row: min_distance_from_S_to_L(S=row["tones_in_span"]), axis=1)
-
-    df["r_chromaticity_weighted"] = (df["r_chromaticity"] * df['duration_qb']) / df['duration_qb'].sum()
-    df["ct_chromaticity_weighted"] = (df["ct_chromaticity"] * df['duration_qb']) / df['duration_qb'].sum()
-    df["nct_chromaticity_weighted"] = (df["nct_chromaticity"] * df['duration_qb']) / df['duration_qb'].sum()
-    df["pcs_chromaticity_weighted"] = (df["pcs_chromaticity"] * df['duration_qb']) / df['duration_qb'].sum()
-
-    df["ct_diatonicity_weighted"] = (df["ct_diatonicity"] * df['duration_qb']) / df['duration_qb'].sum()
-    df["nct_diatonicity_weighted"] = (df["nct_diatonicity"] * df['duration_qb']) / df['duration_qb'].sum()
-    df["pcs_diatonicity_weighted"] = (df["pcs_diatonicity"] * df['duration_qb']) / df['duration_qb'].sum()
-
     return df
 
 
 def compute_piece_chromaticity(df: pd.DataFrame, compute_full: bool = True) -> pd.DataFrame:
-    # def get_max_tone(x):
-    #     if len(x) > 0:
-    #         return max(x)
-    #     else:  # hacking the zero-length all_tones
-    #         return 0
-    #
-    # def get_min_tone(x):
-    #     if len(x) > 0:
-    #         return min(x)
-    #     else:  # hacking the zero-length all_tones
-    #         return 0
 
     def calculate_max_min_pc(x):
         if len(x) > 0:
@@ -180,11 +155,8 @@ def compute_piece_chromaticity(df: pd.DataFrame, compute_full: bool = True) -> p
 
             mean_nct_diatonicity=("nct_diatonicity", lambda x: x.unique().mean()),
             max_nct_diatonicity=("nct_diatonicity", "max"),
-            min_nct_diatonicity=("nct_diatonicity", "min"),
+            min_nct_diatonicity=("nct_diatonicity", "min")
 
-            mean_pcs_diatonicity=("pcs_diatonicity", lambda x: x.unique().mean()),
-            max_pcs_diatonicity=("pcs_diatonicity", "max"),
-            min_pcs_diatonicity=("pcs_diatonicity", "min")
         )
 
     else:
@@ -203,37 +175,22 @@ def compute_piece_chromaticity(df: pd.DataFrame, compute_full: bool = True) -> p
             max_nct=("max_nct", "max"),
             min_nct=("min_nct", "min"),
 
-            mean_r_chromaticity=("r_chromaticity", "mean"),
+            rc=("r_chromaticity", "mean"),
 
-            mean_ct_chromaticity=("ct_chromaticity", lambda x: x.unique().mean()),
+            ctc=("ct_chromaticity", lambda x: x.unique().mean()),
 
-            mean_nct_chromaticity=("nct_chromaticity", lambda x: x.unique().mean()),
+            nctc=("nct_chromaticity", lambda x: x.unique().mean()),
 
-            mean_ct_diatonicity=("ct_diatonicity", lambda x: x.unique().mean()),
+            ctd=("ct_diatonicity", lambda x: x.unique().mean()),
 
-            mean_nct_diatonicity=("nct_diatonicity", lambda x: x.unique().mean()),
-
+            nctd=("nct_diatonicity", lambda x: x.unique().mean())
         )
 
     result_df = result_df.sort_values(by=["corpus_year", "piece_year"], ignore_index=True)
-    result_df["root_fifths_range"] = (result_df["max_root"] - result_df["min_root"]).abs()
+    result_df["r_fifths_range"] = (result_df["max_root"] - result_df["min_root"]).abs()
     result_df["ct_fifths_range"] = (result_df["max_ct"] - result_df["min_ct"]).abs()
     result_df["nct_fifths_range"] = (result_df["max_nct"] - result_df["min_nct"]).abs()
 
-    result_df['scaled_r_chromaticity'] = (result_df['mean_r_chromaticity'] - result_df['mean_r_chromaticity'].min()) / (
-            result_df['mean_r_chromaticity'].max() - result_df['mean_r_chromaticity'].min())
-
-    result_df['scaled_ct_chromaticity'] = (result_df['mean_ct_chromaticity'] - result_df[
-        'mean_ct_chromaticity'].min()) / (
-                                                  result_df['mean_ct_chromaticity'].max() - result_df[
-                                              'mean_ct_chromaticity'].min())
-
-    result_df['scaled_nct_chromaticity'] = (result_df['mean_nct_chromaticity'] - result_df[
-        'mean_nct_chromaticity'].min()) / (
-                                                   result_df['mean_nct_chromaticity'].max() - result_df[
-                                               'mean_nct_chromaticity'].min())
-
-    # result_df["corpus_id"] = result_df.groupby('corpus').ngroup()+1
     result_df["corpus_id"] = pd.factorize(result_df["corpus"])[0] + 1
     result_df["piece_id"] = list(range(1, len(result_df) + 1))
 
@@ -245,17 +202,15 @@ def save_df(df: pd.DataFrame, directory: str, fname: str):
     df.to_csv(path, sep="\t")
 
 
-
-if __name__=="__main__":
+if __name__ == "__main__":
     # load preprocess data
     h = load_dcml_harmonies_tsv(harmony_tsv_path="data/dcml_harmonies.tsv",
                                 meatadata_tsv_path="data/all_subcorpora/all_subcorpora.metadata.tsv")
 
     print(f'computing chord chromaticity indices ...')
     chord_chromaticity_df = compute_chord_chromaticity(h)
-    save_df(df=chord_chromaticity_df, directory="data/", fname="chord_chromaticities")
+    save_df(df=chord_chromaticity_df, directory="data/", fname="chord_indices")
 
     print(f'computing piece-level chromaticity ...')
     piece_chromaticity_df = compute_piece_chromaticity(chord_chromaticity_df)
-    save_df(df=piece_chromaticity_df, directory="data/", fname="piece_chromaticities")
-
+    save_df(df=piece_chromaticity_df, directory="data/", fname="piece_indices")

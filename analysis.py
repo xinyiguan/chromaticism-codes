@@ -1,11 +1,19 @@
-from typing import Literal, List
+from typing import Literal, List, Tuple
+
+import numpy as np
 import pandas as pd
-import statsmodels.api as sm
-# correlation between indices
+import pingouin as pg
+import gpflow as gf
+from tensorflow import Tensor
+
+from gpflow.utilities import print_summary
+
+MODEL_OUTPUT = Tuple[gf.models.gpr.GPR, Tuple[Tensor, Tensor, Tensor, Tensor], Tensor | None, str]
+
 
 
 def correlation(series1: pd.Series, series2: pd.Series):
-    return series1.corr(series2)
+    return pg.corr(x=series1, y=series2)
 
 
 def get_period_df(df: pd.DataFrame, period: Literal[
@@ -30,39 +38,51 @@ def get_period_df(df: pd.DataFrame, period: Literal[
         raise ValueError
 
 
-def chromaticity_pairwise_corr(df: pd.DataFrame, period: Literal[
-    "renaissance", "baroque", "classical", "early_romantic", "late_romantic"]):
-    period_df = get_period_df(df=df, period=period)
+# GPR modeling
+def gpr_model(X: np.ndarray, Y: np.ndarray, kernel: gf.kernels, optimize: bool) -> gf.models.gpr.GPR:
+    m = gf.models.gpr.GPR(
+        data=(X, Y),
+        kernel=kernel,
+    )
+    if optimize:
+        gf.optimizers.Scipy().minimize(
+            closure=m.training_loss,
+            variables=m.trainable_variables,
+            track_loss_history=True
+        )
+    print_summary(m)
+    return m
 
-    root = period_df["mean_r_chromaticity"]
-    ct = period_df["mean_ct_chromaticity"]
-    nct = period_df["mean_nct_chromaticity"]
+def model_outputs(df: pd.DataFrame, feature: str, sample: int = 5) -> MODEL_OUTPUT:
+    X = df["piece_year"].to_numpy().astype(float).reshape((-1, 1))
+    Xplot = np.arange(min(X), max(X) + 1).reshape((-1, 1))
+    Y = df[feature].to_numpy().astype(float).reshape((-1, 1))
 
-    # correlation between ROOT and CT
-    root_ct_corr = correlation(root, ct)
-    root_nct_corr = correlation(root, nct)
-    ct_nct_corr = correlation(ct, nct)
+    k = gf.kernels.SquaredExponential()
 
-    return root_ct_corr, root_nct_corr, ct_nct_corr
+    m = gpr_model(X=X, Y=Y, kernel=k, optimize=True)
+    # m = gaussian_process_model_empirical_noise(X=X, Y=Y)
+
+    f_mean, f_var = m.predict_f(Xplot, full_cov=False)
+    y_mean, y_var = m.predict_y(Xplot)
+    if isinstance(sample, int):
+        samples = m.predict_f_samples(Xplot, sample)
+    else:
+        raise TypeError
+
+    return m, (f_mean, f_var, y_mean, y_var), samples, feature
 
 
-def regression(df: pd.DataFrame,
-               period: Literal["renaissance", "baroque", "classical", "early_romantic", "late_romantic"],
-               X_type: Literal["r", "ct", "nct"], y_type: Literal["r", "ct", "nct"]):
-    period_df = get_period_df(df=df, period=period)
-    X_str = f'mean_{X_type}_chromaticity'
-    y_str = f'mean_{y_type}_chromaticity'
 
-    X = period_df[X_str]
-    y = period_df[y_str]
-    X = sm.add_constant(X)
-    results = sm.OLS(y, X).fit()
-    print(results.summary())
 
 
 if __name__ == "__main__":
     result_df = pd.read_csv("data/piece_chromaticities.tsv", sep="\t")
-    a = chromaticity_pairwise_corr(result_df, period="renaissance")
-    print(f'{a=}')
+    # a = chromaticity_pairwise_corr(result_df, period="renaissance")
+    # print(f'{a=}')
+    #
+    # regression(result_df, period="renaissance", X_type="r", y_type="ct")
+    renaissance = get_period_df(result_df, period='renaissance')
 
-    regression(result_df, period="renaissance", X_type="r", y_type="ct")
+    a=correlation(series1=renaissance["mean_r_chromaticity"], series2=renaissance["mean_ct_chromaticity"])
+    print(a)
