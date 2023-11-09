@@ -53,7 +53,7 @@ def gpr_model(X: np.ndarray, Y: np.ndarray, kernel: gf.kernels, optimize: bool) 
     print_summary(m)
     return m
 
-def model_outputs(df: pd.DataFrame, feature: str, sample: int = 5) -> MODEL_OUTPUT:
+def gpr_model_outputs(df: pd.DataFrame, feature: str, sample: int = 5) -> MODEL_OUTPUT:
     X = df["piece_year"].to_numpy().astype(float).reshape((-1, 1))
     Xplot = np.arange(min(X), max(X) + 1).reshape((-1, 1))
     Y = df[feature].to_numpy().astype(float).reshape((-1, 1))
@@ -61,7 +61,6 @@ def model_outputs(df: pd.DataFrame, feature: str, sample: int = 5) -> MODEL_OUTP
     k = gf.kernels.SquaredExponential()
 
     m = gpr_model(X=X, Y=Y, kernel=k, optimize=True)
-    # m = gaussian_process_model_empirical_noise(X=X, Y=Y)
 
     f_mean, f_var = m.predict_f(Xplot, full_cov=False)
     y_mean, y_var = m.predict_y(Xplot)
@@ -75,14 +74,10 @@ def model_outputs(df: pd.DataFrame, feature: str, sample: int = 5) -> MODEL_OUTP
 
 
 
-
-if __name__ == "__main__":
-    result_df = pd.read_csv("data/piece_chromaticities.tsv", sep="\t")
-    # a = chromaticity_pairwise_corr(result_df, period="renaissance")
-    # print(f'{a=}')
-    #
-    # regression(result_df, period="renaissance", X_type="r", y_type="ct")
-    renaissance = get_period_df(result_df, period='renaissance')
-
-    a=correlation(series1=renaissance["mean_r_chromaticity"], series2=renaissance["mean_ct_chromaticity"])
-    print(a)
+#
+# if __name__ == "__main__":
+#     result_df = pd.read_csv("data/piece_chromaticities.tsv", sep="\t")
+#     renaissance = get_period_df(result_df, period='renaissance')
+#
+#     a=correlation(series1=renaissance["mean_r_chromaticity"], series2=renaissance["mean_ct_chromaticity"])
+#     print(a)

@@ -628,9 +628,9 @@ if __name__ == "__main__":
     # hue_by = result_df["corpus_id"].to_numpy().astype(int).reshape((-1, 1))
 
     # weighted_df = pd.read_csv("data/weighted_piecelevel_chromaticities.tsv", sep="\t")
-    # weighted_r = model_outputs(df=weighted_df, feature="weighted_r_chromaticity")
-    # weighted_ct = model_outputs(df=weighted_df, feature="weighted_ct_chromaticity")
-    # weighted_nct = model_outputs(df=weighted_df, feature="weighted_nct_chromaticity")
+    # weighted_r = gpr_model_outputs(df=weighted_df, feature="weighted_r_chromaticity")
+    # weighted_ct = gpr_model_outputs(df=weighted_df, feature="weighted_ct_chromaticity")
+    # weighted_nct = gpr_model_outputs(df=weighted_df, feature="weighted_nct_chromaticity")
     #
     # p = plot_multiple_full_gpr_models(model_outputs_list=[weighted_r, weighted_ct, weighted_nct],
     #                                   hue_by=None)
@@ -681,17 +681,17 @@ if __name__ == "__main__":
     # plotly_3features_scatter(result_df, features=["mean_r_chromaticity", "mean_ct_chromaticity", "mean_nct_chromaticity"],
     #                          hue_by=result_df["corpus_id"].tolist())
 
-    # root_5th = model_outputs(result_df, feature="root_fifths_range")
-    # ct_5th = model_outputs(result_df, feature="ct_fifths_range")
-    # nct_5th = model_outputs(result_df, feature="nct_fifths_range")
+    # root_5th = gpr_model_outputs(result_df, feature="root_fifths_range")
+    # ct_5th = gpr_model_outputs(result_df, feature="ct_fifths_range")
+    # nct_5th = gpr_model_outputs(result_df, feature="nct_fifths_range")
     #
     #
     # p = plot_fifths_range([root_5th, ct_5th, nct_5th], hue_by=None, mean_color=["#FF2C00", "#0C5DA5", "#00B945"])
     # p.savefig("figs/fifths_range.pdf")
 
-    # r_chromaticity = model_outputs(result_df, feature="mean_r_chromaticity")
-    # ct_chromaticity = model_outputs(result_df, feature="mean_ct_chromaticity")
-    # nct_chromaticity = model_outputs(result_df, feature="mean_nct_chromaticity")
+    # r_chromaticity = gpr_model_outputs(result_df, feature="mean_r_chromaticity")
+    # ct_chromaticity = gpr_model_outputs(result_df, feature="mean_ct_chromaticity")
+    # nct_chromaticity = gpr_model_outputs(result_df, feature="mean_nct_chromaticity")
     #
     # p=plot_gpr_fmeans_derivatives(model_outputs_list=[r_chromaticity, ct_chromaticity, nct_chromaticity],
     #                             color=["#FF2C00", "#0C5DA5", "#00B945"],
