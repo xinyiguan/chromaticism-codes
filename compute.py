@@ -92,7 +92,8 @@ def compute_chord_chromaticity(df: pd.DataFrame) -> pd.DataFrame:
     # the cumulative distance of the concurrent pitch class set to the local key scale set
     df["pcs_chromaticity"] = df.apply(lambda row: cumulative_distance_to_diatonic_set(tonic=None,
                                                                                       ts=row["tones_in_span"],
-                                                                                      diatonic_mode=row["lk_mode"]), axis=1)
+                                                                                      diatonic_mode=row["lk_mode"]),
+                                      axis=1)
     # diatonicity of chord tones:
     df["ct_diatonicity"] = df.apply(
         lambda row: min_distance_from_S_to_L(S=row["ct"]), axis=1)
@@ -104,8 +105,7 @@ def compute_chord_chromaticity(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def compute_piece_chromaticity(df: pd.DataFrame, compute_full: bool = True) -> pd.DataFrame:
-
+def compute_piece_chromaticity(df: pd.DataFrame, compute_full: bool = False) -> pd.DataFrame:
     def calculate_max_min_pc(x):
         if len(x) > 0:
             return max(x), min(x)
@@ -175,15 +175,15 @@ def compute_piece_chromaticity(df: pd.DataFrame, compute_full: bool = True) -> p
             max_nct=("max_nct", "max"),
             min_nct=("min_nct", "min"),
 
-            rc=("r_chromaticity", "mean"),
+            RC=("r_chromaticity", "mean"),
 
-            ctc=("ct_chromaticity", lambda x: x.unique().mean()),
+            CTC=("ct_chromaticity", lambda x: x.unique().mean()),
 
-            nctc=("nct_chromaticity", lambda x: x.unique().mean()),
+            NCTC=("nct_chromaticity", lambda x: x.unique().mean()),
 
-            ctd=("ct_diatonicity", lambda x: x.unique().mean()),
+            CTD=("ct_diatonicity", lambda x: x.unique().mean()),
 
-            nctd=("nct_diatonicity", lambda x: x.unique().mean())
+            NCTD=("nct_diatonicity", lambda x: x.unique().mean())
         )
 
     result_df = result_df.sort_values(by=["corpus_year", "piece_year"], ignore_index=True)
@@ -195,6 +195,14 @@ def compute_piece_chromaticity(df: pd.DataFrame, compute_full: bool = True) -> p
     result_df["piece_id"] = list(range(1, len(result_df) + 1))
 
     return result_df
+
+
+def beethoven_chromaticity(piece_indices_result: str = "data/piece_indices.tsv"):
+    corpora = ["ABC", "beethoven_piano_sonatas"]
+    df = pd.read_csv(piece_indices_result, sep="\t")
+
+    beethoven_df = df[df['corpus'].isin(corpora)]
+    return beethoven_df
 
 
 def save_df(df: pd.DataFrame, directory: str, fname: str):
@@ -214,3 +222,6 @@ if __name__ == "__main__":
     print(f'computing piece-level chromaticity ...')
     piece_chromaticity_df = compute_piece_chromaticity(chord_chromaticity_df)
     save_df(df=piece_chromaticity_df, directory="data/", fname="piece_indices")
+
+    beethoven = beethoven_chromaticity()
+    save_df(df=beethoven, directory="data/", fname="beethoven_chromaticity")

@@ -2,11 +2,11 @@ import pandas as pd
 import seaborn as sns
 
 from matplotlib import pyplot as plt
+
 from analysis import get_period_df, correlation
 
 
-def piece_distribution_histogram(tsv_path: str = "data/piece_chromaticities.tsv", save_fig: bool = False):
-    df = pd.read_csv(tsv_path, sep="\t")
+def piece_distribution_histogram(df:pd.DataFrame, save_fig: bool = False):
 
     # global variables
     DPI = 300
@@ -51,10 +51,10 @@ def piece_distribution_histogram(tsv_path: str = "data/piece_chromaticities.tsv"
 
 
 def plot_chromaticity_indices_corr(df: pd.DataFrame):
-    # rename the col names of CI in the df:
-    df = df.rename(columns={'rc': 'RC',
-                            'ctc': 'CTC',
-                            'nctc': 'NCTC'})
+    # # rename the col names of CI in the df:
+    # df = df.rename(columns={'rc': 'RC',
+    #                         'ctc': 'CTC',
+    #                         'nctc': 'NCTC'})
 
     fig, axs = plt.subplots(3, 5, layout="constrained", figsize=(18, 10))
 
@@ -100,23 +100,7 @@ def plot_chromaticity_indices_corr(df: pd.DataFrame):
 
 if __name__ == "__main__":
 
-    print("loading")
-    # result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
+    result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
+    piece_distribution_histogram(result_df, save_fig=True)
 
-    # # rc = gpr_model_outputs(df=result_df, feature="rc")
-    # # ctc = gpr_model_outputs(df=result_df, feature="ct")
-    # # nctc = gpr_model_outputs(df=result_df, feature="nctc")
 
-    # print("modeling")
-    # r_fifths_range = gpr_model_outputs(df=result_df, feature="r_fifths_range")
-    # # ct_fifths_range = gpr_model_outputs(df=result_df, feature="ct_fifths_range")
-    # # nct_fifths_range = gpr_model_outputs(df=result_df, feature="nct_fifths_range")
-    #
-    # # fifths_range = plot_gpr_fifths_range([r_fifths_range, ct_fifths_range, nct_fifths_range], hue_by=None,
-    # #                                      mean_color=["#FF2C00", "#0C5DA5", "#00B945"])
-    #
-    # print(f'plotting')
-    # fifths_range = plot_gpr_fifths_range([r_fifths_range], hue_by=None,
-    #                                      mean_color=["#FF2C00"])
-    #
-    # fifths_range.savefig(fname="figs/Figure_gpr_fifths_range.pdf")

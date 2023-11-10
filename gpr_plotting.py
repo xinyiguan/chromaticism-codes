@@ -1,13 +1,15 @@
-from typing import Optional, List
+from typing import Optional, List, Literal
 
 import matplotlib
+import pandas as pd
 from matplotlib import pyplot as plt
 from matplotlib import cm
 import matplotlib.colors as mcolors
 
 import numpy as np
 
-from analysis import MODEL_OUTPUT
+from gpr_analysis import gpr_model_outputs
+from gpr_analysis import MODEL_OUTPUT
 from utils.util import rand_jitter
 
 
@@ -15,22 +17,25 @@ from utils.util import rand_jitter
 def ax_observations_scatter(ax: matplotlib.axes.Axes,
                             X: np.ndarray, Y: np.ndarray,
                             hue_by: np.ndarray | None,
+                            scatter_colormap: str = None,
                             with_jitter: bool = True) -> matplotlib.axes.Axes:
     X = X.squeeze(axis=-1)
     Y = Y.squeeze(axis=-1)
 
-    def map_array_to_colors(arr):
+    def map_array_to_colors(arr, color_map: str | None):
         unique_values = np.unique(arr)
         num_unique_values = len(unique_values)
 
         # Define the colormap using the recommended method
-        cmap = mcolors.ListedColormap(cm.Dark2.colors[:num_unique_values])
+        # cmap = mcolors.ListedColormap(cm.Dark2.colors[:num_unique_values])
+        cmap = matplotlib.colormaps[color_map]
 
         # Create a dictionary to map unique values to colors
         value_to_color = dict(zip(unique_values, cmap.colors))
 
         # Map the values in the array to colors, using "gray" for 0 values
         color_list = [value_to_color[val] if val != 0 else "gray" for val in arr]
+        print(color_list)
 
         return color_list
 
@@ -40,9 +45,12 @@ def ax_observations_scatter(ax: matplotlib.axes.Axes,
     elif isinstance(hue_by, str):
         color = hue_by
         alpha = 0.4
+
     elif isinstance(hue_by, np.ndarray):
-        color = map_array_to_colors(hue_by)
-        alpha = [0.4 if col == "gray" else 1.0 for col in color]
+        if scatter_colormap:
+            color = map_array_to_colors(hue_by, scatter_colormap)
+            alpha = [0.6 if col == "gray" else 0.5 for col in color]
+
     else:
         raise TypeError
 
@@ -79,7 +87,7 @@ def ax_gpr_prediction(ax: matplotlib.axes.Axes,
     y_upper = y_mean.numpy() + 1.96 * np.sqrt(y_var)
     feature = m_outputs[3]
 
-    ax.plot(Xplot, f_mean, "-", color=fmean_color, label=f"{feature} GPR prediction", linewidth=2)
+    ax.plot(Xplot, f_mean, "-", color=fmean_color, label=f"{feature} GPR prediction", linewidth=2.5)
 
     if plot_f_uncertainty:
         ax.plot(Xplot, f_lower, "--", color=fvar_color, label="f 95% confidence", alpha=0.2)
@@ -114,18 +122,19 @@ def ax_full_gpr_model(ax: matplotlib.axes.Axes,
                       fvar_color: Optional[str],
                       hue_by: np.ndarray | None,
                       plot_samples: bool,
+                      scatter_colormap: str = None,
                       plot_f_uncertainty: bool = True,
-                      plot_y_uncertainty: bool = True
+                      plot_y_uncertainty: bool = False
                       ) -> matplotlib.axes.Axes:
     """
     plot the scatter ax and the gpr prediction ax
     """
     feature = m_outputs[3]
-    ax.set_title(f'{feature}', fontsize=12)
+    ax.set_title(f'{feature}\n', fontsize=12)
     X = np.array(m_outputs[0].data[0])
     Y = np.array(m_outputs[0].data[1])
 
-    ax_observations_scatter(ax=ax, X=X, Y=Y, hue_by=hue_by, with_jitter=True)
+    ax_observations_scatter(ax=ax, X=X, Y=Y, hue_by=hue_by, with_jitter=True, scatter_colormap=scatter_colormap)
     ax_gpr_prediction(ax=ax, m_outputs=m_outputs, fmean_color=fmean_color, fvar_color=fvar_color,
                       plot_samples=plot_samples, plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty)
@@ -173,3 +182,64 @@ def plot_gpr_fifths_range(model_outputs_list: List[MODEL_OUTPUT],
 
     fig.tight_layout()
     return fig
+
+
+def plot_gpr_chromaticity(model_outputs_list: List[MODEL_OUTPUT],
+                          hue_by: np.ndarray | str | List[str],
+                          mean_colors: List,
+                          scatter_colormap: List = None
+                          ) -> plt.Figure:
+    num_features = len(model_outputs_list)
+
+    fig = plt.figure(figsize=(9, 5 * num_features))
+
+    ax_index = 1
+    for i, out in enumerate(model_outputs_list):
+        ax = fig.add_subplot(num_features, 1, ax_index)
+        if isinstance(hue_by, str):
+            color = hue_by
+        elif isinstance(hue_by, List):
+            color = hue_by[i]
+        elif isinstance(hue_by, np.ndarray):
+            color = hue_by
+            ax_full_gpr_model(ax=ax, hue_by=color,
+                              m_outputs=model_outputs_list[i], fmean_color=mean_colors[i],
+                              fvar_color=mean_colors[i], plot_samples=False, scatter_colormap=scatter_colormap[i])
+        else:
+            raise TypeError
+        ax_full_gpr_model(ax=ax, hue_by=color,
+                          m_outputs=model_outputs_list[i], fmean_color=mean_colors[i],
+                          fvar_color=mean_colors[i], plot_samples=False)
+        ax.axhline(0, c="gray", linestyle="--", lw=1)
+
+        ax_index += 1
+
+    # fig.legend(loc='upper left')
+    fig.tight_layout()
+    return fig
+
+
+if __name__ == "__main__":
+    result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
+    corpora_hue = result_df["corpus_id"].astype("int").to_numpy().flatten()
+
+    # r_fifths_range = gpr_model_outputs(df=result_df, feature="r_fifths_range")
+    # ct_fifths_range = gpr_model_outputs(df=result_df, feature="ct_fifths_range")
+    # nct_fifths_range = gpr_model_outputs(df=result_df, feature="nct_fifths_range")
+    #
+    # fifths_range = plot_gpr_fifths_range([r_fifths_range, ct_fifths_range, nct_fifths_range],
+    #                                      hue_by=None,
+    #                                      mean_color=["#0B84A5", "#ddb455", "#6F4E7C"])
+    #
+    # fifths_range.savefig(fname="figs/Figure_gpr_fifths_range.pdf")
+
+    rc = gpr_model_outputs(df=result_df, feature="RC")
+    ctc = gpr_model_outputs(df=result_df, feature="CTC")
+    nctc = gpr_model_outputs(df=result_df, feature="NCTC")
+
+    chromaticities = plot_gpr_chromaticity(model_outputs_list=[rc, ctc, nctc],
+                                           mean_colors=["#108b96", "#db9b34", "#ab1d22"],
+                                           hue_by=["#108b96", "#db9b34", "#ab1d22"],
+                                           # scatter_colormap=["viridis", "viridis", "viridis"]
+                                           )
+    chromaticities.savefig(fname="figs/Figure_gpr_chromaticities.pdf")
