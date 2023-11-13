@@ -35,31 +35,31 @@ def ax_observations_scatter(ax: matplotlib.axes.Axes,
 
         # Map the values in the array to colors, using "gray" for 0 values
         color_list = [value_to_color[val] if val != 0 else "gray" for val in arr]
-        print(color_list)
 
         return color_list
 
     if hue_by is None:
         color = "gray"
-        alpha = 0.4
+        # alpha = 0.4
     elif isinstance(hue_by, str):
         color = hue_by
-        alpha = 0.4
+        # alpha = 0.4
 
     elif isinstance(hue_by, np.ndarray):
         if scatter_colormap:
             color = map_array_to_colors(hue_by, scatter_colormap)
-            alpha = [0.6 if col == "gray" else 0.5 for col in color]
-
+            # alpha = [0.4 if col == "gray" else 0.4 for col in color]
+        else:
+            raise ValueError
     else:
         raise TypeError
 
     # adding jitter:
     if with_jitter:
         # only add jitter on the x-axis not y-axis
-        ax.scatter(rand_jitter(X), Y, c=color, s=20, label="Observations", alpha=alpha)
+        ax.scatter(rand_jitter(X), Y, c=color, s=20, label="Observations", alpha=0.4)
     else:
-        ax.scatter(X, Y, c=color, s=20, label="Observations", alpha=alpha)
+        ax.scatter(X, Y, c=color, s=20, label="Observations", alpha=0.4)
 
     return ax
 
@@ -130,7 +130,7 @@ def ax_full_gpr_model(ax: matplotlib.axes.Axes,
     plot the scatter ax and the gpr prediction ax
     """
     feature = m_outputs[3]
-    ax.set_title(f'{feature}\n', fontsize=12)
+    # ax.set_title(f'{feature}\n', fontsize=12)
     X = np.array(m_outputs[0].data[0])
     Y = np.array(m_outputs[0].data[1])
 
@@ -187,11 +187,12 @@ def plot_gpr_fifths_range(model_outputs_list: List[MODEL_OUTPUT],
 def plot_gpr_chromaticity(model_outputs_list: List[MODEL_OUTPUT],
                           hue_by: np.ndarray | str | List[str],
                           mean_colors: List,
+                          add_era_division: bool=False,
                           scatter_colormap: List = None
                           ) -> plt.Figure:
     num_features = len(model_outputs_list)
 
-    fig = plt.figure(figsize=(9, 5 * num_features))
+    fig = plt.figure(figsize=(9, 5 * num_features), layout='constrained')
 
     ax_index = 1
     for i, out in enumerate(model_outputs_list):
@@ -210,36 +211,52 @@ def plot_gpr_chromaticity(model_outputs_list: List[MODEL_OUTPUT],
         ax_full_gpr_model(ax=ax, hue_by=color,
                           m_outputs=model_outputs_list[i], fmean_color=mean_colors[i],
                           fvar_color=mean_colors[i], plot_samples=False)
+
         ax.axhline(0, c="gray", linestyle="--", lw=1)
+        if add_era_division:
+            ax.axvline(1662, c="lightblue", linestyle="dotted", lw=1)
+            ax.axvline(1761, c="lightblue", linestyle="dotted", lw=1)
+            ax.axvline(1820, c="lightblue", linestyle="dotted", lw=1)
+            ax.axvline(1869, c="lightblue", linestyle="dotted", lw=1)
 
         ax_index += 1
 
     # fig.legend(loc='upper left')
-    fig.tight_layout()
+    # fig.tight_layout()
     return fig
 
 
 if __name__ == "__main__":
     result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
-    corpora_hue = result_df["corpus_id"].astype("int").to_numpy().flatten()
+    beethoven_df = pd.read_csv("data/beethoven_chromaticity.tsv", sep="\t")
 
-    # r_fifths_range = gpr_model_outputs(df=result_df, feature="r_fifths_range")
-    # ct_fifths_range = gpr_model_outputs(df=result_df, feature="ct_fifths_range")
-    # nct_fifths_range = gpr_model_outputs(df=result_df, feature="nct_fifths_range")
-    #
-    # fifths_range = plot_gpr_fifths_range([r_fifths_range, ct_fifths_range, nct_fifths_range],
-    #                                      hue_by=None,
-    #                                      mean_color=["#0B84A5", "#ddb455", "#6F4E7C"])
-    #
-    # fifths_range.savefig(fname="figs/Figure_gpr_fifths_range.pdf")
+    r_fifths_range = gpr_model_outputs(df=result_df, feature="r_fifths_range")
+    ct_fifths_range = gpr_model_outputs(df=result_df, feature="ct_fifths_range")
+    nct_fifths_range = gpr_model_outputs(df=result_df, feature="nct_fifths_range")
+
+    fifths_range = plot_gpr_fifths_range([r_fifths_range, ct_fifths_range, nct_fifths_range],
+                                         hue_by=None,
+                                         mean_color=["#0b5572", "#ddb455", "#6F4E7C"])
+
+    fifths_range.savefig(fname="figs/Figure_gpr_fifths_range.pdf")
 
     rc = gpr_model_outputs(df=result_df, feature="RC")
     ctc = gpr_model_outputs(df=result_df, feature="CTC")
     nctc = gpr_model_outputs(df=result_df, feature="NCTC")
 
     chromaticities = plot_gpr_chromaticity(model_outputs_list=[rc, ctc, nctc],
-                                           mean_colors=["#108b96", "#db9b34", "#ab1d22"],
-                                           hue_by=["#108b96", "#db9b34", "#ab1d22"],
-                                           # scatter_colormap=["viridis", "viridis", "viridis"]
+                                           # mean_colors=["#6a1215", "#106a96", "#db7134"],
+                                           # hue_by=["#ab1d22", "#108b96", "#db9b34"]
+                                           mean_colors=["#0b5572", "#C6A24C", "#6F4E7C"],
+                                           hue_by=["#57a1be", "#E7CA88", "#A894B0"]
                                            )
     chromaticities.savefig(fname="figs/Figure_gpr_chromaticities.pdf")
+
+    beethoven_rc = gpr_model_outputs(df=beethoven_df, feature="RC")
+    beethoven_ctc = gpr_model_outputs(df=beethoven_df, feature="CTC")
+    beethoven_nctc = gpr_model_outputs(df=beethoven_df, feature="NCTC")
+    beethoven_chromaticities = plot_gpr_chromaticity(model_outputs_list=[beethoven_rc, beethoven_ctc, beethoven_nctc],
+                                                     mean_colors=["#0b5572", "#C6A24C", "#6F4E7C"],
+                                                     hue_by=["#57a1be", "#E7CA88", "#A894B0"]
+                                                     )
+    beethoven_chromaticities.savefig(fname="figs/Figure_gpr_beethoven_chromaticities.pdf")

@@ -6,12 +6,13 @@ from matplotlib import pyplot as plt
 from analysis import get_period_df, correlation
 
 
-def piece_distribution_histogram(df:pd.DataFrame, save_fig: bool = False):
 
+
+
+def piece_distribution_histogram(df: pd.DataFrame, save_fig: bool = False):
     # global variables
     DPI = 300
 
-    # Create the histogram plot
     sns.histplot(df["piece_year"], kde=True, stat="probability", bins=40,
                  kde_kws={'bw_adjust': 0.6})
 
@@ -46,8 +47,10 @@ def piece_distribution_histogram(df:pd.DataFrame, save_fig: bool = False):
     plt.ylabel("probability")
     if save_fig:
         plt.savefig("figs/Figure_histogram.pdf", dpi=DPI)
-        plt.show()
+    plt.show()
     return t1, t2, t3, t4
+
+
 
 
 def plot_chromaticity_indices_corr(df: pd.DataFrame):
@@ -96,11 +99,6 @@ def plot_chromaticity_indices_corr(df: pd.DataFrame):
     plt.show()
 
 
-
-
 if __name__ == "__main__":
-
     result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
-    piece_distribution_histogram(result_df, save_fig=True)
-
-
+    piece_distribution_histogram(result_df, save_fig=False)

@@ -6,7 +6,6 @@ from gpflow.utilities import print_summary
 
 from tensorflow import Tensor
 
-
 MODEL_OUTPUT = Tuple[gf.models.gpr.GPR, Tuple[Tensor, Tensor, Tensor, Tensor], Tensor | None, str]
 
 
@@ -24,6 +23,7 @@ def gpr_model(X: np.ndarray, Y: np.ndarray, kernel: gf.kernels, optimize: bool) 
         )
     print_summary(m)
     return m
+
 
 def gpr_model_outputs(df: pd.DataFrame, feature: str, sample: int = 5) -> MODEL_OUTPUT:
     X = df["piece_year"].to_numpy().astype(float).reshape((-1, 1))
@@ -44,6 +44,6 @@ def gpr_model_outputs(df: pd.DataFrame, feature: str, sample: int = 5) -> MODEL_
     return m, (f_mean, f_var, y_mean, y_var), samples, feature
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
     rc = gpr_model_outputs(df=result_df, feature="mean_r_chromaticity")

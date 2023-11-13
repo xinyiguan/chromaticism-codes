@@ -526,6 +526,10 @@ class SimpleNumeral:
         k = Key(tonic=tonic, mode=mode)
         return k
 
+    def parse_in_chord_tones(self) -> List[SpelledPitchClass]:
+        raise NotImplementedError
+
+
 
 @dataclass
 class Chain(Generic[T]):
