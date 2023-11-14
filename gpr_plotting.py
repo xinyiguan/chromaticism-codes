@@ -8,8 +8,7 @@ import matplotlib.colors as mcolors
 
 import numpy as np
 
-from gpr_analysis import gpr_model_outputs
-from gpr_analysis import MODEL_OUTPUT
+from gpr_analysis import gpr_model_outputs, MODEL_OUTPUT
 from utils.util import rand_jitter
 
 
@@ -87,20 +86,20 @@ def ax_gpr_prediction(ax: matplotlib.axes.Axes,
     y_upper = y_mean.numpy() + 1.96 * np.sqrt(y_var)
     feature = m_outputs[3]
 
-    ax.plot(Xplot, f_mean, "-", color=fmean_color, label=f"{feature} GPR prediction", linewidth=2.5)
+    ax.plot(Xplot, f_mean, "-", color=fmean_color, label=f"{feature} f mean", linewidth=2.5)
 
     if plot_f_uncertainty:
-        ax.plot(Xplot, f_lower, "--", color=fvar_color, label="f 95% confidence", alpha=0.2)
-        ax.plot(Xplot, f_upper, "--", color=fvar_color, alpha=0.2)
+        ax.plot(Xplot, f_lower, "--", color=fvar_color, label="f 95% confidence", alpha=0.3)
+        ax.plot(Xplot, f_upper, "--", color=fvar_color, alpha=0.3)
         ax.fill_between(
-            Xplot[:, 0], f_lower[:, 0], f_upper[:, 0], color=fvar_color, alpha=0.2
+            Xplot[:, 0], f_lower[:, 0], f_upper[:, 0], color=fvar_color, alpha=0.3
         )
 
     if plot_y_uncertainty:
-        ax.plot(Xplot, y_lower, ".", color=fvar_color, label="Y 95% confidence", alpha=0.1)
-        ax.plot(Xplot, y_upper, ".", color=fvar_color, alpha=0.1)
+        ax.plot(Xplot, y_lower, "-", color=fvar_color, label="Y 95% confidence", linewidth=1, alpha=0.5)
+        ax.plot(Xplot, y_upper, "-", color=fvar_color, linewidth=1, alpha=0.5)
         ax.fill_between(
-            Xplot[:, 0], y_lower[:, 0], y_upper[:, 0], color="C0", alpha=0.1
+            Xplot[:, 0], y_lower[:, 0], y_upper[:, 0], color=fvar_color, alpha=0.2
         )
 
     if plot_samples:
@@ -124,7 +123,7 @@ def ax_full_gpr_model(ax: matplotlib.axes.Axes,
                       plot_samples: bool,
                       scatter_colormap: str = None,
                       plot_f_uncertainty: bool = True,
-                      plot_y_uncertainty: bool = False
+                      plot_y_uncertainty: bool = True
                       ) -> matplotlib.axes.Axes:
     """
     plot the scatter ax and the gpr prediction ax
@@ -144,7 +143,8 @@ def ax_full_gpr_model(ax: matplotlib.axes.Axes,
 def plot_gpr_fifths_range(model_outputs_list: List[MODEL_OUTPUT],
                           hue_by: np.ndarray | str | None,
                           mean_color: List,
-                          plot_samples: bool = False
+                          plot_samples: bool = False,
+                          add_era_division: bool = False
                           ) -> plt.Figure:
     num_features = len(model_outputs_list)
 
@@ -172,6 +172,12 @@ def plot_gpr_fifths_range(model_outputs_list: List[MODEL_OUTPUT],
         ax.text(1965, 9, "chromatic", **text_kws)
         ax.text(1965, 23, "enharmonic", **text_kws)
 
+        if add_era_division:
+            ax.axvline(1662, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1761, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1820, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1869, c="lightgray", linestyle="dotted", lw=1)
+
         ax.set_ylabel("Fifths range")
         ax.set_xlabel("Year")
 
@@ -187,7 +193,7 @@ def plot_gpr_fifths_range(model_outputs_list: List[MODEL_OUTPUT],
 def plot_gpr_chromaticity(model_outputs_list: List[MODEL_OUTPUT],
                           hue_by: np.ndarray | str | List[str],
                           mean_colors: List,
-                          add_era_division: bool=False,
+                          add_era_division: bool = False,
                           scatter_colormap: List = None
                           ) -> plt.Figure:
     num_features = len(model_outputs_list)
@@ -207,17 +213,17 @@ def plot_gpr_chromaticity(model_outputs_list: List[MODEL_OUTPUT],
                               m_outputs=model_outputs_list[i], fmean_color=mean_colors[i],
                               fvar_color=mean_colors[i], plot_samples=False, scatter_colormap=scatter_colormap[i])
         else:
-            raise TypeError
+            raise TypeError(f'{type(hue_by)}')
         ax_full_gpr_model(ax=ax, hue_by=color,
                           m_outputs=model_outputs_list[i], fmean_color=mean_colors[i],
                           fvar_color=mean_colors[i], plot_samples=False)
 
         ax.axhline(0, c="gray", linestyle="--", lw=1)
         if add_era_division:
-            ax.axvline(1662, c="lightblue", linestyle="dotted", lw=1)
-            ax.axvline(1761, c="lightblue", linestyle="dotted", lw=1)
-            ax.axvline(1820, c="lightblue", linestyle="dotted", lw=1)
-            ax.axvline(1869, c="lightblue", linestyle="dotted", lw=1)
+            ax.axvline(1662, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1761, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1820, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1869, c="lightgray", linestyle="dotted", lw=1)
 
         ax_index += 1
 
@@ -226,37 +232,95 @@ def plot_gpr_chromaticity(model_outputs_list: List[MODEL_OUTPUT],
     return fig
 
 
+def varY_varf_diff(model_outputs_list: List, add_era_division: bool = True):
+    num_features = len(model_outputs_list)
+    fig, axes = plt.subplots(1, num_features, figsize=(6 * num_features, 6))
+
+    for i, (ax, out) in enumerate(zip(axes, model_outputs_list)):
+        f_var = out[1][1]
+        y_var = out[1][3]
+        diff = y_var - f_var
+        print(diff)
+
+        X = out[0].data[0]
+        Xplot = np.arange(min(X), max(X) + 1).reshape((-1, 1))
+
+        ax.plot(Xplot, diff)
+
+        if add_era_division:
+            ax.axvline(1662, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1761, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1820, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1869, c="lightgray", linestyle="dotted", lw=1)
+
+        ax.set_ylabel("Diff")
+        ax.set_xlabel("Year")
+
+        ax.legend(loc="upper left")
+    fig.tight_layout()
+    plt.show()
+    return fig
+
+
 if __name__ == "__main__":
     result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
     beethoven_df = pd.read_csv("data/beethoven_chromaticity.tsv", sep="\t")
 
-    r_fifths_range = gpr_model_outputs(df=result_df, feature="r_fifths_range")
-    ct_fifths_range = gpr_model_outputs(df=result_df, feature="ct_fifths_range")
-    nct_fifths_range = gpr_model_outputs(df=result_df, feature="nct_fifths_range")
+    # mean_colors_palette = ["#0b5572", "#006666", "#6F4E7C"]
+    # scatter_colors_palette = ["#57a1be", "#66b2b2", "#A894B0"]
 
-    fifths_range = plot_gpr_fifths_range([r_fifths_range, ct_fifths_range, nct_fifths_range],
-                                         hue_by=None,
-                                         mean_color=["#0b5572", "#ddb455", "#6F4E7C"])
+    mean_colors_palette = ["#6F4E7C", "#0b5572", "#37604e"]
+    scatter_colors_palette = ["#A894B0", "#57a1be", "#91ad70"]
 
-    fifths_range.savefig(fname="figs/Figure_gpr_fifths_range.pdf")
+    # r_fifths_range = gpr_model_outputs(df=result_df, feature="r_fifths_range")
+    # ct_fifths_range = gpr_model_outputs(df=result_df, feature="ct_fifths_range")
+    # nct_fifths_range = gpr_model_outputs(df=result_df, feature="nct_fifths_range")
+    #
+    # fifths_range = plot_gpr_fifths_range([r_fifths_range, ct_fifths_range, nct_fifths_range],
+    #                                      hue_by=None,
+    #                                      mean_color=["#0b5572", "#ddb455", "#6F4E7C"],
+    #                                      add_era_division=True)
+    # #
+    # fifths_range.savefig(fname="figs/Figure_gpr_fifths_range.pdf")
 
     rc = gpr_model_outputs(df=result_df, feature="RC")
     ctc = gpr_model_outputs(df=result_df, feature="CTC")
     nctc = gpr_model_outputs(df=result_df, feature="NCTC")
 
-    chromaticities = plot_gpr_chromaticity(model_outputs_list=[rc, ctc, nctc],
-                                           # mean_colors=["#6a1215", "#106a96", "#db7134"],
-                                           # hue_by=["#ab1d22", "#108b96", "#db9b34"]
-                                           mean_colors=["#0b5572", "#C6A24C", "#6F4E7C"],
-                                           hue_by=["#57a1be", "#E7CA88", "#A894B0"]
-                                           )
-    chromaticities.savefig(fname="figs/Figure_gpr_chromaticities.pdf")
+    rc_gpr = plot_gpr_chromaticity(model_outputs_list=[rc],
+                                   mean_colors=[mean_colors_palette[0]],
+                                   hue_by=scatter_colors_palette[0],
+                                   add_era_division=True
+                                   )
+    rc_gpr.savefig(fname="figs/Figure_gpr_rc.pdf")
 
-    beethoven_rc = gpr_model_outputs(df=beethoven_df, feature="RC")
-    beethoven_ctc = gpr_model_outputs(df=beethoven_df, feature="CTC")
-    beethoven_nctc = gpr_model_outputs(df=beethoven_df, feature="NCTC")
-    beethoven_chromaticities = plot_gpr_chromaticity(model_outputs_list=[beethoven_rc, beethoven_ctc, beethoven_nctc],
-                                                     mean_colors=["#0b5572", "#C6A24C", "#6F4E7C"],
-                                                     hue_by=["#57a1be", "#E7CA88", "#A894B0"]
-                                                     )
-    beethoven_chromaticities.savefig(fname="figs/Figure_gpr_beethoven_chromaticities.pdf")
+    ctc_gpr = plot_gpr_chromaticity(model_outputs_list=[ctc],
+                                   mean_colors=[mean_colors_palette[1]],
+                                   hue_by=scatter_colors_palette[1],
+                                   add_era_division=True
+                                   )
+    ctc_gpr.savefig(fname="figs/Figure_gpr_ctc.pdf")
+
+    nctc_gpr = plot_gpr_chromaticity(model_outputs_list=[nctc],
+                                   mean_colors=[mean_colors_palette[2]],
+                                   hue_by=scatter_colors_palette[2],
+                                   add_era_division=True
+                                   )
+    nctc_gpr.savefig(fname="figs/Figure_gpr_nctc.pdf")
+
+
+    # chromaticities = plot_gpr_chromaticity(model_outputs_list=[rc, ctc, nctc],
+    #                                        mean_colors= mean_colors_palette,
+    #                                        hue_by=scatter_colors_palette,
+    #                                        add_era_division=True
+    #                                        )
+    # chromaticities.savefig(fname="figs/Figure_gpr_chromaticities.pdf")
+
+    # beethoven_rc = gpr_model_outputs(df=beethoven_df, feature="RC")
+    # beethoven_ctc = gpr_model_outputs(df=beethoven_df, feature="CTC")
+    # beethoven_nctc = gpr_model_outputs(df=beethoven_df, feature="NCTC")
+    # beethoven_chromaticities = plot_gpr_chromaticity(model_outputs_list=[beethoven_rc, beethoven_ctc, beethoven_nctc],
+    #                                                  mean_colors=["#0b5572", "#C6A24C", "#6F4E7C"],
+    #                                                  hue_by=["#57a1be", "#E7CA88", "#A894B0"]
+    #                                                  )
+    # beethoven_chromaticities.savefig(fname="figs/Figure_gpr_beethoven_chromaticities.pdf")
