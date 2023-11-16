@@ -1,3 +1,4 @@
+from fractions import Fraction
 from typing import Literal, Tuple
 
 import pandas as pd
@@ -98,6 +99,100 @@ def get_copora_list_in_period(df: pd.DataFrame):
     return latex_table
 
 
+def get_bwv808_example_CI(version: Literal["original", "agrements"],
+                          tsv_path: str = "data/chord_indices.tsv") -> pd.DataFrame:
+    df = pd.read_csv(tsv_path, sep="\t",
+                     usecols=["corpus", "piece", "quarterbeats", "chord", "chord_tones", "tones_in_span", "root",
+                              "r_chromaticity", "ct", "ct_chromaticity", "nct", "nct_chromaticity"])
+    df['quarterbeats'] = df['quarterbeats'].apply(lambda x: float(Fraction(x)) if '/' in x else float(x))
+
+    if version == "original":
+        bwv808 = df[(df['corpus'] == 'bach_en_fr_suites') & (df['piece'] == 'BWV808_04_Sarabande') & (
+            df['quarterbeats'].between(0, 22))]
+
+    else:
+        bwv808 = df[(df['corpus'] == 'bach_en_fr_suites') & (df['piece'] == 'BWV808_04a_Agrements_de_la_Sarabande') & (
+            df['quarterbeats'].between(0, 22))]
+
+    # with pd.option_context('display.max_columns', None):
+    #     print(bwv808)
+
+    data = [bwv808["r_chromaticity"].mean(), bwv808["ct_chromaticity"].mean(), bwv808["nct_chromaticity"].mean()]
+
+    cols = ["RC", "CTC", "NCTC"]
+
+    results = pd.DataFrame([data], columns=cols)
+
+    results.index = [f'{version}']
+    return results
+
+
+def get_k331_1_example_CI(version: Literal["thema", "var2", "var5", "var6"],
+                          tsv_path: str = "data/chord_indices.tsv") -> pd.DataFrame:
+    df = pd.read_csv(tsv_path, sep="\t",
+                     usecols=["corpus", "piece", "quarterbeats", "chord", "chord_tones", "tones_in_span", "root",
+                              "r_chromaticity", "ct", "ct_chromaticity", "nct", "nct_chromaticity"])
+    df['quarterbeats'] = df['quarterbeats'].apply(lambda x: float(Fraction(x)) if '/' in x else float(x))
+
+    mozart = df[(df['corpus'] == 'mozart_piano_sonatas') & (df['piece'] == 'K331-1')]
+
+    if version == "thema":
+        k331 = mozart[(mozart["quarterbeats"].between(0, 45 / 2))]
+
+    elif version == "var2":
+        k331 = mozart[(mozart["quarterbeats"].between(109, 261 / 2))]
+
+    elif version == "var5":
+        k331 = mozart[(mozart["quarterbeats"].between(1085 / 4, 293))]
+
+    elif version == "var6":
+        k331 = mozart[(mozart["quarterbeats"].between(325, 354))]
+
+    else:
+        raise ValueError
+
+    k331 = k331[
+        ["chord", "root", "r_chromaticity", "ct", "ct_chromaticity", "nct", "nct_chromaticity"]]
+
+    k331["version"] = f'{version}'
+
+    with pd.option_context('display.max_columns', None):
+        k331.to_csv(f"k331_{version}.tsv", sep="\t")
+
+    data = [k331["r_chromaticity"].mean(), k331["ct_chromaticity"].mean(), k331["nct_chromaticity"].mean()]
+
+    cols = ["RC", "CTC", "NCTC"]
+
+    results = pd.DataFrame([data], columns=cols)
+
+    results.index = [f'{version}']
+    return results
+
+    # return k331
+
+
+def get_k331_CI_table():
+    thema = get_k331_1_example_CI(version="thema")
+    var5 = get_k331_1_example_CI(version="var5")
+    var6 = get_k331_1_example_CI(version="var6")
+
+    df = pd.concat([thema, var5, var6])
+
+    latex = df.to_latex()
+
+
+    # with pd.option_context('display.max_columns', None):
+    #     print(df)
+    print(latex)
+
 if __name__ == "__main__":
-    result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
-    get_copora_list_in_period(df=result_df)
+    # result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
+    # get_copora_list_in_period(df=result_df)
+
+    # original = get_bwv808_example_CI(version="original")
+    # print(f'{original}')
+    #
+    # agrements = get_bwv808_example_CI(version="agrements")
+    # print(f'{agrements}')
+
+    get_k331_CI_table()

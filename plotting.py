@@ -3,10 +3,7 @@ import seaborn as sns
 
 from matplotlib import pyplot as plt
 
-from analysis import get_period_df, correlation
-
-
-
+from analysis import get_period_df, correlation, get_bwv808_example_CI, get_k331_1_example_CI
 
 
 def piece_distribution_histogram(df: pd.DataFrame, save_fig: bool = False):
@@ -99,6 +96,67 @@ def plot_chromaticity_indices_corr(df: pd.DataFrame):
     plt.show()
 
 
+def plot_bwv808_CI_comparison():
+
+    original = get_bwv808_example_CI(version="original")
+    agrements = get_bwv808_example_CI(version="agrements")
+
+    df = pd.concat([original, agrements])
+
+    long_df = df.reset_index().melt(id_vars='index', var_name='Type', value_name='Value')
+    long_df = long_df.rename(columns={'index': 'piece', 'Value': 'CI Value'})
+
+
+    print(long_df)
+
+    sns.barplot(long_df, x="Type", y="CI Value", hue="piece")
+    plt.tight_layout()
+    plt.savefig("figs/Figure_BWV808_CI_results.pdf", format='pdf')
+
+
+def plot_k331_CI_comparison():
+
+
+
+    thema = get_k331_1_example_CI(version="thema")
+    var5 = get_k331_1_example_CI(version="var5")
+    var6 = get_k331_1_example_CI(version="var6")
+
+    df = pd.concat([thema, var5, var6])
+    # with pd.option_context('display.max_columns', None):
+    #     print(df)
+
+    long_df = df.reset_index().melt(id_vars='index', var_name='Type', value_name='Value')
+    long_df = long_df.rename(columns={'index': 'version', 'Value': 'CI Value'})
+
+
+    # long_df = pd.melt(df, id_vars=['chord', "version"],
+    #          value_vars=['r_chromaticity', 'ct_chromaticity', 'nct_chromaticity'],
+    #          var_name='CI Type', value_name='CI Value')
+
+    # long_df_content = pd.melt(df, id_vars=['chord', "version"],
+    #          value_vars=['root', 'ct', 'nct'],
+    #          var_name='Content Type', value_name='Content Value')
+    #
+    # long_df = pd.merge(long_df_CI, long_df_content, on=['chord', 'version'])
+    # long_df = long_df[["version", "chord", "Content Type", "Content Value", "CI Type", "CI Value"]]
+
+    # with pd.option_context('display.max_columns', None):
+    #     print(long_df)
+    #     long_df.to_csv("k331_CI_long.tsv", sep="\t")
+
+
+    # sns.barplot(df, x="CI Type", y="CI Value", hue="version")
+    sns.barplot(long_df, x="Type", y="CI Value", hue="version")
+
+    plt.tight_layout()
+    plt.show()
+    # plt.savefig("figs/Figure_K331_CI_results.pdf", format='pdf')
+
+
+
 if __name__ == "__main__":
-    result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
-    piece_distribution_histogram(result_df, save_fig=False)
+    # result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
+    # piece_distribution_histogram(result_df, save_fig=False)
+
+    plot_k331_CI_comparison()
