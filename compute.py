@@ -5,6 +5,7 @@ import numpy as np
 
 from pitchtypes import SpelledPitchClass
 
+from analysis import get_major_minor_pieces_df
 from utils.util import DTYPES, flatten, flatten_to_list, safe_literal_eval
 from utils.htypes import Numeral, Key
 from utils.metrics import tone_to_diatonic_set_distance, cumulative_distance_to_diatonic_set, \
@@ -217,11 +218,18 @@ if __name__ == "__main__":
 
     print(f'computing chord chromaticity indices ...')
     chord_chromaticity_df = compute_chord_chromaticity(h)
+
     save_df(df=chord_chromaticity_df, directory="data/", fname="chord_indices")
+
 
     print(f'computing piece-level chromaticity ...')
     piece_chromaticity_df = compute_piece_chromaticity(chord_chromaticity_df)
-    save_df(df=piece_chromaticity_df, directory="data/", fname="piece_indices")
+    piece_chromaticity_major = get_major_minor_pieces_df(mode="major", df=piece_chromaticity_df)
+    piece_chromaticity_minor = get_major_minor_pieces_df(mode="minor", df=piece_chromaticity_df)
 
-    beethoven = beethoven_chromaticity()
-    save_df(df=beethoven, directory="data/", fname="beethoven_chromaticity")
+    save_df(df=piece_chromaticity_df, directory="data/", fname="piece_indices")
+    save_df(df=piece_chromaticity_df, directory="data/", fname="majorkey_piece_indices")
+    save_df(df=piece_chromaticity_df, directory="data/", fname="minorkey_piece_indices")
+
+    # beethoven = beethoven_chromaticity()
+    # save_df(df=beethoven, directory="data/", fname="beethoven_chromaticity")

@@ -180,10 +180,22 @@ def get_k331_CI_table():
 
     latex = df.to_latex()
 
-
     # with pd.option_context('display.max_columns', None):
     #     print(df)
     print(latex)
+
+
+def get_major_minor_pieces_df(mode: Literal["major", "minor"],
+                              df:pd.DataFrame) -> pd.DataFrame:
+    # df = pd.read_csv(tsv_path, sep="\t")
+
+    if mode == "major":
+        result = df[df['globalkey'].str.isupper()]
+    else:
+        result = df[df['globalkey'].str.islower()]
+
+    return result
+
 
 if __name__ == "__main__":
     # result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
@@ -195,4 +207,28 @@ if __name__ == "__main__":
     # agrements = get_bwv808_example_CI(version="agrements")
     # print(f'{agrements}')
 
-    get_k331_CI_table()
+    # a = get_major_minor_pieces_df(mode="minor")
+    # # b = a[(a["corpus"] == "corelli") & (a["piece"] == "op01n08a")]
+    # b= a[a["chord"]=="VII"]
+    # b = b[["corpus", "piece", "chord", "root", "r_chromaticity", "ct", "ct_chromaticity", "nct", "nct_chromaticity"]]
+    # c=b[(b["piece"]=="4-19")]
+    # with pd.option_context('display.max_columns', None):
+    #     # print(b)
+    #     print(c)
+
+
+    major = get_major_minor_pieces_df(mode="major")
+    minor = get_major_minor_pieces_df(mode="minor")
+
+    major_ct_mean = major["ct_chromaticity"].mean()
+    minor_ct_mean = minor["ct_chromaticity"].mean()
+
+    major_r_mean = major["r_chromaticity"].mean()
+    minor_r_mean = minor["r_chromaticity"].mean()
+
+    print(f'{major_ct_mean=}')
+    print(f'{minor_ct_mean=}')
+
+    print(f'{major_r_mean=}')
+    print(f'{minor_r_mean=}')
+
