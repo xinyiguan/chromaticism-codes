@@ -127,10 +127,11 @@ def get_bwv808_example_CI(version: Literal["original", "agrements"],
     return results
 
 
-def get_k331_1_example_CI(version: Literal["thema", "var2", "var5", "var6"],
-                          tsv_path: str = "data/chord_indices.tsv") -> pd.DataFrame:
+def get_k331_1_variations_CI(version: Literal["thema", "var1", "var2", "var3", "var4", "var5", "var6"],
+                             tsv_path: str = "data/chord_indices.tsv") -> pd.DataFrame:
     df = pd.read_csv(tsv_path, sep="\t",
-                     usecols=["corpus", "piece", "quarterbeats", "chord", "chord_tones", "tones_in_span", "root",
+                     usecols=["corpus", "piece", "quarterbeats", "globalkey", "localkey", "chord", "chord_tones",
+                              "tones_in_span", "root",
                               "r_chromaticity", "ct", "ct_chromaticity", "nct", "nct_chromaticity"])
     df['quarterbeats'] = df['quarterbeats'].apply(lambda x: float(Fraction(x)) if '/' in x else float(x))
 
@@ -139,8 +140,17 @@ def get_k331_1_example_CI(version: Literal["thema", "var2", "var5", "var6"],
     if version == "thema":
         k331 = mozart[(mozart["quarterbeats"].between(0, 45 / 2))]
 
+    elif version == "var1":
+        k331 = mozart[(mozart["quarterbeats"].between(111 / 2, 153 / 2))]
+
     elif version == "var2":
         k331 = mozart[(mozart["quarterbeats"].between(109, 261 / 2))]
+
+    elif version == "var3":
+        k331 = mozart[(mozart["quarterbeats"].between(162, 369 / 2))]
+
+    elif version == "var4":
+        k331 = mozart[(mozart["quarterbeats"].between(216, 477 / 2))]
 
     elif version == "var5":
         k331 = mozart[(mozart["quarterbeats"].between(1085 / 4, 293))]
@@ -151,10 +161,10 @@ def get_k331_1_example_CI(version: Literal["thema", "var2", "var5", "var6"],
     else:
         raise ValueError
 
-    k331 = k331[
-        ["chord", "root", "r_chromaticity", "ct", "ct_chromaticity", "nct", "nct_chromaticity"]]
-
     k331["version"] = f'{version}'
+    k331 = k331[
+        ["version", "globalkey", "localkey", "chord", "root", "r_chromaticity", "ct", "ct_chromaticity", "nct",
+         "nct_chromaticity"]]
 
     with pd.option_context('display.max_columns', None):
         k331.to_csv(f"k331_{version}.tsv", sep="\t")
@@ -172,11 +182,15 @@ def get_k331_1_example_CI(version: Literal["thema", "var2", "var5", "var6"],
 
 
 def get_k331_CI_table():
-    thema = get_k331_1_example_CI(version="thema")
-    var5 = get_k331_1_example_CI(version="var5")
-    var6 = get_k331_1_example_CI(version="var6")
+    thema = get_k331_1_variations_CI(version="thema")
+    var1 = get_k331_1_variations_CI(version="var1")
+    var2 = get_k331_1_variations_CI(version="var2")
+    var3 = get_k331_1_variations_CI(version="var3")
+    var4 = get_k331_1_variations_CI(version="var4")
+    var5 = get_k331_1_variations_CI(version="var5")
+    var6 = get_k331_1_variations_CI(version="var6")
 
-    df = pd.concat([thema, var5, var6])
+    df = pd.concat([thema, var1, var2, var3, var4, var5, var6])
 
     latex = df.to_latex()
 
@@ -186,7 +200,8 @@ def get_k331_CI_table():
 
 
 def get_major_minor_pieces_df(mode: Literal["major", "minor"],
-                              df:pd.DataFrame) -> pd.DataFrame:
+                              df: pd.DataFrame,
+                              save_df: bool=False) -> pd.DataFrame:
     # df = pd.read_csv(tsv_path, sep="\t")
 
     if mode == "major":
@@ -194,11 +209,14 @@ def get_major_minor_pieces_df(mode: Literal["major", "minor"],
     else:
         result = df[df['globalkey'].str.islower()]
 
+    if save_df:
+        result.to_csv(f"data/{mode}key_piece_indices.tsv", sep="\t")
+
     return result
 
 
 if __name__ == "__main__":
-    # result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
+    result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
     # get_copora_list_in_period(df=result_df)
 
     # original = get_bwv808_example_CI(version="original")
@@ -216,15 +234,14 @@ if __name__ == "__main__":
     #     # print(b)
     #     print(c)
 
+    major = pd.read_csv("data/majorkey_piece_indices.tsv", sep="\t")
+    minor = pd.read_csv("data/minorkey_piece_indices.tsv", sep="\t")
 
-    major = get_major_minor_pieces_df(mode="major")
-    minor = get_major_minor_pieces_df(mode="minor")
+    major_ct_mean = major["CTC"].mean()
+    minor_ct_mean = minor["CTC"].mean()
 
-    major_ct_mean = major["ct_chromaticity"].mean()
-    minor_ct_mean = minor["ct_chromaticity"].mean()
-
-    major_r_mean = major["r_chromaticity"].mean()
-    minor_r_mean = minor["r_chromaticity"].mean()
+    major_r_mean = major["RC"].mean()
+    minor_r_mean = minor["RC"].mean()
 
     print(f'{major_ct_mean=}')
     print(f'{minor_ct_mean=}')

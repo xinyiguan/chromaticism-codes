@@ -262,65 +262,55 @@ def varY_varf_diff(model_outputs_list: List, add_era_division: bool = True):
     return fig
 
 
-if __name__ == "__main__":
-    result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
-    beethoven_df = pd.read_csv("data/beethoven_chromaticity.tsv", sep="\t")
-
-    # mean_colors_palette = ["#0b5572", "#006666", "#6F4E7C"]
-    # scatter_colors_palette = ["#57a1be", "#66b2b2", "#A894B0"]
-
+def experiment_gpr_chromaticity(df: pd.DataFrame, fig_name: str):
     mean_colors_palette = ["#6F4E7C", "#0b5572", "#37604e"]
     scatter_colors_palette = ["#A894B0", "#57a1be", "#91ad70"]
 
-    # r_fifths_range = gpr_model_outputs(df=result_df, feature="r_fifths_range")
-    # ct_fifths_range = gpr_model_outputs(df=result_df, feature="ct_fifths_range")
-    # nct_fifths_range = gpr_model_outputs(df=result_df, feature="nct_fifths_range")
-    #
-    # fifths_range = plot_gpr_fifths_range([r_fifths_range, ct_fifths_range, nct_fifths_range],
-    #                                      hue_by=None,
-    #                                      mean_color=["#0b5572", "#ddb455", "#6F4E7C"],
-    #                                      add_era_division=True)
-    # #
-    # fifths_range.savefig(fname="figs/Figure_gpr_fifths_range.pdf")
-
-    rc = gpr_model_outputs(df=result_df, feature="RC")
-    ctc = gpr_model_outputs(df=result_df, feature="CTC")
-    nctc = gpr_model_outputs(df=result_df, feature="NCTC")
+    rc = gpr_model_outputs(df=df, feature="RC")
+    ctc = gpr_model_outputs(df=df, feature="CTC")
+    nctc = gpr_model_outputs(df=df, feature="NCTC")
 
     rc_gpr = plot_gpr_chromaticity(model_outputs_list=[rc],
                                    mean_colors=[mean_colors_palette[0]],
                                    hue_by=scatter_colors_palette[0],
                                    add_era_division=True
                                    )
-    rc_gpr.savefig(fname="figs/Figure_gpr_rc.pdf")
+    rc_gpr.savefig(fname=f"figs/Figure_gpr_rc_{fig_name}.pdf")
 
     ctc_gpr = plot_gpr_chromaticity(model_outputs_list=[ctc],
-                                   mean_colors=[mean_colors_palette[1]],
-                                   hue_by=scatter_colors_palette[1],
-                                   add_era_division=True
-                                   )
-    ctc_gpr.savefig(fname="figs/Figure_gpr_ctc.pdf")
+                                    mean_colors=[mean_colors_palette[1]],
+                                    hue_by=scatter_colors_palette[1],
+                                    add_era_division=True
+                                    )
+    ctc_gpr.savefig(fname=f"figs/Figure_gpr_ctc_{fig_name}.pdf")
 
     nctc_gpr = plot_gpr_chromaticity(model_outputs_list=[nctc],
-                                   mean_colors=[mean_colors_palette[2]],
-                                   hue_by=scatter_colors_palette[2],
-                                   add_era_division=True
-                                   )
-    nctc_gpr.savefig(fname="figs/Figure_gpr_nctc.pdf")
+                                     mean_colors=[mean_colors_palette[2]],
+                                     hue_by=scatter_colors_palette[2],
+                                     add_era_division=True
+                                     )
+    nctc_gpr.savefig(fname=f"figs/Figure_gpr_nctc_{fig_name}.pdf")
+
+def experiment_gpr_5thRange(df: pd.DataFrame, fig_name: str):
+    mean_colors_palette = ["#6F4E7C", "#0b5572", "#37604e"]
+    scatter_colors_palette = ["#A894B0", "#57a1be", "#91ad70"]
+
+    r_fifths_range = gpr_model_outputs(df=df, feature="r_fifths_range")
+    ct_fifths_range = gpr_model_outputs(df=df, feature="ct_fifths_range")
+    nct_fifths_range = gpr_model_outputs(df=df, feature="nct_fifths_range")
+
+    fifths_range = plot_gpr_fifths_range([r_fifths_range, ct_fifths_range, nct_fifths_range],
+                                         hue_by=None,
+                                         mean_color=mean_colors_palette,
+                                         add_era_division=True)
+
+    fifths_range.savefig(fname=f"figs/Figure_gpr_fifths_range_{fig_name}.pdf")
 
 
-    # chromaticities = plot_gpr_chromaticity(model_outputs_list=[rc, ctc, nctc],
-    #                                        mean_colors= mean_colors_palette,
-    #                                        hue_by=scatter_colors_palette,
-    #                                        add_era_division=True
-    #                                        )
-    # chromaticities.savefig(fname="figs/Figure_gpr_chromaticities.pdf")
+if __name__ == "__main__":
+    combined_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
+    major_df = pd.read_csv("data/majorkey_piece_indices.tsv", sep="\t")
+    minor_df = pd.read_csv("data/minorkey_piece_indices.tsv", sep="\t")
 
-    # beethoven_rc = gpr_model_outputs(df=beethoven_df, feature="RC")
-    # beethoven_ctc = gpr_model_outputs(df=beethoven_df, feature="CTC")
-    # beethoven_nctc = gpr_model_outputs(df=beethoven_df, feature="NCTC")
-    # beethoven_chromaticities = plot_gpr_chromaticity(model_outputs_list=[beethoven_rc, beethoven_ctc, beethoven_nctc],
-    #                                                  mean_colors=["#0b5572", "#C6A24C", "#6F4E7C"],
-    #                                                  hue_by=["#57a1be", "#E7CA88", "#A894B0"]
-    #                                                  )
-    # beethoven_chromaticities.savefig(fname="figs/Figure_gpr_beethoven_chromaticities.pdf")
+    experiment_gpr_chromaticity(minor_df, fig_name="MinorMode")
+    experiment_gpr_chromaticity(major_df, fig_name="MajorMode")

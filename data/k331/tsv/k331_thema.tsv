@@ -1,0 +1,22 @@
+	version	globalkey	localkey	chord	root	r_chromaticity	ct	ct_chromaticity	nct	nct_chromaticity
+93873	thema	A	I	I	0	0	[4, 1]	0	[-1, 0, 2]	0
+93874	thema	A	I	I6	0	0	[4, 1]	0	[]	0
+93875	thema	A	I	V6	1	0	[5, 2]	0	[0, 1, 4]	0
+93876	thema	A	I	V43	1	0	[2, -1, 5]	0	[1]	0
+93877	thema	A	I	vi7	3	0	[0, 4, 1]	0	[3]	0
+93878	thema	A	I	V6	1	0	[5, 2]	0	[1]	0
+93879	thema	A	I	I	0	0	[4, 1]	0	[0]	0
+93880	thema	A	I	ii6	2	0	[-1, 3]	0	[1, 2]	0
+93881	thema	A	I	V(64)	1	0	[0, 4]	0	[1]	0
+93882	thema	A	I	V	1	0	[5, 2]	0	[]	0
+93883	thema	A	I	I	0	0	[4, 1]	0	[-1, 0, 2]	0
+93884	thema	A	I	I6	0	0	[4, 1]	0	[]	0
+93885	thema	A	I	V6	1	0	[5, 2]	0	[0, 1, 4]	0
+93886	thema	A	I	V43	1	0	[2, -1, 5]	0	[1]	0
+93887	thema	A	I	vi7	3	0	[0, 4, 1]	0	[3]	0
+93888	thema	A	I	V6	1	0	[5, 2]	0	[1]	0
+93889	thema	A	I	I	0	0	[4, 1]	0	[0]	0
+93890	thema	A	I	ii6	2	0	[-1, 3]	0	[2]	0
+93891	thema	A	I	V(64)	1	0	[0, 4]	0	[1]	0
+93892	thema	A	I	V7	1	0	[5, 2, -1]	0	[1]	0
+93893	thema	A	I	I	0	0	[4, 1]	0	[0, 3]	0

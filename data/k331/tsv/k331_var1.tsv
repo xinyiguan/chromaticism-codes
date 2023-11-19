@@ -1,0 +1,20 @@
+	version	globalkey	localkey	chord	root	r_chromaticity	ct	ct_chromaticity	nct	nct_chromaticity
+93919	var1	A	I	I6	0	0	[4, 1]	0	[6, 3]	1
+93920	var1	A	I	V6	1	0	[5, 2]	0	[7, 1]	2
+93921	var1	A	I	V43	1	0	[2, -1, 5]	0	[1, 4]	0
+93922	var1	A	I	vi7	3	0	[0, 4, 1]	0	[-1, 3, 5]	0
+93923	var1	A	I	V6	1	0	[5, 2]	0	[7, 1]	2
+93924	var1	A	I	I	0	0	[4, 1]	0	[0, 9]	4
+93925	var1	A	I	ii6	2	0	[-1, 3]	0	[1]	0
+93926	var1	A	I	V	1	0	[5, 2]	0	[0, 1, 3, 4]	0
+93927	var1	A	I	I	0	0	[4, 1]	0	[-1, 0, 2, 6, 9]	5
+93928	var1	A	I	V	1	0	[5, 2]	0	[1]	0
+93929	var1	A	I	V(64)	1	0	[0, 4]	0	[7, 1]	2
+93930	var1	A	I	V7	1	0	[5, 2, -1]	0	[1]	0
+93931	var1	A	I	vi	3	0	[0, 4]	0	[3]	0
+93932	var1	A	I	V6	1	0	[5, 2]	0	[0]	0
+93933	var1	A	I	I	0	0	[4, 1]	0	[0]	0
+93934	var1	A	I	ii6	2	0	[-1, 3]	0	[2]	0
+93935	var1	A	I	V(64)	1	0	[0, 4]	0	[1]	0
+93936	var1	A	I	V7	1	0	[5, 2, -1]	0	[1]	0
+93937	var1	A	I	I	0	0	[4, 1]	0	[6, 0]	1

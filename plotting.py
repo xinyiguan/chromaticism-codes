@@ -3,7 +3,7 @@ import seaborn as sns
 
 from matplotlib import pyplot as plt
 
-from analysis import get_period_df, correlation, get_bwv808_example_CI, get_k331_1_example_CI
+from analysis import get_period_df, correlation, get_bwv808_example_CI, get_k331_1_variations_CI
 
 
 def piece_distribution_histogram(df: pd.DataFrame, save_fig: bool = False):
@@ -50,7 +50,7 @@ def piece_distribution_histogram(df: pd.DataFrame, save_fig: bool = False):
 
 
 
-def plot_chromaticity_indices_corr(df: pd.DataFrame):
+def plot_chromaticity_indices_corr(df: pd.DataFrame, fig_name: str):
     # # rename the col names of CI in the df:
     # df = df.rename(columns={'rc': 'RC',
     #                         'ctc': 'CTC',
@@ -91,7 +91,7 @@ def plot_chromaticity_indices_corr(df: pd.DataFrame):
 
             g.text(x_pos, y_pos, f'r = {r}, {p_text}', fontstyle='italic', ha='right', va='top')
 
-    plt.savefig("figs/Figure_CI_corr.pdf", dpi=300)
+    plt.savefig(f"figs/Figure_CI_corr_{fig_name}.pdf", dpi=300)
 
     plt.show()
 
@@ -118,9 +118,9 @@ def plot_k331_CI_comparison():
 
 
 
-    thema = get_k331_1_example_CI(version="thema")
-    var5 = get_k331_1_example_CI(version="var5")
-    var6 = get_k331_1_example_CI(version="var6")
+    thema = get_k331_1_variations_CI(version="thema")
+    var5 = get_k331_1_variations_CI(version="var5")
+    var6 = get_k331_1_variations_CI(version="var6")
 
     df = pd.concat([thema, var5, var6])
     # with pd.option_context('display.max_columns', None):
@@ -159,4 +159,8 @@ if __name__ == "__main__":
     # result_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
     # piece_distribution_histogram(result_df, save_fig=False)
 
-    plot_k331_CI_comparison()
+    major = pd.read_csv("data/majorkey_piece_indices.tsv", sep="\t")
+    minor = pd.read_csv("data/minorkey_piece_indices.tsv", sep="\t")
+
+    plot_chromaticity_indices_corr(df=major, fig_name="MajorMode")
+    plot_chromaticity_indices_corr(df=minor, fig_name="MinorMode")
