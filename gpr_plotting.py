@@ -1,12 +1,9 @@
 from typing import Optional, List, Literal
 
 import matplotlib
+import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-from matplotlib import cm
-import matplotlib.colors as mcolors
-
-import numpy as np
 
 from gpr_analysis import gpr_model_outputs, MODEL_OUTPUT
 from utils.util import rand_jitter
@@ -84,7 +81,7 @@ def ax_gpr_prediction(ax: matplotlib.axes.Axes,
     f_upper = f_mean.numpy() + 1.96 * np.sqrt(f_var)
     y_lower = y_mean.numpy() - 1.96 * np.sqrt(y_var)
     y_upper = y_mean.numpy() + 1.96 * np.sqrt(y_var)
-    feature = m_outputs[3]
+    feature = m_outputs[-1]
 
     ax.plot(Xplot, f_mean, "-", color=fmean_color, label=f"{feature} f mean", linewidth=2.5)
 
@@ -121,6 +118,7 @@ def ax_full_gpr_model(ax: matplotlib.axes.Axes,
                       fvar_color: Optional[str],
                       hue_by: np.ndarray | None,
                       plot_samples: bool,
+                      ax_title: str = None,
                       scatter_colormap: str = None,
                       plot_f_uncertainty: bool = True,
                       plot_y_uncertainty: bool = True
@@ -128,8 +126,9 @@ def ax_full_gpr_model(ax: matplotlib.axes.Axes,
     """
     plot the scatter ax and the gpr prediction ax
     """
-    feature = m_outputs[3]
+    feature = m_outputs[-1]
     # ax.set_title(f'{feature}\n', fontsize=12)
+    ax.set_title(ax_title)
     X = np.array(m_outputs[0].data[0])
     Y = np.array(m_outputs[0].data[1])
 
@@ -137,6 +136,8 @@ def ax_full_gpr_model(ax: matplotlib.axes.Axes,
     ax_gpr_prediction(ax=ax, m_outputs=m_outputs, fmean_color=fmean_color, fvar_color=fvar_color,
                       plot_samples=plot_samples, plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty)
+    ax.legend(title=r"$\lambda$={:.3f}".format(m_outputs[-2]), loc="upper left")
+
     return ax
 
 
@@ -149,7 +150,7 @@ def plot_gpr_fifths_range(model_outputs_list: List[MODEL_OUTPUT],
     num_features = len(model_outputs_list)
 
     # fig = plt.figure(figsize=(8 * num_features, 5))
-    fig, axes = plt.subplots(1, num_features, figsize=(6 * num_features, 6), sharey=True)
+    fig, axes = plt.subplots(1, num_features, figsize=(5 * num_features, 5), sharey=True)
 
     text_kws = {
         "rotation": 90,
@@ -173,18 +174,22 @@ def plot_gpr_fifths_range(model_outputs_list: List[MODEL_OUTPUT],
         ax.text(1965, 23, "enharmonic", **text_kws)
 
         if add_era_division:
-            ax.axvline(1662, c="lightgray", linestyle="dotted", lw=1)
-            ax.axvline(1761, c="lightgray", linestyle="dotted", lw=1)
-            ax.axvline(1820, c="lightgray", linestyle="dotted", lw=1)
-            ax.axvline(1869, c="lightgray", linestyle="dotted", lw=1)
+            ax.axvline(1662, c="gray", linestyle="dotted", lw=1)
+            ax.axvline(1761, c="gray", linestyle="dotted", lw=1)
+            ax.axvline(1820, c="gray", linestyle="dotted", lw=1)
+            ax.axvline(1869, c="gray", linestyle="dotted", lw=1)
 
-        ax.set_ylabel("Fifths range")
-        ax.set_xlabel("Year")
+        ax.set_ylabel("Fifths range", fontsize=13)
+        ax.set_xlabel("Year", fontsize=13)
+        # ax.set_xticks(fontsize=12)
+        # ax.set_yticks(fontsize=12)
 
         ax.set_ybound(0, 30)
         ax.legend(loc="upper left")
 
         # ax_index += 1
+
+
 
     fig.tight_layout()
     return fig
@@ -225,6 +230,9 @@ def plot_gpr_chromaticity(model_outputs_list: List[MODEL_OUTPUT],
             ax.axvline(1820, c="lightgray", linestyle="dotted", lw=1)
             ax.axvline(1869, c="lightgray", linestyle="dotted", lw=1)
 
+        ax.legend(loc="upper left")
+        # ax.legend(title=r"$\lambda$={}".format(model_outputs_list[i][-2]))
+        # ax.get_legend().set_title(r"$\lambda$={}".format(model_outputs_list[i][-2]))
         ax_index += 1
 
     # fig.legend(loc='upper left')
@@ -232,43 +240,13 @@ def plot_gpr_chromaticity(model_outputs_list: List[MODEL_OUTPUT],
     return fig
 
 
-def varY_varf_diff(model_outputs_list: List, add_era_division: bool = True):
-    num_features = len(model_outputs_list)
-    fig, axes = plt.subplots(1, num_features, figsize=(6 * num_features, 6))
-
-    for i, (ax, out) in enumerate(zip(axes, model_outputs_list)):
-        f_var = out[1][1]
-        y_var = out[1][3]
-        diff = y_var - f_var
-        print(diff)
-
-        X = out[0].data[0]
-        Xplot = np.arange(min(X), max(X) + 1).reshape((-1, 1))
-
-        ax.plot(Xplot, diff)
-
-        if add_era_division:
-            ax.axvline(1662, c="lightgray", linestyle="dotted", lw=1)
-            ax.axvline(1761, c="lightgray", linestyle="dotted", lw=1)
-            ax.axvline(1820, c="lightgray", linestyle="dotted", lw=1)
-            ax.axvline(1869, c="lightgray", linestyle="dotted", lw=1)
-
-        ax.set_ylabel("Diff")
-        ax.set_xlabel("Year")
-
-        ax.legend(loc="upper left")
-    fig.tight_layout()
-    plt.show()
-    return fig
-
-
 def experiment_gpr_chromaticity(df: pd.DataFrame, fig_name: str):
     mean_colors_palette = ["#6F4E7C", "#0b5572", "#37604e"]
     scatter_colors_palette = ["#A894B0", "#57a1be", "#91ad70"]
 
-    rc = gpr_model_outputs(df=df, feature="RC")
-    ctc = gpr_model_outputs(df=df, feature="CTC")
-    nctc = gpr_model_outputs(df=df, feature="NCTC")
+    rc = gpr_model_outputs(df=df, feature="RC", df_type="Combined")
+    ctc = gpr_model_outputs(df=df, feature="CTC", df_type="Combined")
+    nctc = gpr_model_outputs(df=df, feature="NCTC", df_type="Combined")
 
     rc_gpr = plot_gpr_chromaticity(model_outputs_list=[rc],
                                    mean_colors=[mean_colors_palette[0]],
@@ -291,20 +269,123 @@ def experiment_gpr_chromaticity(df: pd.DataFrame, fig_name: str):
                                      )
     nctc_gpr.savefig(fname=f"figs/Figure_gpr_nctc_{fig_name}.pdf")
 
-def experiment_gpr_5thRange(df: pd.DataFrame, fig_name: str):
-    mean_colors_palette = ["#6F4E7C", "#0b5572", "#37604e"]
+
+def experiment_gpr_chromaticities(major: pd.DataFrame, minor: pd.DataFrame,
+                                  add_era_division: bool = True,
+                                  optimized: bool = True):
+    fig, axs = plt.subplots(ncols=2, nrows=3, figsize=(12, 12),
+                            layout="constrained")
+
+    # handtune_lengthscale = [15, 15, 15, 15, 15, 15]
+    handtune_lengthscale = [10, 10, 10, 10, 10, 10]
+
+    optimized_lengthscale = [None, None, None, None, None, None]
+
+    # mean_colors_palette = ["#6F4E7C", "#0b5572", "#37604e"]
+    # scatter_colors_palette = ["#A894B0", "#57a1be", "#91ad70"]
+    mean_colors_palette6 = ["#ad0041", "#ff6232", "#ffa94d", "#9cde9e", "#39c5a3", "#0088c1"]
+    scatter_colors_palette6 = ["#ad0041", "#ff6232", "#ffa94d", "#9cde9e", "#39c5a3", "#0088c1"]
+
+    if optimized:
+        l = optimized_lengthscale
+        name = "optimized"
+    else:
+        l = handtune_lengthscale
+        name = "handtuned"
+
+    major_rc = gpr_model_outputs(df=major, feature="RC", df_type="Major", lengthscale=l[0])
+    major_ctc = gpr_model_outputs(df=major, feature="CTC", df_type="Major", lengthscale=l[1])
+    major_nctc = gpr_model_outputs(df=major, feature="NCTC", df_type="Major", lengthscale=l[2])
+
+    minor_rc = gpr_model_outputs(df=minor, feature="RC", df_type="Minor", lengthscale=l[3])
+    minor_ctc = gpr_model_outputs(df=minor, feature="CTC", df_type="Minor", lengthscale=l[4])
+    minor_nctc = gpr_model_outputs(df=minor, feature="NCTC", df_type="Minor", lengthscale=l[5])
+
+    # major rc
+    ax_full_gpr_model(ax=axs[0, 0],
+                      ax_title="RC (major)",
+                      m_outputs=major_rc,
+                      hue_by=scatter_colors_palette6[0],
+                      fmean_color=mean_colors_palette6[0],
+                      fvar_color=mean_colors_palette6[0], plot_samples=False)
+
+    # major ctc
+    ax_full_gpr_model(ax=axs[1, 0],
+                      ax_title="CTC (major)",
+                      m_outputs=major_ctc,
+                      hue_by=scatter_colors_palette6[1],
+                      fmean_color=mean_colors_palette6[1],
+                      fvar_color=mean_colors_palette6[1],
+                      plot_samples=False)
+
+    # major nctc
+    ax_full_gpr_model(ax=axs[2, 0],
+                      ax_title="NCTC (major)",
+                      m_outputs=major_nctc,
+                      hue_by=scatter_colors_palette6[2],
+                      fmean_color=mean_colors_palette6[2],
+                      fvar_color=mean_colors_palette6[2],
+                      plot_samples=False)
+
+    # minor rc
+    ax_full_gpr_model(ax=axs[0, 1],
+                      ax_title="RC (minor)",
+                      m_outputs=minor_rc,
+                      hue_by=scatter_colors_palette6[3],
+                      fmean_color=mean_colors_palette6[3],
+                      fvar_color=mean_colors_palette6[3],
+                      plot_samples=False)
+
+    # minor ctc
+    ax_full_gpr_model(ax=axs[1, 1], ax_title="CTC (minor)",
+                      m_outputs=minor_ctc,
+                      hue_by=scatter_colors_palette6[4],
+                      fmean_color=mean_colors_palette6[4],
+                      fvar_color=mean_colors_palette6[4],
+                      plot_samples=False)
+
+    # minor nctc
+    ax_full_gpr_model(ax=axs[2, 1], ax_title="NCTC (minor)",
+                      m_outputs=minor_nctc,
+                      hue_by=scatter_colors_palette6[5],
+                      fmean_color=mean_colors_palette6[5],
+                      fvar_color=mean_colors_palette6[5],
+                      plot_samples=False)
+
+    axs[0, 0].set_ybound(-3, 5)
+    axs[0, 1].set_ybound(-3, 5)
+    axs[1, 0].set_ybound(-3, 8)
+    axs[1, 1].set_ybound(-3, 12)
+    axs[2, 0].set_ybound(-5, 20)
+    axs[2, 1].set_ybound(-5, 30)
+
+    for i in range(3):
+        for j in range(2):
+            if add_era_division:
+                axs[i, j].axvline(1662, c="gray", linestyle="dotted", lw=1)
+                axs[i, j].axvline(1761, c="gray", linestyle="dotted", lw=1)
+                axs[i, j].axvline(1820, c="gray", linestyle="dotted", lw=1)
+                axs[i, j].axvline(1869, c="gray", linestyle="dotted", lw=1)
+
+    plt.savefig(fname=f"figs/Figure_gpr_MajorMinor_EraDivision_{name}.pdf")
+
+    return fig
+
+
+def experiment_gpr_5thRange(df: pd.DataFrame, df_type: Literal["CombinedMode", "MajorMode", "MinorMode"]):
+    mean_colors_palette = ["C0", "C2", "C4"]
     scatter_colors_palette = ["#A894B0", "#57a1be", "#91ad70"]
 
-    r_fifths_range = gpr_model_outputs(df=df, feature="r_fifths_range")
-    ct_fifths_range = gpr_model_outputs(df=df, feature="ct_fifths_range")
-    nct_fifths_range = gpr_model_outputs(df=df, feature="nct_fifths_range")
+    r_fifths_range = gpr_model_outputs(df=df, feature="r_fifths_range", df_type="Combined")
+    ct_fifths_range = gpr_model_outputs(df=df, feature="ct_fifths_range", df_type="Combined")
+    nct_fifths_range = gpr_model_outputs(df=df, feature="nct_fifths_range", df_type="Combined")
 
     fifths_range = plot_gpr_fifths_range([r_fifths_range, ct_fifths_range, nct_fifths_range],
                                          hue_by=None,
                                          mean_color=mean_colors_palette,
                                          add_era_division=True)
 
-    fifths_range.savefig(fname=f"figs/Figure_gpr_fifths_range_{fig_name}.pdf")
+    fifths_range.savefig(fname=f"figs/Figure_gpr_fifths_range_{df_type}.pdf")
 
 
 if __name__ == "__main__":
@@ -312,5 +393,8 @@ if __name__ == "__main__":
     major_df = pd.read_csv("data/majorkey_piece_indices.tsv", sep="\t")
     minor_df = pd.read_csv("data/minorkey_piece_indices.tsv", sep="\t")
 
-    experiment_gpr_chromaticity(minor_df, fig_name="MinorMode")
-    experiment_gpr_chromaticity(major_df, fig_name="MajorMode")
+    # experiment_gpr_chromaticities(major=major_df, minor=minor_df)
+    # experiment_gpr_chromaticities(major_df, minor_df, optimized=False)
+    experiment_gpr_5thRange(combined_df, df_type="CombinedMode")
+    experiment_gpr_5thRange(major_df, df_type="MajorMode")
+    experiment_gpr_5thRange(minor_df, df_type="MinorMode")
