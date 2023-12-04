@@ -114,6 +114,12 @@ def get_copora_list_in_period_table(df: pd.DataFrame):
 
 
 # EXAMPLES _________________________________________________________________________________________
+
+def get_rachmaninoff_CI(tsv_path: str = "data/chord_indices.tsv") -> pd.DataFrame:
+    df = pd.read_csv(tsv_path, sep="\t")
+    rach = df[(df["corpus"] == "rachmaninoff_piano") & (df["piece"] == "op42_01a")]
+    print(rach)
+
 def get_bwv808_example_CI(version: Literal["original", "agrements"],
                           tsv_path: str = "data/chord_indices.tsv") -> pd.DataFrame:
     df = pd.read_csv(tsv_path, sep="\t",
@@ -488,16 +494,15 @@ def get_corpuswise_fifth_range(piece:pd.DataFrame):
 
 if __name__ == "__main__":
     pieces_df = pd.read_csv("data/piece_indices.tsv", sep="\t")
-    # get_major_minor_pieces_df(df=result_df, mode="major", save_df=True)
-    # get_major_minor_pieces_df(df=result_df, mode="minor", save_df=True)
+    get_major_minor_pieces_df(df=pieces_df, mode="major", save_df=True)
+    get_major_minor_pieces_df(df=pieces_df, mode="minor", save_df=True)
 
-    major = pd.read_csv("data/majorkey_piece_indices.tsv", sep="\t")
-    minor = pd.read_csv("data/minorkey_piece_indices.tsv", sep="\t")
-
-    # get_MajorMinor_MeanCI_ttest_table(major, minor)
-    # get_corpus_MajorMinor_CIs_table()
-    # get_major_minor_group_stats(df = pieces_df)
-
-    # get_fifths_range_stats(pieces_df, df_type="CombinedMode")
-    a=get_corpuswise_fifth_range(pieces_df)
-    print(a)
+    # major = pd.read_csv("data/majorkey_piece_indices.tsv", sep="\t")
+    # minor = pd.read_csv("data/minorkey_piece_indices.tsv", sep="\t")
+    #
+    # # get_MajorMinor_MeanCI_ttest_table(major, minor)
+    # # get_corpus_MajorMinor_CIs_table()
+    # # get_major_minor_group_stats(df = pieces_df)
+    #
+    # # get_fifths_range_stats(pieces_df, df_type="CombinedMode")
+    # get_rachmaninoff_CI()

@@ -1,7 +1,7 @@
 import ast
 import logging
-from typing import List, Any, Generator, TypeVar, Tuple
 from fractions import Fraction as frac
+from typing import List, Any, Generator, TypeVar, Tuple
 
 import numpy as np
 import pandas as pd
@@ -40,39 +40,25 @@ CONVERTERS = {
 STRING = 'string'  # not str
 
 DTYPES = {
-    'alt_label': STRING,
-    'barline': STRING,
     'bass_note': 'Int64',
-    'breaks': STRING,
-    'changes': STRING,
     'chord': STRING,
     'chord_id': int,
     'chord_type': STRING,
-    'dont_count': 'Int64',
     'duration_qb': float,
     'figbass': STRING,
     'form': STRING,
     'globalkey': STRING,
-    'keysig': int,
     'label': STRING,
     'localkey': STRING,
     'mc': int,
     'midi': int,
     'mn': int,
-    'numbering_offset': 'Int64',
     'numeral': STRING,
-    'pedal': STRING,
     'phraseend': STRING,
     'relativeroot': STRING,
-    'repeats': STRING,
     'root': 'Int64',
     'special': STRING,
-    'staff': int,
-    'tied': 'Int64',
-    'timesig': STRING,
-    'tpc': int,
-    'voice': int,
-    'volta': 'Int64'
+    'tpc': int
 }
 
 A = TypeVar('A')

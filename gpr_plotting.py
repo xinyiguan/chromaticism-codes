@@ -393,8 +393,8 @@ if __name__ == "__main__":
     major_df = pd.read_csv("data/majorkey_piece_indices.tsv", sep="\t")
     minor_df = pd.read_csv("data/minorkey_piece_indices.tsv", sep="\t")
 
-    # experiment_gpr_chromaticities(major=major_df, minor=minor_df)
-    # experiment_gpr_chromaticities(major_df, minor_df, optimized=False)
+    experiment_gpr_chromaticities(major=major_df, minor=minor_df)
+    experiment_gpr_chromaticities(major_df, minor_df, optimized=False)
     experiment_gpr_5thRange(combined_df, df_type="CombinedMode")
     experiment_gpr_5thRange(major_df, df_type="MajorMode")
     experiment_gpr_5thRange(minor_df, df_type="MinorMode")
