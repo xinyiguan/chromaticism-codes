@@ -8,7 +8,7 @@ from utils.metrics import tone_to_diatonic_set_distance, cumulative_distance_to_
 from utils.util import flatten, safe_literal_eval, flatten_to_list
 
 
-def CI_for_example_harmonies(tsv_path: str = "data/examples/roman_numerals_expanded.tsv"):
+def CI_for_example_harmonies(tsv_path: str = "data/old_examples/roman_numerals_expanded.tsv"):
     cols2use = ["label", "globalkey", "localkey", "chord", "chord_tones", "added_tones", "root", "bass_note"]
     df = pd.read_csv(tsv_path, sep="\t", usecols=cols2use)
 
@@ -65,8 +65,8 @@ def CI_for_example_harmonies(tsv_path: str = "data/examples/roman_numerals_expan
     print("____________")
     print(minor_latex_table)
 
-    sub_df_major.to_csv("data/examples/major_example_CIs.tsv", sep="\t")
-    sub_df_minor.to_csv("data/examples/minor_example_CIs.tsv", sep="\t")
+    sub_df_major.to_csv("data/old_examples/major_example_CIs.tsv", sep="\t")
+    sub_df_minor.to_csv("data/old_examples/minor_example_CIs.tsv", sep="\t")
 
 
 if __name__ == "__main__":

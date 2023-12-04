@@ -91,9 +91,12 @@ def compute_chord_chromaticity(df: pd.DataFrame) -> pd.DataFrame:
         lambda row: cumulative_distance_to_diatonic_set(tonic=None, ts=row["nct"], diatonic_mode=row["lk_mode"]),
         axis=1)
 
+
     result = df[
         ["corpus", "piece", "corpus_year", "piece_year", "globalkey", "localkey", "localkey_spc", "quarterbeats",
          "tones_in_span_in_C", "tones_in_span", "chord", "root", "RC", "ct", "CTC", "nct", "NCTC"]]
+
+
 
     return result
 
