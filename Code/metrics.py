@@ -1,7 +1,10 @@
-# This script contains the functions for different measures of chromaticism
+# This script contains the functions for different measures of chromaticism and
+import itertools
 from typing import List, Optional, Literal
 
+import numpy as np
 from pitchtypes import SpelledPitchClass, SpelledIntervalClass
+from setuptools import sic
 
 
 # set chromaticity ___________________________________________________________________________________________________
@@ -164,21 +167,61 @@ def min_distance_from_S_to_L(S: List[int]) -> int:
 
 
 # dissonance ____________________________________________________________________________________________________
-def pcs_dissonance(pcs: List[int]):
+
+dissonance_ranks = {
+    'P5': 1,
+    'P4': 1,
+    'M3': 2,
+    'm6': 2,
+    'm3': 3,
+    'M6': 3,
+    'M2': 4,
+    'm7': 4,
+    'a4': 5,
+    'd5': 5,
+    'm2': 6,
+    'M7': 6
+}
+
+
+def tpcs_to_ics(tpcs: List[int]) -> List[SpelledIntervalClass]:
+    all_pairs = list(itertools.combinations(tpcs, 2))
+    diffs = [np.abs(p[0] - p[1]) for p in all_pairs]
+    sics = [SpelledIntervalClass.from_fifths(fifths=f) for f in diffs]
+    return sics
+
+
+def pcs_dissonance_rank(tpcs: List[int]) -> int:
     """
-    Perfect consonance: P4, P5 -> 0
-    Imperfect consonance: M/m 3/6
-    Dissonances: M/m 2/7
-    Augmented/diminished:
-
-    example: pcs = [0, 4, 1]  => diss_vect = []
-
-    :param pcs:
+    This function takes a list of TPCs (of a chord) and returns the pairwise interval classes.
+    :param tpcs: the pitch class set of the "chord" in TPC.
     :return:
     """
-    raise NotImplementedError
+    sics = tpcs_to_ics(tpcs)
+    rank_score = sum([dissonance_ranks[sic.name()] for sic in sics])
+    return rank_score
+
+def dissonance_binary_score(tpc: SpelledIntervalClass) -> int:
+    consonance = ["P5", "P4", "M3", "M6", "m3", "m6"]
+    dissonance = ["m2", "M2", "m7", "M7", "a4", "d5"]
+    if tpc.name() in consonance:
+        return 0
+    elif tpc.name() in dissonance:
+        return 1
+    else:
+        raise ValueError()
+
+def pcs_dissonance_binary(tpcs: List[int])->int:
+    """
+    :param pcs: the pitch class set of the "chord" in TPC
+    """
+    sics = tpcs_to_ics(tpcs)
+    print(f'{sics=}')
+    score = sum([dissonance_binary_score(x) for x in sics])
+    print(score)
+    return score
+
 
 
 if __name__ == "__main__":
-    a = tone_to_diatonic_set_distance(tonic=SpelledPitchClass("F"), diatonic_mode="minor", tone=-4)
-    print(f'{a=}')
+    pcs_dissonance_binary(tpcs=[0, -3, 1])

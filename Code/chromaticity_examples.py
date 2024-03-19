@@ -3,9 +3,9 @@ import ast
 import pandas as pd
 from pitchtypes import SpelledPitchClass
 
-from utils.htypes import SimpleNumeral, Key, Numeral
-from utils.metrics import tone_to_diatonic_set_distance, cumulative_distance_to_diatonic_set
-from utils.util import flatten, safe_literal_eval, flatten_to_list
+from Code.utils.htypes import Key, Numeral
+from Code.metrics import tone_to_diatonic_set_distance, cumulative_distance_to_diatonic_set
+from Code.utils.util import safe_literal_eval, flatten_to_list
 
 
 def CI_for_example_harmonies(tsv_path: str = "data/old_examples/roman_numerals_expanded.tsv"):

@@ -9,8 +9,8 @@ from matplotlib import pyplot as plt
 from pitchtypes import SpelledIntervalClass, SpelledPitchClass
 from scipy.signal import argrelextrema
 
-from utils.htypes import Key
-from utils.metrics import all_Ls
+from Code.utils.htypes import Key
+from Code.metrics import all_Ls
 
 
 def int2bool(s):

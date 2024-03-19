@@ -4,9 +4,9 @@ import numpy as np
 import pandas as pd
 from pitchtypes import SpelledPitchClass
 
-from utils.htypes import Numeral, Key
-from utils.metrics import tone_to_diatonic_set_distance, cumulative_distance_to_diatonic_set
-from utils.util import flatten, flatten_to_list, safe_literal_eval
+from Code.utils.htypes import Numeral, Key
+from Code.metrics import tone_to_diatonic_set_distance, cumulative_distance_to_diatonic_set
+from Code.utils.util import flatten, flatten_to_list, safe_literal_eval
 
 
 def load_dcml_harmonies_tsv(harmony_tsv_path: str, meatadata_tsv_path: str) -> pd.DataFrame:

@@ -77,7 +77,7 @@ class PlotBeethovenExample:
         transposed_df = cleaned_df.transpose()
         latex = transposed_df.to_latex()
 
-        latex_table_path = os.path.join("latex_tables", 'beethoven_chordCI.txt')
+        latex_table_path = os.path.join("../Results/latex_tables", 'beethoven_chordCI.txt')
         with open(latex_table_path, 'w') as file:
             file.write(latex)
         return latex

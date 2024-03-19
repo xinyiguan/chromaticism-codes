@@ -6,7 +6,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 from gpr_analysis import gpr_model_outputs, MODEL_OUTPUT
-from utils.util import rand_jitter
+from Code.utils.util import rand_jitter
 
 
 # GPR plotting ______________________________________________________________________
