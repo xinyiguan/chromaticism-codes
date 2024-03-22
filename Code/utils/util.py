@@ -22,43 +22,49 @@ def int2bool(s):
 
 str2inttuple = lambda l: tuple() if l == '' else tuple(int(s) for s in l.split(', '))
 
+str2intlist = lambda l: list() if l == '' else list(int(s) for s in l.split(', '))
+
 CONVERTERS = {
-    'added_tones': str2inttuple,
-    'act_dur': frac,
-    'chord_tones': str2inttuple,
+    # 'added_tones': str2inttuple,
+    # 'chord_tones': str2inttuple,
+    'all_tones_tpc_in_C': str2inttuple,
+    'tones_in_span_in_C': str2inttuple,
+    'tones_in_span_in_lk': str2inttuple,
+    'within_label': str2inttuple,
+    'out_of_label': str2inttuple,
     'duration': frac,
     'globalkey_is_minor': int2bool,
     'localkey_is_minor': int2bool,
-    'mc_offset': frac,
-    'mc_onset': frac,
-    'mn_onset': frac,
-    'next': str2inttuple,
-    'nominal_duration': frac,
-    'scalar': frac,
 }
 
 STRING = 'string'  # not str
 
 DTYPES = {
-    'bass_note': 'Int64',
+    'corpus': STRING,
+    'piece': STRING,
+    'piece_year': 'Int64',
+    'corpus_year': 'Float64',
+
     'chord': STRING,
-    'chord_id': int,
+    'numeral': STRING,
     'chord_type': STRING,
-    'duration_qb': float,
+
     'figbass': STRING,
     'form': STRING,
     'globalkey': STRING,
-    'label': STRING,
     'localkey': STRING,
-    'mc': int,
-    'midi': int,
-    'mn': int,
-    'numeral': STRING,
-    'phraseend': STRING,
-    'relativeroot': STRING,
+
     'root': 'Int64',
-    'special': STRING,
-    'tpc': int
+    'bass_note': 'Int64',
+
+    'duration_qb': 'Float64',
+
+    'midi': 'Int64',
+    'tpc': 'Int64',
+    'name': STRING,
+
+    'localkey_spc': STRING,
+    'localkey2C': 'Int64',
 }
 
 A = TypeVar('A')
@@ -70,6 +76,17 @@ def safe_literal_eval(s):
         return list([ast.literal_eval(s)])
     except (ValueError, SyntaxError):
         return []
+
+
+# Loading intermediate step dataframes:
+def load_tsv_as_df(path: str) -> pd.DataFrame:
+    df = pd.read_csv(path, sep="\t", dtype=DTYPES, converters=CONVERTERS, engine='python')
+    tuple_cols = ["added_tones", "chord_tones"]
+    for x in tuple_cols:
+        if x in df.columns:
+            # df[x] = df[x].apply(lambda s: list(ast.literal_eval(s)))
+            df[x] = df[x].apply(lambda s: safe_literal_eval(s)).apply(flatten_to_list)
+    return df
 
 
 # jitter ____________________________________________________________________________________________________________
@@ -424,5 +441,3 @@ if __name__ == "__main__":
     # df = pd.read_table('/Users/xinyiguan/Downloads/99030222111752-cpitch_onset-cpitch_onset-66030222111752-nil-melody-nil-1-both-nil-t-nil-c-nil-t-t-x-3.dat', sep='\t')
     # a=df.columns
     # print(a)
-
-

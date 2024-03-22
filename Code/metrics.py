@@ -201,7 +201,7 @@ def pcs_dissonance_rank(tpcs: List[int]) -> int:
     rank_score = sum([dissonance_ranks[sic.name()] for sic in sics])
     return rank_score
 
-def dissonance_binary_score(tpc: SpelledIntervalClass) -> int:
+def _dissonance_binary_score(tpc: SpelledIntervalClass) -> int:
     consonance = ["P5", "P4", "M3", "M6", "m3", "m6"]
     dissonance = ["m2", "M2", "m7", "M7", "a4", "d5"]
     if tpc.name() in consonance:
@@ -216,9 +216,7 @@ def pcs_dissonance_binary(tpcs: List[int])->int:
     :param pcs: the pitch class set of the "chord" in TPC
     """
     sics = tpcs_to_ics(tpcs)
-    print(f'{sics=}')
-    score = sum([dissonance_binary_score(x) for x in sics])
-    print(score)
+    score = sum([_dissonance_binary_score(x) for x in sics])
     return score
 
 

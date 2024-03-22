@@ -1,22 +1,26 @@
 import ast
+from typing import Optional, Callable
 
 import numpy as np
 import pandas as pd
 from pitchtypes import SpelledPitchClass
 
 from Code.utils.htypes import Numeral, Key
-from Code.metrics import tone_to_diatonic_set_distance, cumulative_distance_to_diatonic_set
-from Code.utils.util import flatten, flatten_to_list, safe_literal_eval
+from Code.metrics import tone_to_diatonic_set_distance, cumulative_distance_to_diatonic_set, pcs_dissonance_rank
+from Code.utils.util import flatten, flatten_to_list, safe_literal_eval, load_tsv_as_df
 
 
-def load_dcml_harmonies_tsv(harmony_tsv_path: str, meatadata_tsv_path: str) -> pd.DataFrame:
+# Define functions: Loading with additional preprocessing steps and saving
+def process_DLC_data_v1(preprocessed_tsv: str,
+                        save: bool = True) -> pd.DataFrame:
     """
     An intermediate step for loading and process the filtered dcml harmonies tsv before computing chromaticity
-    :param harmony_tsv_path:
-    :param meatadata_tsv_path:
+    :param preprocessed_tsv:
+    :param meatadata_tsv:
+    :param save: whether to save the df for checking
     :return:
     """
-    df = pd.read_csv(harmony_tsv_path, sep="\t")
+    df = pd.read_csv(preprocessed_tsv, sep="\t")
 
     def find_lk_spc(row):
         """get the local key tonic (in roman numeral) in spelled pitch class"""
@@ -30,7 +34,7 @@ def load_dcml_harmonies_tsv(harmony_tsv_path: str, meatadata_tsv_path: str) -> p
         return [x + row["lk2C"] for x in row["flatten_tones_in_span_in_C"]]
 
     def tones_not_in_ct_root(row):
-        return [item for item in row['tones_in_span'] if item not in row['ct']+[row['root']]]
+        return [item for item in row['tones_in_span'] if item not in row['ct'] + [row['root']]]
 
     def determine_mode(row):
         return "minor" if row["localkey"].islower() else "major"
@@ -54,27 +58,74 @@ def load_dcml_harmonies_tsv(harmony_tsv_path: str, meatadata_tsv_path: str) -> p
     df["ct"] = df.apply(lambda row: [x for x in row["chord_tones"] + row["added_tones"] if x != row["root"]], axis=1)
     df["nct"] = df.apply(tones_not_in_ct_root, axis=1)
 
-    # add metadata
-    metadata_df = pd.read_csv(meatadata_tsv_path, sep="\t", usecols=["corpus", "piece", "composed_end"])
-    metadata_df["piece"] = metadata_df["piece"].str.normalize(form='NFC')
-
-    print(f'adding metadata to the df ...')
-    # Create a dict mapping from (corpus, piece) to year from metadata_df
-    mapping = dict(zip(zip(metadata_df['corpus'], metadata_df['piece']), metadata_df['composed_end']))
-
-    # normalize the strings
-    df['piece'] = df['piece'].str.normalize(form='NFC')
-
-    df["piece_year"] = df.apply(lambda row: mapping[(str(row['corpus']), str(row['piece']))], axis=1)
     df = df.assign(corpus_year=df.groupby("corpus")["piece_year"].transform(np.mean)).sort_values(
         ['corpus_year', 'piece_year']).reset_index(drop=True)
+    df = df.drop(columns=['Unnamed: 0'])
+
+    if save:
+        save_df(df=df, fname="processed_DLC_data", directory="../Data/prep_data/")
 
     return df
 
 
-def compute_chord_chromaticity(df: pd.DataFrame) -> pd.DataFrame:
+def process_DLC_data(preprocessed_tsv: str,
+                     save: bool = True) -> pd.DataFrame:
     """
-    the input df should be preprocessed df with the load_dcml_harmonies_tsv()
+    An intermediate step for loading and process the filtered dcml harmonies tsv before computing chromaticity
+    :param preprocessed_tsv:
+    :param meatadata_tsv:
+    :param save: whether to save the df for checking
+    :return:
+    """
+    df = load_tsv_as_df(preprocessed_tsv)
+
+    def find_localkey_spc(row):
+        """get the local key tonic (in roman numeral) in spelled pitch class"""
+        return Numeral.from_string(s=row["localkey"], k=Key.from_string(s=row["globalkey"])).key_if_tonicized().tonic
+
+    def localkey2C_dist(row):
+        """get the fifths distance from the local key tonic to C"""
+        return row["localkey_spc"].interval_to(SpelledPitchClass("C")).fifths()
+
+    def correct_tpc_ref_center(row):
+        return [x + row["localkey2C"] for x in row["tones_in_span_in_C"]]
+
+    def tones_not_in_label(row):
+        return [item for item in row['tones_in_span_in_lk'] if item not in row['within_label']]
+
+    df["localkey_spc"] = df.apply(find_localkey_spc, axis=1)
+    df["localkey2C"] = df.apply(localkey2C_dist, axis=1)
+    df["tones_in_span_in_C"] = df["all_tones_tpc_in_C"].apply(lambda s: list(ast.literal_eval(s))).apply(
+        lambda lst: list(flatten(lst))).apply(lambda l: list(set(l)))
+    df["tones_in_span_in_lk"] = df.apply(correct_tpc_ref_center, axis=1)
+
+    df["within_label"] = df.apply(lambda row: [x for x in row["chord_tones"] + row["added_tones"]], axis=1)
+    df["out_of_label"] = df.apply(tones_not_in_label, axis=1)
+
+    df = df.assign(corpus_year=df.groupby("corpus")["piece_year"].transform(np.mean)).sort_values(
+        ['corpus_year', 'piece_year']).reset_index(drop=True)
+
+    df = df.drop(columns=['Unnamed: 0'])
+    if save:
+        save_df(df=df, fname="processed_DLC_data", directory="../Data/prep_data/")
+
+    return df
+
+
+def load_processed_DLC_data(tsv_path: str) -> pd.DataFrame:
+    df = pd.read_csv(tsv_path, sep="\t")
+    return df
+
+
+def save_df(df: pd.DataFrame, fname: str, directory: str = "../Data/"):
+    path = f'{directory}{fname}.tsv'
+    df.to_csv(path, sep="\t")
+
+
+# Define functions: Chromaticity
+def compute_chord_chromaticity_v1(df: pd.DataFrame, save: bool = True) -> pd.DataFrame:
+    """
+    the input df should be the processed df with the load_dcml_harmonies_tsv()
     """
 
     # the distance of the root to the closet members of the diatonic set generated by the localkey tonic.
@@ -91,17 +142,25 @@ def compute_chord_chromaticity(df: pd.DataFrame) -> pd.DataFrame:
         lambda row: cumulative_distance_to_diatonic_set(tonic=None, ts=row["nct"], diatonic_mode=row["lk_mode"]),
         axis=1)
 
-
     result = df[
         ["corpus", "piece", "corpus_year", "piece_year", "globalkey", "localkey", "localkey_spc", "quarterbeats",
          "tones_in_span_in_C", "tones_in_span", "chord", "root", "RC", "ct", "CTC", "nct", "NCTC"]]
 
-
+    if save:
+        save_df(df=result, directory="../Data/prep_data/", fname="chromaticity_chord")
 
     return result
 
 
-def compute_piece_chromaticity(df: pd.DataFrame, compute_full: bool = False) -> pd.DataFrame:
+def compute_chord_chromaticity(df: pd.DataFrame, save: bool = True) -> pd.DataFrame:
+    """
+    the input df should be the processed df with the load_dcml_harmonies_tsv()
+    """
+
+    raise NotImplementedError
+
+
+def compute_piece_chromaticity(df: pd.DataFrame, save: bool = True, compute_full: bool = False) -> pd.DataFrame:
     def calculate_max_min_pc(x):
         if len(x) > 0:
             return max(x), min(x)
@@ -176,27 +235,42 @@ def compute_piece_chromaticity(df: pd.DataFrame, compute_full: bool = False) -> 
     result_df["corpus_id"] = pd.factorize(result_df["corpus"])[0] + 1
     result_df["piece_id"] = list(range(1, len(result_df) + 1))
 
+    if save:
+        save_df(df=result_df, directory="../Data/prep_data/", fname="chromaticity_piece")
+
     return result_df
 
 
-def save_df(df: pd.DataFrame, directory: str, fname: str):
-    path = f'{directory}/{fname}.tsv'
-    df.to_csv(path, sep="\t")
+# Define functions: Dissonance
+def compute_chord_dissonance(df: pd.DataFrame,
+                             metric_func: Callable,
+                             fname_anno: Optional[str],
+                             save: bool = True) -> pd.DataFrame:
+    # ROOT DISSONANCE
+    df["RD"] = df.apply(lambda row: metric_func(tpcs=[int(row["root"])]), axis=1)
+
+    # CHORD TONES DISSONANCE
+    df["CTD"] = df.apply(lambda row: metric_func(tpcs=row["ct"]), axis=1)
+
+    # NON-CHORD TONES DISSONANCE
+    df["NCTD"] = df.apply(lambda row: metric_func(tpcs=row["nct"]), axis=1)
+
+    result = df[
+        ["corpus", "piece", "corpus_year", "piece_year", "globalkey", "localkey", "localkey_spc", "quarterbeats",
+         "tones_in_span_in_C", "tones_in_span", "chord", "root", "RD", "ct", "CTD", "nct", "NCTD"]]
+
+    if save:
+        save_df(df=result, directory="../Data/prep_data/", fname=f"dissonance_chord{fname_anno}")
+    return result
 
 
 if __name__ == "__main__":
-    # load preprocess data
-    h = load_dcml_harmonies_tsv(harmony_tsv_path="data/DLC_harmonies.tsv",
-                                meatadata_tsv_path="data/distant_listening_corpus_no_missing_keys/distant_listening_corpus.metadata.tsv")
+    data = process_DLC_data(preprocessed_tsv="../Data/prep_data/DLC_data.tsv", save=True)
 
-    print(f'computing chord chromaticity indices ...')
-    chord_chromaticity_df = compute_chord_chromaticity(h)
+    # compute_chord_dissonance(df=data, metric_func=pcs_dissonance_rank, fname_anno="_ByRank")
 
-    save_df(df=chord_chromaticity_df, directory="data/", fname="chord_indices")
-
-    print(f'computing piece-level chromaticity ...')
-    piece_chromaticity_df = compute_piece_chromaticity(chord_chromaticity_df)
-    save_df(df=piece_chromaticity_df, directory="data/", fname="piece_indices")
-
-    # get_major_minor_pieces_df(mode="major", df=piece_chromaticity_df, save_df=True)
-    # get_major_minor_pieces_df(mode="minor", df=piece_chromaticity_df, save_df=True)
+    # print(f'Computing chord chromaticity indices ...')
+    # chord_chromaticity = compute_chord_chromaticity(df=data)
+    #
+    # print(f'Computing piece-level chromaticity ...')
+    # piece_chromaticity = compute_piece_chromaticity(df=chord_chromaticity)
