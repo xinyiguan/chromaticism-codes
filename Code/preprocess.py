@@ -226,10 +226,10 @@ def load_dfs_from_corpus(corpus_name: str,
         'added_tones': str2inttuple,
         'chord_tones': str2inttuple,
         'duration': fractions.Fraction,
-        'globalkey_is_minor': int2bool,
-        'localkey_is_minor': int2bool,
+        # 'globalkey_is_minor': int2bool,
+        # 'localkey_is_minor': int2bool,
     }
-    harmonies_cols = ["corpus", "piece", "quarterbeats", "duration_qb", "globalkey", "localkey", "localkey_is_minor",
+    harmonies_cols = ["corpus", "piece", "quarterbeats", "duration_qb", "globalkey", "localkey",
                       "chord", "root", "bass_note", "chord_tones", "added_tones"]
     notes_cols = ["corpus", "piece", "quarterbeats", "duration_qb", "tpc", 'midi', 'name']
 
@@ -316,11 +316,10 @@ def preprocess_df_AppendingNotes(metadata: pd.DataFrame,
                                               axis=1)  # add the year info
     final_df = harmonies.assign(corpus_year=harmonies.groupby("corpus")["piece_year"].transform(np.mean)).sort_values(
         ['corpus_year', 'piece_year']).reset_index(drop=True)
-    final_df = final_df.drop(columns=['Unnamed: 0'])
+    final_df = final_df.drop(columns=['Unnamed: 0', 'duration_qb_frac'])
 
     path = f'{save_path}{save_df_name}.tsv'
     print(f'Preprocess Step 7: Saving df to {path} ...')
-    # final_df.to_csv(f'{path}', sep="\t", index=True)
     final_df.to_csv(f'{path}', sep="\t")
 
     return final_df

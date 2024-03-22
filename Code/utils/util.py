@@ -27,11 +27,11 @@ str2intlist = lambda l: list() if l == '' else list(int(s) for s in l.split(', '
 CONVERTERS = {
     # 'added_tones': str2inttuple,
     # 'chord_tones': str2inttuple,
-    'all_tones_tpc_in_C': str2inttuple,
-    'tones_in_span_in_C': str2inttuple,
-    'tones_in_span_in_lk': str2inttuple,
-    'within_label': str2inttuple,
-    'out_of_label': str2inttuple,
+    # 'all_tones_tpc_in_C': str2inttuple,
+    # 'tones_in_span_in_C': str2inttuple,
+    # 'tones_in_span_in_lk': str2inttuple,
+    # 'within_label': str2inttuple,
+    # 'out_of_label': str2inttuple,
     'duration': frac,
     'duration_qb': frac,
 
@@ -83,11 +83,12 @@ def safe_literal_eval(s):
 # Loading intermediate step dataframes:
 def load_tsv_as_df(path: str) -> pd.DataFrame:
     df = pd.read_csv(path, sep="\t", dtype=DTYPES, converters=CONVERTERS, engine='python')
-    tuple_cols = ["added_tones", "chord_tones", "all_tones_tpc_in_C"]
+    tuple_cols = ["added_tones", "chord_tones", "all_tones_tpc_in_C", "tones_in_span_in_C", "tones_in_span_in_lk",
+                  "within_label", "out_of_label"]
     for x in tuple_cols:
         if x in df.columns:
             # df[x] = df[x].apply(lambda s: list(ast.literal_eval(s)))
-            df[x] = df[x].apply(lambda s: safe_literal_eval(s)).apply(flatten_to_list)
+            df[x] = df[x].apply(lambda s: list(ast.literal_eval(s)))
     return df
 
 

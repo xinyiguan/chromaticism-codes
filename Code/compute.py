@@ -77,7 +77,8 @@ def process_DLC_data(preprocessed_tsv: str,
     :param save: whether to save the df for checking
     :return:
     """
-    df = load_tsv_as_df(preprocessed_tsv)
+    # df = load_tsv_as_df(preprocessed_tsv)
+    df = pd.read_csv(preprocessed_tsv, sep="\t")
 
     def find_localkey_spc(row):
         """get the local key tonic (in roman numeral) in spelled pitch class"""
@@ -99,21 +100,19 @@ def process_DLC_data(preprocessed_tsv: str,
         lambda lst: list(flatten(lst))).apply(lambda l: list(set(l)))
     df["tones_in_span_in_lk"] = df.apply(correct_tpc_ref_center, axis=1)
 
+    df["added_tones"] = df["added_tones"].apply(lambda s: safe_literal_eval(s)).apply(flatten_to_list)
+    df["chord_tones"] = df["chord_tones"].apply(lambda s: list(ast.literal_eval(s)))
+
     df["within_label"] = df.apply(lambda row: [x for x in row["chord_tones"] + row["added_tones"]], axis=1)
     df["out_of_label"] = df.apply(tones_not_in_label, axis=1)
 
     df = df.assign(corpus_year=df.groupby("corpus")["piece_year"].transform(np.mean)).sort_values(
         ['corpus_year', 'piece_year']).reset_index(drop=True)
 
-    df = df.drop(columns=['Unnamed: 0'])
+    df = df.drop(columns=['Unnamed: 0', 'all_tones_tpc_in_C'])
     if save:
         save_df(df=df, fname="processed_DLC_data", directory="../Data/prep_data/")
 
-    return df
-
-
-def load_processed_DLC_data(tsv_path: str) -> pd.DataFrame:
-    df = pd.read_csv(tsv_path, sep="\t")
     return df
 
 
@@ -157,10 +156,31 @@ def compute_chord_chromaticity(df: pd.DataFrame, save: bool = True) -> pd.DataFr
     the input df should be the processed df with the load_dcml_harmonies_tsv()
     """
 
-    raise NotImplementedError
+    def determine_mode(row):
+        return "minor" if row["localkey"].islower() else "major"
+
+    df["localkey_mode"] = df.apply(determine_mode, axis=1)
+
+    # within-label chromaticity
+    df["WLC"] = df.apply(
+        lambda row: cumulative_distance_to_diatonic_set(tonic=None, ts=row["within_label"],
+                                                        diatonic_mode=row["localkey_mode"]), axis=1)
+    # out-of-label chromaticity
+    df["OLC"] = df.apply(
+        lambda row: cumulative_distance_to_diatonic_set(tonic=None, ts=row["out_of_label"],
+                                                        diatonic_mode=row["localkey_mode"]), axis=1)
+
+    result = df[
+        ["corpus", "piece", "corpus_year", "piece_year", "globalkey", "localkey", "localkey_spc", "localkey_mode",
+         "quarterbeats",
+         "tones_in_span_in_C", "tones_in_span_in_lk", "chord", "within_label", "WLC", "out_of_label", "OLC"]]
+    if save:
+        save_df(df=result, directory="../Data/prep_data/", fname="chromaticity_chord")
+
+    return result
 
 
-def compute_piece_chromaticity(df: pd.DataFrame, save: bool = True, compute_full: bool = False) -> pd.DataFrame:
+def compute_piece_chromaticity_v1(df: pd.DataFrame, save: bool = True, compute_full: bool = False) -> pd.DataFrame:
     def calculate_max_min_pc(x):
         if len(x) > 0:
             return max(x), min(x)
@@ -240,6 +260,46 @@ def compute_piece_chromaticity(df: pd.DataFrame, save: bool = True, compute_full
 
     return result_df
 
+def compute_piece_chromaticity(df:pd.DataFrame, save: bool=True) -> pd.DataFrame:
+
+    def calculate_max_min_pc(x):
+        if len(x) > 0:
+            return max(x), min(x)
+        else:  # hacking the zero-length all_tones
+            return 0, 0
+
+    df["max_wl"], df["min_wl"] = zip(*df["within_label"].apply(calculate_max_min_pc))
+    df["max_ol"], df["min_ol"] = zip(*df["out_of_label"].apply(calculate_max_min_pc))
+
+    result_df = df.groupby(['corpus', 'piece', 'localkey_mode'], as_index=False).agg(
+        corpus_year=("corpus_year", "first"),
+        piece_year=("piece_year", "first"),
+        globalkey=("globalkey", "first"),
+        localkey_mode=("localkey_mode", "first"),
+
+        max_wl=("max_wl", "max"),
+        min_wl=("min_wl", "min"),
+        max_ol=("max_ol", "max"),
+        min_ol=("min_ol", "min"),
+
+        WLC=("WLC", "mean"),
+        OLC=("OLC", "mean")
+    )
+
+    result_df = result_df.sort_values(by=["corpus_year", "piece_year"], ignore_index=True)
+    result_df["wl_fifths_range"] = (result_df["max_wl"] - result_df["min_wl"]).abs()
+    result_df["ol_fifths_range"] = (result_df["max_ol"] - result_df["min_ol"]).abs()
+
+    result_df["corpus_id"] = pd.factorize(result_df["corpus"])[0] + 1
+    result_df["piece_id"] = list(range(1, len(result_df) + 1))
+
+
+    print(result_df)
+    if save:
+        save_df(df=result_df, directory="../Data/prep_data/", fname="chromaticity_piece")
+
+    return result_df
+
 
 # Define functions: Dissonance
 def compute_chord_dissonance(df: pd.DataFrame,
@@ -265,7 +325,10 @@ def compute_chord_dissonance(df: pd.DataFrame,
 
 
 if __name__ == "__main__":
-    data = process_DLC_data(preprocessed_tsv="../Data/prep_data/DLC_data.tsv", save=True)
+    # data = process_DLC_data(preprocessed_tsv="../Data/prep_data/DLC_data.tsv", save=True)
+
+    data = load_tsv_as_df("../Data/prep_data/chromaticity_chord.tsv")
+    compute_piece_chromaticity(df=data, save=True)
 
     # compute_chord_dissonance(df=data, metric_func=pcs_dissonance_rank, fname_anno="_ByRank")
 
