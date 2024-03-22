@@ -33,6 +33,8 @@ CONVERTERS = {
     'within_label': str2inttuple,
     'out_of_label': str2inttuple,
     'duration': frac,
+    'duration_qb': frac,
+
     'globalkey_is_minor': int2bool,
     'localkey_is_minor': int2bool,
 }
@@ -57,7 +59,7 @@ DTYPES = {
     'root': 'Int64',
     'bass_note': 'Int64',
 
-    'duration_qb': 'Float64',
+    # 'duration_qb': 'Float64',
 
     'midi': 'Int64',
     'tpc': 'Int64',
@@ -81,7 +83,7 @@ def safe_literal_eval(s):
 # Loading intermediate step dataframes:
 def load_tsv_as_df(path: str) -> pd.DataFrame:
     df = pd.read_csv(path, sep="\t", dtype=DTYPES, converters=CONVERTERS, engine='python')
-    tuple_cols = ["added_tones", "chord_tones"]
+    tuple_cols = ["added_tones", "chord_tones", "all_tones_tpc_in_C"]
     for x in tuple_cols:
         if x in df.columns:
             # df[x] = df[x].apply(lambda s: list(ast.literal_eval(s)))
