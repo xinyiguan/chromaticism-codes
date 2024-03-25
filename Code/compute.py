@@ -260,7 +260,7 @@ def compute_piece_chromaticity_v1(df: pd.DataFrame, save: bool = True, compute_f
 
     return result_df
 
-def compute_piece_chromaticity(df:pd.DataFrame, save: bool=True) -> pd.DataFrame:
+def compute_piece_chromaticity_by_key_segment(df:pd.DataFrame, save: bool=True) -> pd.DataFrame:
 
     def calculate_max_min_pc(x):
         if len(x) > 0:
@@ -291,7 +291,7 @@ def compute_piece_chromaticity(df:pd.DataFrame, save: bool=True) -> pd.DataFrame
     result_df["ol_fifths_range"] = (result_df["max_ol"] - result_df["min_ol"]).abs()
 
     result_df["corpus_id"] = pd.factorize(result_df["corpus"])[0] + 1
-    result_df["piece_id"] = list(range(1, len(result_df) + 1))
+    result_df["piece_id"] = pd.factorize(result_df["piece"])[0] + 1
 
 
     print(result_df)
@@ -328,7 +328,7 @@ if __name__ == "__main__":
     # data = process_DLC_data(preprocessed_tsv="../Data/prep_data/DLC_data.tsv", save=True)
 
     data = load_tsv_as_df("../Data/prep_data/chromaticity_chord.tsv")
-    compute_piece_chromaticity(df=data, save=True)
+    compute_piece_chromaticity_by_key_segment(df=data, save=True)
 
     # compute_chord_dissonance(df=data, metric_func=pcs_dissonance_rank, fname_anno="_ByRank")
 
