@@ -1,7 +1,7 @@
 import ast
 import logging
 from fractions import Fraction as frac
-from typing import List, Any, Generator, TypeVar, Tuple
+from typing import List, Any, Generator, TypeVar, Tuple, Literal
 
 import numpy as np
 import pandas as pd
@@ -71,6 +71,37 @@ DTYPES = {
 
 A = TypeVar('A')
 
+# Saving dataframes
+
+def save_df(df: pd.DataFrame, fname: str, file_type: Literal["pickle", "tsv", "both"], directory: str):
+    if file_type == "pickle":
+        df.to_pickle(f'{directory}{fname}.pickle')
+    elif file_type == "tsv":
+        df.to_csv(f'{directory}{fname}.tsv', sep="\t")
+    elif file_type == "both":
+        df.to_pickle(f'{directory}{fname}.pickle')
+        df.to_csv(f'{directory}{fname}.tsv', sep="\t")
+    else:
+        raise ValueError()
+
+
+# Loading intermediate step dataframes:
+def load_file_as_df(path: str, file_type: Literal["pickle", "tsv"]) -> pd.DataFrame:
+    if file_type == "tsv":
+        df = pd.read_csv(path, sep="\t", dtype=DTYPES, converters=CONVERTERS, engine='python')
+        tuple_cols = ["added_tones", "chord_tones", "all_tones_tpc_in_C", "tones_in_span_in_C", "tones_in_span_in_lk",
+                      "within_label", "out_of_label"]
+        for x in tuple_cols:
+            if x in df.columns:
+                # df[x] = df[x].apply(lambda s: list(ast.literal_eval(s)))
+                df[x] = df[x].apply(lambda s: list(ast.literal_eval(s)))
+    elif file_type == "pickle":
+        df = pd.read_pickle(path)
+    else:
+        raise ValueError
+    return df
+
+
 
 # Function to safely parse values
 def safe_literal_eval(s):
@@ -78,18 +109,6 @@ def safe_literal_eval(s):
         return list([ast.literal_eval(s)])
     except (ValueError, SyntaxError):
         return []
-
-
-# Loading intermediate step dataframes:
-def load_tsv_as_df(path: str) -> pd.DataFrame:
-    df = pd.read_csv(path, sep="\t", dtype=DTYPES, converters=CONVERTERS, engine='python')
-    tuple_cols = ["added_tones", "chord_tones", "all_tones_tpc_in_C", "tones_in_span_in_C", "tones_in_span_in_lk",
-                  "within_label", "out_of_label"]
-    for x in tuple_cols:
-        if x in df.columns:
-            # df[x] = df[x].apply(lambda s: list(ast.literal_eval(s)))
-            df[x] = df[x].apply(lambda s: list(ast.literal_eval(s)))
-    return df
 
 
 # jitter ____________________________________________________________________________________________________________

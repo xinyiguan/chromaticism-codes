@@ -8,7 +8,7 @@ from typing import Literal, List, Dict, Any, Tuple
 import numpy as np
 import pandas as pd
 
-from Code.utils.util import setup_logger, DTYPES, load_tsv_as_df, str2inttuple, int2bool
+from Code.utils.util import setup_logger, DTYPES, str2inttuple, int2bool, save_df, load_file_as_df
 
 Note = str
 Harmony = ...
@@ -249,8 +249,8 @@ def load_dfs_from_corpus(corpus_name: str,
 
 
 def preprocess_df_Cleaning(corpus_name: str,
-                           additional_pieces_to_exclude: List[Tuple[str, str]],
-                           save_path: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
+                           additional_pieces_to_exclude: List[Tuple[str, str]]
+                           ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     print(f'Preprocess Step 1: Loading dfs ...')
     notes: pd.DataFrame = load_dfs_from_corpus(corpus_name=corpus_name, df_type=["notes"])[0]
 
@@ -276,17 +276,28 @@ def preprocess_df_Cleaning(corpus_name: str,
     cleaned_harmonies = filter_df_rows(df=harmonies, kind="harmonies")
     cleaned_notes = filter_df_rows(df=notes, kind="notes")
 
-    cleaned_harmonies.to_csv(f'{save_path}cleaned_{corpus_name}_harmonies.tsv', sep="\t")
-    cleaned_notes.to_csv(f'{save_path}cleaned_{corpus_name}_notes.tsv', sep="\t")
-    print(f"Saved cleaned dfs to {save_path}!")
+    # save data:
+
+    directory = "../Data/prep_data/"
+
+    save_df(df=cleaned_harmonies, file_type="both",
+            fname=f'cleaned_{corpus_name}_harmonies',
+            directory=directory)
+
+    save_df(df=cleaned_harmonies, file_type="both",
+            fname=f'cleaned_{corpus_name}_notes',
+            directory=directory)
+    #
+    # cleaned_harmonies.to_csv(f'{save_path}cleaned_{corpus_name}_harmonies.tsv', sep="\t")
+    # cleaned_notes.to_csv(f'{save_path}cleaned_{corpus_name}_notes.tsv', sep="\t")
+
+    print(f"Saved cleaned dfs to {directory}!")
     return cleaned_harmonies, cleaned_notes
 
 
 def preprocess_df_AppendingNotes(metadata: pd.DataFrame,
                                  harmonies: pd.DataFrame,
-                                 notes: pd.DataFrame,
-                                 save_df_name: str,
-                                 save_path: str) -> pd.DataFrame:
+                                 notes: pd.DataFrame) -> pd.DataFrame:
     print(f'Preprocess Step 3: Getting piece dfs list ...')
     # get list of pieces dfs:
     harmonies_dfs_list = get_pieces_df_list(df=harmonies)
@@ -318,9 +329,14 @@ def preprocess_df_AppendingNotes(metadata: pd.DataFrame,
         ['corpus_year', 'piece_year']).reset_index(drop=True)
     final_df = final_df.drop(columns=['Unnamed: 0', 'duration_qb_frac'])
 
-    path = f'{save_path}{save_df_name}.tsv'
-    print(f'Preprocess Step 7: Saving df to {path} ...')
-    final_df.to_csv(f'{path}', sep="\t")
+    # save data:
+
+    directory = "../Data/prep_data/"
+    print(f'Preprocess Step 7: Saving df to {directory} ...')
+
+    save_df(df=final_df, file_type="both",
+            fname=f'DLC_data',
+            directory=directory)
 
     return final_df
 
@@ -330,13 +346,11 @@ if __name__ == "__main__":
     #                        additional_pieces_to_exclude=[
     #                            ("frescobaldi_fiori_musicali", "12.31_Toccata_per_l'Elevatione"),
     #                            ("frescobaldi_fiori_musicali", "12.33_Canzon_quarti_toni_dopo_il_post_Comune"),
-    #                            ("frescobaldi_fiori_musicali", "12.45_Toccata_per_l'Elevatione")],
-    #                        save_path="../Data/prep_data/")
+    #                            ("frescobaldi_fiori_musicali", "12.45_Toccata_per_l'Elevatione")]
+    #                        )
     #
     metadata: pd.DataFrame = load_dfs_from_corpus(corpus_name="distant_listening_corpus", df_type=["metadata"])[0]
-    clean_harmonies = load_tsv_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_harmonies.tsv")
-    clean_notes = load_tsv_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_notes.tsv")
+    clean_harmonies = load_file_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_harmonies.pickle", file_type="pickle")
+    clean_notes = load_file_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_notes.pickle", file_type="pickle")
 
-    preprocess_df_AppendingNotes(metadata=metadata, harmonies=clean_harmonies, notes=clean_notes,
-                                 save_path="../Data/prep_data/",
-                                 save_df_name="DLC_data")
+    preprocess_df_AppendingNotes(metadata=metadata, harmonies=clean_harmonies, notes=clean_notes)
