@@ -86,7 +86,10 @@ def save_df(df: pd.DataFrame, fname: str, file_type: Literal["pickle", "tsv", "b
 
 
 # Loading intermediate step dataframes:
-def load_file_as_df(path: str, file_type: Literal["pickle", "tsv"]) -> pd.DataFrame:
+def load_file_as_df(path: str) -> pd.DataFrame:
+    # determine file type:
+    file_type = path.split(".")[-1]
+
     if file_type == "tsv":
         df = pd.read_csv(path, sep="\t", dtype=DTYPES, converters=CONVERTERS, engine='python')
         tuple_cols = ["added_tones", "chord_tones", "all_tones_tpc_in_C", "tones_in_span_in_C", "tones_in_span_in_lk",
@@ -448,18 +451,8 @@ def corpus_summary_stats():
 
 
 if __name__ == "__main__":
-    # corpus_df = pd.read_csv("../data/core_cl_chromaticities.tsv", sep="\t")
-    # corpus_list = corpus_df["corpus"].to_list()
-    # print(corpus_list)
+    path = "Data/prep_data/cleaned_distant_listening_corpus_harmonies.tsv"
+    file_type=path.split(".")[-1]
+    print(f'{file_type=}')
 
-    # get_corpus_summary_table()
 
-    import scipy.io
-
-    mat = scipy.io.loadmat('/Users/xinyiguan/Downloads/overall_information_content.mat')
-    m = min(mat)
-    print(f'{mat=}')
-
-    # df = pd.read_table('/Users/xinyiguan/Downloads/99030222111752-cpitch_onset-cpitch_onset-66030222111752-nil-melody-nil-1-both-nil-t-nil-c-nil-t-t-x-3.dat', sep='\t')
-    # a=df.columns
-    # print(a)

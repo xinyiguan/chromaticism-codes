@@ -3,8 +3,7 @@ import itertools
 from typing import List, Optional, Literal
 
 import numpy as np
-from pitchtypes import SpelledPitchClass, SpelledIntervalClass
-from setuptools import sic
+from pitchtypes import SpelledPitchClass, SpelledIntervalClass, EnharmonicIntervalClass
 
 
 # set chromaticity ___________________________________________________________________________________________________
@@ -95,7 +94,7 @@ def tone_to_diatonic_set_distance(tonic: Optional[SpelledPitchClass],
                 abs(tone.interval_from(diatonic_set_tones[-1]).fifths()))
         return d
 
-    elif isinstance(tone, int):
+    elif isinstance(tone, int | np.int64):
         if diatonic_mode == "major":
             if -1 <= tone <= 5:
                 d = 0
@@ -111,17 +110,20 @@ def tone_to_diatonic_set_distance(tonic: Optional[SpelledPitchClass],
             raise ValueError
         return d
     else:
-        raise TypeError
+        raise TypeError(f'tone is {tone}. Type of tone is {type(tone)}')
 
 
 def cumulative_distance_to_diatonic_set(tonic: Optional[SpelledPitchClass],
-                                        ts: List[SpelledPitchClass] | List[int],
+                                        ts: Optional[List[SpelledPitchClass] | List[int]],
                                         diatonic_mode: Literal["major", "minor"]) -> int:
     ds = []
-    for t in ts:
-        d = tone_to_diatonic_set_distance(tonic=tonic, tone=t, diatonic_mode=diatonic_mode)
-        ds.append(d)
-    total_distance = sum(ds)
+    if ts:
+        for t in ts:
+            d = tone_to_diatonic_set_distance(tonic=tonic, tone=t, diatonic_mode=diatonic_mode)
+            ds.append(d)
+        total_distance = sum(ds)
+    else:
+        total_distance = 0
     return total_distance
 
 
@@ -168,27 +170,43 @@ def min_distance_from_S_to_L(S: List[int]) -> int:
 
 # dissonance ____________________________________________________________________________________________________
 
-dissonance_ranks = {
-    'P5': 1,
-    'P4': 1,
-    'M3': 2,
-    'm6': 2,
-    'm3': 3,
-    'M6': 3,
-    'M2': 4,
-    'm7': 4,
-    'a4': 5,
-    'd5': 5,
-    'm2': 6,
-    'M7': 6
+# enharmonic interval class rank
+dissonance_ic_rank = {
+    0: 0,
+    1: 6,
+    2: 4,
+    3: 3,
+    4: 2,
+    5: 1,
+    6: 5,
 }
 
 
-def tpcs_to_ics(tpcs: List[int]) -> List[SpelledIntervalClass]:
-    all_pairs = list(itertools.combinations(tpcs, 2))
-    diffs = [np.abs(p[0] - p[1]) for p in all_pairs]
-    sics = [SpelledIntervalClass.from_fifths(fifths=f) for f in diffs]
-    return sics
+def _eic2ic(eic: EnharmonicIntervalClass) -> int:
+    eic = int(eic)
+    if eic <= 6:
+        ic = eic
+    elif 6 < eic < 12:
+        ic = 12 % eic
+    else:
+        raise ValueError
+    return ic
+
+
+def tpcs_to_ics(tpcs: Optional[List[int]]) -> List[int]:
+    """
+    tonal pitch class set to enharmonic interval class set
+    """
+
+    if tpcs:
+        all_pairs = itertools.combinations(tpcs, 2)
+        diffs = [np.abs(p[0] - p[1]) for p in all_pairs]
+        sics = [SpelledIntervalClass.from_fifths(fifths=f) for f in diffs]
+        eics = [EnharmonicIntervalClass(x.name()) for x in sics]
+        ics = [_eic2ic(x) for x in eics]
+        return ics
+    else:
+        return []
 
 
 def pcs_dissonance_rank(tpcs: List[int]) -> int:
@@ -197,10 +215,12 @@ def pcs_dissonance_rank(tpcs: List[int]) -> int:
     :param tpcs: the pitch class set of the "chord" in TPC.
     :return:
     """
-    sics = tpcs_to_ics(tpcs)
-    rank_score = np.mean(sum([dissonance_ranks[sic.name()] for sic in sics]))
+    ics = tpcs_to_ics(tpcs)
+    rank_score = np.average(sum([dissonance_ic_rank[ic] for ic in ics]))
     return rank_score
 
 
 if __name__ == "__main__":
-    pcs_dissonance_rank(tpcs=[0, -3, 1])
+    tpcs = [0, 4, 1]
+
+    pcs_dissonance_rank(tpcs)

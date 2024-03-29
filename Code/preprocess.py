@@ -191,7 +191,6 @@ def filter_df_rows(df: pd.DataFrame,
             (df[['quarterbeats', 'tpc', 'midi', 'name']].isnull().any(axis=1))
             & (df[['corpus', 'piece']].notnull().all(axis=1))
             ]
-
         # n_filter_logger.warning(f"Problematic parsing Notes df (rows) ===============================:")
         missing_rows[columns_to_log].apply(
             lambda row: n_filter_logger.warning(
@@ -202,7 +201,6 @@ def filter_df_rows(df: pd.DataFrame,
         # remove rows with missing data:
         df = df[~df.index.isin(filtering_rows.index)].reset_index(drop=True)
         assert not df['duration_qb'].isna().any()
-
         return df
     else:
         raise ValueError
@@ -249,8 +247,7 @@ def load_dfs_from_corpus(corpus_name: str,
 
 
 def preprocess_df_Cleaning(corpus_name: str,
-                           additional_pieces_to_exclude: List[Tuple[str, str]]
-                           ) -> Tuple[pd.DataFrame, pd.DataFrame]:
+                           additional_pieces_to_exclude: List[Tuple[str, str]]) -> Tuple[pd.DataFrame, pd.DataFrame]:
     print(f'Preprocess Step 1: Loading dfs ...')
     notes: pd.DataFrame = load_dfs_from_corpus(corpus_name=corpus_name, df_type=["notes"])[0]
 
@@ -284,12 +281,9 @@ def preprocess_df_Cleaning(corpus_name: str,
             fname=f'cleaned_{corpus_name}_harmonies',
             directory=directory)
 
-    save_df(df=cleaned_harmonies, file_type="both",
+    save_df(df=cleaned_notes, file_type="both",
             fname=f'cleaned_{corpus_name}_notes',
             directory=directory)
-    #
-    # cleaned_harmonies.to_csv(f'{save_path}cleaned_{corpus_name}_harmonies.tsv', sep="\t")
-    # cleaned_notes.to_csv(f'{save_path}cleaned_{corpus_name}_notes.tsv', sep="\t")
 
     print(f"Saved cleaned dfs to {directory}!")
     return cleaned_harmonies, cleaned_notes
@@ -325,9 +319,13 @@ def preprocess_df_AppendingNotes(metadata: pd.DataFrame,
 
     harmonies["piece_year"] = harmonies.apply(lambda row: mapping[(row['corpus'], row['piece'])],
                                               axis=1)  # add the year info
-    final_df = harmonies.assign(corpus_year=harmonies.groupby("corpus")["piece_year"].transform(np.mean)).sort_values(
+    final_df = harmonies.assign(corpus_year=harmonies.groupby("corpus")["piece_year"].transform("mean")).sort_values(
         ['corpus_year', 'piece_year']).reset_index(drop=True)
-    final_df = final_df.drop(columns=['Unnamed: 0', 'duration_qb_frac'])
+
+    try:
+        final_df = final_df.drop(columns=['Unnamed: 0', 'duration_qb_frac'])
+    except KeyError:
+        pass
 
     # save data:
 
@@ -350,7 +348,7 @@ if __name__ == "__main__":
     #                        )
     #
     metadata: pd.DataFrame = load_dfs_from_corpus(corpus_name="distant_listening_corpus", df_type=["metadata"])[0]
-    clean_harmonies = load_file_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_harmonies.pickle", file_type="pickle")
-    clean_notes = load_file_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_notes.pickle", file_type="pickle")
+    clean_harmonies = load_file_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_harmonies.pickle")
+    clean_notes = load_file_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_notes.pickle")
 
     preprocess_df_AppendingNotes(metadata=metadata, harmonies=clean_harmonies, notes=clean_notes)
