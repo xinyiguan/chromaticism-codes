@@ -183,26 +183,20 @@ dissonance_ic_rank = {
 
 
 def _eic2ic(eic: EnharmonicIntervalClass) -> int:
-    eic = int(eic)
-    if eic <= 6:
-        ic = eic
-    elif 6 < eic < 12:
-        ic = 12 % eic
-    else:
-        raise ValueError
-    return ic
+    eic_val = eic.value
+    assert 0 <= eic_val < 12
+    return min(eic_val, (-eic_val) % 12)
 
 
 def tpcs_to_ics(tpcs: Optional[List[int]]) -> List[int]:
     """
-    tonal pitch class set to enharmonic interval class set
+    tonal pitch class set to interval class set (unordered pitch interval class)
     """
 
     if tpcs:
         all_pairs = itertools.combinations(tpcs, 2)
-        diffs = [np.abs(p[0] - p[1]) for p in all_pairs]
-        sics = [SpelledIntervalClass.from_fifths(fifths=f) for f in diffs]
-        eics = [EnharmonicIntervalClass(x.name()) for x in sics]
+        diffs = [min(np.abs(p[0] - p[1]), np.abs(p[1] - p[0])) for p in all_pairs]
+        eics = [SpelledIntervalClass.from_fifths(fifths=f).convert_to(EnharmonicIntervalClass) for f in diffs]
         ics = [_eic2ic(x) for x in eics]
         return ics
     else:
@@ -221,6 +215,5 @@ def pcs_dissonance_rank(tpcs: List[int]) -> int:
 
 
 if __name__ == "__main__":
-    tpcs = [0, 4, 1]
-
-    pcs_dissonance_rank(tpcs)
+    r = pcs_dissonance_rank(tpcs=[0, 4, 1])
+    print(f'{r=}')

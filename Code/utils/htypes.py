@@ -269,7 +269,7 @@ class Key:
         return result_degree
 
     @staticmethod
-    def get_spc_from_fifths(k: str, fifth_step: int) -> str:
+    def get_spc_from_fifths(k: str | Key, fifth_step: int) -> str:
         """
         This function takes the fifth step of a pitch in key k and returns the spelled pitch class.
         Building <fifth_steps> of 5th from the tonic of the key k.
@@ -278,7 +278,13 @@ class Key:
         :param fifth_step: int
         :return:
         """
-        tonic = Key.from_string(s=k).tonic
+        if isinstance(k, str):
+            tonic = Key.from_string(s=k).tonic
+        elif isinstance(k, Key):
+            tonic = k.tonic
+        else:
+            raise TypeError
+
         if fifth_step == 0:
             ic = SpelledIntervalClass("P1")
         else:
@@ -528,7 +534,6 @@ class SimpleNumeral:
 
     def parse_in_chord_tones(self) -> List[SpelledPitchClass]:
         raise NotImplementedError
-
 
 
 @dataclass

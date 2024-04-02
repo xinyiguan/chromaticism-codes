@@ -151,41 +151,6 @@ def setup_logger(name, log_file, level=logging.WARNING):
     return logger
 
 
-def get_spc_from_fifths(k: str, fifth_step: int) -> str:
-    """
-    This function takes the fifth step of a pitch in key k and returns the spelled pitch class.
-    Building <fifth_steps> of 5th from the tonic of the key k.
-    For instance, get_spc_from_fifths(fifth_step=-1 , k="a")=D
-    :param k:
-    :param fifth_step: int
-    :return:
-    """
-    tonic = Key.from_string(s=k).tonic
-    if fifth_step == 0:
-        ic = SpelledIntervalClass("P1")
-    else:
-        ic = SpelledIntervalClass("P5") * fifth_step
-    result = tonic + ic
-    return result
-
-
-def str_to_fifths(str_list: List[str]) -> List[int]:
-    fifths_list = [SpelledPitchClass(x).fifths() for x in str_list]
-    return fifths_list
-
-
-def potential_diatonic_pcs_for_maximally_covered_tones(k: str, S: List) -> List:
-    """
-    :param S: a list of all tones in the chord expressed in the fifth steps referencing the local key
-    :param k: str, key, assume the key is in roman numeral
-    :return: the spelled pitch class (in str) of the list L
-    """
-    # L is a list of integers in fifths steps with reference to the local key.
-    Ls = all_Ls(S=S)
-    result = [[get_spc_from_fifths(k=k, fifth_step=x) for x in L] for L in Ls]
-    return result
-
-
 # GPR plotting related ________________________________________________________________________________________________
 def find_local_extrema(data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     ext_max_indices = argrelextrema(data, np.greater)[0]

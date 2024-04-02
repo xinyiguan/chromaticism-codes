@@ -88,6 +88,9 @@ def process_DLC_data(data_path: str,
         """get the local key tonic (in roman numeral) in spelled pitch class"""
         return Numeral.from_string(s=row["localkey"], k=Key.from_string(s=row["globalkey"])).key_if_tonicized().tonic
 
+    def determine_mode(row):
+        return "minor" if row["localkey"].islower() else "major"
+
     def localkey2C_dist(row):
         """get the fifths distance from the local key tonic to C"""
         return row["localkey_spc"].interval_to(SpelledPitchClass("C")).fifths()
@@ -98,10 +101,16 @@ def process_DLC_data(data_path: str,
     def tones_not_in_label(row):
         return [item for item in row['tones_in_span_in_lk'] if item not in row['within_label']]
 
+    def tpc2spc(row):
+        return [Key.get_spc_from_fifths(k=Key(tonic=row["localkey_spc"], mode=row["localkey_mode"]),
+                                        fifth_step=t) for t in row["chord_tones"]]
+
     file_type = data_path.split(".")[-1]
 
     df["localkey_spc"] = df.apply(find_localkey_spc, axis=1)
+    df["localkey_mode"] = df.apply(determine_mode, axis=1)
     df["localkey2C"] = df.apply(localkey2C_dist, axis=1)
+    df["chord_tones_spc"] = df.apply(tpc2spc, axis=1)
 
     if file_type == "tsv":
         df["tones_in_span_in_C"] = df["all_tones_tpc_in_C"].apply(lambda s: list(ast.literal_eval(s))).apply(
@@ -252,11 +261,6 @@ def compute_chord_chromaticity(df: pd.DataFrame, save: bool = True) -> pd.DataFr
     the input df should be the processed df with the load_dcml_harmonies_tsv()
     """
 
-    def determine_mode(row):
-        return "minor" if row["localkey"].islower() else "major"
-
-    df["localkey_mode"] = df.apply(determine_mode, axis=1)
-
     # within-label chromaticity
     df["WLC"] = df.apply(
         lambda row: cumulative_distance_to_diatonic_set(tonic=None, ts=row["within_label"],
@@ -268,7 +272,7 @@ def compute_chord_chromaticity(df: pd.DataFrame, save: bool = True) -> pd.DataFr
 
     result = df[
         ["corpus", "piece", "corpus_year", "piece_year", "globalkey", "localkey", "localkey_spc", "localkey_mode",
-         "quarterbeats",
+         "quarterbeats", "chord",
          "tones_in_span_in_C", "tones_in_span_in_lk", "chord", "within_label", "WLC", "out_of_label", "OLC"]]
     if save:
         dir = "../Data/prep_data/for_analysis/"
@@ -394,33 +398,96 @@ def compute_chord_dissonance(df: pd.DataFrame,
 
 def compute_piece_dissonance(df: pd.DataFrame, weighted: bool, save: bool = True) -> pd.DataFrame:
     if weighted:
-        # Define a lambda function to compute the dissonance weighted by chord duration:
-        wd = lambda x: np.average(x, weights=df.loc[x.index, "duration_qb_frac"])
-        print(df.loc[df.index, "duration_qb_frac"])
 
-        result_df_gb = df.groupby(['corpus', 'piece'])
-        print(dict(list(result_df_gb)))
+        # get the duration of the all chords in a piece
+        piece_dur_sum_df = df.groupby(['corpus', 'piece'])["duration_qb_frac"].sum().to_frame()
+
+        # merge the two dataframes on 'corpus' and 'piece'
+        merged_df = pd.merge(df, piece_dur_sum_df, on=['corpus', 'piece'], how='left')
+        # rename
+        merged_df.rename(columns={'duration_qb_frac_y': 'piece_dur'}, inplace=True)
+        # Define a lambda function to compute the dissonance weighted by chord duration:
+        merged_df["weighted_WLD"] = merged_df.WLD * (merged_df.duration_qb_frac_x / merged_df.piece_dur)
+        result_df = merged_df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
+
+            corpus_year=("corpus_year", "first"),
+            piece_year=("piece_year", "first"),
+            globalkey=("globalkey", "first"),
+            localkey=("localkey", "first"),
+
+            piece_weighted_WLD=("weighted_WLD", "sum")
+        )
 
     else:
-        chord_num = len(df.index)
+        piece_chord_num_df = df.groupby(['corpus', 'piece']).size().rename("chord_num").to_frame()
+        # merge the two dataframes on 'corpus' and 'piece'
+        merged_df = pd.merge(df, piece_chord_num_df, on=['corpus', 'piece'], how='left')
+
+        result_df = merged_df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
+
+            corpus_year=("corpus_year", "first"),
+            piece_year=("piece_year", "first"),
+            globalkey=("globalkey", "first"),
+            localkey=("localkey", "first"),
+
+            chord_num=("chord_num", "first"),
+            total_WLD=("WLD", "sum"),
+        )
+        result_df["piece_avg_WLD"] = result_df.total_WLD / result_df.chord_num
+
+    if save:
+        dir = "../Data/prep_data/for_analysis/"
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+        if weighted:
+            fname = f"dissonance_piece_weighted_by_duration"
+        else:
+            fname = f"dissonance_piece_average"
+        save_df(df=result_df, file_type="both", directory=dir, fname=fname)
+    return result_df
+
+
+def chord_level_indices(chromaticity: pd.DataFrame, dissonance: pd.DataFrame) -> pd.DataFrame:
+    print("select cols")
+    chromaticity = chromaticity[['corpus', 'piece', "corpus_year", "piece_year", "globalkey", "localkey",
+                                 "within_label", "out_of_label", "WLC", "OLC"]]
+
+    print("begin merge")
+    result_df = chromaticity.merge(dissonance,
+                                   # on=["corpus", "piece"],
+                                   on=['corpus', 'piece', "corpus_year", "piece_year", "globalkey", "localkey", "within_label"],
+                                   how="outer")
+    print(result_df)
+    result_df = result_df[['corpus', 'piece', "corpus_year", "piece_year", "globalkey", "localkey",
+                           "within_label", "out_of_label", "ICs", "WLC", "OLC", "WLD"
+                           ]]
+
+    print(f'{result_df}')
 
 
 if __name__ == "__main__":
     # data = process_DLC_data(data_path="../Data/prep_data/DLC_data.pickle", save=True)
 
     # prep_DLC_data = load_file_as_df(path="../Data/prep_data/processed_DLC_data.pickle")
-
-    # print(f'Computing chord chromaticity indices ...')
-    # chord_chromaticity = compute_chord_chromaticity(df=prep_DLC_data)
     #
-    # print(f'Computing piece-level chromaticity ...')
-    # piece_chromaticity_by_key = compute_piece_chromaticity_by_key_segment(df=chord_chromaticity)
-    # piece_chromaticity_by_mode = compute_piece_chromaticity_by_mode(df=chord_chromaticity)
-
+    # # print(f'Computing chord chromaticity indices ...')
+    # # chord_chromaticity = compute_chord_chromaticity(df=prep_DLC_data)
+    # #
+    # # print(f'Computing piece-level chromaticity ...')
+    # # piece_chromaticity_by_key = compute_piece_chromaticity_by_key_segment(df=chord_chromaticity)
+    # # piece_chromaticity_by_mode = compute_piece_chromaticity_by_mode(df=chord_chromaticity)
+    #
     # print(f'Computing chord dissonance indices ...')
     # chord_dissonance = compute_chord_dissonance(df=prep_DLC_data)
-    pd.set_option('display.max_columns', None)
 
-    chord_dis = load_file_as_df(path="../Data/prep_data/for_analysis/dissonance_chord.pickle")
-    print(f'Computing piece dissonance indices ...')
-    compute_piece_dissonance(df=chord_dis, weighted=True, save=True)
+    pd.set_option('display.max_columns', None)
+    #
+    # chord_dis = load_file_as_df(path="../Data/prep_data/for_analysis/dissonance_chord.pickle")
+    # print(f'Computing piece dissonance indices ...')
+    # compute_piece_dissonance(df=chord_dis, weighted=True, save=True)
+
+    #
+    chrom = load_file_as_df(path="../Data/prep_data/for_analysis/chromaticity_chord.pickle")
+    diss = load_file_as_df(path="../Data/prep_data/for_analysis/dissonance_chord.pickle")
+    # diss_weighted = load_file_as_df(path="../Data/prep_data/for_analysis/dissonance_piece_weighted_by_duration.pickle")
+    chord_level_indices(chromaticity=chrom, dissonance=diss)
