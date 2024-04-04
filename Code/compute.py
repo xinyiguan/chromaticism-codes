@@ -5,6 +5,8 @@ from typing import Literal
 import numpy as np
 import pandas as pd
 
+from Code.utils.auxiliary import determine_period_Johannes, determine_period
+
 pd.options.mode.chained_assignment = None  # default='warn'
 
 from pitchtypes import SpelledPitchClass
@@ -48,36 +50,6 @@ def process_DLC_data(data_path: str,
     def tpc2spc(row):
         return [Key.get_spc_from_fifths(k=Key(tonic=row["localkey_spc"], mode=row["localkey_mode"]),
                                         fifth_step=t) for t in row["chord_tones"]]
-
-    def determine_period_Johannes(row):
-        y = row["piece_year"]
-        if y < 1650:
-            p = "pre_Baroque"
-        elif 1650 <= y < 1750:
-            p = "Baroque"
-        elif 1750 <= y < 1800:
-            p = "Classical"
-        elif y >= 1800:
-            p = "extended_tonality"
-        else:
-            raise ValueError
-        return p
-
-    def determine_period(row):
-        y = row["piece_year"]
-        if y < 1662:
-            p = "renaissance"
-        elif 1662 <= y < 1763:
-            p = "baroque"
-        elif 1763 <= y < 1821:
-            p = "classical"
-        elif 1821 <= y < 1869:
-            p = "early_romantic"
-        elif y >= 1869:
-            p = "late_romantic"
-        else:
-            raise ValueError
-        return p
 
     file_type = data_path.split(".")[-1]
 
@@ -140,7 +112,7 @@ def compute_chord_chromaticity(df: pd.DataFrame, save: bool = True) -> pd.DataFr
 
     result = df[
         ["corpus", "piece", "corpus_year", "piece_year", "period_Johannes", "period", "globalkey", "localkey", "localkey_spc", "localkey_mode",
-         "quarterbeats", "chord", "tones_in_span_in_C", "tones_in_span_in_lk", "chord", "within_label", "WLC", "out_of_label", "OLC"]]
+         "quarterbeats", "chord", "tones_in_span_in_C", "tones_in_span_in_lk", "within_label", "WLC", "out_of_label", "OLC"]]
     if save:
         dir = f"../Data/prep_data/for_analysis/"
         if not os.path.exists(dir):
@@ -305,10 +277,10 @@ def compute_piece_dissonance(df: pd.DataFrame, weighted: bool, save: bool = True
 
 
 # Combine metric dataframes
-def chord_level_indices(chord_chromaticity: pd.DataFrame, chord_dissonance: pd.DataFrame,
+def combine_chord_level_indices(chord_chromaticity: pd.DataFrame, chord_dissonance: pd.DataFrame,
                         save: bool = True) -> pd.DataFrame:
-    common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "globalkey", "localkey",
-                   "within_label"]
+    common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "period_Johannes", "period", "globalkey", "localkey",
+                   "chord", "within_label"]
 
     chromaticity = chord_chromaticity[common_cols + ["out_of_label", "WLC", "OLC"]]
     dissonance = chord_dissonance[common_cols + ["ICs", "WLD"]]
@@ -366,6 +338,6 @@ if __name__ == "__main__":
     chord_diss = load_file_as_df(path=f"../Data/prep_data/for_analysis/dissonance_chord.pickle")
 
     print(f'Combing dfs for chromaticity and dissonance metrics ...')
-    chord_level_indices(chord_chromaticity=chord_chrom, chord_dissonance=chord_diss)
+    combine_chord_level_indices(chord_chromaticity=chord_chrom, chord_dissonance=chord_diss)
 
     print(f'Fini!')
