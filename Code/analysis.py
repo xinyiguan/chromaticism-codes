@@ -1,6 +1,7 @@
 import os
-from typing import Literal
+from typing import Literal, Optional, Tuple, List
 
+import matplotlib
 import pandas as pd
 
 from Code.utils.util import load_file_as_df
@@ -16,7 +17,7 @@ from matplotlib import pyplot as plt
 
 from Code.utils.util import load_file_as_df, corpus_composer_dict, corpus_collection_dict
 from Code.utils.auxiliary import create_results_folder, determine_period_Johannes, determine_period, \
-    determine_period_id, get_period_df_Johannes, get_period_df
+    determine_period_id, get_period_df_Johannes, get_period_df, Johannes_periods, Fabian_periods
 
 
 # %% Analysis: Piece distributions fig and table
@@ -250,17 +251,28 @@ def corr_chord_level_WLC_WLD(df: pd.DataFrame,
 
 # %% Analysis: Chromaticity-correlation between WLC and OLC
 
-def piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["Johannes", "old"]):
+
+def _piece_chromaticity_df_by_mode(df: pd.DataFrame, mode: Literal["major", "minor"]) -> pd.DataFrame:
+    if mode == "major":
+        result_df = df[df['localkey_mode'].isin(['major'])]
+    else:
+        result_df = df[df['localkey_mode'].isin(['minor'])]
+
+    return result_df
+
+
+def perform_two_sample_ttest_for_mode_segment(df: pd.DataFrame) -> pd.DataFrame:
     """
+    perform a two-sample t-test for major/minor mode segments
+
     df: take chromaticity_piece_by_mode df
     """
+
     # save the results to this folder:
     result_dir = create_results_folder(analysis_name="piece_chromatcities_corr", repo_dir=repo_dir)
 
-    # stats: two-sample t-test for major/minor mode segments
-
-    major_df = df[df['localkey_mode'].isin(['major'])]
-    minor_df = df[df['localkey_mode'].isin(['minor'])]
+    major_df = _piece_chromaticity_df_by_mode(df=df, mode="major")
+    minor_df = _piece_chromaticity_df_by_mode(df=df, mode="minor")
 
     WLC_major = major_df.loc[:, "WLC"]
     WLC_minor = minor_df.loc[:, "WLC"]
@@ -273,153 +285,184 @@ def piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["Johann
 
     ttest_result = pd.concat([WLC_ttest_result, OLC_ttest_result])
     ttest_result.to_latex(f'{result_dir}mode_ttest_result.txt')
+    return ttest_result
 
-    # WLC and OLC values across time
-    pd.DataFrame.from_dict(data={
-        'WLC(major)': WLC_major.mean(),
-        'WLC(minor)': WLC_minor.mean(),
-        'OLC(major)': OLC_major.mean(),
-        'OLC(minor)': OLC_minor.mean()},
-        orient='index'
-    ).reset_index().rename(columns={"index": "CI Type", 0: "Value"}).to_latex(f'{result_dir}agg_CI_vals_by_mode.txt',
-                                                                              index=False)
 
-    # plot by mode segment and by period.
+def _WLC_OLC_correlation_stats(df: pd.DataFrame) -> Tuple[float, float]:
+    r = pg.corr(df["WLC"], df["OLC"], method="pearson").round(3)["r"].values[0]
+    p_val = pg.corr(df["WLC"], df["OLC"], method="pearson").round(3)["p-val"].values[0]
+    return r, p_val
+
+
+def _piece_chrom_corr_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFrame,
+                              out_type: Literal["df", "tuple"] = "df") -> pd.DataFrame | Tuple:
+    major_r, major_p = _WLC_OLC_correlation_stats(df=major_df)
+    minor_r, minor_p = _WLC_OLC_correlation_stats(df=minor_df)
+
+    if out_type == "df":
+        stats = pd.DataFrame(data=[[major_r, major_p, minor_r, minor_p]], columns=["r (major segment)",
+                                                                                   "p (major segment)",
+                                                                                   "r (minor segment)",
+                                                                                   "p (minor segment)"])
+    elif out_type == "tuple":
+        stats = (major_r, major_p, minor_r, minor_p)
+    else:
+        raise NotImplementedError
+    return stats
+
+
+def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
+                                          period_by: Optional[Literal["Johannes", "old"]]
+                                          ) -> pd.DataFrame:
+    # save the results to this folder:
+    result_dir = create_results_folder(analysis_name="piece_chromatcities_corr", repo_dir=repo_dir)
+
+    _major_df = _piece_chromaticity_df_by_mode(df=df, mode="major")
+    _minor_df = _piece_chromaticity_df_by_mode(df=df, mode="minor")
 
     if period_by == "Johannes":
-        ## static fig:
-        fig, axs = plt.subplots(2, 4, layout="constrained", figsize=(18, 8))
-        colors = ["#580F41", "#173573", "#c4840c", "#176373"]
-        J_periods = ["pre-Baroque", "Baroque", "Classical", "Extended tonality"]
-        J_years = [f"<1650", f"1650-1750", f"1750-1800", f">1800"]
+        result_dfs = []
+        for p in Johannes_periods:
+            major_df = get_period_df_Johannes(_major_df, p)
+            minor_df = get_period_df_Johannes(_minor_df, p)
 
-        for i, period in enumerate(J_periods):
-            major_period_df = get_period_df_Johannes(major_df, period)
-            minor_period_df = get_period_df_Johannes(minor_df, period)
+            stats = _piece_chrom_corr_by_mode(major_df=major_df, minor_df=minor_df)
+            stats["period"] = p
+            result_dfs.append(stats)
+        result_df = pd.concat(result_dfs)
+        result_df.to_latex(buf=f'{result_dir}piece_chromaticity_corr_by_JPeriod.txt')
 
-            # Set column subtitle
-            axs[0, i].set_title(J_years[i], fontweight="bold", fontsize=18, family="sans-serif")
-            ma = sns.regplot(ax=axs[0, i], data=major_period_df, x="WLC", y="OLC", color=colors[i])
-            mi = sns.regplot(ax=axs[1, i], data=minor_period_df, x="WLC", y="OLC", color=colors[i])
+    elif period_by == "Fabian":
+        result_dfs = []
+        for p in Fabian_periods:
+            major_df = get_period_df(_major_df, p)
+            minor_df = get_period_df(_minor_df, p)
 
-            plt.xlabel(f"WLC", fontsize=15)
-            plt.ylabel(f"OLC", fontsize=15)
-
-            plt.xticks(fontsize=11)
-            plt.yticks(fontsize=11)
-
-            major_r = pg.corr(major_period_df["WLC"], major_period_df["OLC"], method="pearson").round(3)["r"].values[0]
-            major_p = pg.corr(major_period_df["WLC"], major_period_df["OLC"], method="pearson").round(3)["p-val"].values[0]
-            if major_p < 0.001:
-                major_p_txt = 'p < .001'
-            elif 0.001 < major_p < 0.05:
-                major_p_txt = 'p < .05'
-            else:
-                major_p_txt = f'p = {major_p:.2f}'
-
-            minor_r = pg.corr(minor_period_df["WLC"], minor_period_df["OLC"], method="pearson").round(3)["r"].values[0]
-            minor_p = pg.corr(minor_period_df["WLC"], minor_period_df["OLC"], method="pearson").round(3)["p-val"].values[0]
-            if minor_p < 0.001:
-                minor_p_txt = 'p < .001'
-            elif 0.001 < minor_p < 0.05:
-                minor_p_txt = 'p < .05'
-            else:
-                minor_p_txt = f'p = {minor_p:.2f}'
-
-
-            # adding the text
-            ma_x_limit = axs[0, i].get_xlim()
-            mi_x_limit = axs[1, i].get_xlim()
-
-            ma_y_limit = axs[0, i].get_ylim()
-            mi_y_limit = axs[1, i].get_ylim()
-
-            ma_x_pos = ma_x_limit[1] - 0.03 * (ma_x_limit[1] - ma_x_limit[0])
-            mi_x_pos = mi_x_limit[1] - 0.03 * (mi_x_limit[1] - mi_x_limit[0])
-
-            ma_y_pos = ma_y_limit[1] - 0.03 * (ma_y_limit[1] - ma_y_limit[0])
-            mi_y_pos = mi_y_limit[1] - 0.03 * (mi_y_limit[1] - mi_y_limit[0])
-
-
-            ma.text(ma_x_pos, ma_y_pos, f'r = {major_r}, {major_p_txt}', fontsize=13, fontstyle='italic', ha='right',
-                   va='top')
-            mi.text(mi_x_pos, mi_y_pos, f'r = {minor_r}, {minor_p_txt}', fontsize=13, fontstyle='italic', ha='right',
-                   va='top')
-
-        axs[0, 0].set_ylabel(f"Major Mode", fontsize=15)
-        axs[1, 0].set_ylabel(f"Minor Mode", fontsize=15)
-        fig.supxlabel("WLC")
-        fig.supylabel("OLC")
-        fig.savefig(f"{result_dir}fig_WLC_OLC_corr_by_JPeriod.pdf", dpi=200)
-
+            stats = _piece_chrom_corr_by_mode(major_df=major_df, minor_df=minor_df)
+            stats["period"] = p
+            result_dfs.append(stats)
+        result_df = pd.concat(result_dfs)
+        result_df.to_latex(buf=f'{result_dir}piece_chromaticity_corr_by_period.txt')
 
     else:
-        fig, axs = plt.subplots(2, 5, layout="constrained", figsize=(22, 8))
+        result_df = _piece_chrom_corr_by_mode(major_df=_major_df, minor_df=_minor_df).to_frame()
+        result_df.to_latex(buf=f'{result_dir}piece_chromaticity_corr.txt')
+
+    return result_df
+
+
+def _pprint_p_text(p_val: float):
+    if p_val < 0.001:
+        p_val_txt = 'p < .001'
+    elif 0.001 < p_val < 0.05:
+        p_val_txt = 'p < .05'
+    else:
+        p_val_txt = f'p = {p_val:.2f}'
+    return p_val_txt
+
+
+def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"]):
+    # save the results to this folder:
+    result_dir = create_results_folder(analysis_name="piece_chromatcities_corr", repo_dir=repo_dir)
+
+    major_df = _piece_chromaticity_df_by_mode(df=df, mode="major")
+    minor_df = _piece_chromaticity_df_by_mode(df=df, mode="minor")
+
+    if period_by == "Johannes":
+        periods = Johannes_periods
+        colors = ["#580F41", "#173573", "#c4840c", "#176373"]
+        year_div = [f"<1650", f"1650-1750", f"1750-1800", f">1800"]
+    else:
+        periods = Fabian_periods
         colors = ["#6e243b", "#173573", "#c4840c", "#176373", "#816683"]
-        periods = ["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic"]
-        years = [f"<1662", f"1662-1763", f"1763-1821", f"1821-1869", f">1869"]
+        year_div = [f"<1662", f"1662-1763", f"1763-1821", f"1821-1869", f">1869"]
 
-        for i, period in enumerate(periods):
-            major_period_df = get_period_df(major_df, period)
-            minor_period_df = get_period_df(minor_df, period)
+    # fig params:
+    num_periods = len(periods)
+    num_rows = 2
+    num_cols = 4 if period_by == "Johannes" else 5
+    fig, axs = plt.subplots(num_rows, num_cols,
+                            layout="constrained",
+                            figsize=(4 * num_periods + 2, 8))
 
-            # Set column subtitle
-            axs[0, i].set_title(years[i], fontweight="bold", fontsize=18, family="sans-serif")
-            ma = sns.regplot(ax=axs[0, i], data=major_period_df, x="WLC", y="OLC", color=colors[i])
-            mi = sns.regplot(ax=axs[1, i], data=minor_period_df, x="WLC", y="OLC", color=colors[i])
+    # period axes:
+    for i, period in enumerate(periods):
+        major_period_df = get_period_df(df=major_df, period=period, method=period_by)
+        minor_period_df = get_period_df(df=minor_df, period=period, method=period_by)
 
-            plt.xticks(fontsize=11)
-            plt.yticks(fontsize=11)
+        major_r, major_p, minor_r, minor_p = _piece_chrom_corr_by_mode(major_df=major_period_df,
+                                                                       minor_df=minor_period_df,
+                                                                       out_type="tuple")
+        major_p_txt = _pprint_p_text(major_p)
+        minor_p_txt = _pprint_p_text(minor_p)
 
-            major_r = pg.corr(major_period_df["WLC"], major_period_df["OLC"], method="pearson").round(3)["r"].values[0]
-            major_p = \
-            pg.corr(major_period_df["WLC"], major_period_df["OLC"], method="pearson").round(3)["p-val"].values[0]
-            if major_p < 0.001:
-                major_p_txt = 'p < .001'
-            elif 0.001 < major_p < 0.05:
-                major_p_txt = 'p < .05'
-            else:
-                major_p_txt = f'p = {major_p:.2f}'
+        # plotting
+        row_index = i // num_cols
+        col_index = i % num_cols
+        axs[row_index, col_index].set_title(year_div[i], fontweight="bold", fontsize=18, family="sans-serif")
+        ma = sns.regplot(ax=axs[row_index, col_index], data=major_period_df, x="WLC", y="OLC",
+                         color=colors[i], marker='o', scatter_kws={'s': 10})
+        mi = sns.regplot(ax=axs[row_index + 1, col_index], data=minor_period_df, x="WLC", y="OLC",
+                         color=colors[i], marker='o', scatter_kws={'s': 10})
 
-            minor_r = pg.corr(minor_period_df["WLC"], minor_period_df["OLC"], method="pearson").round(3)["r"].values[0]
-            minor_p = \
-            pg.corr(minor_period_df["WLC"], minor_period_df["OLC"], method="pearson").round(3)["p-val"].values[0]
-            if minor_p < 0.001:
-                minor_p_txt = 'p < .001'
-            elif 0.001 < minor_p < 0.05:
-                minor_p_txt = 'p < .05'
-            else:
-                minor_p_txt = f'p = {minor_p:.2f}'
+        plt.sca(axs[row_index, col_index])
+        plt.xticks(fontsize=11)
+        plt.yticks(fontsize=11)
 
-            # adding the text
-            ma_x_limit = axs[0, i].get_xlim()
-            mi_x_limit = axs[1, i].get_xlim()
+        # add stats vals in plot
+        ma_x_limit = axs[row_index, col_index].get_xlim()
+        mi_x_limit = axs[row_index + 1, col_index].get_xlim()
 
-            ma_y_limit = axs[0, i].get_ylim()
-            mi_y_limit = axs[1, i].get_ylim()
+        ma_y_limit = axs[row_index, col_index].get_ylim()
+        mi_y_limit = axs[row_index + 1, col_index].get_ylim()
 
-            ma_x_pos = ma_x_limit[1] - 0.03 * (ma_x_limit[1] - ma_x_limit[0])
-            mi_x_pos = mi_x_limit[1] - 0.03 * (mi_x_limit[1] - mi_x_limit[0])
+        ma_x_pos = ma_x_limit[1] - 0.03 * (ma_x_limit[1] - ma_x_limit[0])
+        mi_x_pos = mi_x_limit[1] - 0.03 * (mi_x_limit[1] - mi_x_limit[0])
 
-            ma_y_pos = ma_y_limit[1] - 0.03 * (ma_y_limit[1] - ma_y_limit[0])
-            mi_y_pos = mi_y_limit[1] - 0.03 * (mi_y_limit[1] - mi_y_limit[0])
+        ma_y_pos = ma_y_limit[1] - 0.03 * (ma_y_limit[1] - ma_y_limit[0])
+        mi_y_pos = mi_y_limit[1] - 0.03 * (mi_y_limit[1] - mi_y_limit[0])
 
-            ma.text(ma_x_pos, ma_y_pos, f'r = {major_r}, {major_p_txt}', fontsize=13, fontstyle='italic', ha='right',
-                    va='top')
-            mi.text(mi_x_pos, mi_y_pos, f'r = {minor_r}, {minor_p_txt}', fontsize=13, fontstyle='italic', ha='right',
-                    va='top')
+        ma.text(ma_x_pos, ma_y_pos, f'r = {major_r}, {major_p_txt}', fontsize=13, fontstyle='italic', ha='right',
+                va='top')
+        mi.text(mi_x_pos, mi_y_pos, f'r = {minor_r}, {minor_p_txt}', fontsize=13, fontstyle='italic', ha='right',
+                va='top')
 
-        axs[0, 0].set_ylabel(f"Major Mode", fontsize=15)
-        axs[1, 0].set_ylabel(f"Minor Mode", fontsize=15)
-        fig.supxlabel("WLC")
-        fig.supylabel("OLC")
+        if i == 0:
+            ma.set_ylabel("Major",  fontsize=15)
+            mi.set_ylabel("Minor",  fontsize=15)
+            ma.set_xlabel("")
 
-        fig.savefig(f"{result_dir}fig_WLC_OLC_corr_by_period.pdf", dpi=200)
+        else:
+            ma.set_xlabel("")
+            mi.set_ylabel("")
+
+    fig.supxlabel("Within-Label Chromaticity (WLC)", fontsize=15, fontdict=dict(weight='bold'))
+    fig.supylabel("Out-of-Label Chromaticity (OLC)", fontsize=15, fontdict=dict(weight='bold'))
+    # save plot
+    plt.savefig(f'{result_dir}fig_chromaticity_corr_period{period_by}.pdf', dpi=200)
+    plt.show()
 
 
 
+
+#
+# # main _______________________
+# repo_dir = '/Users/xguan/Codes/chromaticism-codes/'
+# df = load_file_as_df(path=f"{repo_dir}/Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
+# ttest_for_mode_separation = perform_two_sample_ttest_for_mode_segment(df=df)
+# chrom_corr_by_JPeriod = compute_piece_chromaticity_corr_stats(df=df, period_by="Johannes")
+# chrom_corr_by_period = compute_piece_chromaticity_corr_stats(df=df, period_by="old")
+# chrom_corr = compute_piece_chromaticity_corr_stats(df=df, period_by=None)
 
 if __name__ == "__main__":
     repo_dir = '/Users/xguan/Codes/chromaticism-codes/'
     df = load_file_as_df(path=f"{repo_dir}/Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
-    piece_chromaticity_WLC_OLC_corr(df=df, period_by="Johannes")
+    # ttest_for_mode_separation = perform_two_sample_ttest_for_mode_segment(df=df)
+    #
+    # chrom_corr_by_JPeriod = compute_piece_chromaticity_corr_stats(df=df, period_by="Johannes")
+    # chrom_corr_by_period = compute_piece_chromaticity_corr_stats(df=df, period_by="old")
+    # chrom_corr = compute_piece_chromaticity_corr_stats(df=df, period_by=None)
+    #
+    plot_piece_chromaticity_WLC_OLC_corr(df=df, period_by="Johannes")
+    plot_piece_chromaticity_WLC_OLC_corr(df=df, period_by="Fabian")
+

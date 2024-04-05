@@ -72,6 +72,9 @@ def determine_period_id(row):
 
 
 # ___________
+Johannes_periods = ["pre-Baroque", "Baroque", "Classical", "Extended tonality"]
+Fabian_periods = ["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic"]
+
 def get_period_df_Johannes(df: pd.DataFrame, period: Literal[
     "pre-Baroque", "Baroque", "Classical", "Extended tonality"]) -> pd.DataFrame:
     t1, t2, t3 = (1650, 1750, 1800)
@@ -93,7 +96,7 @@ def get_period_df_Johannes(df: pd.DataFrame, period: Literal[
         raise ValueError
 
 
-def get_period_df(df: pd.DataFrame, period: Literal[
+def get_old_period_df(df: pd.DataFrame, period: Literal[
     "Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic"]) -> pd.DataFrame:
     t1, t2, t3, t4 = (1662, 1763, 1821, 1869)
 
@@ -116,6 +119,55 @@ def get_period_df(df: pd.DataFrame, period: Literal[
     else:
         raise ValueError
 
+
+def get_period_df(df: pd.DataFrame, method: Literal["Johannes", "Fabian"],
+                  period: Literal["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic",
+                  "pre-Baroque", "Extended tonality"]):
+
+    if method == "Johannes":
+        assert period in Johannes_periods
+        t1, t2, t3 = (1650, 1750, 1800)
+        pre_Baroque = df[df["piece_year"] < t1]
+        Baroque = df[(t1 <= df["piece_year"]) & (df["piece_year"] < t2)]
+        Classical = df[(t2 <= df["piece_year"]) & (df["piece_year"] < t3)]
+        extended_tonality = df[df["piece_year"] >= t3]
+
+        if period == "pre-Baroque":
+            return pre_Baroque
+        elif period == "Baroque":
+            return Baroque
+        elif period == "Classical":
+            return Classical
+        elif period == "Extended tonality":
+            return extended_tonality
+        else:
+            raise ValueError
+
+
+    elif method == "Fabian":
+        assert period in Fabian_periods
+        t1, t2, t3, t4 = (1662, 1763, 1821, 1869)
+
+        late_renaissance = df[df["piece_year"] < t1]
+        baroque = df[(t1 <= df["piece_year"]) & (df["piece_year"] < t2)]
+        classical = df[(t2 <= df["piece_year"]) & (df["piece_year"] < t3)]
+        early_romantic = df[(t3 <= df["piece_year"]) & (df["piece_year"] < t4)]
+        late_romantic = df[df["piece_year"] >= t4]
+
+        if period == "Renaissance":
+            return late_renaissance
+        elif period == "Baroque":
+            return baroque
+        elif period == "Classical":
+            return classical
+        elif period == "Early Romantic":
+            return early_romantic
+        elif period == "Late Romantic":
+            return late_romantic
+        else:
+            raise ValueError
+    else:
+        raise ValueError
 
 def corpora_in_periods_dfs(df: pd.DataFrame) -> Tuple[
     pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
