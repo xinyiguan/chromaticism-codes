@@ -1,11 +1,9 @@
 import ast
-import os
 from typing import Literal
 
-import numpy as np
 import pandas as pd
 
-from Code.utils.auxiliary import determine_period_Johannes, determine_period
+from Code.utils.auxiliary import determine_period_Johannes, determine_period, create_results_folder
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
@@ -20,11 +18,10 @@ from Code.utils.util import flatten, flatten_to_list, safe_literal_eval, save_df
 # Define function: Loading with additional preprocessing steps and saving
 
 def process_DLC_data(data_path: str,
+                     repo_dir: str,
                      save: bool = True) -> pd.DataFrame:
     """
     An intermediate step for loading and process the filtered dcml harmonies tsv before computing chromaticity
-    :param preprocessed_tsv:
-    :param meatadata_tsv:
     :param save: whether to save the df for checking
     :return:
     """
@@ -89,14 +86,17 @@ def process_DLC_data(data_path: str,
         pass
 
     if save:
-        save_df(df=df, file_type="both", fname="processed_DLC_data", directory="../Data/prep_data/")
+        print(f'Saving the processed DLC data ...')
+        save_df(df=df, file_type="both", fname="processed_DLC_data", directory=f"{repo_dir}Data/prep_data/")
 
     return df
 
 
 # Compute metrics : Chromaticity
 
-def compute_chord_chromaticity(df: pd.DataFrame, save: bool = True) -> pd.DataFrame:
+def compute_chord_chromaticity(df: pd.DataFrame,
+                               repo_dir: str,
+                               save: bool = True) -> pd.DataFrame:
     """
     the input df should be the processed df with the load_dcml_harmonies_tsv()
     """
@@ -111,18 +111,20 @@ def compute_chord_chromaticity(df: pd.DataFrame, save: bool = True) -> pd.DataFr
                                                         diatonic_mode=row["localkey_mode"]), axis=1)
 
     result = df[
-        ["corpus", "piece", "corpus_year", "piece_year", "period_Johannes", "period", "globalkey", "localkey", "localkey_spc", "localkey_mode",
-         "quarterbeats", "chord", "tones_in_span_in_C", "tones_in_span_in_lk", "within_label", "WLC", "out_of_label", "OLC"]]
+        ["corpus", "piece", "corpus_year", "piece_year", "period_Johannes", "period", "globalkey", "localkey",
+         "localkey_spc", "localkey_mode",
+         "quarterbeats", "chord", "tones_in_span_in_C", "tones_in_span_in_lk", "within_label", "WLC", "out_of_label",
+         "OLC"]]
     if save:
-        dir = f"../Data/prep_data/for_analysis/"
-        if not os.path.exists(dir):
-            os.makedirs(dir)
-        save_df(df=result, file_type="both", directory=dir, fname="chromaticity_chord")
+        folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+        save_df(df=result, file_type="both", directory=folder_path, fname="chromaticity_chord")
 
     return result
 
 
-def compute_piece_chromaticity(df: pd.DataFrame, by: Literal["key_segment", "mode"],
+def compute_piece_chromaticity(df: pd.DataFrame,
+                               by: Literal["key_segment", "mode"],
+                               repo_dir: str,
                                save: bool = True) -> pd.DataFrame:
     def calculate_max_min_pc(x):
         if len(x) > 0:
@@ -155,7 +157,7 @@ def compute_piece_chromaticity(df: pd.DataFrame, by: Literal["key_segment", "mod
         )
 
     elif by == "mode":
-        fname=f'chromaticity_piece_by_mode'
+        fname = f'chromaticity_piece_by_mode'
 
         result_df = df.groupby(['corpus', 'piece', 'localkey_mode'], as_index=False, sort=False).agg(
             corpus_year=("corpus_year", "first"),
@@ -184,17 +186,30 @@ def compute_piece_chromaticity(df: pd.DataFrame, by: Literal["key_segment", "mod
     result_df["piece_id"] = pd.factorize(result_df["piece"])[0] + 1
 
     if save:
-        dir = "../Data/prep_data/for_analysis/"
-        if not os.path.exists(dir):
-            os.makedirs(dir)
+        folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+        save_df(df=result_df, file_type="both", directory=folder_path, fname=fname)
 
-        save_df(df=result_df, file_type="both", directory=dir, fname=fname)
+    return result_df
 
+
+def get_piece_chromaticity_by_mode_seg(df: pd.DataFrame,
+                                       mode: Literal["major", "minor"],
+                                       repo_dir: str,
+                                       save: bool = True) -> pd.DataFrame:
+    """
+    df: the piece_chromaticity df by mode, containing the col named "localkey_mode"
+    """
+    result_df = df.loc[df['localkey_mode'] == mode]
+    if save:
+        folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+        fname = f'chromaticity_piece_{mode}'
+        save_df(df=result_df, file_type="both", directory=folder_path, fname=fname)
     return result_df
 
 
 # Compute metrics : Dissonance
 def compute_chord_dissonance(df: pd.DataFrame,
+                             repo_dir: str,
                              save: bool = True) -> pd.DataFrame:
     """
     Parameters
@@ -213,14 +228,14 @@ def compute_chord_dissonance(df: pd.DataFrame,
          "duration_qb_frac", "chord", "within_label", "ICs", "WLD"]]
 
     if save:
-        dir = "../Data/prep_data/for_analysis/"
-        if not os.path.exists(dir):
-            os.makedirs(dir)
-        save_df(df=result, file_type="both", directory=dir, fname="dissonance_chord")
+        folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+        save_df(df=result, file_type="both", directory=folder_path, fname="dissonance_chord")
     return result
 
 
-def compute_piece_dissonance(df: pd.DataFrame, weighted: bool, save: bool = True) -> pd.DataFrame:
+def compute_piece_dissonance(df: pd.DataFrame, weighted: bool,
+                             repo_dir: str,
+                             save: bool = True) -> pd.DataFrame:
     if weighted:
 
         # get the duration of the all chords in a piece
@@ -265,20 +280,20 @@ def compute_piece_dissonance(df: pd.DataFrame, weighted: bool, save: bool = True
     result_df["piece_id"] = pd.factorize(result_df["piece"])[0] + 1
 
     if save:
-        dir = "../Data/prep_data/for_analysis/"
-        if not os.path.exists(dir):
-            os.makedirs(dir)
+        folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
         if weighted:
             fname = f"dissonance_piece_weighted_by_duration"
         else:
             fname = f"dissonance_piece_average"
-        save_df(df=result_df, file_type="both", directory=dir, fname=fname)
+        save_df(df=result_df, file_type="both", directory=folder_path, fname=fname)
     return result_df
 
 
 # Combine metric dataframes
-def combine_chord_level_indices(chord_chromaticity: pd.DataFrame, chord_dissonance: pd.DataFrame,
-                        save: bool = True) -> pd.DataFrame:
+def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
+                                chord_dissonance: pd.DataFrame,
+                                repo_dir: str,
+                                save: bool = True) -> pd.DataFrame:
     common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "period_Johannes", "period", "globalkey", "localkey",
                    "chord", "within_label"]
 
@@ -295,10 +310,9 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame, chord_dissonan
                                    how="outer")[common_cols + ["out_of_label", "ICs", "WLC", "OLC", "WLD"]]
 
     if save:
-        dir = "../Data/prep_data/for_analysis/"
-        if not os.path.exists(dir):
-            os.makedirs(dir)
-        save_df(df=result_df, file_type="both", directory=dir, fname="chord_level_indices")
+        folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+
+        save_df(df=result_df, file_type="both", directory=folder_path, fname="chord_level_indices")
 
     return result_df
 
@@ -312,25 +326,29 @@ def piece_level_indices(piece_chromaticity: pd.DataFrame, piece_dissonance: pd.D
 
 
 if __name__ == "__main__":
-    # process_DLC_data(data_path=f"../Data/prep_data/DLC_data.pickle", save=True)
+    repo_dir = '/Users/xinyiguan/Codes/chromaticism-codes/'
 
-    prep_DLC_data = load_file_as_df(path=f"../Data/prep_data/processed_DLC_data.pickle")
+    # process_DLC_data(data_path=f"{repo_dir}Data/prep_data/DLC_data.pickle", save=True)
+
+    prep_DLC_data = load_file_as_df(path=f"{repo_dir}Data/prep_data/processed_DLC_data.pickle")
 
     print(f'Computing chord chromaticity indices ...')
-    chord_chrom = compute_chord_chromaticity(df=prep_DLC_data)
+    chord_chrom = compute_chord_chromaticity(df=prep_DLC_data, repo_dir=repo_dir)
 
     print(f'Computing piece-level chromaticity ...')
-    piece_chrom_by_localkey = compute_piece_chromaticity(df=chord_chrom, by="key_segment")
-    piece_chrom_by_mode = compute_piece_chromaticity(df=chord_chrom, by="mode")
+    piece_chrom_by_localkey = compute_piece_chromaticity(df=chord_chrom, by="key_segment", repo_dir=repo_dir)
+    piece_chrom_by_mode = compute_piece_chromaticity(df=chord_chrom, by="mode", repo_dir=repo_dir)
 
     print(f'Finished chromaticity!')
 
     print(f'Computing chord dissonance indices ...')
-    chord_dissonance = compute_chord_dissonance(df=prep_DLC_data)
+    chord_dissonance = compute_chord_dissonance(df=prep_DLC_data, repo_dir=repo_dir)
 
     print(f'Computing piece dissonance indices ...')
-    piece_dissonance_weighted_dur = compute_piece_dissonance(df=chord_dissonance, weighted=True, save=True)
-    piece_dissonance_avg = compute_piece_dissonance(df=chord_dissonance, weighted=False, save=True)
+    piece_dissonance_weighted_dur = compute_piece_dissonance(df=chord_dissonance, weighted=True,
+                                                             save=True, repo_dir=repo_dir)
+    piece_dissonance_avg = compute_piece_dissonance(df=chord_dissonance, weighted=False,
+                                                    save=True, repo_dir=repo_dir)
 
     print(f'Finished dissonance!')
 
@@ -338,6 +356,10 @@ if __name__ == "__main__":
     chord_diss = load_file_as_df(path=f"../Data/prep_data/for_analysis/dissonance_chord.pickle")
 
     print(f'Combing dfs for chromaticity and dissonance metrics ...')
-    combine_chord_level_indices(chord_chromaticity=chord_chrom, chord_dissonance=chord_diss)
+    combine_chord_level_indices(chord_chromaticity=chord_chrom, chord_dissonance=chord_diss, repo_dir=repo_dir)
+
+    print(f'Getting separate piece-level chromaticties for major/minor mode segments...')
+    get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="major", repo_dir=repo_dir)
+    get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="minor", repo_dir=repo_dir)
 
     print(f'Fini!')

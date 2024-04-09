@@ -1,27 +1,18 @@
 import os
 from typing import Literal, Optional, Tuple, List
-
-import matplotlib
-import pandas as pd
-
-from Code.utils.util import load_file_as_df
-
-# %% Analysis: piece distribution in periods
-import os
-from typing import Literal
 import pandas as pd
 import seaborn as sns
 import pingouin as pg
-
+import matplotlib
 from matplotlib import pyplot as plt
 
 from Code.utils.util import load_file_as_df, corpus_composer_dict, corpus_collection_dict
 from Code.utils.auxiliary import create_results_folder, determine_period_Johannes, determine_period, \
-    determine_period_id, get_period_df_Johannes, get_period_df, Johannes_periods, Fabian_periods
+    determine_period_id, get_period_df, Johannes_periods, Fabian_periods, pprint_p_text
 
 
 # %% Analysis: Piece distributions fig and table
-def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "old"], repo_dir: str):
+def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"], repo_dir: str):
     """
     df: dissonance_piece_average (corpus, piece, period, period_Johannes)
     """
@@ -62,7 +53,7 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "old"], 
 
         # save the fig
         p = h.get_figure()
-        p.savefig(f"{result_dir}fig_histogram_Johannes_period.pdf", dpi=300)
+        p.savefig(f"{result_dir}fig_histogram_JP.pdf", dpi=300)
 
         ## stats __________________________
         piece_num = pieces_df.groupby(['corpus', 'period_Johannes']).agg(
@@ -79,7 +70,7 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "old"], 
         stats_df.to_pickle(f'{result_dir}corpus_stats_table_JP.pickle')
         stats_df.to_latex(buf=f'{result_dir}corpus_stats_latex_table_JP')
 
-    elif period_by == "old":
+    elif period_by == "Fabian":
 
         ## plotting ________________________
         h = sns.histplot(pieces_df["piece_year"], kde=True, stat="probability", bins=40,
@@ -111,12 +102,12 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "old"], 
 
         # save time-period division
         period_division_txt = [f't1={round(t1)}', f't2={round(t2)}', f't3={round(t3)}', f't4={round(t4)}']
-        with open(f'{result_dir}old_period_division.txt', 'w') as f:
+        with open(f'{result_dir}FabainPeriod_division.txt', 'w') as f:
             f.write('\n'.join(period_division_txt))
 
         # save the fig
         p = h.get_figure()
-        p.savefig(f"{result_dir}fig_histogram_period.pdf", dpi=300)
+        p.savefig(f"{result_dir}fig_histogram_FP.pdf", dpi=300)
 
         ## stats __________________________
         piece_num = pieces_df.groupby(['corpus', 'period']).agg(
@@ -130,43 +121,31 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "old"], 
         stats_df = stats_df.rename(
             columns={"period_Johannes": "Period", "corpus": "Corpus", "Piece_Number": "Piece Number"})
         stats_df['Corpus'] = stats_df['Corpus'].str.replace('_', ' ')
-        stats_df.to_pickle(f'{result_dir}corpus_stats_table.pickle')
-        stats_df.to_latex(buf=f'{result_dir}corpus_stats_table')
+        stats_df.to_pickle(f'{result_dir}corpus_stats_table_FP.pickle')
+        stats_df.to_latex(buf=f'{result_dir}corpus_stats_table_FP.txt')
 
     else:
         raise ValueError
 
 
-# # main _________________________________________________________________________
-# repo_dir = '/Users/xguan/Codes/chromaticism-codes/'
-# df = load_file_as_df(path=f"{repo_dir}/Data/prep_data/processed_DLC_data.pickle")
-# piece_distribution(df=df, period_by="old", repo_dir=repo_dir)
-# print(f'Finished piece distribution analysis for old period division...')
-# piece_distribution(df=df, period_by="Johannes", repo_dir=repo_dir)
-# print(f'Finished piece distribution analysis for new (Johannes) period division...')
-
-
 # %% Analysis: Chromaticity-Dissonance: correlation between chord-level WLC and WLD
 
 def corr_chord_level_WLC_WLD(df: pd.DataFrame,
-                             period_by: Literal["Johannes", "old"]):
+                             period_by: Literal["Johannes", "Fabian"]):
     """
     df: the chord-level indices dataframe containing all chord-level WLC and WLD values
     """
     # save the results to this folder:
     result_dir = create_results_folder(analysis_name="chromaticity_dissonance_corr", repo_dir=repo_dir)
 
-    # A1: corr by Johannes period _____________________________________
-
     if period_by == "Johannes":
         ## static fig:
         fig, axs = plt.subplots(1, 4, layout="constrained", figsize=(18, 5))
         colors = ["#580F41", "#173573", "#c4840c", "#176373"]
-        J_periods = ["pre-Baroque", "Baroque", "Classical", "Extended tonality"]
         J_years = [f"<1650", f"1650-1750", f"1750-1800", f">1800"]
 
-        for i, period in enumerate(J_periods):
-            period_df = get_period_df_Johannes(df, period)
+        for i, period in enumerate(Johannes_periods):
+            period_df = get_period_df(df=df, method="Johannes", period=period)
 
             # Set column subtitle
             axs[i].set_title(J_years[i], fontweight="bold", fontsize=18, family="sans-serif")
@@ -180,12 +159,7 @@ def corr_chord_level_WLC_WLD(df: pd.DataFrame,
             r = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["r"].values[0]
             p = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["p-val"].values[0]
 
-            if p < 0.001:
-                p_text = 'p < .001'
-            elif 0.001 < p < 0.05:
-                p_text = 'p < .05'
-            else:
-                p_text = f'p = {p:.2f}'
+            p_text = pprint_p_text(p)
 
             # adding the text
             x_limit = axs[i].get_xlim()
@@ -196,20 +170,17 @@ def corr_chord_level_WLC_WLD(df: pd.DataFrame,
             g.text(x_pos, y_pos_1, f'r = {r}, {p_text}', fontsize=13, fontstyle='italic', ha='right',
                    va='top')
 
-        fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_JPeriods.pdf", dpi=200)
+        fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_JP.pdf", dpi=200)
 
 
-    # A2: corr by old period _____________________________________
     else:
-        ## static fig:
         fig, axs = plt.subplots(1, 5, layout="constrained", figsize=(22, 5))
         colors = ["#6e243b", "#173573", "#c4840c", "#176373", "#816683"]
         t1, t2, t3, t4 = (1662, 1763, 1821, 1869)
         years = [f"<{t1}", f"{t1}-{t2}", f"{t2}-{t3}", f"{t3}-{t4}", f">{t4}"]
-        periods = ["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic"]
 
-        for i, period in enumerate(periods):
-            period_df = get_period_df(df, period)
+        for i, period in enumerate(Fabian_periods):
+            period_df = get_period_df(df=df, method="Fabian", period=period)
 
             # Set column subtitle
             axs[i].set_title(years[i], fontweight="bold", fontsize=18, family="sans-serif")
@@ -223,12 +194,7 @@ def corr_chord_level_WLC_WLD(df: pd.DataFrame,
             r = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["r"].values[0]
             p = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["p-val"].values[0]
 
-            if p < 0.001:
-                p_text = 'p < .001'
-            elif 0.001 < p < 0.05:
-                p_text = 'p < .05'
-            else:
-                p_text = f'p = {p:.2f}'
+            p_text = pprint_p_text(p)
 
             # adding the text
             x_limit = axs[i].get_xlim()
@@ -239,14 +205,7 @@ def corr_chord_level_WLC_WLD(df: pd.DataFrame,
             g.text(x_pos, y_pos_1, f'r = {r}, {p_text}', fontsize=13, fontstyle='italic', ha='right',
                    va='top')
 
-        fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_Periods.pdf", dpi=200)
-
-
-# main _________________________________________________________________________
-# repo_dir = '/Users/xguan/Codes/chromaticism-codes/'
-# df = load_file_as_df(path=f"{repo_dir}/Data/prep_data/for_analysis/chord_level_indices.pickle")
-# corr_chord_level_WLC_WLD(df=df, period_by="Johannes")
-# corr_chord_level_WLC_WLD(df=df, period_by="old")
+        fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_FP.pdf", dpi=200)
 
 
 # %% Analysis: Chromaticity-correlation between WLC and OLC
@@ -312,7 +271,7 @@ def _piece_chrom_corr_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFrame,
 
 
 def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
-                                          period_by: Optional[Literal["Johannes", "old"]]
+                                          period_by: Optional[Literal["Johannes", "Fabian"]]
                                           ) -> pd.DataFrame:
     # save the results to this folder:
     result_dir = create_results_folder(analysis_name="piece_chromatcities_corr", repo_dir=repo_dir)
@@ -323,42 +282,32 @@ def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
     if period_by == "Johannes":
         result_dfs = []
         for p in Johannes_periods:
-            major_df = get_period_df_Johannes(_major_df, p)
-            minor_df = get_period_df_Johannes(_minor_df, p)
+            major_df = get_period_df(df=_major_df, method="Johannes", period=p)
+            minor_df = get_period_df(df=_minor_df, method="Johannes", period=p)
 
             stats = _piece_chrom_corr_by_mode(major_df=major_df, minor_df=minor_df)
             stats["period"] = p
             result_dfs.append(stats)
         result_df = pd.concat(result_dfs)
-        result_df.to_latex(buf=f'{result_dir}piece_chromaticity_corr_by_JPeriod.txt')
+        result_df.to_latex(buf=f'{result_dir}piece_chromaticity_corr_JP.txt')
 
     elif period_by == "Fabian":
         result_dfs = []
         for p in Fabian_periods:
-            major_df = get_period_df(_major_df, p)
-            minor_df = get_period_df(_minor_df, p)
+            major_df = get_period_df(df=_major_df, method="Fabian", period=p)
+            minor_df = get_period_df(df=_minor_df, method="Fabian", period=p)
 
             stats = _piece_chrom_corr_by_mode(major_df=major_df, minor_df=minor_df)
             stats["period"] = p
             result_dfs.append(stats)
         result_df = pd.concat(result_dfs)
-        result_df.to_latex(buf=f'{result_dir}piece_chromaticity_corr_by_period.txt')
+        result_df.to_latex(buf=f'{result_dir}piece_chromaticity_corr_FP.txt')
 
     else:
-        result_df = _piece_chrom_corr_by_mode(major_df=_major_df, minor_df=_minor_df).to_frame()
+        result_df = _piece_chrom_corr_by_mode(major_df=_major_df, minor_df=_minor_df, out_type="df")
         result_df.to_latex(buf=f'{result_dir}piece_chromaticity_corr.txt')
 
     return result_df
-
-
-def _pprint_p_text(p_val: float):
-    if p_val < 0.001:
-        p_val_txt = 'p < .001'
-    elif 0.001 < p_val < 0.05:
-        p_val_txt = 'p < .05'
-    else:
-        p_val_txt = f'p = {p_val:.2f}'
-    return p_val_txt
 
 
 def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"]):
@@ -393,8 +342,8 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["J
         major_r, major_p, minor_r, minor_p = _piece_chrom_corr_by_mode(major_df=major_period_df,
                                                                        minor_df=minor_period_df,
                                                                        out_type="tuple")
-        major_p_txt = _pprint_p_text(major_p)
-        minor_p_txt = _pprint_p_text(minor_p)
+        major_p_txt = pprint_p_text(major_p)
+        minor_p_txt = pprint_p_text(minor_p)
 
         # plotting
         row_index = i // num_cols
@@ -428,8 +377,8 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["J
                 va='top')
 
         if i == 0:
-            ma.set_ylabel("Major",  fontsize=15)
-            mi.set_ylabel("Minor",  fontsize=15)
+            ma.set_ylabel("Major", fontsize=15)
+            mi.set_ylabel("Minor", fontsize=15)
             ma.set_xlabel("")
 
         else:
@@ -443,26 +392,35 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["J
     plt.show()
 
 
-
-
-#
-# # main _______________________
-# repo_dir = '/Users/xguan/Codes/chromaticism-codes/'
-# df = load_file_as_df(path=f"{repo_dir}/Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
-# ttest_for_mode_separation = perform_two_sample_ttest_for_mode_segment(df=df)
-# chrom_corr_by_JPeriod = compute_piece_chromaticity_corr_stats(df=df, period_by="Johannes")
-# chrom_corr_by_period = compute_piece_chromaticity_corr_stats(df=df, period_by="old")
-# chrom_corr = compute_piece_chromaticity_corr_stats(df=df, period_by=None)
-
 if __name__ == "__main__":
-    repo_dir = '/Users/xguan/Codes/chromaticism-codes/'
-    df = load_file_as_df(path=f"{repo_dir}/Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
-    # ttest_for_mode_separation = perform_two_sample_ttest_for_mode_segment(df=df)
-    #
-    # chrom_corr_by_JPeriod = compute_piece_chromaticity_corr_stats(df=df, period_by="Johannes")
-    # chrom_corr_by_period = compute_piece_chromaticity_corr_stats(df=df, period_by="old")
-    # chrom_corr = compute_piece_chromaticity_corr_stats(df=df, period_by=None)
-    #
-    plot_piece_chromaticity_WLC_OLC_corr(df=df, period_by="Johannes")
-    plot_piece_chromaticity_WLC_OLC_corr(df=df, period_by="Fabian")
+    repo_dir = '/Users/xinyiguan/Codes/chromaticism-codes/'
 
+    # # Analysis: Piece distributions fig and table _________________________________________________________
+    # print(f'Analysis: Piece distributions fig and table _____________________________________')
+    # prep_DLC_df = load_file_as_df(path=f"{repo_dir}Data/prep_data/processed_DLC_data.pickle")
+    # piece_distribution(df=prep_DLC_df, period_by="Fabian", repo_dir=repo_dir)
+    # print(f'Finished piece distribution analysis for period division (Fabian division)...')
+    # piece_distribution(df=prep_DLC_df, period_by="Johannes", repo_dir=repo_dir)
+    # print(f'Finished piece distribution analysis for period division (Johannes division)...')
+    #
+
+    # # Analysis: Chromaticity-Dissonance corr: chord-level WLC and WLD ____________________________________
+    #
+    # print(f'Analysis: correlation between chord-level chromaticity and dissonance _______________________')
+    # chord_indices_df = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chord_level_indices.pickle")
+    # corr_chord_level_WLC_WLD(df=chord_indices_df, period_by="Johannes")
+    # corr_chord_level_WLC_WLD(df=chord_indices_df, period_by="Fabian")
+    # print(f'Finished analysis on correlation between chromaticity and dissonance!')
+
+    # # Analysis: chromaticity correlation
+    #
+    # print(f'Analysis: correlation between WLC and OLC by periods ______________________')
+    # chromaticity_df = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
+    #
+    # print(f'    t-test for major and minor segment groups ...')
+    # ttest_for_mode_separation = perform_two_sample_ttest_for_mode_segment(df=chromaticity_df)
+    #
+    # print(f'    correlation between WLC and OLC ...')
+    # chrom_corr_by_JP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Johannes")
+    # chrom_corr_by_FP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Fabian")
+    # chrom_corr = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by=None)

@@ -114,11 +114,6 @@ def safe_literal_eval(s):
         return []
 
 
-# jitter ____________________________________________________________________________________________________________
-def rand_jitter(arr, scale: float = .01):
-    stdev = scale * (max(arr) - min(arr))
-    return arr + np.random.randn(len(arr)) * stdev
-
 
 # flatten list _______________________________________________________________________________________________________
 def flatten(lst: List[Any]) -> Generator[Any, None, None]:
