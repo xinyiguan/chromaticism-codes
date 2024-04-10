@@ -247,3 +247,86 @@
 2024-03-27 14:35:29,689 - WARNING - corpus: schulhoff_suite_dansante_en_jazz, piece: suite_dansante_en_jazz_3_waltz, quarterbeats: 6, duration_qb: 1.0, chord: iio42(b9), chord_tones: (), globalkey: A, localkey: I, root: <NA>
 2024-03-27 14:35:29,689 - WARNING - corpus: wagner_overtures, piece: WWV096-Meistersinger_01_Vorspiel-Prelude_SchottKleinmichel, quarterbeats: 684, duration_qb: 0.0, chord: vi7, chord_tones: (3, 0, 4, 1), globalkey: C, localkey: I, root: 3
 2024-03-27 14:35:29,689 - WARNING - corpus: wagner_overtures, piece: WWV096-Meistersinger_01_Vorspiel-Prelude_SchottKleinmichel, quarterbeats: 685, duration_qb: 0.0, chord: vi7, chord_tones: (3, 0, 4, 1), globalkey: C, localkey: I, root: 3
+2024-04-10 10:12:54,781 - WARNING - corpus: ABC, piece: n01op18-1_01, quarterbeats: 179, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: F, localkey: V, root: <NA>
+2024-04-10 10:12:54,781 - WARNING - corpus: ABC, piece: n01op18-1_01, quarterbeats: 203, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: F, localkey: V, root: <NA>
+2024-04-10 10:12:54,781 - WARNING - corpus: ABC, piece: n01op18-1_01, quarterbeats: 424, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: F, localkey: v, root: <NA>
+2024-04-10 10:12:54,781 - WARNING - corpus: ABC, piece: n01op18-1_01, quarterbeats: 662, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: F, localkey: I, root: <NA>
+2024-04-10 10:12:54,781 - WARNING - corpus: ABC, piece: n01op18-1_01, quarterbeats: 686, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: F, localkey: I, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n01op18-1_03, quarterbeats: 223, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: F, localkey: I, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n03op18-3_01, quarterbeats: 601, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: D, localkey: iii, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n03op18-3_01, quarterbeats: 609, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: D, localkey: iii, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n07op59-1_02, quarterbeats: 297/2, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: Bb, localkey: iii, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n12op127_01, quarterbeats: 23, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: Eb, localkey: I, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n12op127_04, quarterbeats: 229, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: Eb, localkey: V, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n12op127_04, quarterbeats: 437, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: Eb, localkey: VI, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n12op127_04, quarterbeats: 452, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: Eb, localkey: vi, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n12op127_04, quarterbeats: 468, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: Eb, localkey: vi, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n13op130_01, quarterbeats: 342, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: Bb, localkey: bVI, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n13op130_05, quarterbeats: 30, duration_qb: 0.0, chord: V, chord_tones: (1, 5, 2), globalkey: Eb, localkey: I, root: 1
+2024-04-10 10:12:54,782 - WARNING - corpus: ABC, piece: n14op131_04, quarterbeats: 362, duration_qb: 1.0, chord: @none, chord_tones: (), globalkey: A, localkey: I, root: <NA>
+2024-04-10 10:12:54,782 - WARNING - corpus: bach_en_fr_suites, piece: BWV807_07_Gigue, quarterbeats: 439/2, duration_qb: 0.0, chord: i, chord_tones: (0, -3, 1), globalkey: a, localkey: i, root: 0
+2024-04-10 10:12:54,782 - WARNING - corpus: corelli, piece: op01n07c, quarterbeats: 111, duration_qb: 0.0, chord: i(4), chord_tones: (0, -1, 1), globalkey: C, localkey: vi, root: 0
+2024-04-10 10:12:54,782 - WARNING - corpus: corelli, piece: op01n07c, quarterbeats: 112, duration_qb: 0.0, chord: i, chord_tones: (0, -3, 1), globalkey: C, localkey: vi, root: 0
+2024-04-10 10:12:54,782 - WARNING - corpus: corelli, piece: op01n07c, quarterbeats: 225/2, duration_qb: 0.0, chord: i6, chord_tones: (-3, 1, 0), globalkey: C, localkey: vi, root: 0
+2024-04-10 10:12:54,782 - WARNING - corpus: corelli, piece: op03n03b, quarterbeats: 74, duration_qb: 0.0, chord: ii, chord_tones: (2, -1, 3), globalkey: Bb, localkey: I, root: 2
+2024-04-10 10:12:54,782 - WARNING - corpus: corelli, piece: op03n03b, quarterbeats: 77, duration_qb: 0.0, chord: iii, chord_tones: (4, 1, 5), globalkey: Bb, localkey: I, root: 4
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03b, quarterbeats: 80, duration_qb: 0.0, chord: IV, chord_tones: (-1, 3, 0), globalkey: Bb, localkey: I, root: -1
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 8, duration_qb: 0.0, chord: viio, chord_tones: (5, 2, -1), globalkey: Bb, localkey: I, root: 5
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 27, duration_qb: 0.0, chord: I, chord_tones: (0, 4, 1), globalkey: Bb, localkey: V, root: 0
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 56, duration_qb: 0.0, chord: iii, chord_tones: (4, 1, 5), globalkey: Bb, localkey: I, root: 4
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 93, duration_qb: 0.0, chord: VI, chord_tones: (-4, 0, -3), globalkey: Bb, localkey: iv, root: -4
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 123, duration_qb: 0.0, chord: V(4), chord_tones: (1, 0, 2), globalkey: Bb, localkey: I, root: 1
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 132, duration_qb: 0.0, chord: I(4), chord_tones: (0, -1, 1), globalkey: Bb, localkey: I, root: 0
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 135, duration_qb: 0.0, chord: V(4), chord_tones: (1, 0, 2), globalkey: Bb, localkey: V, root: 1
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 138, duration_qb: 0.0, chord: I(9), chord_tones: (0, 4, 1), globalkey: Bb, localkey: V, root: 0
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 141, duration_qb: 0.0, chord: vi6(2), chord_tones: (0, 4, 5), globalkey: Bb, localkey: V, root: 3
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n03d, quarterbeats: 291, duration_qb: 0.0, chord: I(9), chord_tones: (0, 4, 1), globalkey: Bb, localkey: I, root: 0
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op03n04a, quarterbeats: 86, duration_qb: 0.0, chord: V(4), chord_tones: (1, 0, 2), globalkey: b, localkey: i, root: 1
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op04n11a, quarterbeats: 15, duration_qb: 0.0, chord: IV6(2), chord_tones: (3, 0, 1), globalkey: c, localkey: i, root: -1
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op04n11a, quarterbeats: 40, duration_qb: 0.0, chord: iv6(2), chord_tones: (-4, 0, 1), globalkey: c, localkey: v, root: -1
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op04n11a, quarterbeats: 41, duration_qb: 0.0, chord: V(4), chord_tones: (1, 0, 2), globalkey: c, localkey: v, root: 1
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op04n11a, quarterbeats: 44, duration_qb: 0.0, chord: i6(2), chord_tones: (-3, 1, 2), globalkey: c, localkey: v, root: 0
+2024-04-10 10:12:54,783 - WARNING - corpus: corelli, piece: op04n11a, quarterbeats: 45, duration_qb: 0.0, chord: IV(9), chord_tones: (-1, 3, 0), globalkey: c, localkey: v, root: -1
+2024-04-10 10:12:54,783 - WARNING - corpus: jc_bach_sonatas, piece: wa08op17no2a_Allegro, quarterbeats: 161, duration_qb: 0.0, chord: ii, chord_tones: (2, -1, 3), globalkey: c, localkey: v, root: 2
+2024-04-10 10:12:54,783 - WARNING - corpus: jc_bach_sonatas, piece: wa08op17no2b_Andante, quarterbeats: 133, duration_qb: 1.0, chord: vii%, chord_tones: (), globalkey: Eb, localkey: V, root: <NA>
+2024-04-10 10:12:54,783 - WARNING - corpus: jc_bach_sonatas, piece: wa08op17no2b_Andante, quarterbeats: 135, duration_qb: 1.0, chord: vii%, chord_tones: (), globalkey: Eb, localkey: V, root: <NA>
+2024-04-10 10:12:54,783 - WARNING - corpus: jc_bach_sonatas, piece: wa09op17no3a_Allegro_Assai, quarterbeats: 387, duration_qb: 1.0, chord: vii%/V, chord_tones: (), globalkey: Eb, localkey: I, root: <NA>
+2024-04-10 10:12:54,784 - WARNING - corpus: jc_bach_sonatas, piece: wa12op17no6c_Prestissimo, quarterbeats: 319, duration_qb: 0.0, chord: VI, chord_tones: (-4, 0, -3), globalkey: Bb, localkey: vi, root: -4
+2024-04-10 10:12:54,784 - WARNING - corpus: kozeluh_sonatas, piece: 14op13no2c, quarterbeats: 98, duration_qb: 0.0, chord: V7, chord_tones: (1, 5, 2, -1), globalkey: G, localkey: vi, root: 1
+2024-04-10 10:12:54,784 - WARNING - corpus: kozeluh_sonatas, piece: 14op13no2c, quarterbeats: 102, duration_qb: 0.0, chord: i64, chord_tones: (1, 0, -3), globalkey: G, localkey: vi, root: 0
+2024-04-10 10:12:54,784 - WARNING - corpus: kozeluh_sonatas, piece: 14op13no2c, quarterbeats: 106, duration_qb: 0.0, chord: V7, chord_tones: (1, 5, 2, -1), globalkey: G, localkey: vi, root: 1
+2024-04-10 10:12:54,784 - WARNING - corpus: kozeluh_sonatas, piece: 14op13no2c, quarterbeats: 108, duration_qb: 0.0, chord: i, chord_tones: (0, -3, 1), globalkey: G, localkey: vi, root: 0
+2024-04-10 10:12:54,784 - WARNING - corpus: liszt_pelerinage, piece: 160.09_Les_Cloches_de_Geneve_(Nocturne), quarterbeats: 123, duration_qb: 0.0, chord: V7(6), chord_tones: (1, 5, 4, -1), globalkey: B, localkey: bIII, root: 1
+2024-04-10 10:12:54,784 - WARNING - corpus: liszt_pelerinage, piece: 160.09_Les_Cloches_de_Geneve_(Nocturne), quarterbeats: 1757/4, duration_qb: 0.0, chord: V7, chord_tones: (1, 5, 2, -1), globalkey: B, localkey: I, root: 1
+2024-04-10 10:12:54,784 - WARNING - corpus: liszt_pelerinage, piece: 161.04_Sonetto_47_del_Petrarca, quarterbeats: 387, duration_qb: 0.0, chord: V65, chord_tones: (5, 2, -1, 1), globalkey: Db, localkey: bIII, root: 1
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 61, duration_qb: 0.0, chord: V65(9#6), chord_tones: (5, 2, 4, 1), globalkey: d, localkey: i, root: 1
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 69, duration_qb: 0.0, chord: i(4), chord_tones: (0, -1, 1), globalkey: d, localkey: i, root: 0
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 90, duration_qb: 0.0, chord: i6, chord_tones: (-3, 1, 0), globalkey: d, localkey: i, root: 0
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 123, duration_qb: 1.0, chord: ii%(4), chord_tones: (), globalkey: d, localkey: i, root: <NA>
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 124, duration_qb: 1.0, chord: ii%(65), chord_tones: (), globalkey: d, localkey: i, root: <NA>
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 253, duration_qb: 0.0, chord: #viio7/v, chord_tones: (6, 3, 0, -3), globalkey: d, localkey: i, root: 6
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 257, duration_qb: 0.0, chord: #viio7/iv, chord_tones: (4, 1, -2, -5), globalkey: d, localkey: i, root: 4
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 261, duration_qb: 0.0, chord: i6(4), chord_tones: (-1, 1, 0), globalkey: d, localkey: i, root: 0
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 265, duration_qb: 0.0, chord: i(b2), chord_tones: (-5, -3, 1), globalkey: d, localkey: i, root: 0
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 309, duration_qb: 0.0, chord: V65(9#6), chord_tones: (5, 2, 4, 1), globalkey: d, localkey: i, root: 1
+2024-04-10 10:12:54,784 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_01_nun_will_die_sonn, quarterbeats: 317, duration_qb: 0.0, chord: i(4), chord_tones: (0, -1, 1), globalkey: d, localkey: i, root: 0
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_02_nun_seh_ich_wohl, quarterbeats: 48, duration_qb: 0.0, chord: bII(^11), chord_tones: (-5, -1, -4), globalkey: c, localkey: i, root: -5
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_02_nun_seh_ich_wohl, quarterbeats: 116, duration_qb: 0.0, chord: I+(4), chord_tones: (0, -1, 8), globalkey: c, localkey: I, root: 0
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_02_nun_seh_ich_wohl, quarterbeats: 140, duration_qb: 0.0, chord: V43(^13), chord_tones: (2, -1, 1, 5), globalkey: c, localkey: I, root: 1
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_02_nun_seh_ich_wohl, quarterbeats: 178, duration_qb: 0.0, chord: V65(#119), chord_tones: (5, 2, -1, 1), globalkey: c, localkey: II, root: 1
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_02_nun_seh_ich_wohl, quarterbeats: 270, duration_qb: 0.0, chord: V43(13), chord_tones: (2, -1, 1, 5), globalkey: c, localkey: I, root: 1
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_03_wenn_dein_mutterlein, quarterbeats: 60, duration_qb: 0.0, chord: V(64), chord_tones: (1, 0, -3), globalkey: c, localkey: i, root: 1
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_03_wenn_dein_mutterlein, quarterbeats: 226, duration_qb: 0.0, chord: v/v, chord_tones: (2, -1, 3), globalkey: c, localkey: i, root: 2
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_03_wenn_dein_mutterlein, quarterbeats: 232, duration_qb: 0.0, chord: v, chord_tones: (1, -2, 2), globalkey: c, localkey: i, root: 1
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_05_in_diesem_wetter, quarterbeats: 292, duration_qb: 0.0, chord: VII6, chord_tones: (2, -1, -2), globalkey: d, localkey: i, root: -2
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_05_in_diesem_wetter, quarterbeats: 292, duration_qb: 0.0, chord: i64, chord_tones: (1, 0, -3), globalkey: d, localkey: i, root: 0
+2024-04-10 10:12:54,785 - WARNING - corpus: mahler_kindertotenlieder, piece: kindertotenlieder_05_in_diesem_wetter, quarterbeats: 484, duration_qb: 0.0, chord: I, chord_tones: (0, 4, 1), globalkey: d, localkey: I, root: 0
+2024-04-10 10:12:54,785 - WARNING - corpus: medtner_tales, piece: op26n04, quarterbeats: 69, duration_qb: 0.0, chord: V2, chord_tones: (-1, 1, 5, 2), globalkey: f#, localkey: III, root: 1
+2024-04-10 10:12:54,785 - WARNING - corpus: medtner_tales, piece: op26n04, quarterbeats: 77, duration_qb: 0.0, chord: V(6)/V, chord_tones: (2, 6, 5), globalkey: f#, localkey: III, root: 2
+2024-04-10 10:12:54,785 - WARNING - corpus: medtner_tales, piece: op26n04, quarterbeats: 79, duration_qb: 0.0, chord: V43(6)/V, chord_tones: (5, 0, 2, 6), globalkey: f#, localkey: III, root: 2
+2024-04-10 10:12:54,785 - WARNING - corpus: mendelssohn_quartets, piece: 06op80d, quarterbeats: 200, duration_qb: 0.0, chord: V65/V, chord_tones: (6, 3, 0, 2), globalkey: f, localkey: III, root: 2
+2024-04-10 10:12:54,785 - WARNING - corpus: mendelssohn_quartets, piece: 06op80d, quarterbeats: 216, duration_qb: 0.0, chord: V43/V, chord_tones: (3, 0, 2, 6), globalkey: f, localkey: III, root: 2
+2024-04-10 10:12:54,785 - WARNING - corpus: schulhoff_suite_dansante_en_jazz, piece: suite_dansante_en_jazz_1_stomp, quarterbeats: 27, duration_qb: 1.0, chord: Fr42/V, chord_tones: (), globalkey: E, localkey: I, root: <NA>
+2024-04-10 10:12:54,785 - WARNING - corpus: schulhoff_suite_dansante_en_jazz, piece: suite_dansante_en_jazz_3_waltz, quarterbeats: 6, duration_qb: 1.0, chord: iio42(b9), chord_tones: (), globalkey: A, localkey: I, root: <NA>
+2024-04-10 10:12:54,785 - WARNING - corpus: wagner_overtures, piece: WWV096-Meistersinger_01_Vorspiel-Prelude_SchottKleinmichel, quarterbeats: 684, duration_qb: 0.0, chord: vi7, chord_tones: (3, 0, 4, 1), globalkey: C, localkey: I, root: 3
+2024-04-10 10:12:54,785 - WARNING - corpus: wagner_overtures, piece: WWV096-Meistersinger_01_Vorspiel-Prelude_SchottKleinmichel, quarterbeats: 685, duration_qb: 0.0, chord: vi7, chord_tones: (3, 0, 4, 1), globalkey: C, localkey: I, root: 3

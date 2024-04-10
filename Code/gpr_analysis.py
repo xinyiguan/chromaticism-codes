@@ -1,3 +1,4 @@
+import os
 import pickle
 from contextlib import redirect_stdout
 from typing import Literal, Optional, Tuple
@@ -125,7 +126,7 @@ def ax_scatter_observations(ax: Axes,
         # only add jitter on the x-axis not y-axis
         ax.scatter(rand_jitter(X), Y, c=color, s=20, label="Observations", alpha=0.4)
     else:
-        ax.scatter(X, Y, c=color, s=20, label="Observations", alpha=0.4)
+        ax.scatter(X, Y, c=color, s=10, label="Observations", alpha=0.4)
 
     return ax
 
@@ -214,7 +215,8 @@ def ax_full_gpr_model(ax: Axes,
     ax.set_title(ax_title)
     ax_scatter_observations(ax=ax, X=X, Y=expY, hue_by=scatter_hue_by, jitter=scatter_jitter,
                             scatter_colormap=scatter_colormap)
-    ax_gpr_prediction(ax=ax, m_outputs=m_outputs, fmean_color=fmean_color, fvar_color=fvar_color,
+    ax2 = ax.twinx()
+    ax_gpr_prediction(ax=ax2, m_outputs=m_outputs, fmean_color=fmean_color, fvar_color=fvar_color,
                       plot_samples=plot_samples, plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty)
     ax.legend(title=r"$\lambda$={:.3f}".format(m_outputs[-2]), loc="upper left")
@@ -326,7 +328,8 @@ def plot_gpr_all_trendlines(major_df: pd.DataFrame,
 
 
 if __name__ == "__main__":
-    repo_dir = '/Users/xinyiguan/Codes/chromaticism-codes/'
+    user = os.path.expanduser("~")
+    repo_dir = f'{user}/Codes/chromaticism-codes/'
 
     major_df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_major.pickle')
     minor_df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_minor.pickle')

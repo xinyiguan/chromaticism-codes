@@ -110,18 +110,21 @@ def _get_unannotated_pieces(metadata: pd.DataFrame) -> List:
 
 def filter_unannotated_pieces(corpus_name: str,
                               additional_pieces_to_exclude: List[Tuple[str, str]],
-                              log_path: str = "../Data/preprocess_logs/") -> pd.DataFrame:
+                              repo_dir: str) -> pd.DataFrame:
     """
     corpus_name: the name of the corpus
     additional_pieces_to_exclue: format (CORPUS_NAME, PIECE_NAME)
                                 (e.g., [("frescobaldi_fiori_musicali", "12.45_Toccata_per_l'Elevatione")])
     """
+
+    log_path = f'{repo_dir}Data/preprocess_logs/'
     if not os.path.exists(log_path):
         os.makedirs(log_path)
 
     unannotated_logger = setup_logger('unannotated_logger', log_path + f"filter_warning_unannotated.log")
 
-    metadata, harmonies = load_dfs_from_corpus(corpus_name=corpus_name, df_type=["metadata", "harmonies"])
+    metadata, harmonies = load_dfs_from_corpus(corpus_name=corpus_name,
+                                               df_type=["metadata", "harmonies"],repo_dir=repo_dir)
 
     unannotated_pieces = _get_unannotated_pieces(metadata)
     exclude_pieces = unannotated_pieces + additional_pieces_to_exclude
@@ -139,11 +142,13 @@ def filter_unannotated_pieces(corpus_name: str,
 
 def filter_df_rows(df: pd.DataFrame,
                    kind: Literal["harmonies", "notes"],
-                   log_path: str = "../Data/preprocess_logs/") -> pd.DataFrame:
+                   repo_dir: str) -> pd.DataFrame:
     """remove rows not satisfying the "rules" in the harmony or note dataframe:
      - 'quarterbeats' col with NaN value (they indicate the first ending, excluded from the quarterbeats index)
      - 'chord' col with NaN val (usually the beginning of phrase marking in previous annotation standard)
      """
+    log_path = f'{repo_dir}Data/preprocess_logs/'
+
     print(f"Calling filter_df_rows with kind: {kind}")
     if kind == "harmonies":
         columns_to_log = ["corpus", "piece", "quarterbeats", 'duration_qb', 'chord', 'chord_tones', 'globalkey',
@@ -219,7 +224,9 @@ def get_pieces_df_list(df: pd.DataFrame) -> List[pd.DataFrame]:
 
 def load_dfs_from_corpus(corpus_name: str,
                          df_type: List[Literal["metadata", "harmonies", "notes"]],
-                         Data_path: str = "../Data/") -> Tuple:
+                         repo_dir: str) -> Tuple:
+    Data_path = f'{repo_dir}Data/'
+
     CONVERTERS = {
         'added_tones': str2inttuple,
         'chord_tones': str2inttuple,
@@ -247,14 +254,22 @@ def load_dfs_from_corpus(corpus_name: str,
 
 
 def preprocess_df_Cleaning(corpus_name: str,
-                           additional_pieces_to_exclude: List[Tuple[str, str]]) -> Tuple[pd.DataFrame, pd.DataFrame]:
+                           additional_pieces_to_exclude: List[Tuple[str, str]],
+                           repo_dir: str
+                           ) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    # prep data path
+    prep_data_path = f'{repo_dir}Data/prep_data/'
+    if not os.path.exists(prep_data_path):
+        os.makedirs(prep_data_path)
+
     print(f'Preprocess Step 1: Loading dfs ...')
-    notes: pd.DataFrame = load_dfs_from_corpus(corpus_name=corpus_name, df_type=["notes"])[0]
+    notes: pd.DataFrame = load_dfs_from_corpus(corpus_name=corpus_name, df_type=["notes"], repo_dir=repo_dir)[0]
 
     print(f'Preprocess Step 2: Filtering out unannotated dfs ...')
 
     harmonies = filter_unannotated_pieces(corpus_name=corpus_name,
-                                          additional_pieces_to_exclude=additional_pieces_to_exclude)
+                                          additional_pieces_to_exclude=additional_pieces_to_exclude,
+                                          repo_dir=repo_dir)
 
     # use (corpus, piece) in harmonies df to filter out no correspondence rows in notes df (those not annotated)
     harmonies_set = set(map(tuple, harmonies[['corpus', 'piece']].to_records(index=False)))
@@ -270,28 +285,27 @@ def preprocess_df_Cleaning(corpus_name: str,
 
     print(f'Preprocess Step 2.5: Filtering out bad parsing (rows) in dfs ...')
 
-    cleaned_harmonies = filter_df_rows(df=harmonies, kind="harmonies")
-    cleaned_notes = filter_df_rows(df=notes, kind="notes")
+    cleaned_harmonies = filter_df_rows(df=harmonies, kind="harmonies", repo_dir=repo_dir)
+    cleaned_notes = filter_df_rows(df=notes, kind="notes", repo_dir=repo_dir)
 
     # save data:
 
-    directory = "../Data/prep_data/"
-
     save_df(df=cleaned_harmonies, file_type="both",
             fname=f'cleaned_{corpus_name}_harmonies',
-            directory=directory)
+            directory=prep_data_path)
 
     save_df(df=cleaned_notes, file_type="both",
             fname=f'cleaned_{corpus_name}_notes',
-            directory=directory)
+            directory=prep_data_path)
 
-    print(f"Saved cleaned dfs to {directory}!")
+    print(f"Saved cleaned dfs to {prep_data_path}!")
     return cleaned_harmonies, cleaned_notes
 
 
 def preprocess_df_AppendingNotes(metadata: pd.DataFrame,
                                  harmonies: pd.DataFrame,
-                                 notes: pd.DataFrame) -> pd.DataFrame:
+                                 notes: pd.DataFrame,
+                                 repo_dir: str) -> pd.DataFrame:
     print(f'Preprocess Step 3: Getting piece dfs list ...')
     # get list of pieces dfs:
     harmonies_dfs_list = get_pieces_df_list(df=harmonies)
@@ -329,26 +343,32 @@ def preprocess_df_AppendingNotes(metadata: pd.DataFrame,
 
     # save data:
 
-    directory = "../Data/prep_data/"
-    print(f'Preprocess Step 7: Saving df to {directory} ...')
+    prep_data_path = f'{repo_dir}Data/prep_data/'
+
+    print(f'Preprocess Step 7: Saving df to {prep_data_path} ...')
 
     save_df(df=final_df, file_type="both",
             fname=f'DLC_data',
-            directory=directory)
+            directory=prep_data_path)
 
     return final_df
 
 
 if __name__ == "__main__":
-    # preprocess_df_Cleaning(corpus_name="distant_listening_corpus",
-    #                        additional_pieces_to_exclude=[
-    #                            ("frescobaldi_fiori_musicali", "12.31_Toccata_per_l'Elevatione"),
-    #                            ("frescobaldi_fiori_musicali", "12.33_Canzon_quarti_toni_dopo_il_post_Comune"),
-    #                            ("frescobaldi_fiori_musicali", "12.45_Toccata_per_l'Elevatione")]
-    #                        )
-    #
-    metadata: pd.DataFrame = load_dfs_from_corpus(corpus_name="distant_listening_corpus", df_type=["metadata"])[0]
-    clean_harmonies = load_file_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_harmonies.pickle")
-    clean_notes = load_file_as_df(path="../Data/prep_data/cleaned_distant_listening_corpus_notes.pickle")
+    user = os.path.expanduser("~")
+    repo_dir = f'{user}/Codes/chromaticism-codes/'
 
-    preprocess_df_AppendingNotes(metadata=metadata, harmonies=clean_harmonies, notes=clean_notes)
+    preprocess_df_Cleaning(corpus_name="distant_listening_corpus",
+                           additional_pieces_to_exclude=[
+                               ("frescobaldi_fiori_musicali", "12.31_Toccata_per_l'Elevatione"),
+                               ("frescobaldi_fiori_musicali", "12.33_Canzon_quarti_toni_dopo_il_post_Comune"),
+                               ("frescobaldi_fiori_musicali", "12.45_Toccata_per_l'Elevatione")],
+                           repo_dir=repo_dir
+                           )
+
+    metadata: pd.DataFrame = load_dfs_from_corpus(corpus_name="distant_listening_corpus",
+                                                  df_type=["metadata"], repo_dir=repo_dir)[0]
+    clean_harmonies = load_file_as_df(path=f"{repo_dir}Data/prep_data/cleaned_distant_listening_corpus_harmonies.pickle")
+    clean_notes = load_file_as_df(path=f"{repo_dir}Data/prep_data/cleaned_distant_listening_corpus_notes.pickle")
+
+    preprocess_df_AppendingNotes(metadata=metadata, harmonies=clean_harmonies, notes=clean_notes, repo_dir=repo_dir)

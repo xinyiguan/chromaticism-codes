@@ -8,67 +8,67 @@ import pandas as pd
 
 # preprocessing/computing metrics ___________ :
 
-def determine_period_Johannes(row):
+def determine_period(row: pd.Series, method: Literal["Fabian", "Johannes"]):
     y = row["piece_year"]
-    if y < 1650:
-        p = "pre-Baroque"
-    elif 1650 <= y < 1750:
-        p = "Baroque"
-    elif 1750 <= y < 1800:
-        p = "Classical"
-    elif y >= 1800:
-        p = "Extended tonality"
+    if method == "Fabian":
+        if y < 1662:
+            p = "Renaissance"
+        elif 1662 <= y < 1763:
+            p = "Baroque"
+        elif 1763 <= y < 1821:
+            p = "Classical"
+        elif 1821 <= y < 1869:
+            p = "Early Romantic"
+        elif y >= 1869:
+            p = "Late Romantic"
+        else:
+            raise ValueError
+    elif method == "Johannes":
+        if y < 1650:
+            p = "pre-Baroque"
+        elif 1650 <= y < 1750:
+            p = "Baroque"
+        elif 1750 <= y < 1800:
+            p = "Classical"
+        elif y >= 1800:
+            p = "Extended tonality"
+        else:
+            raise ValueError
     else:
         raise ValueError
     return p
 
 
-def determine_period(row):
-    y = row["piece_year"]
-    if y < 1662:
-        p = "Renaissance"
-    elif 1662 <= y < 1763:
-        p = "Baroque"
-    elif 1763 <= y < 1821:
-        p = "Classical"
-    elif 1821 <= y < 1869:
-        p = "Early Romantic"
-    elif y >= 1869:
-        p = "Late Romantic"
-    else:
-        raise ValueError
-    return p
-
-
-def determine_period_id(row):
-    if 'period_Johannes' in row.index:
-        if row["period_Johannes"] == "pre-Baroque":
-            id = 1
-        elif row["period_Johannes"] == "Baroque":
-            id = 2
-        elif row["period_Johannes"] == "Classical":
-            id = 3
-        elif row["period_Johannes"] == "Extended tonality":
-            id = 4
-        else:
-            raise ValueError
-    elif 'period' in row.columns:
-        if row["period"] == "Renaissance":
-            id = 1
-        elif row["period"] == "Baroque":
-            id = 2
-        elif row["period"] == "classical":
-            id = 3
-        elif row["period"] == "Early Romantic":
-            id = 4
-        elif row["period"] == "Late Romantic":
-            id = 5
+def determine_period_id(row: pd.Series, method: Literal["Fabian", "Johannes"]):
+    if method=="Johannes":
+        JP = f'period_Johannes'
+        assert JP in row.index
+        if row[JP] == "pre-Baroque":
+            ID = 1
+        elif row[JP] == "Baroque":
+            ID = 2
+        elif row[JP] == "Classical":
+            ID = 3
+        elif row[JP] == "Extended tonality":
+            ID = 4
         else:
             raise ValueError
     else:
-        raise ValueError
-
-    return id
+        assert 'period_Fabian' in row.index
+        FP = f'period_Fabian'
+        if row[FP] == "Renaissance":
+            ID = 1
+        elif row[FP] == "Baroque":
+            ID = 2
+        elif row[FP] == "Classical":
+            ID = 3
+        elif row[FP] == "Early Romantic":
+            ID = 4
+        elif row[FP] == "Late Romantic":
+            ID = 5
+        else:
+            raise ValueError
+    return ID
 
 
 # ___________
@@ -76,7 +76,8 @@ Johannes_periods = ["pre-Baroque", "Baroque", "Classical", "Extended tonality"]
 Fabian_periods = ["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic"]
 
 
-def get_period_df(df: pd.DataFrame, method: Literal["Johannes", "Fabian"],
+def get_period_df(df: pd.DataFrame,
+                  method: Literal["Johannes", "Fabian"],
                   period: Literal["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic",
                   "pre-Baroque", "Extended tonality"]):
     if method == "Johannes":
@@ -123,7 +124,6 @@ def get_period_df(df: pd.DataFrame, method: Literal["Johannes", "Fabian"],
             raise ValueError
     else:
         raise ValueError
-
 
 
 def create_results_folder(parent_folder: Literal["Data", "Results"], analysis_name: Optional[str], repo_dir: str):

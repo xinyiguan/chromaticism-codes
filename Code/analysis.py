@@ -1,61 +1,62 @@
 import os
-from typing import Literal, Optional, Tuple, List
+from typing import Literal, Optional, Tuple
 import pandas as pd
 import seaborn as sns
 import pingouin as pg
-import matplotlib
 from matplotlib import pyplot as plt
 
 from Code.utils.util import load_file_as_df, corpus_composer_dict, corpus_collection_dict
-from Code.utils.auxiliary import create_results_folder, determine_period_Johannes, determine_period, \
-    determine_period_id, get_period_df, Johannes_periods, Fabian_periods, pprint_p_text
+from Code.utils.auxiliary import create_results_folder, determine_period_id, get_period_df, Johannes_periods, Fabian_periods, pprint_p_text
 
 
 # %% Analysis: Piece distributions fig and table
-def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"], repo_dir: str):
+def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"], repo_dir: str) -> None:
     """
-    df: dissonance_piece_average (corpus, piece, period, period_Johannes)
+    df: processed_DLC_data (corpus, piece, period, period_Johannes)
     """
     # save the results to this folder:
-    result_dir = create_results_folder(analysis_name="piece_distribution", repo_dir=repo_dir)
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="piece_distribution", repo_dir=repo_dir)
 
-    pieces_df = df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
-        corpus_year=("corpus_year", "first"),
-        piece_year=("piece_year", "first"),
-        # period=("period", "first"),
-        # period_Johannes=("period_Johannes", "first"),
-    )
-
-    pieces_df["period_Johannes"] = pieces_df.apply(determine_period_Johannes, axis=1)
-    pieces_df["period"] = pieces_df.apply(determine_period, axis=1)
+    if period_by == "Fabian":
+        pieces_df = df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
+            corpus_year=("corpus_year", "first"),
+            piece_year=("piece_year", "first"),
+            period_Fabian=("period_Fabian", "first"),
+        )
+    else:
+        pieces_df = df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
+            corpus_year=("corpus_year", "first"),
+            piece_year=("piece_year", "first"),
+            period_Johannes=("period_Johannes", "first"),
+        )
 
     pieces_df["corpus_id"] = pd.factorize(pieces_df["corpus"])[0] + 1
     pieces_df["piece_id"] = pd.factorize(pieces_df["piece"])[0] + 1
-    pieces_df["period_id"] = pieces_df.apply(determine_period_id, axis=1)
+    pieces_df["period_id"] = pieces_df.apply(lambda row: determine_period_id(row=row, method=period_by), axis=1)
 
     metainfo_df = pd.DataFrame.from_dict(corpus_composer_dict, orient='index').reset_index()
     metainfo_df["Collection"] = metainfo_df['index'].map(corpus_collection_dict)
     metainfo_df = metainfo_df.rename(columns={'index': 'corpus', 0: 'Composer'})
 
+    # general plotting setup
+    h = sns.histplot(pieces_df["piece_year"], kde=True, stat="probability", bins=40,
+                     kde_kws={'bw_adjust': 0.6})
+    h.set_xlabel("Year", fontsize=15)
+    h.set_ylabel("probability", fontsize=15)
+
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+
     if period_by == "Johannes":
-
-        ## plotting ________________________
-        h = sns.histplot(pieces_df["piece_year"], kde=True, stat="probability", bins=40,
-                         kde_kws={'bw_adjust': 0.6})
-        h.set_xlabel("Year", fontsize=15)
-        h.set_ylabel("probability", fontsize=15)
-
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-
+        # plotting ________________________
         for b in [1650, 1750, 1800]:
-            h.axvline(b, c="gray", ls="--", zorder=-2)
+            h.axvline(b, c="gray", ls="--")
 
         # save the fig
         p = h.get_figure()
         p.savefig(f"{result_dir}fig_histogram_JP.pdf", dpi=300)
 
-        ## stats __________________________
+        # stats __________________________
         piece_num = pieces_df.groupby(['corpus', 'period_Johannes']).agg(
             Piece_Number=('piece', 'count'),
             corpus_id=('corpus_id', "first"),
@@ -68,19 +69,11 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"
             columns={"period_Johannes": "Period", "corpus": "Corpus", "Piece_Number": "Piece Number"})
         stats_df['Corpus'] = stats_df['Corpus'].str.replace('_', ' ')
         stats_df.to_pickle(f'{result_dir}corpus_stats_table_JP.pickle')
-        stats_df.to_latex(buf=f'{result_dir}corpus_stats_latex_table_JP')
+        stats_df.to_latex(buf=f'{result_dir}corpus_stats_latex_table_JP.txt')
 
-    elif period_by == "Fabian":
+    else:
 
         ## plotting ________________________
-        h = sns.histplot(pieces_df["piece_year"], kde=True, stat="probability", bins=40,
-                         kde_kws={'bw_adjust': 0.6})
-        h.set_xlabel("Year", fontsize=15)
-        h.set_ylabel("probability", fontsize=15)
-
-        plt.xticks(fontsize=12)
-        plt.yticks(fontsize=12)
-
         # Get the data from the plot
         lines = plt.gca().get_lines()
         xs, ys = lines[0].get_data()
@@ -97,12 +90,12 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"
         t1, _, t2, t3, t4 = [xs[i] for i in mininds]
 
         # Add vertical lines at the minima
-        for b in [t1, t2, t3, t4]:
-            h.axvline(b, c="gray", ls="--", zorder=-2)
+        for v in [t1, t2, t3, t4]:
+            h.axvline(v, c="gray", ls="--")
 
         # save time-period division
         period_division_txt = [f't1={round(t1)}', f't2={round(t2)}', f't3={round(t3)}', f't4={round(t4)}']
-        with open(f'{result_dir}FabainPeriod_division.txt', 'w') as f:
+        with open(f'{result_dir}FabianPeriod_division.txt', 'w') as f:
             f.write('\n'.join(period_division_txt))
 
         # save the fig
@@ -110,22 +103,19 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"
         p.savefig(f"{result_dir}fig_histogram_FP.pdf", dpi=300)
 
         ## stats __________________________
-        piece_num = pieces_df.groupby(['corpus', 'period']).agg(
+        piece_num = pieces_df.groupby(['corpus', 'period_Fabian']).agg(
             Piece_Number=('piece', 'count'),
             corpus_id=('corpus_id', "first"),
             period_id=('period_id', 'first')
         ).reset_index().sort_values(by=["corpus_id", "period_id"])
 
         stats_df = pd.merge(piece_num, metainfo_df, on='corpus', how='left')
-        stats_df = stats_df[["period", "Composer", "corpus", "Piece_Number"]]
+        stats_df = stats_df[["period_Fabian", "Composer", "corpus", "Piece_Number"]]
         stats_df = stats_df.rename(
-            columns={"period_Johannes": "Period", "corpus": "Corpus", "Piece_Number": "Piece Number"})
+            columns={"period_Fabian": "Period", "corpus": "Corpus", "Piece_Number": "Piece Number"})
         stats_df['Corpus'] = stats_df['Corpus'].str.replace('_', ' ')
         stats_df.to_pickle(f'{result_dir}corpus_stats_table_FP.pickle')
         stats_df.to_latex(buf=f'{result_dir}corpus_stats_table_FP.txt')
-
-    else:
-        raise ValueError
 
 
 # %% Analysis: Chromaticity-Dissonance: correlation between chord-level WLC and WLD
@@ -136,76 +126,57 @@ def corr_chord_level_WLC_WLD(df: pd.DataFrame,
     df: the chord-level indices dataframe containing all chord-level WLC and WLD values
     """
     # save the results to this folder:
-    result_dir = create_results_folder(analysis_name="chromaticity_dissonance_corr", repo_dir=repo_dir)
-
+    result_dir = create_results_folder(parent_folder="Results",
+                                       analysis_name="chrom_diss_corr",
+                                       repo_dir=repo_dir)
     if period_by == "Johannes":
-        ## static fig:
-        fig, axs = plt.subplots(1, 4, layout="constrained", figsize=(18, 5))
+        periods = Johannes_periods
         colors = ["#580F41", "#173573", "#c4840c", "#176373"]
-        J_years = [f"<1650", f"1650-1750", f"1750-1800", f">1800"]
-
-        for i, period in enumerate(Johannes_periods):
-            period_df = get_period_df(df=df, method="Johannes", period=period)
-
-            # Set column subtitle
-            axs[i].set_title(J_years[i], fontweight="bold", fontsize=18, family="sans-serif")
-            g = sns.regplot(ax=axs[i], data=period_df, x="WLC", y="WLD", color=colors[i])
-            g.set_xlabel(f"WLC", fontsize=15)
-            g.set_ylabel(f"WLD", fontsize=15)
-
-            plt.xticks(fontsize=11)
-            plt.yticks(fontsize=11)
-
-            r = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["r"].values[0]
-            p = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["p-val"].values[0]
-
-            p_text = pprint_p_text(p)
-
-            # adding the text
-            x_limit = axs[i].get_xlim()
-            y_limit = axs[i].get_ylim()
-            x_pos = x_limit[1] - 0.03 * (x_limit[1] - x_limit[0])
-            y_pos_1 = y_limit[1] - 0.03 * (y_limit[1] - y_limit[0])
-
-            g.text(x_pos, y_pos_1, f'r = {r}, {p_text}', fontsize=13, fontstyle='italic', ha='right',
-                   va='top')
-
-        fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_JP.pdf", dpi=200)
-
-
+        year_div = [f"<1650", f"1650-1750", f"1750-1800", f">1800"]
+        fig_name_suffix = "JP"
     else:
-        fig, axs = plt.subplots(1, 5, layout="constrained", figsize=(22, 5))
+        periods = Fabian_periods
         colors = ["#6e243b", "#173573", "#c4840c", "#176373", "#816683"]
-        t1, t2, t3, t4 = (1662, 1763, 1821, 1869)
-        years = [f"<{t1}", f"{t1}-{t2}", f"{t2}-{t3}", f"{t3}-{t4}", f">{t4}"]
+        year_div = [f"<1662", f"1662-1763", f"1763-1821", f"1821-1869", f">1869"]
+        fig_name_suffix = "FP"
 
-        for i, period in enumerate(Fabian_periods):
-            period_df = get_period_df(df=df, method="Fabian", period=period)
 
-            # Set column subtitle
-            axs[i].set_title(years[i], fontweight="bold", fontsize=18, family="sans-serif")
-            g = sns.regplot(ax=axs[i], data=period_df, x="WLC", y="WLD", color=colors[i])
-            g.set_xlabel(f"WLC", fontsize=15)
-            g.set_ylabel(f"WLD", fontsize=15)
+    # fig params:
+    num_periods = len(periods)
+    num_rows = 1
+    num_cols = 4 if period_by == "Johannes" else 5
+    fig, axs = plt.subplots(num_rows, num_cols,
+                            layout="constrained",
+                            figsize=(4 * num_periods + 1, 5))
 
-            plt.xticks(fontsize=11)
-            plt.yticks(fontsize=11)
+    for i, period in enumerate(periods):
+        period_df = get_period_df(df=df, method=period_by, period=period)
 
-            r = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["r"].values[0]
-            p = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["p-val"].values[0]
+        # Set column subtitle
+        axs[i].set_title(year_div[i], fontweight="bold", fontsize=18, family="sans-serif")
+        g = sns.regplot(ax=axs[i], data=period_df, x="WLC", y="WLD", color=colors[i])
+        g.set_xlabel(f"WLC", fontsize=15)
+        g.set_ylabel(f"WLD", fontsize=15)
 
-            p_text = pprint_p_text(p)
+        plt.xticks(fontsize=11)
+        plt.yticks(fontsize=11)
 
-            # adding the text
-            x_limit = axs[i].get_xlim()
-            y_limit = axs[i].get_ylim()
-            x_pos = x_limit[1] - 0.03 * (x_limit[1] - x_limit[0])
-            y_pos_1 = y_limit[1] - 0.03 * (y_limit[1] - y_limit[0])
+        r = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["r"].values[0]
+        p = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["p-val"].values[0]
 
-            g.text(x_pos, y_pos_1, f'r = {r}, {p_text}', fontsize=13, fontstyle='italic', ha='right',
-                   va='top')
+        p_text = pprint_p_text(p)
 
-        fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_FP.pdf", dpi=200)
+        # adding the text
+        x_limit = axs[i].get_xlim()
+        y_limit = axs[i].get_ylim()
+        x_pos = x_limit[1] - 0.03 * (x_limit[1] - x_limit[0])
+        y_pos_1 = y_limit[1] - 0.03 * (y_limit[1] - y_limit[0])
+
+        g.text(x_pos, y_pos_1, f'r = {r}, {p_text}', fontsize=13, fontstyle='italic', ha='right',
+               va='top')
+
+    fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_{fig_name_suffix}.pdf", dpi=100)
+
 
 
 # %% Analysis: Chromaticity-correlation between WLC and OLC
@@ -228,7 +199,9 @@ def perform_two_sample_ttest_for_mode_segment(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     # save the results to this folder:
-    result_dir = create_results_folder(analysis_name="piece_chromatcities_corr", repo_dir=repo_dir)
+    result_dir = create_results_folder(parent_folder="Results",
+                                       analysis_name="piece_chrom_corr",
+                                       repo_dir=repo_dir)
 
     major_df = _piece_chromaticity_df_by_mode(df=df, mode="major")
     minor_df = _piece_chromaticity_df_by_mode(df=df, mode="minor")
@@ -274,7 +247,9 @@ def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
                                           period_by: Optional[Literal["Johannes", "Fabian"]]
                                           ) -> pd.DataFrame:
     # save the results to this folder:
-    result_dir = create_results_folder(analysis_name="piece_chromatcities_corr", repo_dir=repo_dir)
+    result_dir = create_results_folder(parent_folder="Results",
+                                       analysis_name="piece_chrom_corr",
+                                       repo_dir=repo_dir)
 
     _major_df = _piece_chromaticity_df_by_mode(df=df, mode="major")
     _minor_df = _piece_chromaticity_df_by_mode(df=df, mode="minor")
@@ -312,7 +287,9 @@ def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
 
 def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"]):
     # save the results to this folder:
-    result_dir = create_results_folder(analysis_name="piece_chromatcities_corr", repo_dir=repo_dir)
+    result_dir = create_results_folder(parent_folder="Results",
+                                       analysis_name="piece_chrom_corr",
+                                       repo_dir=repo_dir)
 
     major_df = _piece_chromaticity_df_by_mode(df=df, mode="major")
     minor_df = _piece_chromaticity_df_by_mode(df=df, mode="minor")
@@ -332,7 +309,7 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["J
     num_cols = 4 if period_by == "Johannes" else 5
     fig, axs = plt.subplots(num_rows, num_cols,
                             layout="constrained",
-                            figsize=(4 * num_periods + 2, 8))
+                            figsize=(3 * num_periods + 1, 6))
 
     # period axes:
     for i, period in enumerate(periods):
@@ -388,12 +365,13 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["J
     fig.supxlabel("Within-Label Chromaticity (WLC)", fontsize=15, fontdict=dict(weight='bold'))
     fig.supylabel("Out-of-Label Chromaticity (OLC)", fontsize=15, fontdict=dict(weight='bold'))
     # save plot
-    plt.savefig(f'{result_dir}fig_chromaticity_corr_period{period_by}.pdf', dpi=200)
+    plt.savefig(f'{result_dir}fig_chrom_corr_period{period_by}.pdf', dpi=200)
     plt.show()
 
 
 if __name__ == "__main__":
-    repo_dir = '/Users/xinyiguan/Codes/chromaticism-codes/'
+    user = os.path.expanduser("~")
+    repo_dir = f'{user}/Codes/chromaticism-codes/'
 
     # # Analysis: Piece distributions fig and table _________________________________________________________
     # print(f'Analysis: Piece distributions fig and table _____________________________________')
@@ -402,25 +380,25 @@ if __name__ == "__main__":
     # print(f'Finished piece distribution analysis for period division (Fabian division)...')
     # piece_distribution(df=prep_DLC_df, period_by="Johannes", repo_dir=repo_dir)
     # print(f'Finished piece distribution analysis for period division (Johannes division)...')
-    #
 
-    # # Analysis: Chromaticity-Dissonance corr: chord-level WLC and WLD ____________________________________
-    #
+    # Analysis: Chromaticity-Dissonance corr: chord-level WLC and WLD ____________________________________
+
     # print(f'Analysis: correlation between chord-level chromaticity and dissonance _______________________')
     # chord_indices_df = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chord_level_indices.pickle")
+    # print(f'Starting the corr analyses...')
     # corr_chord_level_WLC_WLD(df=chord_indices_df, period_by="Johannes")
     # corr_chord_level_WLC_WLD(df=chord_indices_df, period_by="Fabian")
-    # print(f'Finished analysis on correlation between chromaticity and dissonance!')
+    # print(f'Fini!')
 
-    # # Analysis: chromaticity correlation
-    #
-    # print(f'Analysis: correlation between WLC and OLC by periods ______________________')
-    # chromaticity_df = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
-    #
-    # print(f'    t-test for major and minor segment groups ...')
-    # ttest_for_mode_separation = perform_two_sample_ttest_for_mode_segment(df=chromaticity_df)
-    #
-    # print(f'    correlation between WLC and OLC ...')
-    # chrom_corr_by_JP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Johannes")
-    # chrom_corr_by_FP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Fabian")
-    # chrom_corr = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by=None)
+    # Analysis: chromaticity correlation
+
+    print(f'Analysis: correlation between WLC and OLC by periods ______________________')
+    chromaticity_df = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
+
+    print(f'    t-test for major and minor segment groups ...')
+    ttest_for_mode_separation = perform_two_sample_ttest_for_mode_segment(df=chromaticity_df)
+
+    print(f'    correlation between WLC and OLC ...')
+    chrom_corr_by_JP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Johannes")
+    chrom_corr_by_FP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Fabian")
+    chrom_corr = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by=None)
