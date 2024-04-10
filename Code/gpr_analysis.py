@@ -165,7 +165,10 @@ def ax_gpr_prediction(ax: Axes,
     else:
         fmean_color = "black"
 
-    ax.plot(Xplot, f_mean, "-", color=fmean_color, label=f"f mean({modeled_feature})", linewidth=2.5)
+
+    # transform back the precipitation space
+    exp_f_mean = np.exp(f_mean)
+    ax.plot(Xplot, exp_f_mean, "-", color=fmean_color, label=f"f mean({modeled_feature})", linewidth=2.5)
 
     if plot_f_uncertainty:
         assert fvar_color is not None
@@ -205,9 +208,11 @@ def ax_full_gpr_model(ax: Axes,
     """
     X = np.array(m_outputs[0].data[0])
     Y = np.array(m_outputs[0].data[1])
+    expY = np.exp(Y)
+
 
     ax.set_title(ax_title)
-    ax_scatter_observations(ax=ax, X=X, Y=Y, hue_by=scatter_hue_by, jitter=scatter_jitter,
+    ax_scatter_observations(ax=ax, X=X, Y=expY, hue_by=scatter_hue_by, jitter=scatter_jitter,
                             scatter_colormap=scatter_colormap)
     ax_gpr_prediction(ax=ax, m_outputs=m_outputs, fmean_color=fmean_color, fvar_color=fvar_color,
                       plot_samples=plot_samples, plot_f_uncertainty=plot_f_uncertainty,
