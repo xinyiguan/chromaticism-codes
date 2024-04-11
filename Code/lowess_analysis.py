@@ -1,3 +1,4 @@
+import os
 from typing import Optional, Literal
 
 import numpy as np
@@ -27,7 +28,8 @@ def plot_lowess_model(df: pd.DataFrame,
     plt.show()
 
 if __name__=="__main__":
-    repo_dir = '/Users/xinyiguan/Codes/chromaticism-codes/'
+    user = os.path.expanduser("~")
+    repo_dir = f'{user}/Codes/chromaticism-codes/'
 
     major_df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_major.pickle')
     minor_df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_minor.pickle')

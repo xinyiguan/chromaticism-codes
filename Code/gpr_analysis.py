@@ -95,7 +95,7 @@ def gpr_model_outputs(df: pd.DataFrame,
     return model_outputs
 
 
-# %% model plotting functions
+# %% [axs] model plotting functions
 
 def ax_scatter_observations(ax: Axes,
                             X: np.ndarray, Y: np.ndarray,
@@ -127,7 +127,7 @@ def ax_scatter_observations(ax: Axes,
         ax.scatter(rand_jitter(X), Y, c=color, s=20, label="Observations", alpha=0.4)
     else:
         ax.scatter(X, Y, c=color, s=10, label="Observations", alpha=0.4)
-
+    ax.legend()
     return ax
 
 
@@ -145,13 +145,16 @@ def ax_gpr_prediction(ax: Axes,
     # unpack model outputs:
     _, (f_mean, f_var, y_mean, y_var), f_samples, lengthscale, modeled_feature = m_outputs
 
-    f_mean = np.exp(f_mean)
-    y_mean = np.exp(y_mean)
+    # transform back the precipitation space
+    exp_f_mean = np.exp(f_mean)
+    exp_y_mean = np.exp(y_mean)
 
-    f_lower = f_mean - 1.96 * np.sqrt(f_var)
-    f_upper = f_mean + 1.96 * np.sqrt(f_var)
-    y_lower = y_mean - 1.96 * np.sqrt(y_var)
-    y_upper = y_mean + 1.96 * np.sqrt(y_var)
+    f_mean_maxVal = exp_f_mean.max()
+
+    f_lower = exp_f_mean - 1.96 * np.sqrt(f_var)
+    f_upper = exp_f_mean + 1.96 * np.sqrt(f_var)
+    y_lower = exp_y_mean - 1.96 * np.sqrt(y_var)
+    y_upper = exp_y_mean + 1.96 * np.sqrt(y_var)
 
     # f_lower = f_mean.numpy() - 1.96 * np.sqrt(f_var)
     # f_upper = f_mean.numpy() + 1.96 * np.sqrt(f_var)
@@ -167,9 +170,8 @@ def ax_gpr_prediction(ax: Axes,
         fmean_color = "black"
 
 
-    # transform back the precipitation space
-    exp_f_mean = np.exp(f_mean)
     ax.plot(Xplot, exp_f_mean, "-", color=fmean_color, label=f"f mean({modeled_feature})", linewidth=2.5)
+    ax.set_ylim(0, 3)
 
     if plot_f_uncertainty:
         assert fvar_color is not None
@@ -203,14 +205,13 @@ def ax_full_gpr_model(ax: Axes,
                       scatter_colormap: Optional[str],
                       scatter_hue_by: Optional[np.ndarray],
                       scatter_jitter: bool
-                      ) -> Axes:
+                      ):
     """
     plot the combined scatter ax and the gpr prediction ax
     """
     X = np.array(m_outputs[0].data[0])
     Y = np.array(m_outputs[0].data[1])
     expY = np.exp(Y)
-
 
     ax.set_title(ax_title)
     ax_scatter_observations(ax=ax, X=X, Y=expY, hue_by=scatter_hue_by, jitter=scatter_jitter,
@@ -220,7 +221,7 @@ def ax_full_gpr_model(ax: Axes,
                       plot_samples=plot_samples, plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty)
     ax.legend(title=r"$\lambda$={:.3f}".format(m_outputs[-2]), loc="upper left")
-    return ax
+    ax2.legend(loc="upper right")
 
 
 # %% GPR models plots
@@ -246,7 +247,7 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                                   feature_index="OLC", lengthscale=lengthscale, sample=plot_samples)
 
     # plotting:
-    fig, axs = plt.subplots(ncols=2, nrows=2, figsize=(9, 6), sharex=True, sharey=True,
+    fig, axs = plt.subplots(ncols=2, nrows=2, figsize=(11, 6), sharex=True, sharey=True,
                             layout="constrained")
 
     color_palette4 = ['#D9BDC3', '#C4D0CC', '#76A0AD', '#597C8B']
@@ -335,7 +336,8 @@ if __name__ == "__main__":
     minor_df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_minor.pickle')
     plot_gpr_chromaticities_by_mode(major_df=major_df, minor_df=minor_df,
                                     era_division="Fabian", lengthscale=10,
-                                    plot_samples=False, plot_y_uncertainty=False,
+                                    plot_samples=False,
+                                    plot_y_uncertainty=False,
                                     plot_f_uncertainty=False,
                                     repo_dir=repo_dir)
 
