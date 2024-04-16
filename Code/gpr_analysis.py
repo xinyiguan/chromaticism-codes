@@ -123,8 +123,8 @@ def ax_scatter_observations(ax: Axes,
 
     # adding jitter:
     if jitter:
-        # only add jitter on the x-axis not y-axis
-        ax.scatter(rand_jitter(X), Y, c=color, s=20, label="Observations", alpha=0.4)
+        # only add jitter only on the x-axis
+        ax.scatter(rand_jitter(X), Y, c=color, s=10, label="Observations", alpha=0.4)
     else:
         ax.scatter(X, Y, c=color, s=10, label="Observations", alpha=0.4)
     ax.legend()
@@ -149,8 +149,6 @@ def ax_gpr_prediction(ax: Axes,
     exp_f_mean = np.exp(f_mean)
     exp_y_mean = np.exp(y_mean)
 
-    f_mean_maxVal = exp_f_mean.max()
-
     f_lower = exp_f_mean - 1.96 * np.sqrt(f_var)
     f_upper = exp_f_mean + 1.96 * np.sqrt(f_var)
     y_lower = exp_y_mean - 1.96 * np.sqrt(y_var)
@@ -168,7 +166,6 @@ def ax_gpr_prediction(ax: Axes,
         fmean_color = fmean_color
     else:
         fmean_color = "black"
-
 
     ax.plot(Xplot, exp_f_mean, "-", color=fmean_color, label=f"f mean({modeled_feature})", linewidth=2.5)
     ax.set_ylim(0, 3)
@@ -211,7 +208,7 @@ def ax_full_gpr_model(ax: Axes,
     """
     X = np.array(m_outputs[0].data[0])
     Y = np.array(m_outputs[0].data[1])
-    expY = np.exp(Y)
+    expY = np.exp(Y)    # convert back to the precipitation space (before log)
 
     ax.set_title(ax_title)
     ax_scatter_observations(ax=ax, X=X, Y=expY, hue_by=scatter_hue_by, jitter=scatter_jitter,
