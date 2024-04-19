@@ -40,7 +40,7 @@ def determine_period(row: pd.Series, method: Literal["Fabian", "Johannes"]):
 
 
 def determine_period_id(row: pd.Series, method: Literal["Fabian", "Johannes"]):
-    if method=="Johannes":
+    if method == "Johannes":
         JP = f'period_Johannes'
         assert JP in row.index
         if row[JP] == "pre-Baroque":
@@ -154,24 +154,57 @@ def pprint_p_text(p_val: float):
 
 # plotting related ____________
 
-def map_array_to_colors(arr, color_map: str | None) -> List[str]:
+def map_array_to_colors(arr: np.ndarray, color_map: str | List[str]) -> List[str]:
     unique_values = np.unique(arr)
-    # num_unique_values = len(unique_values)
+    num_unique_values = len(unique_values)
 
     # Define the colormap using the recommended method
     # cmap = mcolors.ListedColormap(cm.Dark2.colors[:num_unique_values])
-    cmap = colormaps[color_map]
+    if isinstance(color_map, str):
+        cmap = colormaps[color_map]
+        # Create a dictionary to map unique values to colors
+        value_to_color = dict(zip(unique_values, cmap.colors))
 
-    # Create a dictionary to map unique values to colors
-    value_to_color = dict(zip(unique_values, cmap.colors))
+        # Map the values in the array to colors, using "gray" for 0 values
+        color_list = [value_to_color[val] if val != 0 else "gray" for val in arr]
+    else:
 
-    # Map the values in the array to colors, using "gray" for 0 values
-    color_list = [value_to_color[val] if val != 0 else "gray" for val in arr]
+        assert len(color_map) >= num_unique_values
+        # Create a dictionary to map unique values to colors
+        value_to_color = dict(zip(unique_values, color_map))
+        color_list = [value_to_color[val] for val in arr]
 
     return color_list
 
 
 # jitter
-def rand_jitter(arr, scale: float = .01):
+def rand_jitter(arr, scale: float = .005):
     stdev = scale * (max(arr) - min(arr))
     return arr + np.random.randn(len(arr)) * stdev
+
+
+# GPR log-transform
+
+def mean_var_after_log(mu: np.ndarray, var: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Given Y ~ N(mu, var) where Y=ln(Z), output mean and variance of Z
+    """
+
+    z_mu = np.exp(mu+var/2)
+
+    z_var = (np.exp(var)-1) * (np.exp(2*mu + var))
+
+    return z_mu, z_var
+
+
+def median_CI_after_log(mu: np.ndarray, var: np.ndarray) -> Tuple[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
+    """
+        Given Y ~ N(mu, var) where Y=ln(Z), output median and 95% CI of Z
+    """
+    z_med = np.exp(mu)
+
+    z_CI_lower = np.exp(mu-1.96*np.sqrt(var))
+    z_CI_upper = np.exp(mu+1.96*np.sqrt(var))
+
+    return z_med, (z_CI_lower, z_CI_upper)
+

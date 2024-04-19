@@ -1,7 +1,7 @@
 import os
 import pickle
 from contextlib import redirect_stdout
-from typing import Literal, Optional, Tuple
+from typing import Literal, Optional, Tuple, List
 
 import numpy as np
 import gpflow as gf
@@ -12,7 +12,8 @@ from tensorflow import Tensor
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 
-from Code.utils.auxiliary import create_results_folder, map_array_to_colors, rand_jitter
+from Code.utils.auxiliary import create_results_folder, map_array_to_colors, rand_jitter, Fabian_periods, \
+    Johannes_periods, mean_var_after_log, median_CI_after_log
 from Code.utils.util import load_file_as_df
 
 # MODEL_OUTPUT type: (model, (fmean, fvar, ymean, yvar), f_samples, lengthscale, feature_index)
@@ -100,41 +101,43 @@ def gpr_model_outputs(df: pd.DataFrame,
 def ax_scatter_observations(ax: Axes,
                             X: np.ndarray, Y: np.ndarray,
                             hue_by: Optional[np.ndarray],
-                            scatter_colormap: Optional[str],
-                            jitter: bool = True) -> Axes:
+                            scatter_colormap: Optional[str | List[str]],
+                            jitter: bool = True
+                            ) -> Axes:
     X = X.squeeze(axis=-1)
     Y = Y.squeeze(axis=-1)
 
     if hue_by is None:
         color = "gray"
-        # alpha = 0.4
     elif isinstance(hue_by, str):
         color = hue_by
-        # alpha = 0.4
 
     elif isinstance(hue_by, np.ndarray):
         if scatter_colormap:
             color = map_array_to_colors(arr=hue_by, color_map=scatter_colormap)
-            # alpha = [0.4 if col == "gray" else 0.4 for col in color]
+
         else:
             raise ValueError
     else:
         raise TypeError
 
-    # adding jitter:
     if jitter:
         # only add jitter only on the x-axis
-        ax.scatter(rand_jitter(X), Y, c=color, s=10, label="Observations", alpha=0.4)
+        ax.scatter(rand_jitter(X), Y, c=color, s=12, alpha=0.6
+                   , label="Observations"
+                   )
     else:
-        ax.scatter(X, Y, c=color, s=10, label="Observations", alpha=0.4)
-    ax.legend()
+        ax.scatter(X, Y, c=color, s=12, alpha=0.6
+                   , label="Observations"
+                   )
     return ax
 
 
 def ax_gpr_prediction(ax: Axes,
                       m_outputs: MODEL_OUTPUT,
+                      prediction_stat: Literal["mean", "median"],
                       fmean_color: Optional[str],
-                      fvar_color: Optional[str],
+                      # fvar_color: Optional[str],
                       plot_samples: int | None,
                       plot_f_uncertainty: bool,
                       plot_y_uncertainty: bool
@@ -146,18 +149,22 @@ def ax_gpr_prediction(ax: Axes,
     _, (f_mean, f_var, y_mean, y_var), f_samples, lengthscale, modeled_feature = m_outputs
 
     # transform back the precipitation space
-    exp_f_mean = np.exp(f_mean)
-    exp_y_mean = np.exp(y_mean)
 
-    f_lower = exp_f_mean - 1.96 * np.sqrt(f_var)
-    f_upper = exp_f_mean + 1.96 * np.sqrt(f_var)
-    y_lower = exp_y_mean - 1.96 * np.sqrt(y_var)
-    y_upper = exp_y_mean + 1.96 * np.sqrt(y_var)
+    if prediction_stat == "mean":
+        exp_f, exp_f_var = mean_var_after_log(mu=np.array(f_mean), var=np.array(f_var))
+        exp_y, exp_y_var = mean_var_after_log(mu=np.array(y_mean), var=np.array(y_var))
 
-    # f_lower = f_mean.numpy() - 1.96 * np.sqrt(f_var)
-    # f_upper = f_mean.numpy() + 1.96 * np.sqrt(f_var)
-    # y_lower = y_mean.numpy() - 1.96 * np.sqrt(y_var)
-    # y_upper = y_mean.numpy() + 1.96 * np.sqrt(y_var)
+        f_lower = exp_f - 1.96 * np.sqrt(exp_f_var)
+        f_upper = exp_f + 1.96 * np.sqrt(exp_f_var)
+        y_lower = exp_y - 1.96 * np.sqrt(exp_y_var)
+        y_upper = exp_y + 1.96 * np.sqrt(exp_y_var)
+
+        exp_f_samples, _ = mean_var_after_log(mu=np.array(f_samples), var=np.array(f_var))
+
+    else:
+        exp_f, (f_lower, f_upper) = median_CI_after_log(mu=np.array(f_mean), var=np.array(f_var))
+        exp_y, (y_lower, y_upper) = median_CI_after_log(mu=np.array(y_mean), var=np.array(y_var))
+        exp_f_samples, _ = median_CI_after_log(mu=np.array(f_samples), var=np.array(f_var))
 
     X = m_outputs[0].data[0]
     Xplot = np.arange(min(X), max(X) + 1).reshape((-1, 1))
@@ -167,68 +174,112 @@ def ax_gpr_prediction(ax: Axes,
     else:
         fmean_color = "black"
 
-    ax.plot(Xplot, exp_f_mean, "-", color=fmean_color, label=f"f mean({modeled_feature})", linewidth=2.5)
+    ax.plot(Xplot, exp_f, "-", color=fmean_color, label=f"f {prediction_stat}({modeled_feature})", linewidth=2)
     ax.set_ylim(0, 3)
 
     if plot_f_uncertainty:
-        assert fvar_color is not None
-        ax.plot(Xplot, f_lower, "--", color=fvar_color, label="f 95% confidence", alpha=0.3)
-        ax.plot(Xplot, f_upper, "--", color=fvar_color, alpha=0.3)
+        ax.plot(Xplot, f_lower, "--", color=fmean_color, label="f 95% confidence", alpha=0.3)
+        ax.plot(Xplot, f_upper, "--", color=fmean_color, alpha=0.3)
         ax.fill_between(
-            Xplot[:, 0], f_lower[:, 0], f_upper[:, 0], color=fvar_color, alpha=0.3
+            Xplot[:, 0], f_lower[:, 0], f_upper[:, 0], color=fmean_color, alpha=0.3
         )
     if plot_y_uncertainty:
-        assert fvar_color is not None
-        ax.plot(Xplot, y_lower, "-", color=fvar_color, label="Y 95% confidence", linewidth=1, alpha=0.5)
-        ax.plot(Xplot, y_upper, "-", color=fvar_color, linewidth=1, alpha=0.5)
+        ax.plot(Xplot, y_lower, "-", color=fmean_color, label="Y 95% confidence", linewidth=1, alpha=0.5)
+        ax.plot(Xplot, y_upper, "-", color=fmean_color, linewidth=1, alpha=0.5)
         ax.fill_between(
-            Xplot[:, 0], y_lower[:, 0], y_upper[:, 0], color=fvar_color, alpha=0.2
+            Xplot[:, 0], y_lower[:, 0], y_upper[:, 0], color=fmean_color, alpha=0.2
         )
     if plot_samples:
-        ax.plot(Xplot, f_samples[:, :, 0].numpy().T, 'darkgray', linewidth=0.5, alpha=0.6)
+        ax.plot(Xplot, exp_f_samples[:, :, 0].numpy().T, 'darkgray', linewidth=0.5, alpha=0.6)
 
-    ax.legend()
+    ax.legend(loc="upper left")
     return ax
+
+
+def ax_full_gpr_model_doubleyticks(ax: Axes,
+                                   m_outputs: MODEL_OUTPUT,
+                                   prediction_stat: Literal["mean", "median"],
+                                   ax_title: str,
+                                   fmean_color: Optional[str],
+                                   # fvar_color: Optional[str],
+                                   plot_samples: int | None,
+                                   plot_f_uncertainty: bool,
+                                   plot_y_uncertainty: bool,
+                                   scatter_colormap: Optional[str | List[str]],
+                                   scatter_hue_by: Optional[np.ndarray],
+                                   scatter_jitter: bool,
+                                   show_second_yticks: bool,
+                                   ):
+    """
+    plot the combined scatter ax and the gpr prediction ax
+    """
+    X = np.array(m_outputs[0].data[0])
+    Y = np.array(m_outputs[0].data[1])
+    expY = np.exp(Y)  # convert back to the precipitation space (before log)
+
+    ax.set_title(ax_title)
+    ax_scatter_observations(ax=ax, X=X, Y=expY, hue_by=scatter_hue_by,
+                            jitter=scatter_jitter,
+                            scatter_colormap=scatter_colormap)
+    ax2 = ax.twinx()
+    ax_gpr_prediction(ax=ax2, m_outputs=m_outputs, fmean_color=fmean_color,
+                      prediction_stat=prediction_stat,
+                      plot_samples=plot_samples, plot_f_uncertainty=plot_f_uncertainty,
+                      plot_y_uncertainty=plot_y_uncertainty)
+
+    # produce a legend with the unique colors from the scatter
+    ax.legend(title=r"$\lambda$={:.1f}".format(m_outputs[-2]),
+              loc="upper left")
+
+    ax.tick_params(axis='y', labelcolor="#003153")
+
+    ax2.legend(loc="upper right", labelcolor=fmean_color)
+
+    if show_second_yticks:
+        ax2.tick_params(axis='y', labelcolor=fmean_color)
+    else:
+        ax2.set_yticks([])
 
 
 def ax_full_gpr_model(ax: Axes,
                       m_outputs: MODEL_OUTPUT,
+                      prediction_stat: Literal["mean", "median"],
                       ax_title: str,
                       fmean_color: Optional[str],
                       fvar_color: Optional[str],
                       plot_samples: int | None,
                       plot_f_uncertainty: bool,
                       plot_y_uncertainty: bool,
-                      scatter_colormap: Optional[str],
+                      scatter_colormap: Optional[str | List[str]],
                       scatter_hue_by: Optional[np.ndarray],
-                      scatter_jitter: bool
-                      ):
-    """
-    plot the combined scatter ax and the gpr prediction ax
-    """
+                      scatter_jitter: bool):
     X = np.array(m_outputs[0].data[0])
     Y = np.array(m_outputs[0].data[1])
-    expY = np.exp(Y)    # convert back to the precipitation space (before log)
+    expY = np.exp(Y)  # convert back to the precipitation space (before log)
 
     ax.set_title(ax_title)
-    ax_scatter_observations(ax=ax, X=X, Y=expY, hue_by=scatter_hue_by, jitter=scatter_jitter,
+    ax_scatter_observations(ax=ax, X=X, Y=expY, hue_by=scatter_hue_by,
+                            jitter=scatter_jitter,
                             scatter_colormap=scatter_colormap)
-    ax2 = ax.twinx()
-    ax_gpr_prediction(ax=ax2, m_outputs=m_outputs, fmean_color=fmean_color, fvar_color=fvar_color,
+
+    ax_gpr_prediction(ax=ax, m_outputs=m_outputs, fmean_color=fmean_color,
+                      prediction_stat=prediction_stat,
                       plot_samples=plot_samples, plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty)
-    ax.legend(title=r"$\lambda$={:.3f}".format(m_outputs[-2]), loc="upper left")
-    ax2.legend(loc="upper right")
+
+    ax.set_ylim([0, 10])
 
 
 # %% GPR models plots
 
 def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFrame,
+prediction_stat: Literal["mean", "median"],
                                     era_division: Literal["Fabian", "Johannes"],
                                     lengthscale: Optional[float],
                                     plot_samples: int | None,
                                     plot_f_uncertainty: bool,
                                     plot_y_uncertainty: bool,
+                                    scatter_hue_by: bool,
                                     repo_dir: str
                                     ):
     # computing the models:
@@ -246,81 +297,84 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
     # plotting:
     fig, axs = plt.subplots(ncols=2, nrows=2, figsize=(11, 6), sharex=True, sharey=True,
                             layout="constrained")
+    fmean_color = "#3b3b3b"
+    # color_palette4 = ['#D9BDC3', '#C4D0CC', '#76A0AD', '#597C8B']
+    color_palette4 = ['#4f6980', '#849db1', '#638b66', '#bfbb60']
 
-    color_palette4 = ['#D9BDC3', '#C4D0CC', '#76A0AD', '#597C8B']
+    color_palette5 = ['#4f6980', '#849db1', '#a2ceaa', '#638b66', '#bfbb60']
+
+    if era_division == "Fabian":
+        scatter_color = color_palette5
+    else:
+        scatter_color = color_palette4
 
     # major wlc:
+    era_col_major = major_df[f'period_{era_division}'].to_numpy()
+
     ax_full_gpr_model(ax=axs[0, 0],
                       ax_title="WLC (major)",
                       m_outputs=major_wlc,
-                      fmean_color=None,
+                      prediction_stat=prediction_stat,
+                      fmean_color=fmean_color,
                       fvar_color=None,
                       plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty,
                       plot_samples=plot_samples,
-                      scatter_colormap=color_palette4[0],
+                      scatter_hue_by=era_col_major,
+                      scatter_colormap=scatter_color,
                       scatter_jitter=True,
-                      scatter_hue_by=None)
+                      # show_second_yticks=False
+                      )
     # major olc:
     ax_full_gpr_model(ax=axs[1, 0],
                       ax_title="OLC (major)",
                       m_outputs=major_olc,
-                      fmean_color=None,
+                      prediction_stat=prediction_stat,
+                      fmean_color=fmean_color,
                       fvar_color=None,
                       plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty,
                       plot_samples=plot_samples,
-                      scatter_colormap=color_palette4[1],
+                      scatter_hue_by=era_col_major,
+                      scatter_colormap=scatter_color,
                       scatter_jitter=True,
-                      scatter_hue_by=None)
+                      # show_second_yticks=False
+                      )
     # minor wlc:
+    era_col_minor = minor_df[f'period_{era_division}'].to_numpy()
     ax_full_gpr_model(ax=axs[0, 1],
                       ax_title="WLC (minor)",
                       m_outputs=minor_wlc,
-                      fmean_color=None,
+                      prediction_stat=prediction_stat,
+                      fmean_color=fmean_color,
                       fvar_color=None,
                       plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty,
                       plot_samples=plot_samples,
-                      scatter_colormap=color_palette4[0],
+                      scatter_hue_by=era_col_minor,
+                      scatter_colormap=scatter_color,
                       scatter_jitter=True,
-                      scatter_hue_by=None)
+                      # show_second_yticks=True
+                      )
     # minor olc:
     ax_full_gpr_model(ax=axs[1, 1],
                       ax_title="OLC (minor)",
                       m_outputs=minor_olc,
-                      fmean_color=None,
+                      prediction_stat=prediction_stat,
+                      fmean_color=fmean_color,
                       fvar_color=None,
                       plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty,
                       plot_samples=plot_samples,
-                      scatter_colormap=color_palette4[0],
+                      scatter_hue_by=era_col_minor,
                       scatter_jitter=True,
-                      scatter_hue_by=None)
+                      scatter_colormap=scatter_color,
+                      # show_second_yticks=True
+                      )
 
-    plt.show()
-
-
-def plot_gpr_all_trendlines(major_df: pd.DataFrame,
-                            minor_df: pd.DataFrame,
-                            lengthscale: Optional[float],
-                            repo_dir: str):
-    major_wlc = gpr_model_outputs(df=major_df, model_name="WLC(major)", repo_dir=repo_dir,
-                                  feature_index="WLC", lengthscale=lengthscale, sample=None)
-    major_olc = gpr_model_outputs(df=major_df, model_name="OLC(major)", repo_dir=repo_dir,
-                                  feature_index="OLC", lengthscale=lengthscale, sample=None)
-
-    minor_wlc = gpr_model_outputs(df=minor_df, model_name="WLC(minor)", repo_dir=repo_dir,
-                                  feature_index="WLC", lengthscale=lengthscale, sample=None)
-    minor_olc = gpr_model_outputs(df=minor_df, model_name="OLC(minor)", repo_dir=repo_dir,
-                                  feature_index="OLC", lengthscale=lengthscale, sample=None)
-
-    fig, axs = plt.subplots(ncols=1, nrows=2, figsize=(6, 6), sharex=True, sharey=True,
-                            layout="constrained")
-    ax_gpr_prediction(ax=axs[0], m_outputs=major_wlc, fmean_color=None, fvar_color=None,
-                      plot_samples=False, plot_f_uncertainty=False, plot_y_uncertainty=False)
-    ax_gpr_prediction(ax=axs[0], m_outputs=major_olc, fmean_color=None, fvar_color=None,
-                      plot_samples=False, plot_f_uncertainty=False, plot_y_uncertainty=False)
+    fig.supylabel("Chromaticity", fontweight="bold")
+    # fig.text(x=0.97, y=0.5, s="f mean \n\n\n", size=13, fontweight='bold', rotation=270,
+    #          ha='center', va='center')
 
     plt.show()
 
@@ -332,10 +386,12 @@ if __name__ == "__main__":
     major_df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_major.pickle')
     minor_df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_minor.pickle')
     plot_gpr_chromaticities_by_mode(major_df=major_df, minor_df=minor_df,
+                                    prediction_stat="median",
                                     era_division="Fabian", lengthscale=10,
                                     plot_samples=False,
                                     plot_y_uncertainty=False,
-                                    plot_f_uncertainty=False,
+                                    plot_f_uncertainty=True,
+                                    scatter_hue_by=True,
                                     repo_dir=repo_dir)
 
     # plot_gpr_all_trendlines(major_df=major_df, minor_df=minor_df, lengthscale=10)
