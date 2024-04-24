@@ -1,0 +1,4 @@
+num sub-corpora         39
+num pieces            1205
+num chords          228978
+num unique chord      5808

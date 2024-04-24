@@ -5,6 +5,13 @@ from matplotlib import colormaps
 import numpy as np
 import pandas as pd
 
+# color palette for period division
+Johannes_periods = ["pre-Baroque", "Baroque", "Classical", "Extended tonality"]
+Fabian_periods = ["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic"]
+
+color_palette4 = ['#4f6980', '#849db1', '#638b66', '#bfbb60']
+color_palette5 = ['#4f6980', '#849db1', '#a2ceaa', '#638b66', '#bfbb60']
+
 
 # preprocessing/computing metrics ___________ :
 
@@ -71,11 +78,6 @@ def determine_period_id(row: pd.Series, method: Literal["Fabian", "Johannes"]):
     return ID
 
 
-# ___________
-Johannes_periods = ["pre-Baroque", "Baroque", "Classical", "Extended tonality"]
-Fabian_periods = ["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic"]
-
-
 def get_period_df(df: pd.DataFrame,
                   method: Literal["Johannes", "Fabian"],
                   period: Literal["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic",
@@ -125,6 +127,19 @@ def get_period_df(df: pd.DataFrame,
     else:
         raise ValueError
 
+
+
+
+def determine_group(row: pd.Series, interval: Literal[25, 50]):
+    year = row["piece_year"]
+    if year < 1600:
+        return "<1600"
+    elif interval == 50:
+        return f"{((year - 1600) // 50) * 50 + 1600}-{((year - 1600) // 50) * 50 + 1650}"
+    elif interval == 25:
+        return f"{((year - 1600) // 25) * 25 + 1600}-{((year - 1600) // 25) * 25 + 1625}"
+    else:
+        raise ValueError("Interval should be either 25 or 50")
 
 def create_results_folder(parent_folder: Literal["Data", "Results"], analysis_name: Optional[str], repo_dir: str):
     if parent_folder == "Data":
@@ -190,9 +205,9 @@ def mean_var_after_log(mu: np.ndarray, var: np.ndarray) -> Tuple[np.ndarray, np.
     Given Y ~ N(mu, var) where Y=ln(Z), output mean and variance of Z
     """
 
-    z_mu = np.exp(mu+var/2)
+    z_mu = np.exp(mu + var / 2)
 
-    z_var = (np.exp(var)-1) * (np.exp(2*mu + var))
+    z_var = (np.exp(var) - 1) * (np.exp(2 * mu + var))
 
     return z_mu, z_var
 
@@ -203,8 +218,7 @@ def median_CI_after_log(mu: np.ndarray, var: np.ndarray) -> Tuple[np.ndarray, Tu
     """
     z_med = np.exp(mu)
 
-    z_CI_lower = np.exp(mu-1.96*np.sqrt(var))
-    z_CI_upper = np.exp(mu+1.96*np.sqrt(var))
+    z_CI_lower = np.exp(mu - 1.96 * np.sqrt(var))
+    z_CI_upper = np.exp(mu + 1.96 * np.sqrt(var))
 
     return z_med, (z_CI_lower, z_CI_upper)
-

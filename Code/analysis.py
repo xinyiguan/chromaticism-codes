@@ -1,3 +1,4 @@
+import fractions
 import os
 from typing import Literal, Optional, Tuple
 import pandas as pd
@@ -8,7 +9,7 @@ from matplotlib.axes import Axes
 
 from Code.utils.util import load_file_as_df, corpus_composer_dict, corpus_collection_dict
 from Code.utils.auxiliary import create_results_folder, determine_period_id, get_period_df, Johannes_periods, \
-    Fabian_periods, pprint_p_text
+    Fabian_periods, pprint_p_text, color_palette5, color_palette4, determine_group
 
 
 # %% Analysis: Basic chrom, diss stats
@@ -77,6 +78,40 @@ def stats_by_corpus(df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
     return pieces_df
 
 
+def DLC_corpus_stats(chord_level_df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
+    """
+    This function computes the number of:
+    pieces, chord symbols, unique chord tokens.
+    """
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="basic_stats", repo_dir=repo_dir)
+
+    df = chord_level_df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
+        corpus_year=("corpus_year", "first"),
+        piece_year=("piece_year", "first"))
+
+    df = df.sort_values(by=["corpus_year", "piece_year"], ignore_index=True)
+
+    df["corpus_id"] = pd.factorize(df["corpus"])[0] + 1
+    df["piece_id"] = pd.factorize(df["piece"])[0] + 1
+
+    num_subcorpora = df["corpus_id"].max()
+    num_pieces = df["piece_id"].max()
+    num_chords = chord_level_df.shape[0]
+    num_unique_chords = chord_level_df["chord"].unique().shape[0]
+
+    result = pd.Series({
+        "num sub-corpora": num_subcorpora,
+        "num pieces": num_pieces,
+        "num chords": num_chords,
+        "num unique chord": num_unique_chords
+    })
+
+    result.to_string(f'{result_dir}DLC_corpus_stats.txt')
+
+    return result
+
+
 def _ax_chrom_distribution(ax: Axes,
                            df: pd.DataFrame,
                            logscale: bool,
@@ -114,7 +149,7 @@ def plot_chrom_distribution(df: pd.DataFrame,
     _ax_chrom_distribution(ax=axs[3, 0], df=df, mode="minor", chromaticity_type="OLC", logscale=False)
     _ax_chrom_distribution(ax=axs[3, 1], df=df, mode="minor", chromaticity_type="OLC", logscale=True)
 
-    plt.show()
+    plt.savefig(f'{result_dir}distribution_before_after_log_transformation.pdf', dpi=200)
 
 
 # %% Analysis: Piece distributions fig and table
@@ -161,8 +196,9 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"
             h.axvline(b, c="gray", ls="--")
 
         # save the fig
-        p = h.get_figure()
-        p.savefig(f"{result_dir}fig_histogram_JP.pdf", dpi=300)
+        # p = h.get_figure()
+        plt.tight_layout()
+        plt.savefig(f"{result_dir}fig_histogram_JP.pdf", dpi=200)
 
         # stats __________________________
         piece_num = pieces_df.groupby(['corpus', 'period_Johannes']).agg(
@@ -178,8 +214,9 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"
         stats_df['Corpus'] = stats_df['Corpus'].str.replace('_', ' ')
         stats_df.to_pickle(f'{result_dir}corpus_stats_table_JP.pickle')
         stats_df.to_latex(buf=f'{result_dir}corpus_stats_latex_table_JP.txt')
+        del h
 
-    else:
+    elif period_by == "Fabian":
 
         ## plotting ________________________
         # Get the data from the plot
@@ -207,8 +244,9 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"
             f.write('\n'.join(period_division_txt))
 
         # save the fig
-        p = h.get_figure()
-        p.savefig(f"{result_dir}fig_histogram_FP.pdf", dpi=300)
+        # p = h.get_figure()
+        plt.tight_layout()
+        plt.savefig(f"{result_dir}fig_histogram_FP.pdf", dpi=200)
 
         ## stats __________________________
         piece_num = pieces_df.groupby(['corpus', 'period_Fabian']).agg(
@@ -224,12 +262,17 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"
         stats_df['Corpus'] = stats_df['Corpus'].str.replace('_', ' ')
         stats_df.to_pickle(f'{result_dir}corpus_stats_table_FP.pickle')
         stats_df.to_latex(buf=f'{result_dir}corpus_stats_table_FP.txt')
+        del h
+
+    else:
+        raise ValueError
 
 
 # %% Analysis: Chromaticity-Dissonance: correlation between chord-level WLC and WLD
 
 def corr_chord_level_WLC_WLD(df: pd.DataFrame,
-                             period_by: Literal["Johannes", "Fabian"]):
+                             period_by: Literal["Johannes", "Fabian"],
+                             repo_dir: str):
     """
     df: the chord-level indices dataframe containing all chord-level WLC and WLD values
     """
@@ -283,10 +326,10 @@ def corr_chord_level_WLC_WLD(df: pd.DataFrame,
                va='top')
 
     fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_{fig_name_suffix}.pdf", dpi=100)
+    fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_{fig_name_suffix}.jpg", dpi=100)
 
 
 # %% Analysis: Chromaticity-correlation between WLC and OLC
-
 
 def _piece_chromaticity_df_by_mode(df: pd.DataFrame, mode: Literal["major", "minor"]) -> pd.DataFrame:
     if mode == "major":
@@ -297,7 +340,7 @@ def _piece_chromaticity_df_by_mode(df: pd.DataFrame, mode: Literal["major", "min
     return result_df
 
 
-def perform_two_sample_ttest_for_mode_segment(df: pd.DataFrame) -> pd.DataFrame:
+def perform_two_sample_ttest_for_mode_segment(df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
     """
     perform a two-sample t-test for major/minor mode segments
 
@@ -350,8 +393,8 @@ def _piece_chrom_corr_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFrame,
 
 
 def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
-                                          period_by: Optional[Literal["Johannes", "Fabian"]]
-                                          ) -> pd.DataFrame:
+                                          period_by: Optional[Literal["Johannes", "Fabian"]],
+                                          repo_dir: str) -> pd.DataFrame:
     # save the results to this folder:
     result_dir = create_results_folder(parent_folder="Results",
                                        analysis_name="piece_chrom_corr",
@@ -391,7 +434,7 @@ def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
     return result_df
 
 
-def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"]):
+def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"], repo_dir: str):
     # save the results to this folder:
     result_dir = create_results_folder(parent_folder="Results",
                                        analysis_name="piece_chrom_corr",
@@ -472,49 +515,221 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Literal["J
     fig.supylabel("Out-of-Label Chromaticity (OLC)", fontsize=15, fontdict=dict(weight='bold'))
     # save plot
     plt.savefig(f'{result_dir}fig_chrom_corr_period{period_by}.pdf', dpi=200)
+    plt.savefig(f'{result_dir}fig_chrom_corr_period{period_by}.jpg', dpi=200)
+
+
+# %% Analysis: Source of chromaticity in a piece (WLC-OLC percentage)
+
+def plor_scatter_chromaticity_source_ratio_across_time(df: pd.DataFrame,
+                                                       mode: Literal["major", "minor"],
+                                                       era_division: Literal["Fabian", "Johannes"],
+                                                       repo_dir: str):
+    """
+    df: assuming we take the "chromaticity_piece_[mode]" df
+    """
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="chromaticity_source", repo_dir=repo_dir)
+
+    if era_division == "Fabian":
+        color_palette = color_palette5
+    else:
+        color_palette = color_palette4
+
+    era_div = f'period_{era_division}'
+
+    s = sns.scatterplot(data=df, x="piece_year", y="WLC_percentage",
+                        hue=era_div, palette=color_palette)
+    s.axhline(0.5, c="gray", ls="--")
+
     plt.show()
+
+
+def ridge_plot_chromaticity_ratio(df: pd.DataFrame,
+                                  mode: Literal["major", "minor"],
+                                  step_by: Literal["group", "period_Fabian", "period_Johannes"],
+                                  year_interval: Optional[Literal[25, 50]],
+                                  repo_dir: str):
+    """
+    df: assuming we take the "chromaticity_piece_[mode]" df
+    """
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="chromaticity_source", repo_dir=repo_dir)
+    df = df.sort_values(by=['piece_year'])
+
+    if step_by == "group":
+        assert year_interval is not None
+        df["step_by"] = df.apply(lambda row: determine_group(row=row, interval=year_interval), axis=1)
+    elif step_by == "period_Fabian":
+        df["step_by"] = df["period_Fabian"]
+    else:
+        df["step_by"] = df["period_Johannes"]
+
+    num_axes = len(df["step_by"].unique())
+
+    # Initialize the FacetGrid object
+    palette = sns.cubehelix_palette(num_axes, rot=-.25, light=.7)
+    g = sns.FacetGrid(df, row="step_by", hue="step_by", aspect=6, height=.8, palette=palette)
+
+    # Draw the densities
+    bw_adjust = .5
+    linewidth = 1
+    g.map(sns.kdeplot, "WLC_percentage",
+          bw_adjust=bw_adjust,
+          # clip_on=False,
+          fill=True, alpha=1, linewidth=linewidth)
+
+    # g.map(sns.kdeplot, "WLC_percentage",
+    #       # clip_on=False,
+    #       color="w", lw=linewidth, bw_adjust=bw_adjust)
+
+    # passing color=None to refline() uses the hue mapping
+    g.refline(y=0, linewidth=2, linestyle="-", color=None, clip_on=False)
+
+    # Define and use a simple function to label the plot in axes coordinates
+    def label(x, color, label):
+        ax = plt.gca()
+        ax.text(0, .4, label, color=color, fontsize="small",
+                ha="left", va="center", transform=ax.transAxes)
+
+    g.map(label, "step_by")
+
+    # Set the subplots to overlap
+    g.figure.subplots_adjust(hspace=-.25)
+
+    # Remove axes details that don't play well with overlap
+    g.set_titles("")
+
+    g.set(yticks=[], ylabel="")
+    g.set(xticks=[], xlabel="within-label chromaticity percentage")
+    g.despine(bottom=True, left=True)
+
+    # iterate over axes of FacetGrid
+    for ax in g.axes.flat:
+        labels = [0, 0.5, 1]
+        ax.set_xticks(labels)
+
+    g.fig.tight_layout(w_pad=0.25)
+    g.fig.suptitle(f"{mode}")
+
+    fig_name = f'ridge_plot_{step_by}_{mode}.pdf'
+
+    plt.savefig(f'{result_dir}{fig_name}', dpi=200)
+
+
+# %% Analysis: Mozart k331 theme and variations
+
+def mozart_analysis(df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
+    """
+    df: assuming we take the "chord_level_indices" df
+    """
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="mozart_example", repo_dir=repo_dir)
+
+    mozart = df[(df['corpus'] == 'mozart_piano_sonatas') & (df['piece'] == 'K331-1')]
+
+    mozart["quarterbeats"] = mozart["quarterbeats"].apply(lambda x: fractions.Fraction(x))
+
+    thema = mozart[(mozart["quarterbeats"].between(0, 45 / 2))]
+
+    var1 = mozart[(mozart["quarterbeats"].between(111 / 2, 153 / 2))]
+
+    var2 = mozart[(mozart["quarterbeats"].between(109, 261 / 2))]
+
+    var3 = mozart[(mozart["quarterbeats"].between(162, 369 / 2))]
+
+    var4 = mozart[(mozart["quarterbeats"].between(216, 477 / 2))]
+
+    var5 = mozart[(mozart["quarterbeats"].between(1085 / 4, 293))]
+
+    var6 = mozart[(mozart["quarterbeats"].between(325, 354))]
+
+    dfs = []
+    versions = ["thema", "var1", "var2", "var3", "var4", "var5", "var6"]
+    for i, x in enumerate([thema, var1, var2, var3, var4, var5, var6]):
+        x["version"] = versions[i]
+        data = [x["version"].unique()[0], x["WLC"].mean(), x["OLC"].mean()]
+        cols = ["version", "WLC", "OLC"]
+        result = pd.DataFrame([data], columns=cols)
+        dfs.append(result)
+
+    results = pd.concat(dfs)
+
+    results.to_latex(f'{result_dir}mozart_CI_table.txt', index=False)
+
 
 
 if __name__ == "__main__":
     user = os.path.expanduser("~")
-    repo_dir = f'{user}/Codes/chromaticism-codes/'
+    repo = f'{user}/Codes/chromaticism-codes/'
+
+    chord_indices = load_file_as_df(
+        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chord_level_indices.pickle")
+    mozart_analysis(chord_indices, repo_dir=repo)
+
+    print(f'DLC corpus basic stats ...')
+    chord_level_df = load_file_as_df(path=f'{repo}Data/prep_data/processed_DLC_data.pickle')
+    DLC_corpus_stats(chord_level_df=chord_level_df, repo_dir=repo)
 
     # Analysis: Basic stats _________________________________________________________
     print(f'Analysis: Basic stats for chromaticity and dissonance __________________')
-    chrom_by_mode = load_file_as_df(path=f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle')
-    plot_chrom_distribution(df=chrom_by_mode, repo_dir=repo_dir)
+    chrom_by_mode = load_file_as_df(path=f'{repo}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle')
+    plot_chrom_distribution(df=chrom_by_mode, repo_dir=repo)
 
-    # print(f'Analysis: Basic stats for chromaticity and dissonance __________________')
-    # chord_level_df = load_file_as_df(path=f'{repo_dir}Data/prep_data/for_analysis/chord_level_indices.pickle')
-    # stats_by_piece(df=chord_level_df, repo_dir=repo_dir)
-    # stats_by_corpus(df=chord_level_df, repo_dir=repo_dir)
-    #
-    # # Analysis: Piece distributions fig and table _________________________________________________________
-    # print(f'Analysis: Piece distributions fig and table _____________________________________')
-    # prep_DLC_df = load_file_as_df(path=f"{repo_dir}Data/prep_data/processed_DLC_data.pickle")
-    # piece_distribution(df=prep_DLC_df, period_by="Fabian", repo_dir=repo_dir)
-    # print(f'Finished piece distribution analysis for period division (Fabian division)...')
-    # piece_distribution(df=prep_DLC_df, period_by="Johannes", repo_dir=repo_dir)
-    # print(f'Finished piece distribution analysis for period division (Johannes division)...')
-    #
-    # # Analysis: Chromaticity-Dissonance corr: chord-level WLC and WLD ____________________________________
-    #
-    # print(f'Analysis: correlation between chord-level chromaticity and dissonance _______________________')
-    # chord_indices_df = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chord_level_indices.pickle")
-    # print(f'Starting the corr analyses...')
-    # corr_chord_level_WLC_WLD(df=chord_indices_df, period_by="Johannes")
-    # corr_chord_level_WLC_WLD(df=chord_indices_df, period_by="Fabian")
-    # print(f'Fini!')
-    #
-    # # Analysis: chromaticity correlation
-    #
-    # print(f'Analysis: correlation between WLC and OLC by periods ______________________')
-    # chromaticity_df = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
-    #
-    # print(f'    t-test for major and minor segment groups ...')
-    # ttest_for_mode_separation = perform_two_sample_ttest_for_mode_segment(df=chromaticity_df)
-    #
-    # print(f'    correlation between WLC and OLC ...')
-    # chrom_corr_by_JP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Johannes")
-    # chrom_corr_by_FP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Fabian")
-    # chrom_corr = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by=None)
+    print(f'Analysis: Basic stats for chromaticity and dissonance __________________')
+    chord_level_df = load_file_as_df(path=f'{repo}Data/prep_data/for_analysis/chord_level_indices.pickle')
+    stats_by_piece(df=chord_level_df, repo_dir=repo)
+    stats_by_corpus(df=chord_level_df, repo_dir=repo)
+
+    # Analysis: Piece distributions fig and table _________________________________________________________
+    print(f'Analysis: Piece distributions fig and table _____________________________________')
+    prep_DLC_df = load_file_as_df(path=f"{repo}Data/prep_data/processed_DLC_data.pickle")
+
+    piece_distribution(df=prep_DLC_df, period_by="Fabian", repo_dir=repo)
+    print(f'Finished piece distribution analysis for period division (Fabian division)...')
+
+    piece_distribution(df=prep_DLC_df, period_by="Johannes", repo_dir=repo)
+    print(f'Finished piece distribution analysis for period division (Johannes division)...')
+
+    # Analysis: Chromaticity-Dissonance corr: chord-level WLC and WLD ____________________________________
+
+    print(f'Analysis: correlation between chord-level chromaticity and dissonance _______________________')
+    chord_indices_df = load_file_as_df(path=f"{repo}Data/prep_data/for_analysis/chord_level_indices.pickle")
+    print(f'Starting the corr analyses...')
+    corr_chord_level_WLC_WLD(df=chord_indices_df, period_by="Johannes", repo_dir=repo)
+    corr_chord_level_WLC_WLD(df=chord_indices_df, period_by="Fabian", repo_dir=repo)
+
+    # Analysis: chromaticity correlation
+
+    print(f'Analysis: correlation between WLC and OLC by periods ______________________')
+    chromaticity_df = load_file_as_df(path=f"{repo}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
+
+    print(f'    t-test for major and minor segment groups ...')
+    ttest_for_mode_separation = perform_two_sample_ttest_for_mode_segment(df=chromaticity_df, repo_dir=repo)
+
+    print(f'    correlation between WLC and OLC ...')
+    chrom_corr_by_JP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Johannes", repo_dir=repo)
+    chrom_corr_by_FP = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Fabian", repo_dir=repo)
+    chrom_corr = compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by=None, repo_dir=repo)
+    plot_piece_chromaticity_WLC_OLC_corr(df=chromaticity_df, period_by="Fabian", repo_dir=repo)
+    plot_piece_chromaticity_WLC_OLC_corr(df=chromaticity_df, period_by="Johannes", repo_dir=repo)
+
+
+    # Analysis: chromaticity source
+    print(f'Analysis: ridge plot for sources of chromaticism ______________________')
+
+    chromaticity_major = load_file_as_df(
+        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chromaticity_piece_major.pickle")
+    chromaticity_minor = load_file_as_df(
+        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chromaticity_piece_minor.pickle")
+
+    ridge_plot_chromaticity_ratio(df=chromaticity_major, mode="major", year_interval=None, step_by="period_Fabian",
+                                  repo_dir=repo)
+    ridge_plot_chromaticity_ratio(df=chromaticity_minor, mode="minor", year_interval=None, step_by="period_Fabian",
+                                  repo_dir=repo)
+    ridge_plot_chromaticity_ratio(df=chromaticity_major, mode="major", year_interval=None, step_by="period_Johannes",
+                                  repo_dir=repo)
+    ridge_plot_chromaticity_ratio(df=chromaticity_minor, mode="minor", year_interval=None, step_by="period_Johannes",
+                                  repo_dir=repo)
+
+
+    print(f'Fini!')

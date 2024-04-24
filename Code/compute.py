@@ -16,7 +16,7 @@ from Code.metrics import cumulative_distance_to_diatonic_set, pcs_dissonance_ran
 from Code.utils.util import flatten, flatten_to_list, safe_literal_eval, save_df, load_file_as_df
 
 
-# Define function: Loading with additional preprocessing steps and saving
+# %% Define function: Loading with additional preprocessing steps and saving
 
 def process_DLC_data(data_path: str,
                      repo_dir: str,
@@ -93,7 +93,7 @@ def process_DLC_data(data_path: str,
     return df
 
 
-# Compute metrics : Chromaticity
+# %% Compute metrics : Chromaticity
 
 def compute_chord_chromaticity(df: pd.DataFrame,
                                repo_dir: str,
@@ -126,15 +126,6 @@ def compute_piece_chromaticity(df: pd.DataFrame,
                                by: Literal["key_segment", "mode"],
                                repo_dir: str,
                                save: bool = True) -> pd.DataFrame:
-    def calculate_max_min_pc(x):
-        if len(x) > 0:
-            return max(x), min(x)
-        else:  # hacking the zero-length all_tones
-            return 0, 0
-
-    df["max_WL"], df["min_WL"] = zip(*df["within_label"].apply(calculate_max_min_pc))
-    df["max_OL"], df["min_OL"] = zip(*df["out_of_label"].apply(calculate_max_min_pc))
-
     if by == "key_segment":
         fname = f'chromaticity_piece_by_localkey'
         adj_check = (df.localkey != df.localkey.shift()).cumsum()
@@ -146,11 +137,6 @@ def compute_piece_chromaticity(df: pd.DataFrame,
             globalkey=("globalkey", "first"),
             localkey=("localkey", "first"),
             localkey_mode=("localkey_mode", "first"),
-
-            max_WL=("max_WL", "max"),
-            min_WL=("min_WL", "min"),
-            max_OL=("max_OL", "max"),
-            min_OL=("min_OL", "min"),
 
             WLC=("WLC", "mean"),
             OLC=("OLC", "mean")
@@ -167,23 +153,18 @@ def compute_piece_chromaticity(df: pd.DataFrame,
             globalkey=("globalkey", "first"),
             localkey_mode=("localkey_mode", "first"),
 
-            max_WL=("max_WL", "max"),
-            min_WL=("min_WL", "min"),
-            max_OL=("max_OL", "max"),
-            min_OL=("min_OL", "min"),
-
             WLC=("WLC", "mean"),
-            OLC=("OLC", "mean")
+            OLC=("OLC", "mean"),
+
         )
     else:
         raise ValueError()
 
     result_df = result_df.sort_values(by=["corpus_year", "piece_year"], ignore_index=True)
-    result_df["WL_5th_range"] = (result_df["max_WL"] - result_df["min_WL"]).abs()
-    result_df["OL_5th_range"] = (result_df["max_OL"] - result_df["min_OL"]).abs()
 
     result_df["corpus_id"] = pd.factorize(result_df["corpus"])[0] + 1
     result_df["piece_id"] = pd.factorize(result_df["piece"])[0] + 1
+
 
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -200,6 +181,24 @@ def get_piece_chromaticity_by_mode_seg(df: pd.DataFrame,
     df: the piece_chromaticity df by mode, containing the col named "localkey_mode"
     """
     result_df = df.loc[df['localkey_mode'] == mode]
+
+    def calculate_WLC_percentage(row):
+        denominator = (row["WLC"] + row["OLC"])
+        if denominator != 0:
+            return row["WLC"] / denominator
+        else:
+            return 0
+
+    def calculate_OLC_percentage(row):
+        denominator = (row["WLC"] + row["OLC"])
+        if denominator != 0:
+            return row["OLC"] / denominator
+        else:
+            return 0
+
+    result_df["WLC_percentage"] = result_df.apply(lambda row: calculate_WLC_percentage(row=row), axis=1)
+    result_df["OLC_percentage"] = result_df.apply(lambda row: calculate_OLC_percentage(row=row), axis=1)
+
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
         fname = f'chromaticity_piece_{mode}'
@@ -207,7 +206,7 @@ def get_piece_chromaticity_by_mode_seg(df: pd.DataFrame,
     return result_df
 
 
-# Compute metrics : Dissonance
+# %% Compute metrics : Dissonance
 def compute_chord_dissonance(df: pd.DataFrame,
                              repo_dir: str,
                              save: bool = True) -> pd.DataFrame:
@@ -225,7 +224,7 @@ def compute_chord_dissonance(df: pd.DataFrame,
 
     result = df[
         ["corpus", "piece", "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey", "localkey",
-         "duration_qb_frac", "chord", "within_label", "ICs", "WLD"]]
+         "duration_qb_frac", "quarterbeats", "chord", "within_label", "ICs", "WLD"]]
 
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -289,12 +288,60 @@ def compute_piece_dissonance(df: pd.DataFrame, weighted: bool,
     return result_df
 
 
-# Combine metric dataframes
+# %% Compute metric: fifths range
+
+def compute_piece_fifth_range(df: pd.DataFrame,
+                              repo_dir: str,
+                              save: bool = True) -> pd.DataFrame:
+    """
+    df: taking any chord-level df containing the columns "within_label" and out_of_label" => ("chromaticity_chord")
+    """
+
+    def calculate_max_min_pc(x):
+        if len(x) > 0:
+            return max(x), min(x)
+        else:  # hacking the zero-length all_tones
+            return 0, 0
+
+    df["max_WL"], df["min_WL"] = zip(*df["within_label"].apply(calculate_max_min_pc))
+    df["max_OL"], df["min_OL"] = zip(*df["out_of_label"].apply(calculate_max_min_pc))
+
+    result_df = df.groupby(['corpus', 'piece', 'localkey_mode'], as_index=False, sort=False).agg(
+        corpus_year=("corpus_year", "first"),
+        piece_year=("piece_year", "first"),
+        period_Fabian=("period_Fabian", "first"),
+        period_Johannes=("period_Johannes", "first"),
+        globalkey=("globalkey", "first"),
+        localkey_mode=("localkey_mode", "first"),
+
+        max_WL=("max_WL", "max"),
+        min_WL=("min_WL", "min"),
+        max_OL=("max_OL", "max"),
+        min_OL=("min_OL", "min")
+    )
+
+    result_df = result_df.sort_values(by=["corpus_year", "piece_year"], ignore_index=True)
+    result_df["WL_5th_range"] = (result_df["max_WL"] - result_df["min_WL"]).abs()
+    result_df["OL_5th_range"] = (result_df["max_OL"] - result_df["min_OL"]).abs()
+
+    result_df["corpus_id"] = pd.factorize(result_df["corpus"])[0] + 1
+    result_df["piece_id"] = pd.factorize(result_df["piece"])[0] + 1
+
+    if save:
+        folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+        fname = f'fifths_range_piece'
+        save_df(df=result_df, file_type="both", directory=folder_path, fname=fname)
+
+    return result_df
+
+
+# %% Combine metric dataframes
 def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
                                 chord_dissonance: pd.DataFrame,
                                 repo_dir: str,
                                 save: bool = True) -> pd.DataFrame:
-    common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey", "localkey",
+    common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey",
+                   "localkey", "quarterbeats",
                    "chord", "within_label"]
 
     chromaticity = chord_chromaticity[common_cols + ["out_of_label", "WLC", "OLC"]]
@@ -315,14 +362,6 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
         save_df(df=result_df, file_type="both", directory=folder_path, fname="chord_level_indices")
 
     return result_df
-
-
-def piece_level_indices(piece_chromaticity: pd.DataFrame, piece_dissonance: pd.DataFrame, fname: str,
-                        save: bool = True) -> pd.DataFrame:
-    common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "globalkey", "localkey"]
-
-    chromaticity = piece_chromaticity[common_cols]
-    raise NotImplemented
 
 
 if __name__ == "__main__":
@@ -352,15 +391,22 @@ if __name__ == "__main__":
                                                     save=True, repo_dir=repo_dir)
 
     print(f'Finished dissonance!')
-
+    #
     chord_chrom = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chromaticity_chord.pickle")
     chord_diss = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/dissonance_chord.pickle")
 
     print(f'Combing dfs for chromaticity and dissonance metrics ...')
     combine_chord_level_indices(chord_chromaticity=chord_chrom, chord_dissonance=chord_diss, repo_dir=repo_dir)
 
+    piece_chrom_by_mode = load_file_as_df(
+        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
     print(f'Getting separate piece-level chromaticties for major/minor mode segments...')
     get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="major", repo_dir=repo_dir)
     get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="minor", repo_dir=repo_dir)
+
+    print(f'Getting piece-level fifths range data ...')
+    chromaticity_chord = load_file_as_df(
+        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chromaticity_chord.pickle")
+    compute_piece_fifth_range(df=chromaticity_chord, repo_dir=repo_dir)
 
     print(f'Fini!')
