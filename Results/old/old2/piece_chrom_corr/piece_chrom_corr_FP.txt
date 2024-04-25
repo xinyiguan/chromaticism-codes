@@ -1,0 +1,11 @@
+\begin{tabular}{lrrrrl}
+\toprule
+ & r (major segment) & p (major segment) & r (minor segment) & p (minor segment) & period \\
+\midrule
+0 & 0.463000 & 0.001000 & 0.222000 & 0.021000 & Renaissance \\
+0 & 0.472000 & 0.000000 & 0.221000 & 0.000000 & Baroque \\
+0 & 0.339000 & 0.000000 & 0.256000 & 0.000000 & Classical \\
+0 & 0.071000 & 0.341000 & 0.169000 & 0.047000 & Early Romantic \\
+0 & 0.238000 & 0.012000 & 0.573000 & 0.000000 & Late Romantic \\
+\bottomrule
+\end{tabular}

@@ -11,8 +11,7 @@ pd.options.mode.chained_assignment = None  # default='warn'
 from pitchtypes import SpelledPitchClass
 
 from Code.utils.htypes import Numeral, Key
-from Code.metrics import cumulative_distance_to_diatonic_set, pcs_dissonance_rank, \
-    tpcs_to_ics
+from Code.metrics import cumulative_distance_to_diatonic_set, tpcs_to_ics, pcs_to_dissonance_score
 from Code.utils.util import flatten, flatten_to_list, safe_literal_eval, save_df, load_file_as_df
 
 
@@ -219,12 +218,12 @@ def compute_chord_dissonance(df: pd.DataFrame,
     """
 
     # WITHIN-LABEL DISSONANCE
-    df["ICs"] = df.apply(lambda row: tpcs_to_ics(tpcs=row["within_label"]), axis=1)
-    df["WLD"] = df.apply(lambda row: pcs_dissonance_rank(tpcs=row["within_label"]), axis=1)
+    df["interval_classes"] = df.apply(lambda row: tpcs_to_ics(tpcs=row["within_label"]), axis=1)
+    df["WLD"] = df.apply(lambda row: pcs_to_dissonance_score(tpcs=row["within_label"]), axis=1)
 
     result = df[
         ["corpus", "piece", "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey", "localkey",
-         "duration_qb_frac", "quarterbeats", "chord", "within_label", "ICs", "WLD"]]
+         "duration_qb_frac", "quarterbeats", "chord", "within_label", "interval_classes", "WLD"]]
 
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -345,16 +344,16 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
                    "chord", "within_label"]
 
     chromaticity = chord_chromaticity[common_cols + ["out_of_label", "WLC", "OLC"]]
-    dissonance = chord_dissonance[common_cols + ["ICs", "WLD"]]
+    dissonance = chord_dissonance[common_cols + ["interval_classes", "WLD"]]
 
     chromaticity.within_label = chromaticity.within_label.apply(tuple)
     chromaticity.out_of_label = chromaticity.out_of_label.apply(tuple)
     dissonance.within_label = dissonance.within_label.apply(tuple)
-    dissonance.ICs = dissonance.ICs.apply(tuple)
+    dissonance.interval_classes = dissonance.interval_classes.apply(tuple)
 
     result_df = chromaticity.merge(dissonance,
                                    on=common_cols,
-                                   how="outer")[common_cols + ["out_of_label", "ICs", "WLC", "OLC", "WLD"]]
+                                   how="outer")[common_cols + ["out_of_label", "interval_classes", "WLC", "OLC", "WLD"]]
 
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -368,18 +367,18 @@ if __name__ == "__main__":
     user = os.path.expanduser("~")
     repo_dir = f'{user}/Codes/chromaticism-codes/'
 
-    process_DLC_data(data_path=f"{repo_dir}Data/prep_data/DLC_data.pickle", save=True, repo_dir=repo_dir)
+    # process_DLC_data(data_path=f"{repo_dir}Data/prep_data/DLC_data.pickle", save=True, repo_dir=repo_dir)
 
     prep_DLC_data = load_file_as_df(path=f"{repo_dir}Data/prep_data/processed_DLC_data.pickle")
 
-    print(f'Computing chord chromaticity indices ...')
-    chord_chrom = compute_chord_chromaticity(df=prep_DLC_data, repo_dir=repo_dir)
-
-    print(f'Computing piece-level chromaticity ...')
-    piece_chrom_by_localkey = compute_piece_chromaticity(df=chord_chrom, by="key_segment", repo_dir=repo_dir)
-    piece_chrom_by_mode = compute_piece_chromaticity(df=chord_chrom, by="mode", repo_dir=repo_dir)
-
-    print(f'Finished chromaticity!')
+    # print(f'Computing chord chromaticity indices ...')
+    # chord_chrom = compute_chord_chromaticity(df=prep_DLC_data, repo_dir=repo_dir)
+    #
+    # print(f'Computing piece-level chromaticity ...')
+    # piece_chrom_by_localkey = compute_piece_chromaticity(df=chord_chrom, by="key_segment", repo_dir=repo_dir)
+    # piece_chrom_by_mode = compute_piece_chromaticity(df=chord_chrom, by="mode", repo_dir=repo_dir)
+    #
+    # print(f'Finished chromaticity!')
 
     print(f'Computing chord dissonance indices ...')
     chord_dissonance = compute_chord_dissonance(df=prep_DLC_data, repo_dir=repo_dir)

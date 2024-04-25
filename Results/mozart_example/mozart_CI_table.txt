@@ -1,0 +1,13 @@
+\begin{tabular}{lrr}
+\toprule
+version & WLC & OLC \\
+\midrule
+thema & 0.000000 & 0.000000 \\
+var1 & 0.000000 & 0.894737 \\
+var2 & 0.000000 & 0.608696 \\
+var3 & 1.350000 & 1.550000 \\
+var4 & 0.000000 & 0.055556 \\
+var5 & 0.076923 & 1.576923 \\
+var6 & 0.000000 & 0.307692 \\
+\bottomrule
+\end{tabular}

@@ -190,6 +190,7 @@ def _eic2ic(eic: EnharmonicIntervalClass) -> int:
 
 def tpcs_to_ics(tpcs: Optional[List[int]]) -> List[int]:
     """
+    This function takes a list of TPCs (of a chord) and returns the pairwise interval classes.
     tonal pitch class set to interval class set (unordered pitch interval class)
     """
 
@@ -203,17 +204,31 @@ def tpcs_to_ics(tpcs: Optional[List[int]]) -> List[int]:
         return []
 
 
-def pcs_dissonance_rank(tpcs: List[int]) -> int:
-    """
-    This function takes a list of TPCs (of a chord) and returns the pairwise interval classes.
-    :param tpcs: the pitch class set of the "chord" in TPC.
-    :return:
-    """
+# def pcs_dissonance_rank(tpcs: List[int]) -> int:
+#     """
+#     :param tpcs: the pitch class set of the "chord" in TPC.
+#     :return:
+#     """
+#     ics = tpcs_to_ics(tpcs)
+#     rank_score = np.average(sum([dissonance_ic_rank[ic] for ic in ics]))
+#     return rank_score
+
+def dissonance_score(ics: List[int]) -> float:
+    weights = [1.0, 0.6, 0.4, 0.2, 0.0, 0.8]
+    pmf = np.array([ics.count(i + 1) for i in range(6)]) / len(ics)
+    res = np.nansum([pmf[i] * weights[i] for i in range(6)])
+    res = float(res)
+    return res
+
+
+def pcs_to_dissonance_score(tpcs: List[int]) -> float:
     ics = tpcs_to_ics(tpcs)
-    rank_score = np.average(sum([dissonance_ic_rank[ic] for ic in ics]))
-    return rank_score
+    diss = dissonance_score(ics)
+    return diss
 
 
 if __name__ == "__main__":
-    r = pcs_dissonance_rank(tpcs=[0, 4, 1])
-    print(f'{r=}')
+    # r = pcs_dissonance_rank(tpcs=[0, 4, 1])
+    # print(f'{r=}')
+
+    print(f'{dissonance_score(ics=[3, 4, 5])}')
