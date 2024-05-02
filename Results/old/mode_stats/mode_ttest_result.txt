@@ -1,0 +1,9 @@
+\begin{tabular}{lrrr}
+\toprule
+ & T & p-val & cohen-d \\
+\midrule
+WLC & -24.181858 & 0.000000 & 1.105410 \\
+OLC & -0.311693 & 0.755318 & 0.014100 \\
+WLD & -3.885453 & 0.000107 & 0.209514 \\
+\bottomrule
+\end{tabular}

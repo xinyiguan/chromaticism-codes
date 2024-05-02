@@ -204,18 +204,16 @@ def tpcs_to_ics(tpcs: Optional[List[int]]) -> List[int]:
         return []
 
 
-# def pcs_dissonance_rank(tpcs: List[int]) -> int:
-#     """
-#     :param tpcs: the pitch class set of the "chord" in TPC.
-#     :return:
-#     """
-#     ics = tpcs_to_ics(tpcs)
-#     rank_score = np.average(sum([dissonance_ic_rank[ic] for ic in ics]))
-#     return rank_score
+# def dissonance_score(ics: List[int]) -> float:
+#     weights = [1.0, 0.6, 0.4, 0.2, 0.0, 0.8]
+#     pmf = np.array([ics.count(i + 1) for i in range(6)]) / len(ics)
+#     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
+#     res = float(res)
+#     return res
 
 def dissonance_score(ics: List[int]) -> float:
     weights = [1.0, 0.6, 0.4, 0.2, 0.0, 0.8]
-    pmf = np.array([ics.count(i + 1) for i in range(6)]) / len(ics)
+    pmf = np.array([ics.count(i + 1) for i in range(6)])
     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
     res = float(res)
     return res
@@ -224,11 +222,10 @@ def dissonance_score(ics: List[int]) -> float:
 def pcs_to_dissonance_score(tpcs: List[int]) -> float:
     ics = tpcs_to_ics(tpcs)
     diss = dissonance_score(ics)
-    return diss
+    rounded_diss = round(diss, 4)
+    return rounded_diss
 
 
 if __name__ == "__main__":
-    # r = pcs_dissonance_rank(tpcs=[0, 4, 1])
-    # print(f'{r=}')
-
-    print(f'{dissonance_score(ics=[3, 4, 5])}')
+    # print(f'{dissonance_score(ics=[3, 4, 3, 5, 6,1])}')
+    print(f'{pcs_to_dissonance_score([0, 1, 4])=}')

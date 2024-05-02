@@ -1,0 +1,26 @@
+('WLC', 'OLC') positive correlation num:665
+
+('WLC', 'OLC') negative correlation num:864
+
+('WLC', 'OLC') no correlation num:378
+
+('WLC', 'OLC') major pos correlation num:283
+
+('WLC', 'OLC') major neg correlation num:433
+
+('WLC', 'OLC') major not correlation num:258
+
+('WLC', 'OLC') minor pos correlation num:382
+
+('WLC', 'OLC') minor neg correlation num:431
+
+('WLC', 'OLC') minor not correlation num:120
+
+min correlation corpus-piece-mode:   corpus         piece localkey_mode  r_WLC_OLC
+56    ABC  n08op59-2_02         minor  -0.850923
+
+max correlation corpus-piece-mode:                 corpus         piece localkey_mode  r_WLC_OLC
+667             corelli      op03n02c         major        1.0
+975   couperin_concerts  c11n07_gigue         major        1.0
+1326    kozeluh_sonatas    23op20no2b         minor        1.0
+

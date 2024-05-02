@@ -71,6 +71,7 @@ DTYPES = {
 
 A = TypeVar('A')
 
+
 # Saving dataframes
 
 def save_df(df: pd.DataFrame, fname: str, file_type: Literal["pickle", "tsv", "both"], directory: str):
@@ -105,14 +106,12 @@ def load_file_as_df(path: str) -> pd.DataFrame:
     return df
 
 
-
 # Function to safely parse values
 def safe_literal_eval(s):
     try:
         return list([ast.literal_eval(s)])
     except (ValueError, SyntaxError):
         return []
-
 
 
 # flatten list _______________________________________________________________________________________________________
@@ -166,6 +165,49 @@ def annotate_local_maxima(ax: plt.Axes, x: np.ndarray, y: np.ndarray, indices: n
 
 
 # corpus composer corpus Dictionary
+corpus_prettyprint_dict = {
+    'gastoldi_baletti': 'Gastoldi',
+    'peri_euridice': 'Peri',
+    'monteverdi_madrigals': 'Monteverdi',
+    'sweelinck_keyboard': 'Sweelinck',
+    'frescobaldi_fiori_musicali': 'Frescobaldi',
+    'kleine_geistliche_konzerte': 'Schütz',
+    'corelli': 'Corelli',
+    'couperin_clavecin': 'Couperin',
+    'handel_keyboard': 'Handel',
+    'bach_solo': 'J.S. Bach (Solo)',
+    'bach_en_fr_suites': 'J.S. Bach (Suites)',
+    'couperin_concerts': 'Couperin',
+    'pergolesi_stabat_mater': 'Pergolesi',
+    'scarlatti_sonatas': 'Scarlatti',
+    'wf_bach_sonatas': 'W.F. Bach',
+    'jc_bach_sonatas': 'J.C. Bach',
+    'mozart_piano_sonatas': 'Mozart',
+    'pleyel_quartets': 'Pleyel',
+    'beethoven_piano_sonatas': 'Beethoven (Sonatas)',
+    'kozeluh_sonatas': 'Koželuh',
+    'ABC': 'Beethoven (String quartets)',
+    'schubert_dances': 'Schubert (Dance)',
+    'schubert_winterreise': 'Schubert (Winterreise)',
+    'mendelssohn_quartets': 'Mendelssohn',
+    'chopin_mazurkas': 'Chopin',
+    'schumann_kinderszenen': 'R. Schumann (Kinderszenen)',
+    'schumann_liederkreis': 'R. Schumann (Liederkreis)',
+    'c_schumann_lieder': 'C. Schumann (Lieder)',
+    'liszt_pelerinage': 'Liszt',
+    'wagner_overtures': 'Wagner',
+    'tchaikovsky_seasons': 'Tchaikovsky',
+    'dvorak_silhouettes': 'Dvořák',
+    'grieg_lyric_pieces': 'Grieg',
+    'ravel_piano': 'Ravel',
+    'mahler_kindertotenlieder': 'Mahler',
+    'debussy_suite_bergamasque': 'Debussy',
+    'bartok_bagatelles': 'Bartók',
+    'medtner_tales': 'Medtner',
+    'poulenc_mouvements_perpetuels': 'Poulenc',
+    'rachmaninoff_piano': 'Rachmaninoff',
+    'schulhoff_suite_dansante_en_jazz': 'Schulhoff'
+}
 
 corpus_composer_dict = {
     'gastoldi_baletti': 'Giovanni Giacomo Gastoldi',
@@ -412,7 +454,5 @@ def corpus_summary_stats():
 
 if __name__ == "__main__":
     path = "Data/prep_data/cleaned_distant_listening_corpus_harmonies.tsv"
-    file_type=path.split(".")[-1]
+    file_type = path.split(".")[-1]
     print(f'{file_type=}')
-
-

@@ -1,10 +1,12 @@
 import ast
-from typing import Literal
+from typing import Literal, Optional
 
 import pandas as pd
 
 from Code.utils.auxiliary import determine_period, create_results_folder
 import os
+
+pd.set_option('display.max_columns', None)
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
@@ -164,7 +166,6 @@ def compute_piece_chromaticity(df: pd.DataFrame,
     result_df["corpus_id"] = pd.factorize(result_df["corpus"])[0] + 1
     result_df["piece_id"] = pd.factorize(result_df["piece"])[0] + 1
 
-
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
         save_df(df=result_df, file_type="both", directory=folder_path, fname=fname)
@@ -223,7 +224,7 @@ def compute_chord_dissonance(df: pd.DataFrame,
 
     result = df[
         ["corpus", "piece", "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey", "localkey",
-         "duration_qb_frac", "quarterbeats", "chord", "within_label", "interval_classes", "WLD"]]
+         "localkey_mode", "duration_qb_frac", "quarterbeats", "chord", "within_label", "interval_classes", "WLD"]]
 
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -231,60 +232,65 @@ def compute_chord_dissonance(df: pd.DataFrame,
     return result
 
 
-def compute_piece_dissonance(df: pd.DataFrame, weighted: bool,
+def compute_piece_dissonance(df: pd.DataFrame,
+                             by: Optional[Literal["key_segment", "mode"]],
                              repo_dir: str,
                              save: bool = True) -> pd.DataFrame:
-    if weighted:
-
-        # get the duration of the all chords in a piece
-        piece_dur_sum_df = df.groupby(['corpus', 'piece'])["duration_qb_frac"].sum().to_frame()
-
-        # merge the two dataframes on 'corpus' and 'piece'
-        merged_df = pd.merge(df, piece_dur_sum_df, on=['corpus', 'piece'], how='left')
-        # rename
-        merged_df.rename(columns={'duration_qb_frac_y': 'piece_dur'}, inplace=True)
-        # Define a lambda function to compute the dissonance weighted by chord duration:
-        merged_df["weighted_WLD"] = merged_df.WLD * (merged_df.duration_qb_frac_x / merged_df.piece_dur)
-        result_df = merged_df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
-
-            corpus_year=("corpus_year", "first"),
-            piece_year=("piece_year", "first"),
-            globalkey=("globalkey", "first"),
-            localkey=("localkey", "first"),
-
-            piece_weighted_WLD=("weighted_WLD", "sum")
-        )
-
-    else:
-        piece_chord_num_df = df.groupby(['corpus', 'piece']).size().rename("chord_num").to_frame()
-        # merge the two dataframes on 'corpus' and 'piece'
-        merged_df = pd.merge(df, piece_chord_num_df, on=['corpus', 'piece'], how='left')
-
-        result_df = merged_df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
-
+    if by == "key_segment":
+        fname_suffix = f'_by_localkey'
+        chord_num_df = df.groupby(['corpus', 'piece', 'localkey']).size().rename("chord_num").to_frame()
+        adj_check = (df.localkey != df.localkey.shift()).cumsum()
+        grouped_df = df.groupby(['corpus', 'piece', adj_check], as_index=False, sort=False).agg(
             corpus_year=("corpus_year", "first"),
             piece_year=("piece_year", "first"),
             period_Fabian=("period_Fabian", "first"),
             period_Johannes=("period_Johannes", "first"),
             globalkey=("globalkey", "first"),
             localkey=("localkey", "first"),
-
-            chord_num=("chord_num", "first"),
-            total_WLD=("WLD", "sum"),
+            localkey_mode=("localkey_mode", "first"),
+            total_WLD=("WLD", "sum")
         )
-        result_df["piece_avg_WLD"] = result_df.total_WLD / result_df.chord_num
+        res_df = pd.merge(grouped_df, chord_num_df, on=['corpus', 'piece', 'localkey'], how='left')
 
-    result_df["corpus_id"] = pd.factorize(result_df["corpus"])[0] + 1
-    result_df["piece_id"] = pd.factorize(result_df["piece"])[0] + 1
+    elif by == "mode":
+        fname_suffix = f'_by_mode'
+        chord_num_df = df.groupby(['corpus', 'piece', 'localkey_mode']).size().rename("chord_num").to_frame()
+        grouped_df = df.groupby(['corpus', 'piece', 'localkey_mode'], as_index=False, sort=False).agg(
+            corpus_year=("corpus_year", "first"),
+            piece_year=("piece_year", "first"),
+            period_Fabian=("period_Fabian", "first"),
+            period_Johannes=("period_Johannes", "first"),
+            globalkey=("globalkey", "first"),
+            localkey_mode=("localkey_mode", "first"),
+            total_WLD=("WLD", "sum")
+        )
+        res_df = pd.merge(grouped_df, chord_num_df, on=['corpus', 'piece', 'localkey_mode'], how='left')
+
+    elif by is None:
+        fname_suffix = f''
+        chord_num_df = df.groupby(['corpus', 'piece']).size().rename("chord_num").to_frame()
+        grouped_df = df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
+            corpus_year=("corpus_year", "first"),
+            piece_year=("piece_year", "first"),
+            period_Fabian=("period_Fabian", "first"),
+            period_Johannes=("period_Johannes", "first"),
+            globalkey=("globalkey", "first"),
+            localkey_mode=("localkey_mode", "first"),
+            total_WLD=("WLD", "sum"))
+        res_df = pd.merge(grouped_df, chord_num_df, on=['corpus', 'piece'], how='left')
+    else:
+        raise ValueError
+
+    res_df["avg_WLD"] = res_df.total_WLD / res_df.chord_num
+
+    res_df["corpus_id"] = pd.factorize(res_df["corpus"])[0] + 1
+    res_df["piece_id"] = pd.factorize(res_df["piece"])[0] + 1
 
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
-        if weighted:
-            fname = f"dissonance_piece_weighted_by_duration"
-        else:
-            fname = f"dissonance_piece_average"
-        save_df(df=result_df, file_type="both", directory=folder_path, fname=fname)
-    return result_df
+        fname = f"dissonance_piece{fname_suffix}"
+        save_df(df=res_df, file_type="both", directory=folder_path, fname=fname)
+    return res_df
 
 
 # %% Compute metric: fifths range
@@ -340,7 +346,7 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
                                 repo_dir: str,
                                 save: bool = True) -> pd.DataFrame:
     common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey",
-                   "localkey", "quarterbeats",
+                   "localkey", "localkey_mode", "quarterbeats",
                    "chord", "within_label"]
 
     chromaticity = chord_chromaticity[common_cols + ["out_of_label", "WLC", "OLC"]]
@@ -363,49 +369,167 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
     return result_df
 
 
-if __name__ == "__main__":
+def combined_piece_level_indices(piece_chrom: pd.DataFrame,
+                                 piece_diss: pd.DataFrame,
+                                 groupy_by: Literal["key_segment", "mode"],
+                                 repo_dir: str) -> pd.DataFrame:
+    # common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey"]
+
+    if groupy_by == "mode":
+        fname_suffix = f'_by_mode'
+        common_cols = ['corpus', 'piece', "corpus_id", "piece_id", "corpus_year", "piece_year", "period_Johannes",
+                       "period_Fabian", "globalkey",
+                       "localkey_mode"]
+
+
+    elif groupy_by == "key_segment":
+        fname_suffix = f'_by_localkey'
+        common_cols = ['corpus', 'piece', "corpus_id", "piece_id", "corpus_year", "piece_year", "period_Johannes",
+                       "period_Fabian", "globalkey",
+                       "localkey"]
+
+    else:
+        raise ValueError()
+
+    chromaticity = piece_chrom[common_cols + ["WLC", "OLC"]]
+    WLD = piece_diss["avg_WLD"].tolist()
+
+    assert chromaticity.shape[0] == len(WLD)
+
+    res_df = chromaticity.assign(WLD=WLD)
+
+    # save data:
+    fname = f'piece_level_indices{fname_suffix}'
+    folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+    save_df(df=res_df, file_type="both", directory=folder_path, fname=fname)
+
+    return res_df
+
+
+def get_corpora_level_indices_by_mode(df: pd.DataFrame,
+                              repo_dir: str) -> pd.DataFrame:
+    """
+    df: piece_indices_by_mode_df
+    """
+
+    result_df = df.groupby(['corpus', 'localkey_mode'], as_index=False, sort=False).agg(
+        corpus_year=("corpus_year", "first"),
+
+        localkey_mode=("localkey_mode", "first"),
+        corpus_id=("corpus_id", "first"),
+
+        WLC=("WLC", "mean"),
+        OLC=("OLC", "mean"),
+        WLD=("WLD", "mean")
+
+    )
+    folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+    fname = f'corpora_level_indices_by_mode'
+    save_df(df=result_df, file_type="both", directory=folder_path, fname=fname)
+
+
+# %% Chord-level indices correlation
+
+def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
+                                              repo_dir: str) -> pd.DataFrame:
+    """
+    df: assuming we take the chord-level indices
+    """
+    piece_df = df.groupby(["corpus", "piece", "localkey_mode"], as_index=False, sort=False).agg(
+        corpus_year=("corpus_year", "first"),
+        piece_year=("piece_year", "first"),
+        period_Fabian=("period_Fabian", "first"),
+        period_Johannes=("period_Johannes", "first"),
+        globalkey=("globalkey", "first"))
+
+    r_wlc_olc = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['WLC', 'OLC']].corr().unstack().iloc[:,
+                1].reset_index(
+        name=f'r_WLC_OLC')
+
+    r_wlc_wld = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['WLC', 'WLD']].corr().unstack().iloc[:,
+                1].reset_index(
+        name=f'r_WLC_WLD')
+
+    r_df = r_wlc_olc.merge(r_wlc_wld,
+                           on=["corpus", "piece", "localkey_mode"],
+                           how="outer")
+
+    res_df = piece_df.merge(r_df, on=["corpus", "piece", "localkey_mode"])
+
+    res_df = res_df.fillna(0)
+
+    res_df["corpus_id"] = pd.factorize(res_df["corpus"])[0] + 1
+    res_df["piece_id"] = pd.factorize(res_df["piece"])[0] + 1
+
+    # save df:
+
+    folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+    fname = f"chordlevel_indices_corr_by_piece"
+    save_df(df=res_df, file_type="both", directory=folder_path, fname=fname)
+
+    return res_df
+
+
+def full_post_preprocessed_datasets_update():
     user = os.path.expanduser("~")
     repo_dir = f'{user}/Codes/chromaticism-codes/'
 
-    # process_DLC_data(data_path=f"{repo_dir}Data/prep_data/DLC_data.pickle", save=True, repo_dir=repo_dir)
-
     prep_DLC_data = load_file_as_df(path=f"{repo_dir}Data/prep_data/processed_DLC_data.pickle")
 
-    # print(f'Computing chord chromaticity indices ...')
-    # chord_chrom = compute_chord_chromaticity(df=prep_DLC_data, repo_dir=repo_dir)
-    #
-    # print(f'Computing piece-level chromaticity ...')
-    # piece_chrom_by_localkey = compute_piece_chromaticity(df=chord_chrom, by="key_segment", repo_dir=repo_dir)
-    # piece_chrom_by_mode = compute_piece_chromaticity(df=chord_chrom, by="mode", repo_dir=repo_dir)
-    #
-    # print(f'Finished chromaticity!')
+    print(f'Computing chord chromaticity indices ...')
+    chord_chrom = compute_chord_chromaticity(df=prep_DLC_data, repo_dir=repo_dir)
+
+    print(f'Computing piece-level chromaticity ...')
+    piece_chrom_by_localkey = compute_piece_chromaticity(df=chord_chrom, by="key_segment", repo_dir=repo_dir)
+    piece_chrom_by_mode = compute_piece_chromaticity(df=chord_chrom, by="mode", repo_dir=repo_dir)
+
+    print(f'    Getting separate piece-level chromaticties for major/minor mode segments...')
+
+    piece_chrom_by_mode = load_file_as_df(
+        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
+    get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="major", repo_dir=repo_dir)
+    get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="minor", repo_dir=repo_dir)
+
+    print(f'Finished chromaticity!')
 
     print(f'Computing chord dissonance indices ...')
     chord_dissonance = compute_chord_dissonance(df=prep_DLC_data, repo_dir=repo_dir)
 
     print(f'Computing piece dissonance indices ...')
-    piece_dissonance_weighted_dur = compute_piece_dissonance(df=chord_dissonance, weighted=True,
-                                                             save=True, repo_dir=repo_dir)
-    piece_dissonance_avg = compute_piece_dissonance(df=chord_dissonance, weighted=False,
-                                                    save=True, repo_dir=repo_dir)
+    piece_diss_by_mode = compute_piece_dissonance(by="mode", df=chord_dissonance, repo_dir=repo_dir, save=True)
+    piece_diss_by_lk = compute_piece_dissonance(by="key_segment", df=chord_dissonance, repo_dir=repo_dir, save=True)
+    piece_diss = compute_piece_dissonance(by=None, df=chord_dissonance, repo_dir=repo_dir, save=True)
 
     print(f'Finished dissonance!')
     #
     chord_chrom = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chromaticity_chord.pickle")
     chord_diss = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/dissonance_chord.pickle")
 
-    print(f'Combing dfs for chromaticity and dissonance metrics ...')
-    combine_chord_level_indices(chord_chromaticity=chord_chrom, chord_dissonance=chord_diss, repo_dir=repo_dir)
+    print(f'Combing dfs for chord-level chromaticity and dissonance metrics ...')
+    chord_df = combine_chord_level_indices(chord_chromaticity=chord_chrom, chord_dissonance=chord_diss,
+                                           repo_dir=repo_dir)
+    print(f'   computing pairwise correlation for chord indices...')
+    compute_pairwise_chord_indices_r_by_piece(df=chord_df, repo_dir=repo_dir)
 
-    piece_chrom_by_mode = load_file_as_df(
-        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
-    print(f'Getting separate piece-level chromaticties for major/minor mode segments...')
-    get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="major", repo_dir=repo_dir)
-    get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="minor", repo_dir=repo_dir)
+    print(f'Combing dfs for piece-level indices ...')
+    piece_by_mode = combined_piece_level_indices(piece_chrom=piece_chrom_by_mode, piece_diss=piece_diss_by_mode,
+                                                 repo_dir=repo_dir, groupy_by="mode")
+    piece_by_lk = combined_piece_level_indices(piece_chrom=piece_chrom_by_localkey, piece_diss=piece_diss_by_lk,
+                                               repo_dir=repo_dir, groupy_by="key_segment")
 
-    print(f'Getting piece-level fifths range data ...')
-    chromaticity_chord = load_file_as_df(
-        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chromaticity_chord.pickle")
-    compute_piece_fifth_range(df=chromaticity_chord, repo_dir=repo_dir)
+    print(f'Computing corpora-level indices ... ')
+    get_corpora_level_indices_by_mode(df=piece_by_mode, repo_dir=repo_dir)
+
 
     print(f'Fini!')
+
+
+if __name__ == "__main__":
+    full_post_preprocessed_datasets_update()
+
+    # user = os.path.expanduser("~")
+    # repo_dir = f'{user}/Codes/chromaticism-codes/'
+
+    # process_DLC_data(data_path=f"{repo_dir}Data/prep_data/DLC_data.pickle", save=True, repo_dir=repo_dir)
+    # prep_DLC_data = load_file_as_df(path=f"{repo_dir}Data/prep_data/processed_DLC_data.pickle")
+

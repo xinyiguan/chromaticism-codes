@@ -11,7 +11,7 @@ Fabian_periods = ["Renaissance", "Baroque", "Classical", "Early Romantic", "Late
 
 color_palette4 = ['#4f6980', '#849db1', '#638b66', '#bfbb60']
 color_palette5 = ['#4f6980', '#849db1', '#a2ceaa', '#638b66', '#bfbb60']
-
+# color_palette5 = ['#2A5084', '#4C5F76', '#F7A851', '#F46A03', '#697217']
 
 # preprocessing/computing metrics ___________ :
 

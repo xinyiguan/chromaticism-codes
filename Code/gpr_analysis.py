@@ -7,14 +7,20 @@ import numpy as np
 import gpflow as gf
 import pandas as pd
 from gpflow.utilities import print_summary
+from seaborn import color_palette
 from tensorflow import Tensor
 
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
 
+from Code.analysis import get_piece_df_by_localkey_mode
 from Code.utils.auxiliary import create_results_folder, map_array_to_colors, rand_jitter, Fabian_periods, \
     Johannes_periods, mean_var_after_log, median_CI_after_log, color_palette5, color_palette4
 from Code.utils.util import load_file_as_df
+from numpy import array, sign, zeros
+from scipy.interpolate import interp1d
+from matplotlib.pyplot import plot, show, grid, xlabel, ylabel, title, figure
+import plotly.express as px
 
 # MODEL_OUTPUT type: (model, (fmean, fvar, ymean, yvar), f_samples, lengthscale, feature_index)
 MODEL_OUTPUT = Tuple[gf.models.gpr.GPR, Tuple[Tensor, Tensor, Tensor, Tensor], Tensor | None, np.ndarray, str]
@@ -48,7 +54,7 @@ def gpr_model(X: np.ndarray, Y: np.ndarray,
 
 def gpr_model_outputs(df: pd.DataFrame,
                       model_name: str,
-                      feature_index: Literal["WLC", "OLC", "WL_5th_range", "OL_5th_range"],
+                      feature_index: Literal["WLC", "OLC", "avg_WLD", "WL_5th_range", "OL_5th_range"],
                       lengthscale: Optional[float],
                       sample: Optional[int],
                       repo_dir: str) -> MODEL_OUTPUT:
@@ -123,13 +129,14 @@ def ax_scatter_observations(ax: Axes,
 
     if jitter:
         # only add jitter only on the x-axis
-        ax.scatter(rand_jitter(X), Y, c=color, s=12, alpha=0.5
+        ax.scatter(rand_jitter(X), Y, c=color, s=12, alpha=0.8
                    , label="Observations"
                    )
     else:
-        ax.scatter(X, Y, c=color, s=12, alpha=0.5
+        ax.scatter(X, Y, c=color, s=12, alpha=0.8
                    , label="Observations"
                    )
+
     return ax
 
 
@@ -178,10 +185,11 @@ def ax_gpr_prediction(ax: Axes,
     ax.set_ylim(0, 3)
 
     if plot_f_uncertainty:
-        ax.plot(Xplot, f_lower, "--", color=fmean_color, label="f 95% confidence", alpha=0.3)
-        ax.plot(Xplot, f_upper, "--", color=fmean_color, alpha=0.3)
+        fvar_color = 'gray'
+        ax.plot(Xplot, f_lower, "--", color=fvar_color, label="f 95% confidence", alpha=0.3)
+        ax.plot(Xplot, f_upper, "--", color=fvar_color, alpha=0.3)
         ax.fill_between(
-            Xplot[:, 0], f_lower[:, 0], f_upper[:, 0], color=fmean_color, alpha=0.2
+            Xplot[:, 0], f_lower[:, 0], f_upper[:, 0], color=fvar_color, alpha=0.2
         )
     if plot_y_uncertainty:
         ax.plot(Xplot, y_lower, "-", color=fmean_color, label="Y 95% confidence", linewidth=1, alpha=0.5)
@@ -208,7 +216,7 @@ def ax_full_gpr_model_doubleyticks(ax: Axes,
                                    scatter_colormap: Optional[str | List[str]],
                                    scatter_hue_by: Optional[np.ndarray],
                                    scatter_jitter: bool,
-                                   show_second_yticks: bool,
+                                   show_second_yticks: bool
                                    ):
     """
     plot the combined scatter ax and the gpr prediction ax
@@ -253,7 +261,8 @@ def ax_full_gpr_model(ax: Axes,
                       scatter_colormap: Optional[str | List[str]],
                       scatter_hue_by: Optional[np.ndarray],
                       scatter_jitter: bool,
-                      ylim: Tuple[int, int]):
+                      ylim: Optional[Tuple[int, int]],
+                      legend_loc: Optional[str]):
     X = np.array(m_outputs[0].data[0])
     Y = np.array(m_outputs[0].data[1])
     expY = np.exp(Y)  # convert back to the precipitation space (before log)
@@ -267,10 +276,12 @@ def ax_full_gpr_model(ax: Axes,
                       prediction_stat=prediction_stat,
                       plot_samples=plot_samples, plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty)
-
-    ax.set_ylim([ylim[0], ylim[1]])
-    ax.legend(title=r"$\lambda$={:.1f}".format(m_outputs[-2]), loc="upper left")
-
+    if ylim:
+        ax.set_ylim([ylim[0], ylim[1]])
+    if legend_loc:
+        ax.legend(title=r"$\lambda$={:.1f}".format(m_outputs[-2]), loc=legend_loc)
+    else:
+        ax.get_legend().remove()
 
 # %% GPR models for chromaticity plots
 
@@ -278,11 +289,12 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                                     prediction_stat: Literal["mean", "median"],
                                     era_division: Literal["Fabian", "Johannes"],
                                     lengthscale: Optional[float],
-                                    ylim: Tuple[int, int],
+                                    ylim: Optional[Tuple[int, int]],
                                     plot_samples: int | None,
                                     plot_f_uncertainty: bool,
                                     plot_y_uncertainty: bool,
-                                    repo_dir: str
+                                    repo_dir: str,
+                                    fname_anno: Optional[str]
                                     ):
     # save the results to this folder:
     result_dir = create_results_folder(parent_folder="Results", analysis_name="GPR_analysis", repo_dir=repo_dir)
@@ -303,12 +315,15 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
     fig, axs = plt.subplots(ncols=2, nrows=2, figsize=(11, 6), sharex=True, sharey=True,
                             layout="constrained")
     fmean_color = "#3b3b3b"
-    # color_palette4 = ['#D9BDC3', '#C4D0CC', '#76A0AD', '#597C8B']
+    wlc_fmean_color = '#443C68'
+    olc_fmean_color = '#1B4242'
 
     if era_division == "Fabian":
-        scatter_color = color_palette5
+        # scatter_color = color_palette5
+        scatter_color = color_palette("blend:#7AB,#EDA", n_colors=5)
     else:
-        scatter_color = color_palette4
+        # scatter_color = color_palette4
+        scatter_color = color_palette("blend:#7AB,#EDA", n_colors=4)
 
     # major wlc:
     era_col_major = major_df[f'period_{era_division}'].to_numpy()
@@ -317,7 +332,7 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                       ax_title="WLC (major)",
                       m_outputs=major_wlc,
                       prediction_stat=prediction_stat,
-                      fmean_color=fmean_color,
+                      fmean_color=wlc_fmean_color,
                       fvar_color=None,
                       plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty,
@@ -326,13 +341,14 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                       scatter_colormap=scatter_color,
                       scatter_jitter=True,
                       # show_second_yticks=False
-                      ylim=ylim)
+                      ylim=ylim,
+                      legend_loc=None)
     # major olc:
     ax_full_gpr_model(ax=axs[1, 0],
                       ax_title="OLC (major)",
                       m_outputs=major_olc,
                       prediction_stat=prediction_stat,
-                      fmean_color=fmean_color,
+                      fmean_color=olc_fmean_color,
                       fvar_color=None,
                       plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty,
@@ -341,15 +357,16 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                       scatter_colormap=scatter_color,
                       scatter_jitter=True,
                       # show_second_yticks=False
-                      ylim=ylim
-                      )
+                      ylim=ylim,
+                      legend_loc=None)
+
     # minor wlc:
     era_col_minor = minor_df[f'period_{era_division}'].to_numpy()
     ax_full_gpr_model(ax=axs[0, 1],
                       ax_title="WLC (minor)",
                       m_outputs=minor_wlc,
                       prediction_stat=prediction_stat,
-                      fmean_color=fmean_color,
+                      fmean_color=wlc_fmean_color,
                       fvar_color=None,
                       plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty,
@@ -358,14 +375,15 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                       scatter_colormap=scatter_color,
                       scatter_jitter=True,
                       # show_second_yticks=True
-                      ylim=ylim
-                      )
+                      ylim=ylim,
+                      legend_loc=None)
+
     # minor olc:
     ax_full_gpr_model(ax=axs[1, 1],
                       ax_title="OLC (minor)",
                       m_outputs=minor_olc,
                       prediction_stat=prediction_stat,
-                      fmean_color=fmean_color,
+                      fmean_color=olc_fmean_color,
                       fvar_color=None,
                       plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty,
@@ -374,16 +392,23 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                       scatter_jitter=True,
                       scatter_colormap=scatter_color,
                       # show_second_yticks=True
-                      ylim=ylim
-                      )
+                      ylim=ylim,
+                      legend_loc=None)
 
     fig.supylabel("Chromaticity", fontweight="bold")
+
 
     fig_path = f'{result_dir}figs/'
     if not os.path.exists(fig_path):
         os.makedirs(fig_path)
 
-    plt.savefig(f'{fig_path}gpr_chromaticities_{prediction_stat}_{era_division}.pdf', dpi=200)
+    if fname_anno:
+        fname_anno = f'_{fname_anno}'
+    else:
+        fname_anno = ""
+
+    plt.savefig(f'{fig_path}gpr_chrom_{prediction_stat}_{era_division}{fname_anno}.pdf', dpi=200)
+
 
 
 # %% GPR models for 5th range plots
@@ -417,14 +442,12 @@ def plot_gpr_fifth_range(df: pd.DataFrame,
         "verticalalignment": "center"
     }
     for i, (ax, out) in enumerate(zip(axs, [wl_fr, ol_fr])):
-
         ax.axhline(6, c="gray", linestyle="--", lw=1)  # dia / chrom.
         ax.axhline(12, c="gray", linestyle="--", lw=1)  # chr. / enh.
 
         ax.text(1965, 3, "diatonic", **text_kws)
         ax.text(1965, 9, "chromatic", **text_kws)
         ax.text(1965, 23, "enharmonic", **text_kws)
-
 
     fmean_color = "#3b3b3b"
     era_col = df[f'period_{era_division}'].to_numpy()
@@ -462,7 +485,6 @@ def plot_gpr_fifth_range(df: pd.DataFrame,
                       ylim=ylim
                       )
 
-
     fig.supylabel("Fifths Range", fontweight="bold")
     fig.supxlabel("Year", fontweight="bold")
 
@@ -473,92 +495,160 @@ def plot_gpr_fifth_range(df: pd.DataFrame,
     plt.savefig(f'{fig_path}gpr_fifths_range_{prediction_stat}_{era_division}.pdf', dpi=200)
 
 
+# %% GPR models for dissonance
+
+def plot_gpr_dissonance(df: pd.DataFrame,
+                        prediction_stat: Literal["mean", "median"],
+                        era_division: Literal["Fabian", "Johannes"],
+                        lengthscale: Optional[float],
+                        ylim: Optional[Tuple[float, float]],
+                        plot_samples: int | None,
+                        plot_f_uncertainty: bool,
+                        plot_y_uncertainty: bool,
+                        repo_dir: str,
+                        fname_anno: Optional[str]
+                        ):
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="GPR_analysis", repo_dir=repo_dir)
+
+    major_df = get_piece_df_by_localkey_mode(df=df, mode="major")
+    minor_df = get_piece_df_by_localkey_mode(df=df, mode="minor")
+
+    # computing the models:
+
+    major_WLD = gpr_model_outputs(df=major_df, model_name="WLD(major)", repo_dir=repo_dir,
+                                  feature_index="avg_WLD", lengthscale=lengthscale, sample=plot_samples)
+
+    minor_WLD = gpr_model_outputs(df=minor_df, model_name="WLD(minor)", repo_dir=repo_dir,
+                                  feature_index="avg_WLD", lengthscale=lengthscale, sample=plot_samples)
+
+    # plotting:
+    fig, axs = plt.subplots(ncols=2, nrows=1, figsize=(11, 3.5), sharex=True, sharey=True,
+                            layout="constrained")
+    fmean_color = "#750E21"
+    # color_palette4 = ['#D9BDC3', '#C4D0CC', '#76A0AD', '#597C8B']
+
+    if era_division == "Fabian":
+        # scatter_color = color_palette5
+        scatter_color = color_palette("blend:#7AB,#EDA", n_colors=5)
+
+    else:
+        # scatter_color = color_palette4
+        scatter_color = color_palette("blend:#7AB,#EDA", n_colors=4)
+
+    # major wld:
+    era_col_major = major_df[f'period_{era_division}'].to_numpy()
+
+    ax_full_gpr_model(ax=axs[0],
+                      ax_title="WLD (major)",
+                      m_outputs=major_WLD,
+                      prediction_stat=prediction_stat,
+                      fmean_color=fmean_color,
+                      fvar_color=None,
+                      plot_f_uncertainty=plot_f_uncertainty,
+                      plot_y_uncertainty=plot_y_uncertainty,
+                      plot_samples=plot_samples,
+                      scatter_hue_by=era_col_major,
+                      scatter_colormap=scatter_color,
+                      scatter_jitter=True,
+                      # show_second_yticks=False
+                      ylim=ylim,
+                      legend_loc=None)
+    # minor wld:
+    era_col_minor = minor_df[f'period_{era_division}'].to_numpy()
+    ax_full_gpr_model(ax=axs[1],
+                      ax_title="WLD (minor)",
+                      m_outputs=minor_WLD,
+                      prediction_stat=prediction_stat,
+                      fmean_color=fmean_color,
+                      fvar_color=None,
+                      plot_f_uncertainty=plot_f_uncertainty,
+                      plot_y_uncertainty=plot_y_uncertainty,
+                      plot_samples=plot_samples,
+                      scatter_hue_by=era_col_minor,
+                      scatter_colormap=scatter_color,
+                      scatter_jitter=True,
+                      # show_second_yticks=False
+                      ylim=ylim,
+                      legend_loc=None
+                      )
+
+    fig.supylabel("Dissonance", fontweight="bold")
+
+    fig_path = f'{result_dir}figs/'
+    if not os.path.exists(fig_path):
+        os.makedirs(fig_path)
+
+    if fname_anno:
+        fname_anno = f'_{fname_anno}'
+    else:
+        fname_anno = ""
+
+    plt.savefig(f'{fig_path}gpr_diss_{prediction_stat}_{era_division}{fname_anno}.pdf', dpi=200)
+
+
+def plotly_gpr(df: pd.DataFrame, mode: Literal["major", "minor"],
+               index_type: Literal["WLC", "OLC", "WLD"]):
+
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="GPR_analysis", repo_dir=repo_dir)
+
+    mode_df = get_piece_df_by_localkey_mode(df=df, mode=mode)
+
+    fig = px.scatter(mode_df, x="piece_year", y=index_type, color="corpus",
+                     hover_data=['corpus', 'corpus_year', 'piece', 'piece_year', 'WLC'])
+
+    fig_path = f'{result_dir}plotly/'
+    if not os.path.exists(fig_path):
+        os.makedirs(fig_path)
+    fig.write_html(f'{fig_path}gpr_{index_type}_{mode}.html')
+
 if __name__ == "__main__":
     user = os.path.expanduser("~")
     repo_dir = f'{user}/Codes/chromaticism-codes/'
+
+
+    # piece_indices = load_file_as_df("/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/piece_level_indices_by_mode.pickle")
+    # plotly_gpr(df=piece_indices, index_type="WLC", mode="major")
+    # plotly_gpr(df=piece_indices, index_type="WLC", mode="minor")
+    # plotly_gpr(df=piece_indices, index_type="OLC", mode="major")
+    # plotly_gpr(df=piece_indices, index_type="OLC", mode="minor")
+    # plotly_gpr(df=piece_indices, index_type="WLD", mode="major")
+    # plotly_gpr(df=piece_indices, index_type="WLD", mode="minor")
+
+
+
+
+    diss_piece = load_file_as_df(
+        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/dissonance_piece_by_mode.pickle")
+
+    plot_gpr_dissonance(df=diss_piece,
+                        prediction_stat="mean",
+                        era_division="Fabian", lengthscale=20,
+                        plot_samples=False,
+                        plot_y_uncertainty=False,
+                        plot_f_uncertainty=True,
+                        repo_dir=repo_dir,
+                        ylim=(0, 0.6),
+                        fname_anno=None)
+
+
 
     # CHROMATICITY:
     major_df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_major.pickle')
     minor_df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_minor.pickle')
 
-    # mean:
+    # mean with capped y-axis:
     plot_gpr_chromaticities_by_mode(major_df=major_df, minor_df=minor_df,
                                     prediction_stat="mean",
-                                    era_division="Fabian", lengthscale=10,
+                                    era_division="Fabian", lengthscale=20,
                                     plot_samples=False,
                                     plot_y_uncertainty=False,
                                     plot_f_uncertainty=True,
                                     repo_dir=repo_dir,
-                                    ylim=(0, 8))
+                                    ylim=(0, 5),
+                                    fname_anno="capped")
 
-    plot_gpr_chromaticities_by_mode(major_df=major_df, minor_df=minor_df,
-                                    prediction_stat="mean",
-                                    era_division="Johannes", lengthscale=10,
-                                    plot_samples=False,
-                                    plot_y_uncertainty=False,
-                                    plot_f_uncertainty=True,
-                                    repo_dir=repo_dir,
-                                    ylim=(0, 8))
 
-    # median:
-    plot_gpr_chromaticities_by_mode(major_df=major_df, minor_df=minor_df,
-                                    prediction_stat="median",
-                                    era_division="Fabian", lengthscale=10,
-                                    plot_samples=False,
-                                    plot_y_uncertainty=False,
-                                    plot_f_uncertainty=True,
-                                    repo_dir=repo_dir,
-                                    ylim=(0, 8))
 
-    plot_gpr_chromaticities_by_mode(major_df=major_df, minor_df=minor_df,
-                                    prediction_stat="median",
-                                    era_division="Johannes", lengthscale=10,
-                                    plot_samples=False,
-                                    plot_y_uncertainty=False,
-                                    plot_f_uncertainty=True,
-                                    repo_dir=repo_dir,
-                                    ylim=(0, 8))
 
-    # FIFTH RANGE:
-    fifth_range_df = load_file_as_df(
-        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/fifths_range_piece.pickle")
-
-    # mean:
-    plot_gpr_fifth_range(df=fifth_range_df,
-                         prediction_stat="mean",
-                         era_division="Fabian", lengthscale=10,
-                         plot_samples=False,
-                         plot_y_uncertainty=False,
-                         plot_f_uncertainty=True,
-                         repo_dir=repo_dir,
-                         ylim=(0, 35)
-                         )
-    plot_gpr_fifth_range(df=fifth_range_df,
-                         prediction_stat="mean",
-                         era_division="Johannes", lengthscale=10,
-                         plot_samples=False,
-                         plot_y_uncertainty=False,
-                         plot_f_uncertainty=True,
-                         repo_dir=repo_dir,
-                         ylim=(0, 35)
-                         )
-
-    # median:
-    plot_gpr_fifth_range(df=fifth_range_df,
-                         prediction_stat="median",
-                         era_division="Fabian", lengthscale=10,
-                         plot_samples=False,
-                         plot_y_uncertainty=False,
-                         plot_f_uncertainty=True,
-                         repo_dir=repo_dir,
-                         ylim=(0, 35)
-                         )
-    plot_gpr_fifth_range(df=fifth_range_df,
-                         prediction_stat="median",
-                         era_division="Johannes", lengthscale=10,
-                         plot_samples=False,
-                         plot_y_uncertainty=False,
-                         plot_f_uncertainty=True,
-                         repo_dir=repo_dir,
-                         ylim=(0, 35)
-                         )

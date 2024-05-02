@@ -1,0 +1,10 @@
+\begin{tabular}{lrr}
+\toprule
+mode & major & minor \\
+Index &  &  \\
+\midrule
+OLC & 0.407659 & 0.429719 \\
+WLC & 0.486978 & 1.325557 \\
+WLD & 1.225170 & 1.226286 \\
+\bottomrule
+\end{tabular}

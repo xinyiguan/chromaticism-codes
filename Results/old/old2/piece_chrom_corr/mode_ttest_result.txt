@@ -1,8 +1,0 @@
-\begin{tabular}{lrrlrlrlr}
-\toprule
- & T & dof & alternative & p-val & CI95% & cohen-d & BF10 & power \\
-\midrule
-WLC & -24.181858 & 1899.091847 & two-sided & 0.000000 & [-0.91 -0.77] & 1.105410 & 9.432e+108 & 1.000000 \\
-OLC & -0.311693 & 1461.878359 & two-sided & 0.755318 & [-0.16  0.12] & 0.014100 & 0.054 & 0.060910 \\
-\bottomrule
-\end{tabular}
