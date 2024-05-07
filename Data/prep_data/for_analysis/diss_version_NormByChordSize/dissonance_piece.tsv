@@ -1,0 +1,1220 @@
+	corpus	piece	corpus_year	piece_year	period_Fabian	period_Johannes	globalkey	localkey_mode	total_WLD	chord_num	avg_WLD	corpus_id	piece_id
+0	peri_euridice	peri_euridice_scene_0	1600.0	1600	Renaissance	pre-Baroque	F	major	5.800000000000001	29	0.2	1	1
+1	peri_euridice	peri_euridice_scene_1	1600.0	1600	Renaissance	pre-Baroque	G	major	66.18310000000001	308	0.21488019480519485	1	2
+2	peri_euridice	peri_euridice_scene_2	1600.0	1600	Renaissance	pre-Baroque	G	major	150.7492	668	0.22567245508982037	1	3
+3	peri_euridice	peri_euridice_scene_3	1600.0	1600	Renaissance	pre-Baroque	G	major	64.3498	295	0.21813491525423728	1	4
+4	peri_euridice	peri_euridice_scene_4	1600.0	1600	Renaissance	pre-Baroque	D	major	164.16580000000002	683	0.24035988286969256	1	5
+5	peri_euridice	peri_euridice_scene_5	1600.0	1600	Renaissance	pre-Baroque	C	major	156.3754	700	0.2233934285714286	1	6
+6	monteverdi_madrigals	2-12	1609.1691322587767	1590	Renaissance	pre-Baroque	F	major	49.9831	225	0.2221471111111111	2	7
+7	monteverdi_madrigals	3-09	1609.1691322587767	1592	Renaissance	pre-Baroque	F	major	49.1494	190	0.2586810526315789	2	8
+8	monteverdi_madrigals	3-11	1609.1691322587767	1592	Renaissance	pre-Baroque	F	major	49.1494	190	0.2586810526315789	2	9
+9	monteverdi_madrigals	4-19	1609.1691322587767	1603	Renaissance	pre-Baroque	d	minor	45.266400000000004	185	0.24468324324324325	2	10
+10	monteverdi_madrigals	4-20	1609.1691322587767	1603	Renaissance	pre-Baroque	d	minor	45.266400000000004	185	0.24468324324324325	2	11
+11	monteverdi_madrigals	5-01	1609.1691322587767	1605	Renaissance	pre-Baroque	G	major	48.662800000000004	176	0.27649318181818183	2	12
+12	monteverdi_madrigals	5-03	1609.1691322587767	1605	Renaissance	pre-Baroque	d	minor	37.7331	152	0.2482440789473684	2	13
+13	monteverdi_madrigals	5-04a	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	29.4665	128	0.23020703125	2	14
+14	monteverdi_madrigals	5-04c	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	23.6	105	0.22476190476190477	2	15
+15	monteverdi_madrigals	5-04d	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	30.349800000000002	125	0.24279840000000003	2	16
+16	monteverdi_madrigals	5-04e	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	49.6331	219	0.2266351598173516	2	17
+17	monteverdi_madrigals	5-05b	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	21.7666	98	0.22210816326530614	2	18
+18	monteverdi_madrigals	5-05c	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	38.6432	151	0.25591523178807946	2	19
+19	monteverdi_madrigals	5-06	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	23.6	105	0.22476190476190477	2	20
+20	monteverdi_madrigals	5-07	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	30.349800000000002	125	0.24279840000000003	2	21
+21	monteverdi_madrigals	5-08	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	49.6331	219	0.2266351598173516	2	22
+22	monteverdi_madrigals	5-09	1609.1691322587767	1605	Renaissance	pre-Baroque	d	minor	37.8031	167	0.22636586826347305	2	23
+23	monteverdi_madrigals	5-10	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	21.7666	98	0.22210816326530614	2	24
+24	monteverdi_madrigals	5-11	1609.1691322587767	1605	Renaissance	pre-Baroque	g	minor	38.6432	151	0.25591523178807946	2	25
+25	monteverdi_madrigals	5-14	1609.1691322587767	1605	Renaissance	pre-Baroque	d	minor	41.5332	167	0.24870179640718562	2	26
+26	monteverdi_madrigals	5-15	1609.1691322587767	1605	Renaissance	pre-Baroque	d	minor	37.8031	167	0.22636586826347305	2	27
+27	monteverdi_madrigals	5-17	1609.1691322587767	1605	Renaissance	pre-Baroque	d	minor	22.9332	104	0.22051153846153845	2	28
+28	monteverdi_madrigals	6-01a	1609.1691322587767	1614	Renaissance	pre-Baroque	d	minor	28.7997	83	0.3469843373493976	2	29
+29	monteverdi_madrigals	laudate_pueri_dominum	1609.1691322587767	1620	Renaissance	pre-Baroque	g	minor	91.23270000000001	386	0.23635414507772023	2	30
+30	monteverdi_madrigals	8-18	1609.1691322587767	1638	Renaissance	pre-Baroque	C	major	74.0994	295	0.25118440677966103	2	31
+31	monteverdi_madrigals	8-19	1609.1691322587767	1638	Renaissance	pre-Baroque	a	minor	67.74940000000001	281	0.2411010676156584	2	32
+32	monteverdi_madrigals	9-12	1609.1691322587767	1651	Renaissance	Baroque	C	major	16.0765	52	0.3091634615384615	2	33
+33	sweelinck_keyboard	SwWV258_fantasia_cromatica	1621.0	1621	Renaissance	pre-Baroque	d	minor	119.8486	501	0.23921876247504992	3	34
+34	frescobaldi_fiori_musicali	12.01_Toccata_avanti_la_Messa_della_Domenica	1635.0	1635	Renaissance	pre-Baroque	d	minor	17.330000000000002	57	0.30403508771929827	4	35
+35	frescobaldi_fiori_musicali	12.02_Kyrie_della_domenica	1635.0	1635	Renaissance	pre-Baroque	d	minor	16.599800000000002	60	0.27666333333333337	4	36
+36	frescobaldi_fiori_musicali	12.03_Kyrie,_Tema_A	1635.0	1635	Renaissance	pre-Baroque	d	minor	18.4331	66	0.27928939393939395	4	37
+37	frescobaldi_fiori_musicali	12.04_Christe,_Tema_B	1635.0	1635	Renaissance	pre-Baroque	d	minor	11.1666	47	0.23758723404255322	4	38
+38	frescobaldi_fiori_musicali	12.05_Christe,_Tema_B,_alio_modo	1635.0	1635	Renaissance	pre-Baroque	d	minor	11.9497	46	0.2597760869565217	4	39
+39	frescobaldi_fiori_musicali	12.06_Christe,_Tema_B,_alio_modo_II	1635.0	1635	Renaissance	pre-Baroque	d	minor	9.5333	46	0.20724565217391305	4	40
+40	frescobaldi_fiori_musicali	12.07_Christe,_Tema_B,_alio_modo_III	1635.0	1635	Renaissance	pre-Baroque	d	minor	8.950000000000001	35	0.2557142857142857	4	41
+41	frescobaldi_fiori_musicali	12.08_Kyrie,_Tema_C	1635.0	1635	Renaissance	pre-Baroque	d	minor	13.350000000000001	54	0.24722222222222226	4	42
+42	frescobaldi_fiori_musicali	12.09_Kyrie,_Tema_D,_alio_modo_I	1635.0	1635	Renaissance	pre-Baroque	d	minor	13.5333	63	0.21481428571428574	4	43
+43	frescobaldi_fiori_musicali	12.10_Kyrie,_Tema_D,_alio_modo_II	1635.0	1635	Renaissance	pre-Baroque	d	minor	12.2665	52	0.23589423076923077	4	44
+44	frescobaldi_fiori_musicali	12.11_Kyrie_ultimo	1635.0	1635	Renaissance	pre-Baroque	d	minor	15.8264	65	0.2434830769230769	4	45
+45	frescobaldi_fiori_musicali	12.12_Kyrie,_Tema_D,_alio_modo_III	1635.0	1635	Renaissance	pre-Baroque	d	minor	22.6663	84	0.26983690476190475	4	46
+46	frescobaldi_fiori_musicali	12.13_Kyrie,_Tema_D,_alio_modo_IV	1635.0	1635	Renaissance	pre-Baroque	d	minor	14.610000000000001	48	0.304375	4	47
+47	frescobaldi_fiori_musicali	12.14_Canzon_dopo_l’Epistola	1635.0	1635	Renaissance	pre-Baroque	d	minor	55.3161	211	0.2621616113744076	4	48
+48	frescobaldi_fiori_musicali	12.15_Recercar_dopo_il_Credo	1635.0	1635	Renaissance	pre-Baroque	g	minor	35.533100000000005	162	0.21934012345679016	4	49
+49	frescobaldi_fiori_musicali	12.16_Toccata_cromaticha_per_l’elevatione	1635.0	1635	Renaissance	pre-Baroque	a	minor	57.215900000000005	199	0.2875170854271357	4	50
+50	frescobaldi_fiori_musicali	12.17_Canzon_post_il_Comune	1635.0	1635	Renaissance	pre-Baroque	C	major	54.2961	213	0.2549112676056338	4	51
+51	frescobaldi_fiori_musicali	12.18_Toccata_avanti_la_Messa_delli_Apostoli	1635.0	1635	Renaissance	pre-Baroque	d	minor	22.5931	74	0.30531216216216217	4	52
+52	frescobaldi_fiori_musicali	12.19_Kyrie,_Tema_E_1	1635.0	1635	Renaissance	pre-Baroque	d	minor	11.0665	46	0.24057608695652172	4	53
+53	frescobaldi_fiori_musicali	12.20_Kyrie,_Tema_E_2	1635.0	1635	Renaissance	pre-Baroque	d	minor	17.3496	63	0.2753904761904762	4	54
+54	frescobaldi_fiori_musicali	12.21_Kyrie,_Tema_E_3	1635.0	1635	Renaissance	pre-Baroque	d	minor	9.9999	45	0.22222	4	55
+55	frescobaldi_fiori_musicali	12.22_Christe,_Tema_F_1	1635.0	1635	Renaissance	pre-Baroque	d	minor	10.4666	43	0.2434093023255814	4	56
+56	frescobaldi_fiori_musicali	12.23_Christe,_Tema_F_2	1635.0	1635	Renaissance	pre-Baroque	d	minor	13.083300000000001	52	0.2516019230769231	4	57
+57	frescobaldi_fiori_musicali	12.24_Kyrie,_Tema_G_1	1635.0	1635	Renaissance	pre-Baroque	d	minor	11.466600000000001	51	0.22483529411764708	4	58
+58	frescobaldi_fiori_musicali	12.25_Kyrie,_Tema_G_2	1635.0	1635	Renaissance	pre-Baroque	d	minor	14.9166	65	0.22948615384615387	4	59
+59	frescobaldi_fiori_musicali	12.26_Kyrie,_Tema_H	1635.0	1635	Renaissance	pre-Baroque	d	minor	17.0664	63	0.27089523809523813	4	60
+60	frescobaldi_fiori_musicali	12.27_Canzon_dopo_l'Epistola	1635.0	1635	Renaissance	pre-Baroque	C	major	49.5825	208	0.23837740384615386	4	61
+61	frescobaldi_fiori_musicali	12.28_Toccata_avanti_il_Recercar	1635.0	1635	Renaissance	pre-Baroque	d	minor	19.7465	60	0.32910833333333334	4	62
+62	frescobaldi_fiori_musicali	12.29_Recercar_cromaticho_post_il_Credo	1635.0	1635	Renaissance	pre-Baroque	d	minor	63.8654	244	0.26174344262295085	4	63
+63	frescobaldi_fiori_musicali	12.30_Alto_recercar	1635.0	1635	Renaissance	pre-Baroque	g	minor	81.6153	314	0.25992133757961783	4	64
+64	frescobaldi_fiori_musicali	12.32_Recercar_con_obligo_del_Basso_come_appare	1635.0	1635	Renaissance	pre-Baroque	C	major	54.5155	211	0.25836729857819907	4	65
+65	frescobaldi_fiori_musicali	12.34_Toccata_avanti_la_Messa_della_Madonna	1635.0	1635	Renaissance	pre-Baroque	d	minor	10.5333	38	0.2771921052631579	4	66
+66	frescobaldi_fiori_musicali	12.35_Kyrie,_Tema_I	1635.0	1635	Renaissance	pre-Baroque	d	minor	10.799900000000001	42	0.2571404761904762	4	67
+67	frescobaldi_fiori_musicali	12.36_Kyrie,_Tema_K	1635.0	1635	Renaissance	pre-Baroque	d	minor	10.9499	46	0.23804130434782608	4	68
+68	frescobaldi_fiori_musicali	12.37_Christe,_Tema_L	1635.0	1635	Renaissance	pre-Baroque	d	minor	15.6498	61	0.25655409836065574	4	69
+69	frescobaldi_fiori_musicali	12.38_Christe,_Tema_M	1635.0	1635	Renaissance	pre-Baroque	d	minor	10.4498	40	0.261245	4	70
+70	frescobaldi_fiori_musicali	12.39_Kyrie,_Tema_N	1635.0	1635	Renaissance	pre-Baroque	d	minor	7.733300000000001	34	0.22745	4	71
+71	frescobaldi_fiori_musicali	12.40_Kyrie,_Tema_O	1635.0	1635	Renaissance	pre-Baroque	d	minor	12.9666	53	0.24465283018867923	4	72
+72	frescobaldi_fiori_musicali	12.41_Canzon_dopo_l'Epistola	1635.0	1635	Renaissance	pre-Baroque	g	minor	27.616600000000002	126	0.21917936507936508	4	73
+73	frescobaldi_fiori_musicali	12.42_Recercar_dopo_il_Credo	1635.0	1635	Renaissance	pre-Baroque	g	minor	35.9332	156	0.23034102564102563	4	74
+74	frescobaldi_fiori_musicali	12.43_Toccata_avanti_il_Recercar	1635.0	1635	Renaissance	pre-Baroque	a	minor	9.280000000000001	38	0.24421052631578952	4	75
+75	frescobaldi_fiori_musicali	12.44_Recercar_con_obligo_di_cantare_la_quinta_parte_non_senza_toccarla	1635.0	1635	Renaissance	pre-Baroque	a	minor	49.5327	201	0.24643134328358207	4	76
+76	frescobaldi_fiori_musicali	12.46_Bergamasca	1635.0	1635	Renaissance	pre-Baroque	G	major	98.66550000000001	412	0.23947936893203886	4	77
+77	frescobaldi_fiori_musicali	12.47_Capriccio_sopra_la_Girolmeta	1635.0	1635	Renaissance	pre-Baroque	G	major	95.9321	372	0.2578819892473118	4	78
+78	kleine_geistliche_konzerte	op08n01swv282_Eile_mich,_Gott,_zu_erretten	1637.9308224442736	1636	Renaissance	pre-Baroque	d	minor	20.0166	84	0.23829285714285714	5	79
+79	kleine_geistliche_konzerte	op08n02swv283_Bringt_her_dem_Herren	1637.9308224442736	1636	Renaissance	pre-Baroque	C	major	38.1998	176	0.2170443181818182	5	80
+80	kleine_geistliche_konzerte	op08n03swv284_Ich_danke_dem_Herrn_von_ganzem_Herzen	1637.9308224442736	1636	Renaissance	pre-Baroque	g	minor	51.9666	237	0.21926835443037976	5	81
+81	kleine_geistliche_konzerte	op08n04swv285_O_süsser,_o_freundlicher	1637.9308224442736	1636	Renaissance	pre-Baroque	g	minor	42.5332	193	0.22037927461139897	5	82
+82	kleine_geistliche_konzerte	op08n05swv286_Der_Herr_ist_gross	1637.9308224442736	1636	Renaissance	pre-Baroque	G	major	29.199900000000003	139	0.21007122302158276	5	83
+83	kleine_geistliche_konzerte	op08n06swv287_O_lieber_Herre_Gott	1637.9308224442736	1636	Renaissance	pre-Baroque	g	minor	43.999700000000004	199	0.22110402010050254	5	84
+84	kleine_geistliche_konzerte	op08n07swv288_Ihr_Heiligen,_lobsinget_dem_Herren	1637.9308224442736	1636	Renaissance	pre-Baroque	D	major	31.133300000000002	145	0.21471241379310346	5	85
+85	kleine_geistliche_konzerte	op08n08swv289_Erhöre_mich,_wenn_ich_rufe	1637.9308224442736	1636	Renaissance	pre-Baroque	e	minor	32.5163	128	0.25403359375	5	86
+86	kleine_geistliche_konzerte	op08n09swv290_Wohl_dem,_der_nicht_wandelt_im_Rat_der_Gottlosen	1637.9308224442736	1636	Renaissance	pre-Baroque	g	minor	52.8331	242	0.2183185950413223	5	87
+87	kleine_geistliche_konzerte	op08n10swv291_Schaffe_in_mir,_Gott,_ein_reines_Herz	1637.9308224442736	1636	Renaissance	pre-Baroque	G	major	22.0	104	0.21153846153846154	5	88
+88	kleine_geistliche_konzerte	op08n11swv292_Der_Herr_schauet_vom_Himmel_auf_der_Menschen_Kinder	1637.9308224442736	1636	Renaissance	pre-Baroque	G	major	27.4666	135	0.2034562962962963	5	89
+89	kleine_geistliche_konzerte	op08n12swv293_Lobet_den_Herren,_der_zu_Zion_wohnet	1637.9308224442736	1636	Renaissance	pre-Baroque	G	major	31.5332	137	0.23016934306569345	5	90
+90	kleine_geistliche_konzerte	op08n13swv294_Eins_bitte_ich_vom_Herren	1637.9308224442736	1636	Renaissance	pre-Baroque	F	major	36.35	165	0.2203030303030303	5	91
+91	kleine_geistliche_konzerte	op08n14swv295_O_hilf,_Christe_Gottes_Sohn	1637.9308224442736	1636	Renaissance	pre-Baroque	a	minor	26.0833	121	0.21556446280991737	5	92
+92	kleine_geistliche_konzerte	op08n15swv296_Fürchte_dich_nicht	1637.9308224442736	1636	Renaissance	pre-Baroque	d	minor	34.6	167	0.20718562874251498	5	93
+93	kleine_geistliche_konzerte	op08n16swv297_O_Herr_hilf	1637.9308224442736	1636	Renaissance	pre-Baroque	g	minor	44.633	170	0.2625470588235294	5	94
+94	kleine_geistliche_konzerte	op08n18swv299_Die_Gottseligkeit_ist_zu_allen_Dingen_nütz	1637.9308224442736	1636	Renaissance	pre-Baroque	e	minor	16.7498	73	0.22944931506849317	5	95
+95	kleine_geistliche_konzerte	op08n19swv300_Himmel_und_Erde_vergehen	1637.9308224442736	1636	Renaissance	pre-Baroque	g	minor	18.2	91	0.19999999999999998	5	96
+96	kleine_geistliche_konzerte	op08n20swv301_Nun_komm_der_Heiden_Heiland	1637.9308224442736	1636	Renaissance	pre-Baroque	g	minor	39.199600000000004	165	0.23757333333333336	5	97
+97	kleine_geistliche_konzerte	op08n21swv302_Ein_Kind_ist_uns_geboren	1637.9308224442736	1636	Renaissance	pre-Baroque	F	major	71.3165	276	0.258393115942029	5	98
+98	kleine_geistliche_konzerte	op08n22swv303_Wir_glauben_all_an_einen_Gott	1637.9308224442736	1636	Renaissance	pre-Baroque	d	minor	64.59960000000001	281	0.22989181494661926	5	99
+99	kleine_geistliche_konzerte	op08n23swv304_Siehe,_mein_Fürsprecher_im_Himmel	1637.9308224442736	1636	Renaissance	pre-Baroque	G	major	41.1997	172	0.23953313953488373	5	100
+100	kleine_geistliche_konzerte	op08n24swv305_Ich_hab_mein_Sach_Gott_heimgestellt	1637.9308224442736	1636	Renaissance	pre-Baroque	g	minor	127.74980000000001	573	0.22294904013961606	5	101
+101	kleine_geistliche_konzerte	op09n01swv306_Ich_will_den_Herren_loben_allezeit	1637.9308224442736	1639	Renaissance	pre-Baroque	F	major	46.3498	218	0.2126137614678899	5	102
+102	kleine_geistliche_konzerte	op09n02swv307_Was_hast_du_verwirket	1637.9308224442736	1639	Renaissance	pre-Baroque	d	minor	45.7494	184	0.24863804347826088	5	103
+103	kleine_geistliche_konzerte	op09n03swv308_O_Jesu,_nomen_dulce	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	35.4665	149	0.2380302013422819	5	104
+104	kleine_geistliche_konzerte	op09n04swv309_O_misericordissime_Jesu	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	39.1999	181	0.21657403314917126	5	105
+105	kleine_geistliche_konzerte	op09n05swv310_Ich_liege_und_schlafe	1637.9308224442736	1639	Renaissance	pre-Baroque	a	minor	38.8664	179	0.21713072625698324	5	106
+106	kleine_geistliche_konzerte	op09n06swv311_Habe_deine_Lust_an_dem_Herren	1637.9308224442736	1639	Renaissance	pre-Baroque	a	minor	87.4927	351	0.24926695156695156	5	107
+107	kleine_geistliche_konzerte	op09n07swv312_Herr,_ich_hoffe_darauf	1637.9308224442736	1639	Renaissance	pre-Baroque	d	minor	39.1999	167	0.23472994011976048	5	108
+108	kleine_geistliche_konzerte	op09n08swv313_Bone_Jesu,_verbum_Patris	1637.9308224442736	1639	Renaissance	pre-Baroque	a	minor	60.8496	268	0.22705074626865673	5	109
+109	kleine_geistliche_konzerte	op09n09swv314_Verbum_caro_factum	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	60.4165	260	0.23237115384615384	5	110
+110	kleine_geistliche_konzerte	op09n10swv315_Hodie_Christus_natus_est	1637.9308224442736	1639	Renaissance	pre-Baroque	d	minor	58.783100000000005	241	0.24391327800829876	5	111
+111	kleine_geistliche_konzerte	op09n11swv316_Wann_unsre_Augen_schlafen_ein	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	35.5332	170	0.20901882352941176	5	112
+112	kleine_geistliche_konzerte	op09n12swv317_Meister,_wir_haben_die_ganze_Nacht_gearbeitet	1637.9308224442736	1639	Renaissance	pre-Baroque	d	minor	21.0665	86	0.2449593023255814	5	113
+113	kleine_geistliche_konzerte	op09n13swv318_Die_Furcht_des_Herren	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	25.55	118	0.21652542372881356	5	114
+114	kleine_geistliche_konzerte	op09n14swv319_Ich_beuge_meine_Knie_gegen_dem_Vater	1637.9308224442736	1639	Renaissance	pre-Baroque	G	major	47.982800000000005	215	0.2231758139534884	5	115
+115	kleine_geistliche_konzerte	op09n15swv320_Ich_bin_jung_gewesen_und_bin_alt_worden	1637.9308224442736	1639	Renaissance	pre-Baroque	F	major	34.6664	150	0.23110933333333336	5	116
+116	kleine_geistliche_konzerte	op09n16swv321_Herr,_wenn_ich_nur_dich	1637.9308224442736	1639	Renaissance	pre-Baroque	d	minor	46.4499	187	0.2483951871657754	5	117
+117	kleine_geistliche_konzerte	op09n17swv322_Rorate,_rorate_coeli	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	43.1464	190	0.2270863157894737	5	118
+118	kleine_geistliche_konzerte	op09n18swv323_Joseph,_du_Sohn_David	1637.9308224442736	1639	Renaissance	pre-Baroque	a	minor	42.0797	170	0.24752764705882355	5	119
+119	kleine_geistliche_konzerte	op09n19swv324_Ich_bin_die_Auferstehung	1637.9308224442736	1639	Renaissance	pre-Baroque	d	minor	53.1995	234	0.2273482905982906	5	120
+120	kleine_geistliche_konzerte	op09n20swv325_Die_Seele_Christi_heilige_mich	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	50.8995	217	0.2345599078341014	5	121
+121	kleine_geistliche_konzerte	op09n21swv326_Ich_ruf_zu_dir,_Herr_Jesu_Christ	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	44.2095	180	0.24560833333333332	5	122
+122	kleine_geistliche_konzerte	op09n22swv327_Allein_Gott_in_der_Höh	1637.9308224442736	1639	Renaissance	pre-Baroque	G	major	82.84620000000001	352	0.23535852272727276	5	123
+123	kleine_geistliche_konzerte	op09n23swv328_Veni,_Sancte_Spiritus	1637.9308224442736	1639	Renaissance	pre-Baroque	G	major	64.1165	259	0.24755405405405406	5	124
+124	kleine_geistliche_konzerte	op09n24swv329_Ist_Gott_für_uns	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	40.983200000000004	192	0.2134541666666667	5	125
+125	kleine_geistliche_konzerte	op09n25swv330_Wer_will_uns_scheiden_von_der_Liebe_Gottes	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	40.233200000000004	178	0.22602921348314609	5	126
+126	kleine_geistliche_konzerte	op09n26swv331_Die_Stimm_des_Herren_gehet_auf_den_Wassern	1637.9308224442736	1639	Renaissance	pre-Baroque	d	minor	53.3831	237	0.22524514767932488	5	127
+127	kleine_geistliche_konzerte	op09n27swv332_Jubilate_Deo_omnis_terra	1637.9308224442736	1639	Renaissance	pre-Baroque	F	major	86.0659	351	0.2452019943019943	5	128
+128	kleine_geistliche_konzerte	op09n28swv333_Sei_gegrüßet,_Maria	1637.9308224442736	1639	Renaissance	pre-Baroque	G	major	88.3061	376	0.23485664893617023	5	129
+129	kleine_geistliche_konzerte	op09n29swv334_Ave_Maria,_qualis_est	1637.9308224442736	1639	Renaissance	pre-Baroque	G	major	87.7227	376	0.23330505319148936	5	130
+130	kleine_geistliche_konzerte	op09n30swv335_Was_betrübst_du_dich,_meine_Seele	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	49.8131	194	0.25676855670103094	5	131
+131	kleine_geistliche_konzerte	op09n31swv336_Quemadmodum_desiderat_cervus	1637.9308224442736	1639	Renaissance	pre-Baroque	g	minor	113.9794	478	0.23845062761506275	5	132
+132	kleine_geistliche_konzerte	op09n32swv337_Aufer_immensam	1637.9308224442736	1639	Renaissance	pre-Baroque	a	minor	108.2925	428	0.2530198598130841	5	133
+133	corelli	op01n01a	1687.6864702945581	1681	Baroque	Baroque	F	major	17.3165	61	0.2838770491803279	6	134
+134	corelli	op01n01b	1687.6864702945581	1681	Baroque	Baroque	F	major	38.0327	138	0.2755992753623188	6	135
+135	corelli	op01n01c	1687.6864702945581	1681	Baroque	Baroque	F	major	26.349800000000002	95	0.2773663157894737	6	136
+136	corelli	op01n01d	1687.6864702945581	1681	Baroque	Baroque	F	major	35.9662	138	0.2606246376811594	6	137
+137	corelli	op01n02a	1687.6864702945581	1681	Baroque	Baroque	e	minor	21.1999	75	0.2826653333333333	6	138
+138	corelli	op01n02b	1687.6864702945581	1681	Baroque	Baroque	e	minor	33.4829	121	0.2767181818181818	6	139
+139	corelli	op01n02c	1687.6864702945581	1681	Baroque	Baroque	e	minor	16.6663	64	0.2604109375	6	140
+140	corelli	op01n02d	1687.6864702945581	1681	Baroque	Baroque	e	minor	47.8495	170	0.28146764705882354	6	141
+141	corelli	op01n03a	1687.6864702945581	1681	Baroque	Baroque	A	major	19.9332	66	0.3020181818181818	6	142
+142	corelli	op01n03b	1687.6864702945581	1681	Baroque	Baroque	A	major	63.499700000000004	223	0.28475201793721977	6	143
+143	corelli	op01n03c	1687.6864702945581	1681	Baroque	Baroque	A	minor	19.133	68	0.2813676470588235	6	144
+144	corelli	op01n03d	1687.6864702945581	1681	Baroque	Baroque	A	major	40.7832	171	0.2384982456140351	6	145
+145	corelli	op01n04a	1687.6864702945581	1681	Baroque	Baroque	a	minor	12.5332	52	0.24102307692307695	6	146
+146	corelli	op01n04b	1687.6864702945581	1681	Baroque	Baroque	a	minor	6.466600000000001	26	0.24871538461538464	6	147
+147	corelli	op01n04c	1687.6864702945581	1681	Baroque	Baroque	a	minor	33.0498	117	0.28247692307692307	6	148
+148	corelli	op01n04d	1687.6864702945581	1681	Baroque	Baroque	a	minor	29.6496	115	0.25782260869565216	6	149
+149	corelli	op01n05a	1687.6864702945581	1681	Baroque	Baroque	Bb	major	29.616400000000002	90	0.32907111111111115	6	150
+150	corelli	op01n05b	1687.6864702945581	1681	Baroque	Baroque	Bb	major	45.6495	149	0.30637248322147653	6	151
+151	corelli	op01n05c	1687.6864702945581	1681	Baroque	Baroque	Bb	minor	16.7166	59	0.2833322033898305	6	152
+152	corelli	op01n05d	1687.6864702945581	1681	Baroque	Baroque	Bb	major	30.9997	117	0.26495470085470085	6	153
+153	corelli	op01n06a	1687.6864702945581	1681	Baroque	Baroque	b	minor	13.399700000000001	44	0.3045386363636364	6	154
+154	corelli	op01n06b	1687.6864702945581	1681	Baroque	Baroque	b	minor	58.4824	182	0.32133186813186815	6	155
+155	corelli	op01n06c	1687.6864702945581	1681	Baroque	Baroque	b	minor	25.6996	86	0.2988325581395349	6	156
+156	corelli	op01n06d	1687.6864702945581	1681	Baroque	Baroque	b	minor	33.783100000000005	130	0.25987000000000005	6	157
+157	corelli	op01n07a	1687.6864702945581	1681	Baroque	Baroque	C	major	43.033100000000005	148	0.2907641891891892	6	158
+158	corelli	op01n07b	1687.6864702945581	1681	Baroque	Baroque	C	minor	16.133200000000002	55	0.29333090909090914	6	159
+159	corelli	op01n07c	1687.6864702945581	1681	Baroque	Baroque	C	major	48.376200000000004	169	0.28624970414201184	6	160
+160	corelli	op01n08a	1687.6864702945581	1681	Baroque	Baroque	c	minor	14.5332	56	0.25952142857142857	6	161
+161	corelli	op01n08b	1687.6864702945581	1681	Baroque	Baroque	c	minor	18.9665	74	0.25630405405405404	6	162
+162	corelli	op01n08c	1687.6864702945581	1681	Baroque	Baroque	c	minor	33.2996	119	0.2798285714285714	6	163
+163	corelli	op01n08d	1687.6864702945581	1681	Baroque	Baroque	c	minor	14.8666	70	0.21238	6	164
+164	corelli	op01n09a	1687.6864702945581	1681	Baroque	Baroque	G	major	8.5333	40	0.2133325	6	165
+165	corelli	op01n09b	1687.6864702945581	1681	Baroque	Baroque	G	major	45.3998	150	0.30266533333333334	6	166
+166	corelli	op01n09c	1687.6864702945581	1681	Baroque	Baroque	G	major	19.0165	71	0.2678380281690141	6	167
+167	corelli	op01n09d	1687.6864702945581	1681	Baroque	Baroque	G	major	13.083300000000001	54	0.24228333333333335	6	168
+168	corelli	op01n10a	1687.6864702945581	1681	Baroque	Baroque	g	minor	14.5833	45	0.3240733333333333	6	169
+169	corelli	op01n10b	1687.6864702945581	1681	Baroque	Baroque	g	minor	19.2666	70	0.27523714285714285	6	170
+170	corelli	op01n10c	1687.6864702945581	1681	Baroque	Baroque	g	minor	28.616500000000002	106	0.2699669811320755	6	171
+171	corelli	op01n10d	1687.6864702945581	1681	Baroque	Baroque	g	minor	15.4665	55	0.2812090909090909	6	172
+172	corelli	op01n10e	1687.6864702945581	1681	Baroque	Baroque	g	minor	31.399700000000003	132	0.23787651515151517	6	173
+173	corelli	op01n11a	1687.6864702945581	1681	Baroque	Baroque	d	minor	18.6331	59	0.3158152542372881	6	174
+174	corelli	op01n11b	1687.6864702945581	1681	Baroque	Baroque	d	minor	33.5492	120	0.27957666666666664	6	175
+175	corelli	op01n11c	1687.6864702945581	1681	Baroque	Baroque	d	minor	20.4663	76	0.2692934210526316	6	176
+176	corelli	op01n11d	1687.6864702945581	1681	Baroque	Baroque	d	minor	20.7163	78	0.26559358974358976	6	177
+177	corelli	op01n12a	1687.6864702945581	1681	Baroque	Baroque	D	major	19.616500000000002	63	0.3113730158730159	6	178
+178	corelli	op01n12b	1687.6864702945581	1681	Baroque	Baroque	D	major	29.4659	101	0.29174158415841583	6	179
+179	corelli	op01n12c	1687.6864702945581	1681	Baroque	Baroque	b	minor	12.2666	41	0.29918536585365857	6	180
+180	corelli	op01n12d	1687.6864702945581	1681	Baroque	Baroque	D	major	61.115500000000004	225	0.27162444444444445	6	181
+181	corelli	op03n01a	1687.6864702945581	1689	Baroque	Baroque	F	major	23.366600000000002	77	0.3034623376623377	6	182
+182	corelli	op03n01b	1687.6864702945581	1689	Baroque	Baroque	F	major	41.4831	146	0.2841308219178082	6	183
+183	corelli	op03n01c	1687.6864702945581	1689	Baroque	Baroque	F	major	31.5165	115	0.2740565217391304	6	184
+184	corelli	op03n01d	1687.6864702945581	1689	Baroque	Baroque	F	major	47.1161	152	0.3099743421052632	6	185
+185	corelli	op03n02a	1687.6864702945581	1689	Baroque	Baroque	D	major	20.3166	68	0.2987735294117647	6	186
+186	corelli	op03n02b	1687.6864702945581	1689	Baroque	Baroque	D	major	34.4664	118	0.29208813559322033	6	187
+187	corelli	op03n02c	1687.6864702945581	1689	Baroque	Baroque	b	minor	27.5666	91	0.30292967032967033	6	188
+188	corelli	op03n02d	1687.6864702945581	1689	Baroque	Baroque	D	major	37.6992	121	0.3115636363636363	6	189
+189	corelli	op03n03a	1687.6864702945581	1689	Baroque	Baroque	Bb	major	19.7832	58	0.3410896551724138	6	190
+190	corelli	op03n03b	1687.6864702945581	1689	Baroque	Baroque	Bb	major	13.5332	59	0.2293762711864407	6	191
+191	corelli	op03n03c	1687.6864702945581	1689	Baroque	Baroque	Bb	major	35.0831	137	0.25608102189781023	6	192
+192	corelli	op03n03d	1687.6864702945581	1689	Baroque	Baroque	Bb	major	65.9993	230	0.2869534782608696	6	193
+193	corelli	op03n04a	1687.6864702945581	1689	Baroque	Baroque	b	minor	35.483200000000004	129	0.2750635658914729	6	194
+194	corelli	op03n04b	1687.6864702945581	1689	Baroque	Baroque	b	minor	42.616	137	0.31106569343065693	6	195
+195	corelli	op03n04c	1687.6864702945581	1689	Baroque	Baroque	b	minor	34.4997	110	0.31363363636363634	6	196
+196	corelli	op03n04d	1687.6864702945581	1689	Baroque	Baroque	b	minor	46.1832	171	0.27007719298245614	6	197
+197	corelli	op03n05a	1687.6864702945581	1689	Baroque	Baroque	d	minor	28.6833	87	0.32969310344827585	6	198
+198	corelli	op03n05b	1687.6864702945581	1689	Baroque	Baroque	d	minor	48.7498	172	0.28342906976744187	6	199
+199	corelli	op03n05c	1687.6864702945581	1689	Baroque	Baroque	d	minor	26.0332	78	0.3337589743589744	6	200
+200	corelli	op03n05d	1687.6864702945581	1689	Baroque	Baroque	d	minor	41.083	123	0.3340081300813008	6	201
+201	corelli	op03n06a	1687.6864702945581	1689	Baroque	Baroque	G	major	31.2665	112	0.2791651785714286	6	202
+202	corelli	op03n06b	1687.6864702945581	1689	Baroque	Baroque	e	minor	18.4833	54	0.34228333333333333	6	203
+203	corelli	op03n06c	1687.6864702945581	1689	Baroque	Baroque	G	major	41.4996	147	0.28231020408163265	6	204
+204	corelli	op03n06d	1687.6864702945581	1689	Baroque	Baroque	G	major	51.2496	179	0.2863106145251397	6	205
+205	corelli	op03n07a	1687.6864702945581	1689	Baroque	Baroque	e	minor	25.0833	76	0.33004342105263157	6	206
+206	corelli	op03n07b	1687.6864702945581	1689	Baroque	Baroque	e	minor	42.483200000000004	128	0.33190000000000003	6	207
+207	corelli	op03n07c	1687.6864702945581	1689	Baroque	Baroque	e	minor	30.4663	91	0.3347945054945055	6	208
+208	corelli	op03n07d	1687.6864702945581	1689	Baroque	Baroque	e	minor	24.5666	82	0.2995926829268293	6	209
+209	corelli	op03n08a	1687.6864702945581	1689	Baroque	Baroque	C	major	23.8499	86	0.2773244186046512	6	210
+210	corelli	op03n08b	1687.6864702945581	1689	Baroque	Baroque	C	major	45.966300000000004	153	0.3004333333333334	6	211
+211	corelli	op03n08c	1687.6864702945581	1689	Baroque	Baroque	a	minor	22.349800000000002	72	0.31041388888888893	6	212
+212	corelli	op03n08d	1687.6864702945581	1689	Baroque	Baroque	C	major	30.8	130	0.23692307692307693	6	213
+213	corelli	op03n09a	1687.6864702945581	1689	Baroque	Baroque	f	minor	21.0831	67	0.31467313432835825	6	214
+214	corelli	op03n09b	1687.6864702945581	1689	Baroque	Baroque	f	minor	30.1665	102	0.29575	6	215
+215	corelli	op03n09c	1687.6864702945581	1689	Baroque	Baroque	f	minor	25.6665	85	0.3019588235294118	6	216
+216	corelli	op03n09d	1687.6864702945581	1689	Baroque	Baroque	f	minor	32.6832	118	0.2769762711864407	6	217
+217	corelli	op03n10a	1687.6864702945581	1689	Baroque	Baroque	a	minor	14.2666	47	0.30354468085106384	6	218
+218	corelli	op03n10b	1687.6864702945581	1689	Baroque	Baroque	a	minor	42.6462	146	0.2920972602739726	6	219
+219	corelli	op03n10c	1687.6864702945581	1689	Baroque	Baroque	a	minor	8.3833	24	0.3493041666666667	6	220
+220	corelli	op03n10d	1687.6864702945581	1689	Baroque	Baroque	a	minor	34.8493	113	0.3084008849557522	6	221
+221	corelli	op03n11a	1687.6864702945581	1689	Baroque	Baroque	g	minor	22.7164	64	0.35494375	6	222
+222	corelli	op03n11b	1687.6864702945581	1689	Baroque	Baroque	g	minor	46.0498	160	0.28781124999999996	6	223
+223	corelli	op03n11c	1687.6864702945581	1689	Baroque	Baroque	g	minor	19.1999	62	0.3096758064516129	6	224
+224	corelli	op03n11d	1687.6864702945581	1689	Baroque	Baroque	g	minor	27.7331	91	0.3047593406593407	6	225
+225	corelli	op03n12a	1687.6864702945581	1689	Baroque	Baroque	A	major	6.3	16	0.39375	6	226
+226	corelli	op03n12b	1687.6864702945581	1689	Baroque	Baroque	E	major	2.3999	7	0.34284285714285717	6	227
+227	corelli	op03n12c	1687.6864702945581	1689	Baroque	Baroque	E	major	12.55	38	0.33026315789473687	6	228
+228	corelli	op03n12d	1687.6864702945581	1689	Baroque	Baroque	A	major	25.0	97	0.25773195876288657	6	229
+229	corelli	op03n12e	1687.6864702945581	1689	Baroque	Baroque	A	major	21.9499	76	0.28881447368421054	6	230
+230	corelli	op03n12f	1687.6864702945581	1689	Baroque	Baroque	A	major	56.9662	192	0.2966989583333333	6	231
+231	corelli	op03n12g	1687.6864702945581	1689	Baroque	Baroque	A	major	61.516600000000004	202	0.30453762376237625	6	232
+232	corelli	op04n01a	1687.6864702945581	1694	Baroque	Baroque	C	major	21.5665	71	0.3037535211267606	6	233
+233	corelli	op04n01b	1687.6864702945581	1694	Baroque	Baroque	C	major	18.0999	75	0.24133200000000002	6	234
+234	corelli	op04n01c	1687.6864702945581	1694	Baroque	Baroque	a	minor	12.816600000000001	46	0.2786217391304348	6	235
+235	corelli	op04n01d	1687.6864702945581	1694	Baroque	Baroque	C	major	40.4333	133	0.30400977443609023	6	236
+236	corelli	op04n02a	1687.6864702945581	1694	Baroque	Baroque	g	minor	28.9998	87	0.33333103448275864	6	237
+237	corelli	op04n02b	1687.6864702945581	1694	Baroque	Baroque	g	minor	27.4332	106	0.25880377358490564	6	238
+238	corelli	op04n02c	1687.6864702945581	1694	Baroque	Baroque	g	minor	2.1333	9	0.23703333333333335	6	239
+239	corelli	op04n02d	1687.6864702945581	1694	Baroque	Baroque	g	minor	35.9829	117	0.30754615384615386	6	240
+240	corelli	op04n03a	1687.6864702945581	1694	Baroque	Baroque	A	major	21.533	88	0.24469318181818184	6	241
+241	corelli	op04n03b	1687.6864702945581	1694	Baroque	Baroque	A	major	23.2499	86	0.27034767441860463	6	242
+242	corelli	op04n03c	1687.6864702945581	1694	Baroque	Baroque	A	major	9.833300000000001	36	0.27314722222222226	6	243
+243	corelli	op04n03d	1687.6864702945581	1694	Baroque	Baroque	A	major	35.6498	134	0.26604328358208956	6	244
+244	corelli	op04n04a	1687.6864702945581	1694	Baroque	Baroque	D	major	19.6998	66	0.2984818181818182	6	245
+245	corelli	op04n04b	1687.6864702945581	1694	Baroque	Baroque	D	major	21.366400000000002	78	0.27392820512820515	6	246
+246	corelli	op04n04c	1687.6864702945581	1694	Baroque	Baroque	b	minor	24.4832	98	0.24982857142857143	6	247
+247	corelli	op04n04d	1687.6864702945581	1694	Baroque	Baroque	D	major	26.2665	105	0.25015714285714286	6	248
+248	corelli	op04n05a	1687.6864702945581	1694	Baroque	Baroque	a	minor	28.3499	97	0.2922670103092784	6	249
+249	corelli	op04n05b	1687.6864702945581	1694	Baroque	Baroque	a	minor	32.9333	105	0.3136504761904762	6	250
+250	corelli	op04n05c	1687.6864702945581	1694	Baroque	Baroque	a	minor	19.7997	77	0.25713896103896106	6	251
+251	corelli	op04n05d	1687.6864702945581	1694	Baroque	Baroque	a	minor	9.9	38	0.2605263157894737	6	252
+252	corelli	op04n06a	1687.6864702945581	1694	Baroque	Baroque	E	major	7.5166	22	0.3416636363636364	6	253
+253	corelli	op04n06b	1687.6864702945581	1694	Baroque	Baroque	E	major	8.933300000000001	41	0.21788536585365856	6	254
+254	corelli	op04n06c	1687.6864702945581	1694	Baroque	Baroque	b	minor	6.716600000000001	19	0.35350526315789477	6	255
+255	corelli	op04n06d	1687.6864702945581	1694	Baroque	Baroque	E	major	13.916500000000001	57	0.24414912280701756	6	256
+256	corelli	op04n06e	1687.6864702945581	1694	Baroque	Baroque	e	minor	7.3166	22	0.3325727272727273	6	257
+257	corelli	op04n06f	1687.6864702945581	1694	Baroque	Baroque	E	major	22.2831	75	0.29710800000000004	6	258
+258	corelli	op04n06g	1687.6864702945581	1694	Baroque	Baroque	E	major	28.1666	92	0.3061586956521739	6	259
+259	corelli	op04n07a	1687.6864702945581	1694	Baroque	Baroque	F	major	24.616500000000002	85	0.2896058823529412	6	260
+260	corelli	op04n07b	1687.6864702945581	1694	Baroque	Baroque	F	major	32.3829	101	0.32062277227722774	6	261
+261	corelli	op04n07c	1687.6864702945581	1694	Baroque	Baroque	d	minor	4.0	12	0.3333333333333333	6	262
+262	corelli	op04n07d	1687.6864702945581	1694	Baroque	Baroque	F	major	11.4666	46	0.24927391304347826	6	263
+263	corelli	op04n07e	1687.6864702945581	1694	Baroque	Baroque	F	major	23.4833	92	0.25525326086956523	6	264
+264	corelli	op04n08a	1687.6864702945581	1694	Baroque	Baroque	d	minor	29.849700000000002	93	0.32096451612903226	6	265
+265	corelli	op04n08b	1687.6864702945581	1694	Baroque	Baroque	d	minor	21.2966	88	0.2420068181818182	6	266
+266	corelli	op04n08c	1687.6864702945581	1694	Baroque	Baroque	d	minor	10.41	40	0.26025	6	267
+267	corelli	op04n09a	1687.6864702945581	1694	Baroque	Baroque	Bb	major	17.400000000000002	76	0.22894736842105265	6	268
+268	corelli	op04n09b	1687.6864702945581	1694	Baroque	Baroque	Bb	major	25.3333	102	0.2483656862745098	6	269
+269	corelli	op04n09c	1687.6864702945581	1694	Baroque	Baroque	g	minor	15.083300000000001	48	0.3142354166666667	6	270
+270	corelli	op04n09d	1687.6864702945581	1694	Baroque	Baroque	Bb	major	37.4666	164	0.22845487804878048	6	271
+271	corelli	op04n10a	1687.6864702945581	1694	Baroque	Baroque	G	major	1.1333	4	0.283325	6	272
+272	corelli	op04n10b	1687.6864702945581	1694	Baroque	Baroque	G	major	28.116600000000002	103	0.27297669902912625	6	273
+273	corelli	op04n10c	1687.6864702945581	1694	Baroque	Baroque	G	major	2.25	8	0.28125	6	274
+274	corelli	op04n10d	1687.6864702945581	1694	Baroque	Baroque	e	minor	17.1498	51	0.3362705882352941	6	275
+275	corelli	op04n10e	1687.6864702945581	1694	Baroque	Baroque	G	major	37.9166	149	0.25447382550335573	6	276
+276	corelli	op04n11a	1687.6864702945581	1694	Baroque	Baroque	c	minor	50.6828	150	0.3378853333333333	6	277
+277	corelli	op04n11b	1687.6864702945581	1694	Baroque	Baroque	c	minor	31.7165	116	0.2734181034482759	6	278
+278	corelli	op04n11c	1687.6864702945581	1694	Baroque	Baroque	c	minor	45.283300000000004	142	0.31889647887323946	6	279
+279	corelli	op04n12a	1687.6864702945581	1694	Baroque	Baroque	b	minor	21.1329	74	0.2855797297297297	6	280
+280	corelli	op04n12b	1687.6864702945581	1694	Baroque	Baroque	b	minor	33.6665	106	0.31760849056603774	6	281
+281	corelli	op04n12c	1687.6864702945581	1694	Baroque	Baroque	b	minor	16.2833	61	0.2669393442622951	6	282
+282	couperin_clavecin	00_allemande	1717.0	1717	Baroque	Baroque	d	minor	21.0665	64	0.3291640625	7	283
+283	couperin_clavecin	01_premier_prelude	1717.0	1717	Baroque	Baroque	C	major	15.17	39	0.38897435897435895	7	284
+284	couperin_clavecin	02_second_prelude	1717.0	1717	Baroque	Baroque	d	minor	17.6432	46	0.38354782608695653	7	285
+285	couperin_clavecin	03_troisieme_prelude	1717.0	1717	Baroque	Baroque	g	minor	28.0166	80	0.3502075	7	286
+286	couperin_clavecin	04_quatrieme_prelude	1717.0	1717	Baroque	Baroque	F	major	25.4532	70	0.36361714285714286	7	287
+287	couperin_clavecin	05_cinquieme_prelude	1717.0	1717	Baroque	Baroque	A	major	35.9564	93	0.38662795698924735	7	288
+288	couperin_clavecin	06_sixieme_prelude	1717.0	1717	Baroque	Baroque	b	minor	35.2997	108	0.3268490740740741	7	289
+289	couperin_clavecin	07_septieme_prelude	1717.0	1717	Baroque	Baroque	Bb	major	27.1496	85	0.31940705882352943	7	290
+290	couperin_clavecin	08_huitieme_prelude	1717.0	1717	Baroque	Baroque	e	minor	38.3632	122	0.31445245901639346	7	291
+291	handel_keyboard	hwv430d_Grobschmied_Aria	1720.0	1720	Baroque	Baroque	E	major	12.066600000000001	51	0.23660000000000003	8	292
+292	handel_keyboard	hwv430d_Grobschmied_Var1	1720.0	1720	Baroque	Baroque	E	major	14.2666	56	0.2547607142857143	8	293
+293	handel_keyboard	hwv430d_Grobschmied_Var2	1720.0	1720	Baroque	Baroque	E	major	14.6666	58	0.25287241379310343	8	294
+294	handel_keyboard	hwv430d_Grobschmied_Var3	1720.0	1720	Baroque	Baroque	E	major	16.0666	55	0.29212000000000005	8	295
+295	handel_keyboard	hwv430d_Grobschmied_Var4	1720.0	1720	Baroque	Baroque	E	major	19.3999	65	0.29846	8	296
+296	handel_keyboard	hwv430d_Grobschmied_Var5	1720.0	1720	Baroque	Baroque	E	major	12.933300000000001	61	0.21202131147540984	8	297
+297	bach_solo	BWV1001_01_Adagio	1721.536293766012	1720	Baroque	Baroque	g	minor	32.1163	93	0.34533655913978495	9	298
+298	bach_solo	BWV1001_02_Fuga	1721.536293766012	1720	Baroque	Baroque	g	minor	110.54860000000001	319	0.3465473354231975	9	299
+299	bach_solo	BWV1001_03_Siciliano	1721.536293766012	1720	Baroque	Baroque	Bb	major	36.4663	112	0.32559196428571424	9	300
+300	bach_solo	BWV1001_04_Presto	1721.536293766012	1720	Baroque	Baroque	g	minor	70.0323	212	0.3303410377358491	9	301
+301	bach_solo	BWV1002_01_Allemanda	1721.536293766012	1720	Baroque	Baroque	b	minor	31.983	91	0.3514615384615385	9	302
+302	bach_solo	BWV1002_02_Double	1721.536293766012	1720	Baroque	Baroque	b	minor	31.1329	87	0.3578494252873563	9	303
+303	bach_solo	BWV1002_03_Corrente	1721.536293766012	1720	Baroque	Baroque	b	minor	41.8662	109	0.3840935779816514	9	304
+304	bach_solo	BWV1002_04_Double	1721.536293766012	1720	Baroque	Baroque	b	minor	44.5663	121	0.36831652892561983	9	305
+305	bach_solo	BWV1002_05_Sarabande	1721.536293766012	1720	Baroque	Baroque	b	minor	22.7996	66	0.3454484848484849	9	306
+306	bach_solo	BWV1002_06_Double	1721.536293766012	1720	Baroque	Baroque	b	minor	18.3331	53	0.34590754716981137	9	307
+307	bach_solo	BWV1002_07_TempoDiBorea	1721.536293766012	1720	Baroque	Baroque	b	minor	33.182900000000004	96	0.34565520833333335	9	308
+308	bach_solo	BWV1002_08_Double	1721.536293766012	1720	Baroque	Baroque	b	minor	34.4492	101	0.3410811881188119	9	309
+309	bach_solo	BWV1003_01_Grave	1721.536293766012	1720	Baroque	Baroque	a	minor	31.0664	88	0.35302727272727275	9	310
+310	bach_solo	BWV1003_02_Fuga	1721.536293766012	1720	Baroque	Baroque	a	minor	150.0979	479	0.3133567849686848	9	311
+311	bach_solo	BWV1003_03_Andante	1721.536293766012	1720	Baroque	Baroque	C	major	24.233	69	0.3512028985507246	9	312
+312	bach_solo	BWV1003_04_Allegro	1721.536293766012	1720	Baroque	Baroque	a	minor	69.3823	205	0.33845024390243905	9	313
+313	bach_solo	BWV1004_01_Allemande	1721.536293766012	1720	Baroque	Baroque	d	minor	30.3664	92	0.3300695652173913	9	314
+314	bach_solo	BWV1004_02_Courante	1721.536293766012	1720	Baroque	Baroque	d	minor	26.866500000000002	73	0.3680342465753425	9	315
+315	bach_solo	BWV1005_02_Fuga	1721.536293766012	1720	Baroque	Baroque	C	major	233.44650000000001	738	0.31632317073170735	9	316
+316	bach_solo	BWV1006_04_Menuett	1721.536293766012	1720	Baroque	Baroque	E	major	36.6662	122	0.3005426229508197	9	317
+317	bach_solo	BWV1006_05_Bourée	1721.536293766012	1720	Baroque	Baroque	E	major	15.933200000000001	53	0.3006264150943396	9	318
+318	bach_solo	BWV1006_06_Gigue	1721.536293766012	1720	Baroque	Baroque	E	major	17.3332	49	0.3537387755102041	9	319
+319	bach_solo	BWV1007_01_Prelude	1721.536293766012	1723	Baroque	Baroque	G	major	20.0498	54	0.3712925925925926	9	320
+320	bach_solo	BWV1007_02_Allemande	1721.536293766012	1723	Baroque	Baroque	G	major	24.583000000000002	72	0.34143055555555557	9	321
+321	bach_solo	BWV1007_03_Courante	1721.536293766012	1723	Baroque	Baroque	G	major	19.2832	63	0.3060825396825397	9	322
+322	bach_solo	BWV1007_04_Sarabande	1721.536293766012	1723	Baroque	Baroque	G	major	13.9998	42	0.3333285714285714	9	323
+323	bach_solo	BWV1007_05_MenuetI	1721.536293766012	1723	Baroque	Baroque	G	major	9.9332	33	0.3010060606060606	9	324
+324	bach_solo	BWV1007_06_MenuetII	1721.536293766012	1723	Baroque	Baroque	g	minor	9.6666	33	0.29292727272727276	9	325
+325	bach_solo	BWV1007_07_Gique	1721.536293766012	1723	Baroque	Baroque	G	major	15.049800000000001	58	0.25947931034482763	9	326
+326	bach_solo	BWV1008_01_Prelude	1721.536293766012	1723	Baroque	Baroque	d	minor	34.1497	91	0.3752714285714286	9	327
+327	bach_solo	BWV1008_02_Allemande	1721.536293766012	1723	Baroque	Baroque	d	minor	25.7331	70	0.36761571428571427	9	328
+328	bach_solo	BWV1008_03_Courante	1721.536293766012	1723	Baroque	Baroque	d	minor	16.1999	50	0.323998	9	329
+329	bach_solo	BWV1008_04_Sarabande	1721.536293766012	1723	Baroque	Baroque	d	minor	15.933	51	0.31241176470588233	9	330
+330	bach_solo	BWV1008_05_MenuetI	1721.536293766012	1723	Baroque	Baroque	d	minor	12.4664	42	0.29681904761904765	9	331
+331	bach_solo	BWV1008_06_MenuetII	1721.536293766012	1723	Baroque	Baroque	D	major	8.7998	31	0.28386451612903224	9	332
+332	bach_solo	BWV1008_07_Gique	1721.536293766012	1723	Baroque	Baroque	d	minor	28.4662	91	0.3128153846153846	9	333
+333	bach_solo	BWV1009_01_Prelude	1721.536293766012	1723	Baroque	Baroque	C	major	36.8765	108	0.3414490740740741	9	334
+334	bach_solo	BWV1009_02_Allemande	1721.536293766012	1723	Baroque	Baroque	C	major	30.5827	104	0.29406442307692304	9	335
+335	bach_solo	BWV1009_03_Courante	1721.536293766012	1723	Baroque	Baroque	C	major	27.2497	81	0.3364160493827161	9	336
+336	bach_solo	BWV1009_04_Sarabande	1721.536293766012	1723	Baroque	Baroque	C	major	19.8996	54	0.3685111111111111	9	337
+337	bach_solo	BWV1009_05_BourréeI	1721.536293766012	1723	Baroque	Baroque	C	major	16.3331	61	0.26775573770491806	9	338
+338	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	Baroque	c	minor	8.8665	34	0.26077941176470587	9	339
+339	bach_solo	BWV1009_07_Gique	1721.536293766012	1723	Baroque	Baroque	C	major	31.5329	109	0.2892926605504587	9	340
+340	bach_solo	BWV1010_01_Prelude	1721.536293766012	1723	Baroque	Baroque	Eb	major	31.0166	74	0.41914324324324326	9	341
+341	bach_solo	BWV1010_02_Allemande	1721.536293766012	1723	Baroque	Baroque	Eb	major	31.6496	93	0.34031827956989247	9	342
+342	bach_solo	BWV1010_03_Courante	1721.536293766012	1723	Baroque	Baroque	Eb	major	30.9662	103	0.30064271844660195	9	343
+343	bach_solo	BWV1010_04_Sarabande	1721.536293766012	1723	Baroque	Baroque	Eb	major	21.2331	64	0.3317671875	9	344
+344	bach_solo	BWV1010_05_BourreeI	1721.536293766012	1723	Baroque	Baroque	Eb	major	23.799300000000002	74	0.3216121621621622	9	345
+345	bach_solo	BWV1010_06_BourreeII	1721.536293766012	1723	Baroque	Baroque	Eb	major	6.3833	27	0.23641851851851853	9	346
+346	bach_solo	BWV1010_07_Gique	1721.536293766012	1723	Baroque	Baroque	Eb	major	27.650000000000002	77	0.3590909090909091	9	347
+347	bach_solo	BWV1011_01_Prelude	1721.536293766012	1723	Baroque	Baroque	c	minor	106.4477	322	0.3305829192546584	9	348
+348	bach_solo	BWV1011_02_Allemande	1721.536293766012	1723	Baroque	Baroque	c	minor	24.4163	69	0.35385942028985506	9	349
+349	bach_solo	BWV1011_03_Courante	1721.536293766012	1723	Baroque	Baroque	c	minor	20.5996	67	0.30745671641791045	9	350
+350	bach_solo	BWV1011_04_Sarabande	1721.536293766012	1723	Baroque	Baroque	c	minor	9.3332	27	0.3456740740740741	9	351
+351	bach_solo	BWV1011_05_GavotteI	1721.536293766012	1723	Baroque	Baroque	c	minor	24.546200000000002	77	0.3187818181818182	9	352
+352	bach_solo	BWV1011_06_GavotteII	1721.536293766012	1723	Baroque	Baroque	c	minor	17.133	63	0.27195238095238095	9	353
+353	bach_solo	BWV1011_07_Gique	1721.536293766012	1723	Baroque	Baroque	c	minor	21.1329	71	0.2976464788732394	9	354
+354	bach_solo	BWV1012_01_Prelude	1721.536293766012	1723	Baroque	Baroque	D	major	60.0494	187	0.3211197860962567	9	355
+355	bach_solo	BWV1012_02_Allemande	1721.536293766012	1723	Baroque	Baroque	D	major	27.4497	78	0.35191923076923076	9	356
+356	bach_solo	BWV1012_03_Courante	1721.536293766012	1723	Baroque	Baroque	D	major	26.1828	86	0.30445116279069767	9	357
+357	bach_solo	BWV1012_04_Sarabande	1721.536293766012	1723	Baroque	Baroque	D	major	20.4164	58	0.3520068965517241	9	358
+358	bach_solo	BWV1012_05_GavotteI	1721.536293766012	1723	Baroque	Baroque	D	major	17.8663	55	0.3248418181818182	9	359
+359	bach_solo	BWV1012_06_GavotteII	1721.536293766012	1723	Baroque	Baroque	D	major	15.9331	58	0.2747086206896552	9	360
+360	bach_solo	BWV1012_07_Gique	1721.536293766012	1723	Baroque	Baroque	D	major	33.4831	109	0.30718440366972477	9	361
+361	bach_solo	BWV1013_01_Allemande	1721.536293766012	1723	Baroque	Baroque	a	minor	58.2993	155	0.37612451612903225	9	362
+362	bach_solo	BWV1013_02_Corrente	1721.536293766012	1723	Baroque	Baroque	a	minor	38.9829	120	0.3248575	9	363
+363	bach_solo	BWV1013_03_Sarabande	1721.536293766012	1723	Baroque	Baroque	a	minor	18.1329	56	0.3238017857142857	9	364
+364	bach_solo	BWV1013_04_BourreeAnglaise	1721.536293766012	1723	Baroque	Baroque	a	minor	30.332900000000002	96	0.3159677083333334	9	365
+365	bach_en_fr_suites	BWV806_01_Prelude	1721.7536076006095	1720	Baroque	Baroque	A	major	60.9929	191	0.31933455497382196	10	366
+366	bach_en_fr_suites	BWV806_02_Allemande	1721.7536076006095	1720	Baroque	Baroque	A	major	58.073100000000004	144	0.4032854166666667	10	367
+367	bach_en_fr_suites	BWV806_03_Courante_I	1721.7536076006095	1720	Baroque	Baroque	A	major	30.149900000000002	91	0.33131758241758247	10	368
+368	bach_en_fr_suites	BWV806_04_Courante_II	1721.7536076006095	1720	Baroque	Baroque	A	major	33.0498	104	0.3177865384615384	10	369
+369	bach_en_fr_suites	BWV806_05_Double_I	1721.7536076006095	1720	Baroque	Baroque	A	major	30.0163	101	0.2971910891089109	10	370
+370	bach_en_fr_suites	BWV806_06_Double_II	1721.7536076006095	1720	Baroque	Baroque	A	major	30.583000000000002	100	0.30583000000000005	10	371
+371	bach_en_fr_suites	BWV806_07_Sarabande	1721.7536076006095	1720	Baroque	Baroque	A	major	26.4432	72	0.3672666666666667	10	372
+372	bach_en_fr_suites	BWV806_08_Bouree_I	1721.7536076006095	1720	Baroque	Baroque	A	major	39.8497	140	0.2846407142857143	10	373
+373	bach_en_fr_suites	BWV806_09_Bouree_II	1721.7536076006095	1720	Baroque	Baroque	a	minor	40.3659	124	0.32553145161290326	10	374
+374	bach_en_fr_suites	BWV806_10_Gigue	1721.7536076006095	1720	Baroque	Baroque	A	major	34.3497	122	0.28155491803278687	10	375
+375	bach_en_fr_suites	BWV807_01_Prelude	1721.7536076006095	1720	Baroque	Baroque	a	minor	218.3287	564	0.38710762411347516	10	376
+376	bach_en_fr_suites	BWV807_02_Allemande	1721.7536076006095	1720	Baroque	Baroque	a	minor	48.4927	125	0.3879416	10	377
+377	bach_en_fr_suites	BWV807_03_Courante	1721.7536076006095	1720	Baroque	Baroque	a	minor	32.6662	108	0.30246481481481485	10	378
+378	bach_en_fr_suites	BWV807_04_Sarabande	1721.7536076006095	1720	Baroque	Baroque	a	minor	25.7798	76	0.33920789473684215	10	379
+379	bach_en_fr_suites	BWV807_04a_Agrements_de_la_Sarabande	1721.7536076006095	1720	Baroque	Baroque	a	minor	29.296400000000002	78	0.37559487179487183	10	380
+380	bach_en_fr_suites	BWV807_05_Bourree_I	1721.7536076006095	1720	Baroque	Baroque	a	minor	50.7994	162	0.31357654320987655	10	381
+381	bach_en_fr_suites	BWV807_06_Bourree_II	1721.7536076006095	1720	Baroque	Baroque	A	major	21.9666	69	0.3183565217391304	10	382
+382	bach_en_fr_suites	BWV807_07_Gigue	1721.7536076006095	1720	Baroque	Baroque	a	minor	40.9993	138	0.2970963768115942	10	383
+383	bach_en_fr_suites	BWV808_01_Prelude	1721.7536076006095	1720	Baroque	Baroque	g	minor	115.9856	358	0.3239821229050279	10	384
+384	bach_en_fr_suites	BWV808_02_Allemande	1721.7536076006095	1720	Baroque	Baroque	g	minor	43.3561	121	0.35831487603305784	10	385
+385	bach_en_fr_suites	BWV808_03_Courante	1721.7536076006095	1720	Baroque	Baroque	g	minor	51.7994	153	0.3385581699346405	10	386
+386	bach_en_fr_suites	BWV808_04_Sarabande	1721.7536076006095	1720	Baroque	Baroque	g	minor	21.8032	43	0.5070511627906977	10	387
+387	bach_en_fr_suites	BWV808_04a_Agrements_de_la_Sarabande	1721.7536076006095	1720	Baroque	Baroque	g	minor	26.5532	50	0.531064	10	388
+388	bach_en_fr_suites	BWV808_05_Gavotte_I	1721.7536076006095	1720	Baroque	Baroque	g	minor	31.4494	105	0.29951809523809525	10	389
+389	bach_en_fr_suites	BWV808_06_Gavotte_II	1721.7536076006095	1720	Baroque	Baroque	G	major	15.399700000000001	55	0.2799945454545455	10	390
+390	bach_en_fr_suites	BWV808_07_Gigue	1721.7536076006095	1720	Baroque	Baroque	g	minor	68.0652	208	0.3272365384615385	10	391
+391	bach_en_fr_suites	BWV809_01_Prelude	1721.7536076006095	1720	Baroque	Baroque	F	major	176.0316	493	0.35706206896551723	10	392
+392	bach_en_fr_suites	BWV809_02_Allemande	1721.7536076006095	1720	Baroque	Baroque	F	major	36.833	93	0.3960537634408602	10	393
+393	bach_en_fr_suites	BWV809_03_Courante	1721.7536076006095	1720	Baroque	Baroque	F	major	20.9166	66	0.3169181818181818	10	394
+394	bach_en_fr_suites	BWV809_04_Sarabande	1721.7536076006095	1720	Baroque	Baroque	F	major	24.4533	59	0.41446271186440675	10	395
+395	bach_en_fr_suites	BWV809_05_Menuett_I	1721.7536076006095	1720	Baroque	Baroque	F	major	21.9996	76	0.2894684210526316	10	396
+396	bach_en_fr_suites	BWV809_06_Menuett_II	1721.7536076006095	1720	Baroque	Baroque	d	minor	20.1499	72	0.2798597222222222	10	397
+397	bach_en_fr_suites	BWV809_07_Gigue	1721.7536076006095	1720	Baroque	Baroque	F	major	57.2162	194	0.29492886597938145	10	398
+398	bach_en_fr_suites	BWV810_01_Prelude	1721.7536076006095	1720	Baroque	Baroque	e	minor	170.548	415	0.4109590361445783	10	399
+399	bach_en_fr_suites	BWV810_02_Allemande	1721.7536076006095	1720	Baroque	Baroque	e	minor	50.1658	123	0.4078520325203252	10	400
+400	bach_en_fr_suites	BWV810_03_Courante	1721.7536076006095	1720	Baroque	Baroque	e	minor	28.7332	84	0.3420619047619048	10	401
+401	bach_en_fr_suites	BWV810_04_Sarabande	1721.7536076006095	1720	Baroque	Baroque	e	minor	38.4261	100	0.38426099999999996	10	402
+402	bach_en_fr_suites	BWV810_05_Passepied_I	1721.7536076006095	1720	Baroque	Baroque	e	minor	63.2393	216	0.29277453703703704	10	403
+403	bach_en_fr_suites	BWV810_06_Passepied_II	1721.7536076006095	1720	Baroque	Baroque	E	major	19.6665	65	0.30256153846153844	10	404
+404	bach_en_fr_suites	BWV810_07_Gigue	1721.7536076006095	1720	Baroque	Baroque	e	minor	80.0694	199	0.40235879396984925	10	405
+405	bach_en_fr_suites	BWV811_01_Prelude	1721.7536076006095	1720	Baroque	Baroque	d	minor	235.8342	610	0.38661344262295083	10	406
+406	bach_en_fr_suites	BWV811_02_Allemande	1721.7536076006095	1720	Baroque	Baroque	d	minor	45.563	111	0.4104774774774775	10	407
+407	bach_en_fr_suites	BWV811_03_Courante	1721.7536076006095	1720	Baroque	Baroque	d	minor	40.466	132	0.3065606060606061	10	408
+408	bach_en_fr_suites	BWV811_04_Sarabande	1721.7536076006095	1720	Baroque	Baroque	d	minor	27.1299	59	0.45982881355932204	10	409
+409	bach_en_fr_suites	BWV811_05_Double	1721.7536076006095	1720	Baroque	Baroque	d	minor	26.0665	61	0.4273196721311476	10	410
+410	bach_en_fr_suites	BWV811_06_Gavotte_I	1721.7536076006095	1720	Baroque	Baroque	d	minor	29.9799	99	0.3028272727272727	10	411
+411	bach_en_fr_suites	BWV811_07_Gavotte_II	1721.7536076006095	1720	Baroque	Baroque	D	major	21.4663	74	0.2900851351351351	10	412
+412	bach_en_fr_suites	BWV811_08_Gigue	1721.7536076006095	1720	Baroque	Baroque	d	minor	104.2821	241	0.4327058091286307	10	413
+413	bach_en_fr_suites	BWV812_01_Allemande	1721.7536076006095	1725	Baroque	Baroque	d	minor	54.4562	131	0.4156961832061069	10	414
+414	bach_en_fr_suites	BWV812_02_Courante	1721.7536076006095	1725	Baroque	Baroque	d	minor	38.2997	96	0.39895520833333337	10	415
+415	bach_en_fr_suites	BWV812_03_Sarabande	1721.7536076006095	1725	Baroque	Baroque	d	minor	32.6965	78	0.41918589743589746	10	416
+416	bach_en_fr_suites	BWV812_04_Menuett_I	1721.7536076006095	1725	Baroque	Baroque	d	minor	17.6664	55	0.32120727272727273	10	417
+417	bach_en_fr_suites	BWV812_05_Menuett_II	1721.7536076006095	1725	Baroque	Baroque	d	minor	19.633300000000002	65	0.30205076923076923	10	418
+418	bach_en_fr_suites	BWV812_06_Gigue	1721.7536076006095	1725	Baroque	Baroque	d	minor	44.1158	125	0.3529264	10	419
+419	bach_en_fr_suites	BWV813_01_Allemande	1721.7536076006095	1725	Baroque	Baroque	c	minor	46.6495	122	0.38237295081967215	10	420
+420	bach_en_fr_suites	BWV813_02_Courante	1721.7536076006095	1725	Baroque	Baroque	c	minor	58.7658	167	0.35189101796407185	10	421
+421	bach_en_fr_suites	BWV813_03_Sarabande	1721.7536076006095	1725	Baroque	Baroque	c	minor	39.9662	101	0.3957049504950495	10	422
+422	bach_en_fr_suites	BWV813_04_Air	1721.7536076006095	1725	Baroque	Baroque	c	minor	30.616300000000003	98	0.31241122448979597	10	423
+423	bach_en_fr_suites	BWV813_05_Menuett	1721.7536076006095	1725	Baroque	Baroque	c	minor	23.183	72	0.3219861111111111	10	424
+424	bach_en_fr_suites	BWV813_06_Gigue	1721.7536076006095	1725	Baroque	Baroque	c	minor	42.199400000000004	136	0.310289705882353	10	425
+425	bach_en_fr_suites	BWV814_01_Allemande	1721.7536076006095	1725	Baroque	Baroque	b	minor	51.8491	156	0.33236602564102563	10	426
+426	bach_en_fr_suites	BWV814_02_Courante	1721.7536076006095	1725	Baroque	Baroque	b	minor	34.716	107	0.32444859813084115	10	427
+427	bach_en_fr_suites	BWV814_03_Sarabande	1721.7536076006095	1725	Baroque	Baroque	b	minor	31.9462	83	0.38489397590361446	10	428
+428	bach_en_fr_suites	BWV814_04_Gavotte	1721.7536076006095	1725	Baroque	Baroque	b	minor	32.1995	98	0.32856632653061224	10	429
+429	bach_en_fr_suites	BWV814_05_Menuett	1721.7536076006095	1725	Baroque	Baroque	b	minor	24.5165	93	0.2636182795698925	10	430
+430	bach_en_fr_suites	BWV814_06_Trio	1721.7536076006095	1725	Baroque	Baroque	b	minor	21.2931	62	0.34343709677419354	10	431
+431	bach_en_fr_suites	BWV814_07_Gigue	1721.7536076006095	1725	Baroque	Baroque	b	minor	50.3494	152	0.33124605263157897	10	432
+432	bach_en_fr_suites	BWV815_01_Allemande	1721.7536076006095	1725	Baroque	Baroque	Eb	major	41.269800000000004	103	0.40067766990291265	10	433
+433	bach_en_fr_suites	BWV815_02_Courante	1721.7536076006095	1725	Baroque	Baroque	Eb	major	28.6499	87	0.32930919540229886	10	434
+434	bach_en_fr_suites	BWV815_03_Sarabande	1721.7536076006095	1725	Baroque	Baroque	Eb	major	24.1329	62	0.38924032258064517	10	435
+435	bach_en_fr_suites	BWV815_04_Gavotte	1721.7536076006095	1725	Baroque	Baroque	Eb	major	24.4998	82	0.2987780487804878	10	436
+436	bach_en_fr_suites	BWV815_05_Air	1721.7536076006095	1725	Baroque	Baroque	Eb	major	22.2665	77	0.2891753246753247	10	437
+437	bach_en_fr_suites	BWV815_06_Menuett	1721.7536076006095	1725	Baroque	Baroque	Eb	major	14.2165	41	0.34674390243902437	10	438
+438	bach_en_fr_suites	BWV815_07_Gigue	1721.7536076006095	1725	Baroque	Baroque	Eb	major	35.6997	106	0.3367896226415094	10	439
+439	bach_en_fr_suites	BWV816_01_Allemande	1721.7536076006095	1725	Baroque	Baroque	G	major	47.7797	142	0.3364767605633803	10	440
+440	bach_en_fr_suites	BWV816_02_Courante	1721.7536076006095	1725	Baroque	Baroque	G	major	28.0664	83	0.33814939759036144	10	441
+441	bach_en_fr_suites	BWV816_03_Sarabande	1721.7536076006095	1725	Baroque	Baroque	G	major	33.2098	104	0.319325	10	442
+442	bach_en_fr_suites	BWV816_04_Gavotte	1721.7536076006095	1725	Baroque	Baroque	G	major	22.3996	67	0.3343223880597015	10	443
+443	bach_en_fr_suites	BWV816_05_Bourree	1721.7536076006095	1725	Baroque	Baroque	G	major	20.8397	74	0.28161756756756756	10	444
+444	bach_en_fr_suites	BWV816_06_Loure	1721.7536076006095	1725	Baroque	Baroque	G	major	24.2831	64	0.3794234375	10	445
+445	bach_en_fr_suites	BWV816_07_Gigue	1721.7536076006095	1725	Baroque	Baroque	G	major	53.4498	158	0.33828987341772154	10	446
+446	bach_en_fr_suites	BWV817_01_Allemande	1721.7536076006095	1725	Baroque	Baroque	E	major	32.5998	101	0.322770297029703	10	447
+447	bach_en_fr_suites	BWV817_02_Courante	1721.7536076006095	1725	Baroque	Baroque	E	major	30.7498	93	0.3306430107526882	10	448
+448	bach_en_fr_suites	BWV817_03_Sarabande	1721.7536076006095	1725	Baroque	Baroque	E	major	22.6833	63	0.36005238095238096	10	449
+449	bach_en_fr_suites	BWV817_04_Gavotte	1721.7536076006095	1725	Baroque	Baroque	E	major	20.2464	58	0.3490758620689655	10	450
+450	bach_en_fr_suites	BWV817_05_Polonaise	1721.7536076006095	1725	Baroque	Baroque	E	major	21.8664	67	0.32636417910447757	10	451
+451	bach_en_fr_suites	BWV817_06_Bourree	1721.7536076006095	1725	Baroque	Baroque	E	major	30.9165	121	0.2555082644628099	10	452
+452	bach_en_fr_suites	BWV817_07_Gigue	1721.7536076006095	1725	Baroque	Baroque	E	major	36.4665	116	0.31436637931034483	10	453
+453	bach_en_fr_suites	BWV817_08_Menuett	1721.7536076006095	1725	Baroque	Baroque	E	major	14.7199	47	0.3131893617021277	10	454
+454	couperin_concerts	c01n01_prelude	1723.4204871060172	1722	Baroque	Baroque	G	major	31.6466	93	0.34028602150537635	11	455
+455	couperin_concerts	c01n02_allemande	1723.4204871060172	1722	Baroque	Baroque	G	major	22.6833	76	0.29846447368421053	11	456
+456	couperin_concerts	c01n03_sarabande	1723.4204871060172	1722	Baroque	Baroque	g	minor	20.45	61	0.33524590163934426	11	457
+457	couperin_concerts	c01n04_gavotte	1723.4204871060172	1722	Baroque	Baroque	g	minor	15.8	50	0.316	11	458
+458	couperin_concerts	c01n05_gigue	1723.4204871060172	1722	Baroque	Baroque	G	major	48.05	130	0.36961538461538457	11	459
+459	couperin_concerts	c01n06_menuet_en_trio	1723.4204871060172	1722	Baroque	Baroque	g	minor	14.7333	45	0.3274066666666667	11	460
+460	couperin_concerts	c02n01_prelude	1723.4204871060172	1722	Baroque	Baroque	D	major	26.6666	88	0.30302954545454547	11	461
+461	couperin_concerts	c02n02_allemande_fuguee	1723.4204871060172	1722	Baroque	Baroque	D	major	37.7132	120	0.31427666666666665	11	462
+462	couperin_concerts	c02n03_air_tendre	1723.4204871060172	1722	Baroque	Baroque	d	minor	27.3333	83	0.32931686746987954	11	463
+463	couperin_concerts	c02n04_air_contrefugue	1723.4204871060172	1722	Baroque	Baroque	d	minor	55.0498	151	0.3645682119205298	11	464
+464	couperin_concerts	c02n05_echos	1723.4204871060172	1722	Baroque	Baroque	D	major	45.0999	145	0.31103379310344825	11	465
+465	couperin_concerts	c03n01_prelude	1723.4204871060172	1722	Baroque	Baroque	A	major	21.1833	77	0.2751077922077922	11	466
+466	couperin_concerts	c03n02_allemande	1723.4204871060172	1722	Baroque	Baroque	A	major	32.8166	106	0.3095905660377359	11	467
+467	couperin_concerts	c03n03_courante	1723.4204871060172	1722	Baroque	Baroque	a	minor	34.2466	94	0.36432553191489364	11	468
+468	couperin_concerts	c03n04_sarabande_grave	1723.4204871060172	1722	Baroque	Baroque	a	minor	24.5233	71	0.34539859154929575	11	469
+469	couperin_concerts	c03n05_gavotte	1723.4204871060172	1722	Baroque	Baroque	a	minor	27.116600000000002	83	0.32670602409638555	11	470
+470	couperin_concerts	c03n06_musette_1	1723.4204871060172	1722	Baroque	Baroque	A	major	5.6000000000000005	23	0.24347826086956523	11	471
+471	couperin_concerts	c03n07_musette_2	1723.4204871060172	1722	Baroque	Baroque	A	major	7.2	29	0.2482758620689655	11	472
+472	couperin_concerts	c03n08_chaconne_legere	1723.4204871060172	1722	Baroque	Baroque	a	minor	87.31660000000001	279	0.31296272401433695	11	473
+473	couperin_concerts	c04n01_prelude	1723.4204871060172	1722	Baroque	Baroque	e	minor	31.0666	86	0.36123953488372096	11	474
+474	couperin_concerts	c04n02_allemande	1723.4204871060172	1722	Baroque	Baroque	e	minor	25.3	77	0.32857142857142857	11	475
+475	couperin_concerts	c04n03_courante_francoise	1723.4204871060172	1722	Baroque	Baroque	E	major	24.85	84	0.29583333333333334	11	476
+476	couperin_concerts	c04n04_courante_a_litalienne	1723.4204871060172	1722	Baroque	Baroque	e	minor	48.0266	134	0.3584074626865672	11	477
+477	couperin_concerts	c04n05_sarabande	1723.4204871060172	1722	Baroque	Baroque	E	major	15.0	47	0.3191489361702128	11	478
+478	couperin_concerts	c04n06_rigaudon	1723.4204871060172	1722	Baroque	Baroque	E	major	15.88	56	0.2835714285714286	11	479
+479	couperin_concerts	c04n07_forlane	1723.4204871060172	1722	Baroque	Baroque	E	major	39.9	139	0.2870503597122302	11	480
+480	couperin_concerts	c05n01_prelude	1723.4204871060172	1724	Baroque	Baroque	F	major	28.21	92	0.3066304347826087	11	481
+481	couperin_concerts	c05n02_allemande	1723.4204871060172	1724	Baroque	Baroque	F	major	43.0333	143	0.3009321678321678	11	482
+482	couperin_concerts	c05n03_sarabande	1723.4204871060172	1724	Baroque	Baroque	f	minor	17.7933	54	0.32950555555555555	11	483
+483	couperin_concerts	c05n04_gavote	1723.4204871060172	1724	Baroque	Baroque	f	minor	30.1833	98	0.3079928571428571	11	484
+484	couperin_concerts	c05n05_musete	1723.4204871060172	1724	Baroque	Baroque	F	major	33.97	118	0.2878813559322034	11	485
+485	couperin_concerts	c06n01_grave	1723.4204871060172	1724	Baroque	Baroque	Bb	major	37.5766	108	0.34793148148148145	11	486
+486	couperin_concerts	c06n02_allemande	1723.4204871060172	1724	Baroque	Baroque	Bb	major	37.696600000000004	126	0.2991793650793651	11	487
+487	couperin_concerts	c06n03_sarabande	1723.4204871060172	1724	Baroque	Baroque	Bb	major	38.1166	113	0.3373150442477876	11	488
+488	couperin_concerts	c06n04_air_diable	1723.4204871060172	1724	Baroque	Baroque	Bb	major	32.783300000000004	101	0.3245871287128713	11	489
+489	couperin_concerts	c06n05_siciliene	1723.4204871060172	1724	Baroque	Baroque	Bb	major	39.2	125	0.31360000000000005	11	490
+490	couperin_concerts	c07n01_grave	1723.4204871060172	1724	Baroque	Baroque	g	minor	27.1332	81	0.33497777777777776	11	491
+491	couperin_concerts	c07n02_allemande	1723.4204871060172	1724	Baroque	Baroque	g	minor	41.6332	133	0.31303157894736844	11	492
+492	couperin_concerts	c07n03_sarabande	1723.4204871060172	1724	Baroque	Baroque	g	minor	24.4532	74	0.33044864864864865	11	493
+493	couperin_concerts	c07n04_fuguete	1723.4204871060172	1724	Baroque	Baroque	g	minor	46.1499	142	0.3249992957746479	11	494
+494	couperin_concerts	c07n05_gavote	1723.4204871060172	1724	Baroque	Baroque	g	minor	17.5166	56	0.3127964285714286	11	495
+495	couperin_concerts	c07n06_siciliene	1723.4204871060172	1724	Baroque	Baroque	g	minor	34.1333	101	0.33795346534653464	11	496
+496	couperin_concerts	c08n01_ouverture	1723.4204871060172	1724	Baroque	Baroque	G	major	41.03	138	0.29731884057971014	11	497
+497	couperin_concerts	c08n02_ritournele	1723.4204871060172	1724	Baroque	Baroque	g	minor	43.4964	122	0.356527868852459	11	498
+498	couperin_concerts	c08n03_air	1723.4204871060172	1724	Baroque	Baroque	g	minor	20.5166	61	0.3363377049180328	11	499
+499	couperin_concerts	c08n04_air_tendre	1723.4204871060172	1724	Baroque	Baroque	g	minor	17.88	51	0.35058823529411764	11	500
+500	couperin_concerts	c08n05_air_leger	1723.4204871060172	1724	Baroque	Baroque	G	major	21.6	71	0.3042253521126761	11	501
+501	couperin_concerts	c08n06_Loure	1723.4204871060172	1724	Baroque	Baroque	G	major	35.7	111	0.32162162162162167	11	502
+502	couperin_concerts	c08n07_air	1723.4204871060172	1724	Baroque	Baroque	g	minor	21.8	73	0.29863013698630136	11	503
+503	couperin_concerts	c08n08_sarabande	1723.4204871060172	1724	Baroque	Baroque	G	major	18.7	62	0.3016129032258064	11	504
+504	couperin_concerts	c08n09_air_leger	1723.4204871060172	1724	Baroque	Baroque	G	major	12.8	44	0.29090909090909095	11	505
+505	couperin_concerts	c08n10_air_lentement	1723.4204871060172	1724	Baroque	Baroque	g	minor	35.43	98	0.36153061224489796	11	506
+506	couperin_concerts	c08n11_air_baccantes	1723.4204871060172	1724	Baroque	Baroque	G	major	17.8	58	0.30689655172413793	11	507
+507	couperin_concerts	c09n01_charme	1723.4204871060172	1724	Baroque	Baroque	E	major	42.3	125	0.3384	11	508
+508	couperin_concerts	c09n02_lenjouement	1723.4204871060172	1724	Baroque	Baroque	E	major	55.2	169	0.32662721893491126	11	509
+509	couperin_concerts	c09n03_graces	1723.4204871060172	1724	Baroque	Baroque	E	major	30.45	87	0.35	11	510
+510	couperin_concerts	c09n04_Lejene	1723.4204871060172	1724	Baroque	Baroque	E	major	32.5	110	0.29545454545454547	11	511
+511	couperin_concerts	c09n05_vivacite	1723.4204871060172	1724	Baroque	Baroque	E	major	52.86	162	0.3262962962962963	11	512
+512	couperin_concerts	c09n06_Sarabande	1723.4204871060172	1724	Baroque	Baroque	e	minor	16.2	49	0.33061224489795915	11	513
+513	couperin_concerts	c09n07_douceur	1723.4204871060172	1724	Baroque	Baroque	e	minor	36.8266	96	0.3836104166666667	11	514
+514	couperin_concerts	c09n08_caetera	1723.4204871060172	1724	Baroque	Baroque	e	minor	23.330000000000002	72	0.3240277777777778	11	515
+515	couperin_concerts	c10n01_gravement	1723.4204871060172	1724	Baroque	Baroque	a	minor	26.9566	73	0.36926849315068494	11	516
+516	couperin_concerts	c10n02_air	1723.4204871060172	1724	Baroque	Baroque	a	minor	40.8933	122	0.3351909836065574	11	517
+517	couperin_concerts	c10n03_plainte	1723.4204871060172	1724	Baroque	Baroque	A	major	25.4664	83	0.30682409638554214	11	518
+518	couperin_concerts	c10n04_tromba	1723.4204871060172	1724	Baroque	Baroque	A	major	17.080000000000002	66	0.2587878787878788	11	519
+519	couperin_concerts	c11n01_majestueusement	1723.4204871060172	1724	Baroque	Baroque	c	minor	27.2333	85	0.3203917647058824	11	520
+520	couperin_concerts	c11n02_allemande	1723.4204871060172	1724	Baroque	Baroque	c	minor	40.0433	116	0.34520086206896555	11	521
+521	couperin_concerts	c11n03_seconde_allemande	1723.4204871060172	1724	Baroque	Baroque	c	minor	41.3833	112	0.36949375	11	522
+522	couperin_concerts	c11n04_courante	1723.4204871060172	1724	Baroque	Baroque	c	minor	28.2266	79	0.3572987341772152	11	523
+523	couperin_concerts	c11n05_seconde_courante	1723.4204871060172	1724	Baroque	Baroque	C	major	25.5333	83	0.3076301204819277	11	524
+524	couperin_concerts	c11n06_sarabande	1723.4204871060172	1724	Baroque	Baroque	c	minor	21.6	67	0.32238805970149254	11	525
+525	couperin_concerts	c11n07_gigue	1723.4204871060172	1724	Baroque	Baroque	c	minor	49.3833	153	0.32276666666666665	11	526
+526	couperin_concerts	c11n08_Rondeau	1723.4204871060172	1724	Baroque	Baroque	c	minor	41.21	126	0.32706349206349206	11	527
+527	couperin_concerts	c14n01_gravement	1723.4204871060172	1724	Baroque	Baroque	d	minor	31.3333	83	0.3775096385542169	11	528
+528	couperin_concerts	c14n02_allemande	1723.4204871060172	1724	Baroque	Baroque	d	minor	31.3433	92	0.34068804347826087	11	529
+529	couperin_concerts	c14n03_sarabande	1723.4204871060172	1724	Baroque	Baroque	d	minor	19.6	55	0.3563636363636364	11	530
+530	couperin_concerts	c14n04_fuguete	1723.4204871060172	1724	Baroque	Baroque	d	minor	81.7866	218	0.3751678899082569	11	531
+531	couperin_concerts	parnasse_01	1723.4204871060172	1724	Baroque	Baroque	b	minor	32.2433	81	0.3980654320987654	11	532
+532	couperin_concerts	parnasse_02	1723.4204871060172	1724	Baroque	Baroque	b	minor	83.9165	244	0.34392008196721313	11	533
+533	couperin_concerts	parnasse_03	1723.4204871060172	1724	Baroque	Baroque	D	major	35.606500000000004	108	0.32968981481481485	11	534
+534	couperin_concerts	parnasse_04	1723.4204871060172	1724	Baroque	Baroque	D	major	31.32	100	0.3132	11	535
+535	couperin_concerts	parnasse_05	1723.4204871060172	1724	Baroque	Baroque	D	major	31.48	100	0.3148	11	536
+536	couperin_concerts	parnasse_06	1723.4204871060172	1724	Baroque	Baroque	D	major	17.813299999999998	56	0.31809464285714284	11	537
+537	couperin_concerts	parnasse_07	1723.4204871060172	1724	Baroque	Baroque	b	minor	74.6765	223	0.3348721973094171	11	538
+538	pergolesi_stabat_mater	01. Stabat Mater dolorosa	1736.0	1736	Baroque	Baroque	f	minor	53.1164	165	0.32191757575757574	12	539
+539	pergolesi_stabat_mater	02. Cujus animam gementem	1736.0	1736	Baroque	Baroque	c	minor	77.766	228	0.3410789473684211	12	540
+540	pergolesi_stabat_mater	03. O quam tristis et afflicta	1736.0	1736	Baroque	Baroque	g	minor	27.399900000000002	82	0.33414512195121954	12	541
+541	pergolesi_stabat_mater	04. Quae moerebat et dolebat	1736.0	1736	Baroque	Baroque	Eb	major	72.2527	214	0.33762943925233646	12	542
+542	pergolesi_stabat_mater	05. Quis est homo qui non fleret	1736.0	1736	Baroque	Baroque	c	minor	39.8329	120	0.33194083333333335	12	543
+543	pergolesi_stabat_mater	06. Vidit suum dulcem natum	1736.0	1736	Baroque	Baroque	f	minor	53.999700000000004	151	0.3576139072847682	12	544
+544	pergolesi_stabat_mater	07. Eja, Mater fons amois	1736.0	1736	Baroque	Baroque	c	minor	74.9324	208	0.3602519230769231	12	545
+545	scarlatti_sonatas	K001	1741.1259598104884	1739	Baroque	Baroque	d	minor	30.5863	87	0.3515666666666667	13	546
+546	scarlatti_sonatas	K002	1741.1259598104884	1739	Baroque	Baroque	G	major	37.1325	144	0.25786458333333334	13	547
+547	scarlatti_sonatas	K003	1741.1259598104884	1739	Baroque	Baroque	a	minor	58.5817	190	0.30832473684210526	13	548
+548	scarlatti_sonatas	K004	1741.1259598104884	1739	Baroque	Baroque	g	minor	61.533100000000005	206	0.29870436893203883	13	549
+549	scarlatti_sonatas	K005	1741.1259598104884	1739	Baroque	Baroque	d	minor	39.1828	124	0.3159903225806452	13	550
+550	scarlatti_sonatas	K006	1741.1259598104884	1739	Baroque	Baroque	F	major	29.259800000000002	88	0.3324977272727273	13	551
+551	scarlatti_sonatas	K007	1741.1259598104884	1739	Baroque	Baroque	a	minor	75.3318	270	0.2790066666666667	13	552
+552	scarlatti_sonatas	K008	1741.1259598104884	1739	Baroque	Baroque	g	minor	60.4821	179	0.3378888268156425	13	553
+553	scarlatti_sonatas	K009	1741.1259598104884	1739	Baroque	Baroque	d	minor	35.193200000000004	140	0.25138000000000005	13	554
+554	scarlatti_sonatas	K010	1741.1259598104884	1739	Baroque	Baroque	d	minor	49.3296	162	0.3045037037037037	13	555
+555	scarlatti_sonatas	K011	1741.1259598104884	1739	Baroque	Baroque	c	minor	30.3494	100	0.303494	13	556
+556	scarlatti_sonatas	K012	1741.1259598104884	1739	Baroque	Baroque	g	minor	81.5594	274	0.29766204379562045	13	557
+557	scarlatti_sonatas	K013	1741.1259598104884	1739	Baroque	Baroque	G	major	66.6161	239	0.2787284518828452	13	558
+558	scarlatti_sonatas	K014	1741.1259598104884	1739	Baroque	Baroque	G	major	34.4998	142	0.24295633802816902	13	559
+559	scarlatti_sonatas	K017	1741.1259598104884	1739	Baroque	Baroque	F	major	51.999500000000005	196	0.26530357142857147	13	560
+560	scarlatti_sonatas	K018	1741.1259598104884	1739	Baroque	Baroque	d	minor	92.3312	266	0.3471097744360902	13	561
+561	scarlatti_sonatas	K019	1741.1259598104884	1739	Baroque	Baroque	f	minor	57.132400000000004	221	0.2585176470588236	13	562
+562	scarlatti_sonatas	K020	1741.1259598104884	1739	Baroque	Baroque	E	major	48.8528	144	0.3392555555555556	13	563
+563	scarlatti_sonatas	K021	1741.1259598104884	1739	Baroque	Baroque	D	major	73.8662	262	0.28193206106870233	13	564
+564	scarlatti_sonatas	K022	1741.1259598104884	1739	Baroque	Baroque	c	minor	58.915600000000005	203	0.2902246305418719	13	565
+565	scarlatti_sonatas	K023	1741.1259598104884	1739	Baroque	Baroque	D	major	80.1664	267	0.3002486891385768	13	566
+566	scarlatti_sonatas	K025	1741.1259598104884	1739	Baroque	Baroque	f#	minor	86.8184	278	0.31229640287769783	13	567
+567	scarlatti_sonatas	K027	1741.1259598104884	1739	Baroque	Baroque	b	minor	66.249	200	0.33124499999999996	13	568
+568	scarlatti_sonatas	K031	1741.1259598104884	1739	Baroque	Baroque	g	minor	64.6328	182	0.3551252747252747	13	569
+569	scarlatti_sonatas	K032	1741.1259598104884	1739	Baroque	Baroque	d	minor	9.3999	37	0.2540513513513514	13	570
+570	scarlatti_sonatas	K033	1741.1259598104884	1739	Baroque	Baroque	D	major	34.1764	111	0.3078954954954955	13	571
+571	scarlatti_sonatas	K034	1741.1259598104884	1739	Baroque	Baroque	d	minor	17.0665	66	0.25858333333333333	13	572
+572	scarlatti_sonatas	K035	1741.1259598104884	1739	Baroque	Baroque	g	minor	44.283	145	0.3054	13	573
+573	scarlatti_sonatas	K036	1741.1259598104884	1739	Baroque	Baroque	a	minor	56.4422	192	0.29396979166666665	13	574
+574	scarlatti_sonatas	K037	1741.1259598104884	1739	Baroque	Baroque	c	minor	46.9328	169	0.277708875739645	13	575
+575	scarlatti_sonatas	K039	1741.1259598104884	1739	Baroque	Baroque	A	major	58.3331	206	0.2831703883495146	13	576
+576	scarlatti_sonatas	K040	1741.1259598104884	1739	Baroque	Baroque	c	minor	17.3662	53	0.32766415094339624	13	577
+577	scarlatti_sonatas	K044	1741.1259598104884	1742	Baroque	Baroque	F	major	55.932900000000004	206	0.271518932038835	13	578
+578	scarlatti_sonatas	K046	1741.1259598104884	1742	Baroque	Baroque	E	major	105.32950000000001	320	0.32915468750000004	13	579
+579	scarlatti_sonatas	K047	1741.1259598104884	1742	Baroque	Baroque	Bb	major	84.98270000000001	308	0.27591785714285716	13	580
+580	scarlatti_sonatas	K048	1741.1259598104884	1742	Baroque	Baroque	c	minor	70.4655	234	0.3011346153846154	13	581
+581	scarlatti_sonatas	K049	1741.1259598104884	1742	Baroque	Baroque	C	major	71.416	265	0.2694943396226415	13	582
+582	scarlatti_sonatas	K050	1741.1259598104884	1742	Baroque	Baroque	f	minor	84.19630000000001	243	0.3464868312757202	13	583
+583	scarlatti_sonatas	K051	1741.1259598104884	1742	Baroque	Baroque	Eb	major	74.2925	255	0.29134313725490196	13	584
+584	scarlatti_sonatas	K052	1741.1259598104884	1742	Baroque	Baroque	d	minor	123.2585	367	0.3358542234332425	13	585
+585	scarlatti_sonatas	K053	1741.1259598104884	1742	Baroque	Baroque	D	major	42.1661	134	0.3146723880597015	13	586
+586	scarlatti_sonatas	K054	1741.1259598104884	1742	Baroque	Baroque	a	minor	59.9657	200	0.2998285	13	587
+587	scarlatti_sonatas	K055	1741.1259598104884	1742	Baroque	Baroque	G	major	59.716300000000004	196	0.30467500000000003	13	588
+588	scarlatti_sonatas	K056	1741.1259598104884	1742	Baroque	Baroque	c	minor	76.1091	213	0.35731971830985915	13	589
+589	scarlatti_sonatas	K057	1741.1259598104884	1742	Baroque	Baroque	Bb	major	93.10300000000001	305	0.30525573770491804	13	590
+590	scarlatti_sonatas	K059	1741.1259598104884	1742	Baroque	Baroque	F	major	29.0658	96	0.30276875	13	591
+591	scarlatti_sonatas	K061	1741.1259598104884	1742	Baroque	Baroque	a	minor	83.8317	254	0.33004606299212597	13	592
+592	scarlatti_sonatas	K062	1741.1259598104884	1742	Baroque	Baroque	A	major	47.1497	124	0.3802395161290323	13	593
+593	scarlatti_sonatas	K063	1741.1259598104884	1742	Baroque	Baroque	G	major	35.5831	114	0.3121324561403509	13	594
+594	scarlatti_sonatas	K064	1741.1259598104884	1742	Baroque	Baroque	d	minor	24.85	71	0.35000000000000003	13	595
+595	scarlatti_sonatas	K065	1741.1259598104884	1742	Baroque	Baroque	A	major	35.5995	134	0.26566791044776117	13	596
+596	scarlatti_sonatas	K066	1741.1259598104884	1742	Baroque	Baroque	Bb	major	51.159600000000005	179	0.2858078212290503	13	597
+597	scarlatti_sonatas	K067	1741.1259598104884	1742	Baroque	Baroque	f#	minor	18.866600000000002	87	0.21685747126436783	13	598
+598	scarlatti_sonatas	K068	1741.1259598104884	1742	Baroque	Baroque	Eb	major	41.1997	155	0.2658045161290323	13	599
+599	scarlatti_sonatas	K069	1741.1259598104884	1742	Baroque	Baroque	f	minor	52.616	162	0.32479012345679015	13	600
+600	scarlatti_sonatas	K071	1741.1259598104884	1742	Baroque	Baroque	G	major	39.0628	132	0.29593030303030304	13	601
+601	scarlatti_sonatas	K072	1741.1259598104884	1742	Baroque	Baroque	C	major	30.3331	131	0.23155038167938932	13	602
+602	scarlatti_sonatas	K074	1741.1259598104884	1742	Baroque	Baroque	A	major	15.8566	57	0.2781859649122807	13	603
+603	scarlatti_sonatas	K075	1741.1259598104884	1742	Baroque	Baroque	G	major	37.7665	97	0.38934536082474225	13	604
+604	scarlatti_sonatas	K076	1741.1259598104884	1742	Baroque	Baroque	g	minor	50.7826	162	0.31347283950617283	13	605
+605	scarlatti_sonatas	K087	1741.1259598104884	1742	Baroque	Baroque	b	minor	63.5658	200	0.31782900000000003	13	606
+606	scarlatti_sonatas	K092	1741.1259598104884	1742	Baroque	Baroque	d	minor	60.7328	175	0.3470445714285714	13	607
+607	scarlatti_sonatas	K094	1741.1259598104884	1746	Baroque	Baroque	F	major	16.5333	55	0.30060545454545456	13	608
+608	scarlatti_sonatas	K095	1741.1259598104884	1746	Baroque	Baroque	C	major	14.200000000000001	44	0.32272727272727275	13	609
+609	scarlatti_sonatas	K096	1741.1259598104884	1746	Baroque	Baroque	D	major	102.726	347	0.29604034582132566	13	610
+610	scarlatti_sonatas	K097	1741.1259598104884	1746	Baroque	Baroque	g	minor	61.9992	198	0.31312727272727275	13	611
+611	scarlatti_sonatas	K098	1741.1259598104884	1749	Baroque	Baroque	e	minor	52.4497	162	0.3237635802469136	13	612
+612	scarlatti_sonatas	K099	1741.1259598104884	1749	Baroque	Baroque	c	minor	58.6993	174	0.3373522988505747	13	613
+613	scarlatti_sonatas	K100	1741.1259598104884	1749	Baroque	Baroque	C	major	46.7329	143	0.3268034965034965	13	614
+614	wf_bach_sonatas	F001_n08a	1760.0	1760	Baroque	Classical	C	major	66.933	202	0.33135148514851487	14	615
+615	wf_bach_sonatas	F001_n08b	1760.0	1760	Baroque	Classical	C	major	23.4664	74	0.3171135135135135	14	616
+616	wf_bach_sonatas	F001_n08c	1760.0	1760	Baroque	Classical	C	major	68.1996	215	0.3172074418604651	14	617
+617	wf_bach_sonatas	F002_n07a	1760.0	1760	Baroque	Classical	C	major	50.0663	137	0.36544744525547446	14	618
+618	wf_bach_sonatas	F002_n07b	1760.0	1760	Baroque	Classical	a	minor	40.8665	117	0.3492863247863248	14	619
+619	wf_bach_sonatas	F002_n07c	1760.0	1760	Baroque	Classical	C	major	52.3331	163	0.32106196319018404	14	620
+620	wf_bach_sonatas	F003_n04a	1760.0	1760	Baroque	Classical	D	major	102.6162	309	0.3320912621359223	14	621
+621	wf_bach_sonatas	F003_n04b	1760.0	1760	Baroque	Classical	b	minor	82.6596	223	0.3706708520179372	14	622
+622	wf_bach_sonatas	F003_n04c	1760.0	1760	Baroque	Classical	D	major	110.8428	284	0.39029154929577464	14	623
+623	jc_bach_sonatas	wa01op05no1a_Allegretto	1772.6041876384136	1765	Classical	Classical	Bb	major	29.5	110	0.2681818181818182	15	624
+624	jc_bach_sonatas	wa01op05no1b_Tempo_di_Minuetto	1772.6041876384136	1765	Classical	Classical	Bb	major	41.113	146	0.2815958904109589	15	625
+625	jc_bach_sonatas	wa02op05no2a_Allegro_di_molto	1772.6041876384136	1765	Classical	Classical	D	major	72.5329	260	0.2789726923076923	15	626
+626	jc_bach_sonatas	wa02op05no2b_Andante_di_molto	1772.6041876384136	1765	Classical	Classical	G	major	28.383100000000002	115	0.24680956521739134	15	627
+627	jc_bach_sonatas	wa02op05no2c_Minuetto	1772.6041876384136	1765	Classical	Classical	D	major	15.333300000000001	59	0.2598864406779661	15	628
+628	jc_bach_sonatas	wa02op05no2d_Minore	1772.6041876384136	1765	Classical	Classical	d	minor	11.5999	38	0.3052605263157895	15	629
+629	jc_bach_sonatas	wa03op05no3a_Allegro	1772.6041876384136	1765	Classical	Classical	G	major	58.8828	184	0.32001521739130434	15	630
+630	jc_bach_sonatas	wa03op05no3b_Allegretto	1772.6041876384136	1765	Classical	Classical	G	major	37.0997	118	0.3144042372881356	15	631
+631	jc_bach_sonatas	wa04op05no4a_Allegro	1772.6041876384136	1765	Classical	Classical	Eb	major	58.5992	192	0.30520416666666667	15	632
+632	jc_bach_sonatas	wa04op05no4b_Rondeaux	1772.6041876384136	1765	Classical	Classical	Eb	major	33.1164	114	0.29049473684210525	15	633
+633	jc_bach_sonatas	wa05op05no5a_Allegro_Assai	1772.6041876384136	1765	Classical	Classical	E	major	60.199200000000005	206	0.29222912621359226	15	634
+634	jc_bach_sonatas	wa05op05no5b_Adagio	1772.6041876384136	1765	Classical	Classical	A	major	41.0999	127	0.32362125984251966	15	635
+635	jc_bach_sonatas	wa05op05no5c_Prestissimo	1772.6041876384136	1765	Classical	Classical	E	major	58.7826	203	0.2895694581280788	15	636
+636	jc_bach_sonatas	wa06op05no6a_Grave	1772.6041876384136	1765	Classical	Classical	c	minor	55.0463	144	0.38226597222222225	15	637
+637	jc_bach_sonatas	wa06op05no6b_Allegro_Moderato	1772.6041876384136	1765	Classical	Classical	c	minor	79.9323	281	0.28445658362989323	15	638
+638	jc_bach_sonatas	wa06op05no6c_Allegretto	1772.6041876384136	1765	Classical	Classical	c	minor	49.166000000000004	152	0.3234605263157895	15	639
+639	jc_bach_sonatas	wa07op17no1a_Minuetto_Con_Variatione	1772.6041876384136	1780	Classical	Classical	G	major	60.133	178	0.33782584269662924	15	640
+640	jc_bach_sonatas	wa08op17no2a_Allegro	1772.6041876384136	1780	Classical	Classical	c	minor	55.5327	185	0.30017675675675676	15	641
+641	jc_bach_sonatas	wa08op17no2b_Andante	1772.6041876384136	1780	Classical	Classical	Eb	major	44.3331	139	0.3189431654676259	15	642
+642	jc_bach_sonatas	wa08op17no2c_Prestissimo	1772.6041876384136	1780	Classical	Classical	c	minor	70.4323	210	0.3353919047619047	15	643
+643	jc_bach_sonatas	wa09op17no3a_Allegro_Assai	1772.6041876384136	1780	Classical	Classical	Eb	major	76.5163	267	0.28657790262172284	15	644
+644	jc_bach_sonatas	wa09op17no3b_Allegro	1772.6041876384136	1780	Classical	Classical	Eb	major	50.9493	182	0.2799412087912088	15	645
+645	jc_bach_sonatas	wa10op17no4a_Allegro	1772.6041876384136	1780	Classical	Classical	G	major	57.1998	221	0.25882262443438914	15	646
+646	jc_bach_sonatas	wa10op17no4b_Presto_Assai	1772.6041876384136	1780	Classical	Classical	G	major	27.7333	117	0.23703675213675213	15	647
+647	jc_bach_sonatas	wa11op17no5a_Allegro	1772.6041876384136	1780	Classical	Classical	A	major	64.3993	207	0.311107729468599	15	648
+648	jc_bach_sonatas	wa11op17no5b_Presto	1772.6041876384136	1780	Classical	Classical	A	major	71.4162	224	0.3188223214285714	15	649
+649	jc_bach_sonatas	wa12op17no6a_Allegro	1772.6041876384136	1780	Classical	Classical	Bb	major	57.6499	193	0.2987041450777202	15	650
+650	jc_bach_sonatas	wa12op17no6b_Andante	1772.6041876384136	1780	Classical	Classical	Eb	major	49.0996	164	0.2993878048780488	15	651
+651	jc_bach_sonatas	wa12op17no6c_Prestissimo	1772.6041876384136	1780	Classical	Classical	Bb	major	72.79950000000001	231	0.3151493506493507	15	652
+652	mozart_piano_sonatas	K279-1	1780.7395798599532	1775	Classical	Classical	C	major	80.2931	246	0.3263947154471544	16	653
+653	mozart_piano_sonatas	K279-2	1780.7395798599532	1775	Classical	Classical	F	major	57.983000000000004	151	0.38399337748344375	16	654
+654	mozart_piano_sonatas	K279-3	1780.7395798599532	1775	Classical	Classical	C	major	91.46560000000001	313	0.29222236421725245	16	655
+655	mozart_piano_sonatas	K280-1	1780.7395798599532	1775	Classical	Classical	F	major	76.4663	222	0.34444279279279283	16	656
+656	mozart_piano_sonatas	K280-2	1780.7395798599532	1775	Classical	Classical	f	minor	50.0332	123	0.4067739837398374	16	657
+657	mozart_piano_sonatas	K280-3	1780.7395798599532	1775	Classical	Classical	F	major	62.2395	195	0.3191769230769231	16	658
+658	mozart_piano_sonatas	K281-1	1780.7395798599532	1775	Classical	Classical	Bb	major	70.4328	203	0.34695960591133007	16	659
+659	mozart_piano_sonatas	K281-2	1780.7395798599532	1775	Classical	Classical	Eb	major	53.1332	150	0.35422133333333333	16	660
+660	mozart_piano_sonatas	K281-3	1780.7395798599532	1775	Classical	Classical	Bb	major	120.6489	378	0.31917698412698414	16	661
+661	mozart_piano_sonatas	K282-1	1780.7395798599532	1775	Classical	Classical	Eb	major	37.9164	102	0.3717294117647059	16	662
+662	mozart_piano_sonatas	K282-2	1780.7395798599532	1775	Classical	Classical	Bb	major	44.3331	126	0.35185	16	663
+663	mozart_piano_sonatas	K282-3	1780.7395798599532	1775	Classical	Classical	Eb	major	50.2998	168	0.29940357142857144	16	664
+664	mozart_piano_sonatas	K283-1	1780.7395798599532	1775	Classical	Classical	G	major	103.26520000000001	322	0.3206993788819876	16	665
+665	mozart_piano_sonatas	K283-2	1780.7395798599532	1775	Classical	Classical	C	major	57.732800000000005	164	0.35202926829268294	16	666
+666	mozart_piano_sonatas	K283-3	1780.7395798599532	1775	Classical	Classical	G	major	106.4991	329	0.32370547112462006	16	667
+667	mozart_piano_sonatas	K284-1	1780.7395798599532	1775	Classical	Classical	D	major	103.6324	327	0.31691865443425077	16	668
+668	mozart_piano_sonatas	K284-2	1780.7395798599532	1775	Classical	Classical	A	major	80.5496	227	0.3548440528634361	16	669
+669	mozart_piano_sonatas	K284-3	1780.7395798599532	1775	Classical	Classical	D	major	234.0915	732	0.319797131147541	16	670
+670	mozart_piano_sonatas	K309-1	1780.7395798599532	1777	Classical	Classical	C	major	96.2991	303	0.3178188118811881	16	671
+671	mozart_piano_sonatas	K309-2	1780.7395798599532	1777	Classical	Classical	F	major	81.5323	251	0.3248298804780877	16	672
+672	mozart_piano_sonatas	K309-3	1780.7395798599532	1777	Classical	Classical	C	major	143.933	395	0.3643873417721519	16	673
+673	mozart_piano_sonatas	K310-1	1780.7395798599532	1777	Classical	Classical	a	minor	106.5829	290	0.3675272413793103	16	674
+674	mozart_piano_sonatas	K310-2	1780.7395798599532	1777	Classical	Classical	F	major	83.8396	250	0.3353584	16	675
+675	mozart_piano_sonatas	K310-3	1780.7395798599532	1777	Classical	Classical	a	minor	123.6315	422	0.29296563981042656	16	676
+676	mozart_piano_sonatas	K311-1	1780.7395798599532	1778	Classical	Classical	D	major	105.4996	316	0.3338594936708861	16	677
+677	mozart_piano_sonatas	K311-2	1780.7395798599532	1778	Classical	Classical	G	major	73.0665	235	0.3109212765957447	16	678
+678	mozart_piano_sonatas	K311-3	1780.7395798599532	1778	Classical	Classical	D	major	156.7655	486	0.3225627572016461	16	679
+679	mozart_piano_sonatas	K330-1	1780.7395798599532	1783	Classical	Classical	C	major	93.7197	286	0.32769125874125876	16	680
+680	mozart_piano_sonatas	K330-2	1780.7395798599532	1783	Classical	Classical	F	major	62.9495	179	0.3516731843575419	16	681
+681	mozart_piano_sonatas	K330-3	1780.7395798599532	1783	Classical	Classical	C	major	117.053	361	0.32424653739612186	16	682
+682	mozart_piano_sonatas	K331-1	1780.7395798599532	1783	Classical	Classical	A	major	113.293	370	0.30619729729729733	16	683
+683	mozart_piano_sonatas	K331-2	1780.7395798599532	1783	Classical	Classical	A	major	47.4666	159	0.29853207547169813	16	684
+684	mozart_piano_sonatas	K331-3	1780.7395798599532	1783	Classical	Classical	a	minor	34.5332	127	0.27191496062992127	16	685
+685	mozart_piano_sonatas	K332-1	1780.7395798599532	1783	Classical	Classical	F	major	102.10640000000001	315	0.3241473015873016	16	686
+686	mozart_piano_sonatas	K332-2	1780.7395798599532	1783	Classical	Classical	Bb	major	53.3666	165	0.3234339393939394	16	687
+687	mozart_piano_sonatas	K332-3	1780.7395798599532	1783	Classical	Classical	F	major	162.2994	449	0.36146859688195987	16	688
+688	mozart_piano_sonatas	K333-1	1780.7395798599532	1783	Classical	Classical	Bb	major	151.4752	428	0.3539140186915888	16	689
+689	mozart_piano_sonatas	K333-2	1780.7395798599532	1783	Classical	Classical	Eb	major	75.4258	211	0.35746824644549763	16	690
+690	mozart_piano_sonatas	K333-3	1780.7395798599532	1783	Classical	Classical	Bb	major	137.9989	446	0.3094145739910314	16	691
+691	mozart_piano_sonatas	K457-1	1780.7395798599532	1784	Classical	Classical	c	minor	114.456	305	0.3752655737704918	16	692
+692	mozart_piano_sonatas	K457-2	1780.7395798599532	1784	Classical	Classical	Eb	major	70.4031	214	0.3289864485981308	16	693
+693	mozart_piano_sonatas	K457-3	1780.7395798599532	1784	Classical	Classical	c	minor	134.9653	322	0.4191468944099379	16	694
+694	mozart_piano_sonatas	K533-1	1780.7395798599532	1788	Classical	Classical	F	major	193.1515	572	0.33767744755244755	16	695
+695	mozart_piano_sonatas	K533-2	1780.7395798599532	1788	Classical	Classical	Bb	major	108.3492	258	0.4199581395348837	16	696
+696	mozart_piano_sonatas	K533-3	1780.7395798599532	1788	Classical	Classical	F	major	147.5727	416	0.3547420673076923	16	697
+697	mozart_piano_sonatas	K545-1	1780.7395798599532	1788	Classical	Classical	C	major	36.5999	118	0.3101686440677966	16	698
+698	mozart_piano_sonatas	K545-2	1780.7395798599532	1788	Classical	Classical	G	major	51.749900000000004	146	0.35445136986301373	16	699
+699	mozart_piano_sonatas	K545-3	1780.7395798599532	1788	Classical	Classical	C	major	39.3165	143	0.27494055944055945	16	700
+700	mozart_piano_sonatas	K570-1	1780.7395798599532	1789	Classical	Classical	Bb	major	86.4997	243	0.3559658436213992	16	701
+701	mozart_piano_sonatas	K570-2	1780.7395798599532	1789	Classical	Classical	Eb	major	78.1997	244	0.32049057377049184	16	702
+702	mozart_piano_sonatas	K570-3	1780.7395798599532	1789	Classical	Classical	Bb	major	90.4056	275	0.3287476363636364	16	703
+703	mozart_piano_sonatas	K576-1	1780.7395798599532	1789	Classical	Classical	D	major	95.91590000000001	287	0.33420174216027876	16	704
+704	mozart_piano_sonatas	K576-2	1780.7395798599532	1789	Classical	Classical	A	major	57.299800000000005	151	0.37946887417218544	16	705
+705	mozart_piano_sonatas	K576-3	1780.7395798599532	1789	Classical	Classical	D	major	126.23190000000001	379	0.3330656992084433	16	706
+706	pleyel_quartets	b307op2n1a	1783.0	1783	Classical	Classical	A	major	125.0999	390	0.3207689743589744	17	707
+707	pleyel_quartets	b307op2n1b	1783.0	1783	Classical	Classical	a	minor	70.1997	189	0.37142698412698416	17	708
+708	pleyel_quartets	b307op2n1c	1783.0	1783	Classical	Classical	A	major	42.8332	147	0.29138231292517003	17	709
+709	pleyel_quartets	b309op2n3a	1783.0	1783	Classical	Classical	g	minor	69.983	185	0.3782864864864865	17	710
+710	pleyel_quartets	b309op2n3b	1783.0	1783	Classical	Classical	g	minor	176.4655	500	0.352931	17	711
+711	pleyel_quartets	b309op2n3c	1783.0	1783	Classical	Classical	g	minor	40.3499	121	0.3334702479338843	17	712
+712	beethoven_piano_sonatas	01-1	1803.6208098935329	1795	Classical	Classical	f	minor	102.53920000000001	240	0.4272466666666667	18	713
+713	beethoven_piano_sonatas	01-2	1803.6208098935329	1795	Classical	Classical	F	major	66.48310000000001	190	0.349911052631579	18	714
+714	beethoven_piano_sonatas	01-3	1803.6208098935329	1795	Classical	Classical	f	minor	44.4995	129	0.34495736434108526	18	715
+715	beethoven_piano_sonatas	01-4	1803.6208098935329	1795	Classical	Classical	f	minor	134.2991	338	0.3973346153846154	18	716
+716	beethoven_piano_sonatas	02-1	1803.6208098935329	1795	Classical	Classical	A	major	166.01590000000002	474	0.3502445147679325	18	717
+717	beethoven_piano_sonatas	02-2	1803.6208098935329	1795	Classical	Classical	D	major	82.8698	240	0.3452908333333333	18	718
+718	beethoven_piano_sonatas	02-3	1803.6208098935329	1795	Classical	Classical	A	major	44.0264	120	0.3668866666666667	18	719
+719	beethoven_piano_sonatas	02-4	1803.6208098935329	1795	Classical	Classical	A	major	121.5128	332	0.36600240963855424	18	720
+720	beethoven_piano_sonatas	03-1	1803.6208098935329	1795	Classical	Classical	C	major	170.11520000000002	481	0.3536698544698545	18	721
+721	beethoven_piano_sonatas	03-2	1803.6208098935329	1795	Classical	Classical	E	major	86.9128	232	0.3746241379310345	18	722
+722	beethoven_piano_sonatas	03-3	1803.6208098935329	1795	Classical	Classical	C	major	70.8165	194	0.3650335051546392	18	723
+723	beethoven_piano_sonatas	03-4	1803.6208098935329	1795	Classical	Classical	C	major	247.7174	792	0.31277449494949494	18	724
+724	beethoven_piano_sonatas	20-1	1803.6208098935329	1796	Classical	Classical	G	major	83.533	281	0.29727046263345197	18	725
+725	beethoven_piano_sonatas	20-2	1803.6208098935329	1796	Classical	Classical	G	major	51.0499	164	0.3112798780487805	18	726
+726	beethoven_piano_sonatas	05-1	1803.6208098935329	1797	Classical	Classical	c	minor	117.5557	309	0.38043915857605176	18	727
+727	beethoven_piano_sonatas	05-2	1803.6208098935329	1797	Classical	Classical	Ab	major	90.6197	252	0.35960198412698413	18	728
+728	beethoven_piano_sonatas	05-3	1803.6208098935329	1797	Classical	Classical	c	minor	119.4123	307	0.3889651465798046	18	729
+729	beethoven_piano_sonatas	06-1	1803.6208098935329	1797	Classical	Classical	F	major	117.173	334	0.35081736526946106	18	730
+730	beethoven_piano_sonatas	06-2	1803.6208098935329	1797	Classical	Classical	f	minor	88.7493	234	0.37927051282051283	18	731
+731	beethoven_piano_sonatas	06-3	1803.6208098935329	1797	Classical	Classical	F	major	106.2086	307	0.34595635179153095	18	732
+732	beethoven_piano_sonatas	19-1	1803.6208098935329	1797	Classical	Classical	g	minor	69.2662	188	0.3684372340425532	18	733
+733	beethoven_piano_sonatas	19-2	1803.6208098935329	1797	Classical	Classical	G	major	122.7586	379	0.32390131926121374	18	734
+734	beethoven_piano_sonatas	07-1	1803.6208098935329	1798	Classical	Classical	D	major	168.9488	507	0.33323234714003946	18	735
+735	beethoven_piano_sonatas	07-2	1803.6208098935329	1798	Classical	Classical	d	minor	87.2664	213	0.40970140845070424	18	736
+736	beethoven_piano_sonatas	07-3	1803.6208098935329	1798	Classical	Classical	D	major	31.05	88	0.3528409090909091	18	737
+737	beethoven_piano_sonatas	07-4	1803.6208098935329	1798	Classical	Classical	D	major	92.5194	265	0.3491298113207547	18	738
+738	beethoven_piano_sonatas	08-1	1803.6208098935329	1798	Classical	Classical	c	minor	203.2648	501	0.40571816367265473	18	739
+739	beethoven_piano_sonatas	08-2	1803.6208098935329	1798	Classical	Classical	Ab	major	54.72	138	0.39652173913043476	18	740
+740	beethoven_piano_sonatas	08-3	1803.6208098935329	1798	Classical	Classical	c	minor	130.616	361	0.3618171745152355	18	741
+741	beethoven_piano_sonatas	09-1	1803.6208098935329	1798	Classical	Classical	E	major	128.1891	345	0.37156260869565216	18	742
+742	beethoven_piano_sonatas	09-2	1803.6208098935329	1798	Classical	Classical	e	minor	77.9992	222	0.35134774774774774	18	743
+743	beethoven_piano_sonatas	09-3	1803.6208098935329	1798	Classical	Classical	E	major	95.1495	257	0.37023151750972766	18	744
+744	beethoven_piano_sonatas	10-1	1803.6208098935329	1799	Classical	Classical	G	major	127.96640000000001	351	0.3645766381766382	18	745
+745	beethoven_piano_sonatas	10-2	1803.6208098935329	1799	Classical	Classical	C	major	120.1864	316	0.3803367088607595	18	746
+746	beethoven_piano_sonatas	10-3	1803.6208098935329	1799	Classical	Classical	G	major	122.4056	316	0.3873594936708861	18	747
+747	beethoven_piano_sonatas	16-1	1803.6208098935329	1802	Classical	Extended tonality	G	major	106.4993	300	0.3549976666666667	18	748
+748	beethoven_piano_sonatas	16-2	1803.6208098935329	1802	Classical	Extended tonality	C	major	109.2698	285	0.38340280701754387	18	749
+749	beethoven_piano_sonatas	16-3	1803.6208098935329	1802	Classical	Extended tonality	G	major	229.0084	690	0.331896231884058	18	750
+750	beethoven_piano_sonatas	17-1	1803.6208098935329	1802	Classical	Extended tonality	d	minor	116.976	343	0.3410379008746356	18	751
+751	beethoven_piano_sonatas	17-2	1803.6208098935329	1802	Classical	Extended tonality	Bb	major	90.4761	223	0.4057224215246637	18	752
+752	beethoven_piano_sonatas	17-3	1803.6208098935329	1802	Classical	Extended tonality	d	minor	184.5997	458	0.40305611353711795	18	753
+753	beethoven_piano_sonatas	18-1	1803.6208098935329	1802	Classical	Extended tonality	Eb	major	107.0999	263	0.4072239543726236	18	754
+754	beethoven_piano_sonatas	18-2	1803.6208098935329	1802	Classical	Extended tonality	Ab	major	96.2662	267	0.36054756554307116	18	755
+755	beethoven_piano_sonatas	18-3	1803.6208098935329	1802	Classical	Extended tonality	Eb	major	49.8666	156	0.3196576923076923	18	756
+756	beethoven_piano_sonatas	18-4	1803.6208098935329	1802	Classical	Extended tonality	Eb	major	137.7994	402	0.34278457711442784	18	757
+757	beethoven_piano_sonatas	21-1	1803.6208098935329	1804	Classical	Extended tonality	C	major	221.0991	610	0.36245754098360655	18	758
+758	beethoven_piano_sonatas	21-2	1803.6208098935329	1804	Classical	Extended tonality	F	major	34.2997	82	0.4182890243902439	18	759
+759	beethoven_piano_sonatas	21-3	1803.6208098935329	1804	Classical	Extended tonality	C	major	232.4743	735	0.31629156462585034	18	760
+760	beethoven_piano_sonatas	23-1	1803.6208098935329	1805	Classical	Extended tonality	f	minor	184.0494	419	0.43925871121718374	18	761
+761	beethoven_piano_sonatas	23-2	1803.6208098935329	1805	Classical	Extended tonality	Db	major	77.0331	207	0.37214057971014497	18	762
+762	beethoven_piano_sonatas	23-3	1803.6208098935329	1805	Classical	Extended tonality	f	minor	144.486	385	0.37528831168831167	18	763
+763	beethoven_piano_sonatas	24-1	1803.6208098935329	1809	Classical	Extended tonality	F#	major	103.7992	271	0.3830228782287823	18	764
+764	beethoven_piano_sonatas	24-2	1803.6208098935329	1809	Classical	Extended tonality	F#	major	94.0661	317	0.2967384858044164	18	765
+765	beethoven_piano_sonatas	26-1	1803.6208098935329	1810	Classical	Extended tonality	Eb	major	194.0121	532	0.3646843984962406	18	766
+766	beethoven_piano_sonatas	26-2	1803.6208098935329	1810	Classical	Extended tonality	Eb	major	55.4163	124	0.44690564516129033	18	767
+767	beethoven_piano_sonatas	26-3	1803.6208098935329	1810	Classical	Extended tonality	Eb	major	108.9798	314	0.34706942675159236	18	768
+768	beethoven_piano_sonatas	30-1	1803.6208098935329	1820	Classical	Extended tonality	E	major	83.1763	250	0.3327052	18	769
+769	beethoven_piano_sonatas	30-2	1803.6208098935329	1820	Classical	Extended tonality	e	minor	112.6322	317	0.35530662460567825	18	770
+770	beethoven_piano_sonatas	30-3	1803.6208098935329	1820	Classical	Extended tonality	E	major	232.2185	628	0.36977468152866244	18	771
+771	beethoven_piano_sonatas	31-1	1803.6208098935329	1822	Early Romantic	Extended tonality	Ab	major	125.4157	335	0.374375223880597	18	772
+772	beethoven_piano_sonatas	31-2	1803.6208098935329	1822	Early Romantic	Extended tonality	f	minor	59.9992	182	0.3296659340659341	18	773
+773	beethoven_piano_sonatas	31-3	1803.6208098935329	1822	Early Romantic	Extended tonality	Ab	major	236.5811	642	0.3685063862928349	18	774
+774	beethoven_piano_sonatas	32-1	1803.6208098935329	1822	Early Romantic	Extended tonality	c	minor	220.6883	572	0.3858187062937063	18	775
+775	beethoven_piano_sonatas	32-2	1803.6208098935329	1822	Early Romantic	Extended tonality	C	major	283.5586	803	0.3531240348692404	18	776
+776	kozeluh_sonatas	09op08no1a	1806.0	1806	Classical	Extended tonality	C	major	89.3328	272	0.3284294117647059	19	777
+777	kozeluh_sonatas	09op08no1b	1806.0	1806	Classical	Extended tonality	C	major	42.9332	149	0.2881422818791946	19	778
+778	kozeluh_sonatas	10op08no2a	1806.0	1806	Classical	Extended tonality	F	major	114.199	350	0.32628285714285715	19	779
+779	kozeluh_sonatas	10op08no2b	1806.0	1806	Classical	Extended tonality	C	major	53.5992	171	0.31344561403508775	19	780
+780	kozeluh_sonatas	10op08no2c	1806.0	1806	Classical	Extended tonality	F	major	142.8526	493	0.28976186612576066	19	781
+781	kozeluh_sonatas	11op10no1a	1806.0	1806	Classical	Extended tonality	Eb	major	178.442	493	0.3619513184584179	19	782
+782	kozeluh_sonatas	14op13no2a	1806.0	1806	Classical	Extended tonality	G	major	67.7161	213	0.31791596244131454	19	783
+783	kozeluh_sonatas	14op13no2b	1806.0	1806	Classical	Extended tonality	D	major	43.8663	153	0.2867078431372549	19	784
+784	kozeluh_sonatas	14op13no2c	1806.0	1806	Classical	Extended tonality	G	major	59.2663	189	0.3135783068783069	19	785
+785	kozeluh_sonatas	15op13no3a	1806.0	1806	Classical	Extended tonality	e	minor	125.08200000000001	373	0.33534048257372656	19	786
+786	kozeluh_sonatas	15op13no3b	1806.0	1806	Classical	Extended tonality	E	major	86.3331	234	0.3689448717948718	19	787
+787	kozeluh_sonatas	15op13no3c	1806.0	1806	Classical	Extended tonality	e	minor	112.8651	360	0.31351416666666665	19	788
+788	kozeluh_sonatas	16op15no1a	1806.0	1806	Classical	Extended tonality	g	minor	43.8997	111	0.3954927927927928	19	789
+789	kozeluh_sonatas	16op15no1b	1806.0	1806	Classical	Extended tonality	g	minor	187.7304	524	0.3582641221374046	19	790
+790	kozeluh_sonatas	16op15no1c	1806.0	1806	Classical	Extended tonality	G	major	159.3312	523	0.30464856596558315	19	791
+791	kozeluh_sonatas	17op15no2a	1806.0	1806	Classical	Extended tonality	C	major	168.0821	527	0.3189413662239089	19	792
+792	kozeluh_sonatas	17op15no2b	1806.0	1806	Classical	Extended tonality	F	major	48.7997	140	0.34856928571428575	19	793
+793	kozeluh_sonatas	17op15no2c	1806.0	1806	Classical	Extended tonality	C	major	126.6978	385	0.3290851948051948	19	794
+794	kozeluh_sonatas	19op17no1a	1806.0	1806	Classical	Extended tonality	f	minor	45.033	123	0.3661219512195122	19	795
+795	kozeluh_sonatas	19op17no1b	1806.0	1806	Classical	Extended tonality	f	minor	201.2311	516	0.3899827519379845	19	796
+796	kozeluh_sonatas	19op17no1c	1806.0	1806	Classical	Extended tonality	f	minor	127.3326	345	0.36908	19	797
+797	kozeluh_sonatas	20op17no2a	1806.0	1806	Classical	Extended tonality	A	major	195.8157	608	0.32206529605263157	19	798
+798	kozeluh_sonatas	20op17no2b	1806.0	1806	Classical	Extended tonality	E	major	103.2825	291	0.3549226804123711	19	799
+799	kozeluh_sonatas	20op17no2c	1806.0	1806	Classical	Extended tonality	A	major	145.9154	482	0.30272904564315356	19	800
+800	kozeluh_sonatas	21op17no3a	1806.0	1806	Classical	Extended tonality	Eb	major	173.2821	543	0.31911988950276243	19	801
+801	kozeluh_sonatas	21op17no3b	1806.0	1806	Classical	Extended tonality	Eb	major	199.0481	589	0.33794244482173175	19	802
+802	kozeluh_sonatas	22op20no1a	1806.0	1806	Classical	Extended tonality	F	major	103.0991	291	0.354292439862543	19	803
+803	kozeluh_sonatas	22op20no1b	1806.0	1806	Classical	Extended tonality	Bb	major	39.5331	124	0.31881532258064516	19	804
+804	kozeluh_sonatas	22op20no1c	1806.0	1806	Classical	Extended tonality	F	major	84.2161	267	0.31541610486891386	19	805
+805	kozeluh_sonatas	23op20no2a	1806.0	1806	Classical	Extended tonality	C	major	159.69910000000002	495	0.3226244444444445	19	806
+806	kozeluh_sonatas	23op20no2b	1806.0	1806	Classical	Extended tonality	F	major	54.9996	150	0.366664	19	807
+807	kozeluh_sonatas	23op20no2c	1806.0	1806	Classical	Extended tonality	C	major	106.7764	329	0.3245483282674772	19	808
+808	kozeluh_sonatas	24op20no3a	1806.0	1806	Classical	Extended tonality	d	minor	121.8985	351	0.3472891737891738	19	809
+809	kozeluh_sonatas	24op20no3b	1806.0	1806	Classical	Extended tonality	D	major	45.3995	121	0.375202479338843	19	810
+810	kozeluh_sonatas	24op20no3c	1806.0	1806	Classical	Extended tonality	d	minor	150.4323	453	0.33208013245033113	19	811
+811	kozeluh_sonatas	25op26no1a	1806.0	1806	Classical	Extended tonality	D	major	160.0153	514	0.31131381322957197	19	812
+812	kozeluh_sonatas	25op26no1b	1806.0	1806	Classical	Extended tonality	A	major	50.9029	153	0.33269869281045755	19	813
+813	kozeluh_sonatas	25op26no1c	1806.0	1806	Classical	Extended tonality	D	major	77.0828	240	0.32117833333333334	19	814
+814	kozeluh_sonatas	26op26no2a	1806.0	1806	Classical	Extended tonality	a	minor	163.5146	473	0.3456968287526427	19	815
+815	kozeluh_sonatas	26op26no2b	1806.0	1806	Classical	Extended tonality	a	minor	169.7979	482	0.35227780082987553	19	816
+816	kozeluh_sonatas	27op26no3a	1806.0	1806	Classical	Extended tonality	Eb	major	188.0924	555	0.3389052252252252	19	817
+817	kozeluh_sonatas	27op26no3b	1806.0	1806	Classical	Extended tonality	c	minor	65.5329	169	0.3877686390532544	19	818
+818	kozeluh_sonatas	27op26no3c	1806.0	1806	Classical	Extended tonality	Eb	major	74.5664	245	0.3043526530612245	19	819
+819	kozeluh_sonatas	28op30no1a	1806.0	1806	Classical	Extended tonality	Bb	major	120.799	344	0.35115988372093027	19	820
+820	kozeluh_sonatas	28op30no1b	1806.0	1806	Classical	Extended tonality	Eb	major	73.0664	185	0.39495351351351354	19	821
+821	kozeluh_sonatas	28op30no1c	1806.0	1806	Classical	Extended tonality	Bb	major	140.2326	457	0.306854704595186	19	822
+822	kozeluh_sonatas	29op30no2a	1806.0	1806	Classical	Extended tonality	G	major	133.8488	405	0.3304908641975309	19	823
+823	kozeluh_sonatas	29op30no2b	1806.0	1806	Classical	Extended tonality	D	major	62.283100000000005	159	0.39171761006289313	19	824
+824	kozeluh_sonatas	29op30no2c	1806.0	1806	Classical	Extended tonality	G	major	145.29930000000002	474	0.30653860759493673	19	825
+825	ABC	n01op18-1_01	1812.0509746203827	1799	Classical	Classical	F	major	142.41570000000002	392	0.36330535714285717	20	826
+826	ABC	n01op18-1_02	1812.0509746203827	1799	Classical	Classical	d	minor	99.0128	262	0.3779114503816794	20	827
+827	ABC	n01op18-1_03	1812.0509746203827	1799	Classical	Classical	F	major	69.3664	202	0.3433980198019802	20	828
+828	ABC	n01op18-1_04	1812.0509746203827	1799	Classical	Classical	F	major	216.0864	594	0.36378181818181815	20	829
+829	ABC	n03op18-3_01	1812.0509746203827	1799	Classical	Classical	D	major	139.486	380	0.36706842105263154	20	830
+830	ABC	n03op18-3_02	1812.0509746203827	1799	Classical	Classical	Bb	major	146.3493	394	0.37144492385786804	20	831
+831	ABC	n03op18-3_03	1812.0509746203827	1799	Classical	Classical	D	major	94.3361	278	0.3393384892086331	20	832
+832	ABC	n03op18-3_04	1812.0509746203827	1799	Classical	Classical	D	major	218.548	562	0.38887544483985764	20	833
+833	ABC	n04op18-4_01	1812.0509746203827	1799	Classical	Classical	c	minor	205.9555	551	0.37378493647912886	20	834
+834	ABC	n04op18-4_02	1812.0509746203827	1799	Classical	Classical	C	major	118.7329	368	0.32264375	20	835
+835	ABC	n04op18-4_03	1812.0509746203827	1799	Classical	Classical	c	minor	57.9665	144	0.40254513888888893	20	836
+836	ABC	n04op18-4_04	1812.0509746203827	1799	Classical	Classical	c	minor	129.1993	382	0.3382180628272251	20	837
+837	ABC	n05op18-5_01	1812.0509746203827	1799	Classical	Classical	A	major	148.9094	428	0.34791915887850466	20	838
+838	ABC	n05op18-5_02	1812.0509746203827	1799	Classical	Classical	A	major	53.2998	167	0.31916047904191613	20	839
+839	ABC	n05op18-5_03	1812.0509746203827	1799	Classical	Classical	D	major	85.7499	241	0.35580871369294603	20	840
+840	ABC	n05op18-5_04	1812.0509746203827	1799	Classical	Classical	A	major	201.0055	566	0.3551333922261484	20	841
+841	ABC	n02op18-2_01	1812.0509746203827	1800	Classical	Extended tonality	G	major	176.3064	485	0.3635183505154639	20	842
+842	ABC	n02op18-2_02	1812.0509746203827	1800	Classical	Extended tonality	C	major	63.5032	177	0.35877514124293786	20	843
+843	ABC	n02op18-2_03	1812.0509746203827	1800	Classical	Extended tonality	G	major	46.2065	137	0.3372737226277372	20	844
+844	ABC	n02op18-2_04	1812.0509746203827	1800	Classical	Extended tonality	G	major	182.959	468	0.3909380341880342	20	845
+845	ABC	n06op18-6_01	1812.0509746203827	1800	Classical	Extended tonality	Bb	major	136.9495	371	0.36913611859838275	20	846
+846	ABC	n06op18-6_02	1812.0509746203827	1800	Classical	Extended tonality	Eb	major	87.4996	265	0.33018716981132074	20	847
+847	ABC	n06op18-6_03	1812.0509746203827	1800	Classical	Extended tonality	Bb	major	62.2263	166	0.37485722891566264	20	848
+848	ABC	n06op18-6_04	1812.0509746203827	1800	Classical	Extended tonality	Bb	major	170.9959	465	0.3677331182795699	20	849
+849	ABC	n07op59-1_01	1812.0509746203827	1806	Classical	Extended tonality	F	major	184.2024	482	0.3821626556016598	20	850
+850	ABC	n07op59-1_02	1812.0509746203827	1806	Classical	Extended tonality	Bb	major	215.266	633	0.3400726698262243	20	851
+851	ABC	n07op59-1_03	1812.0509746203827	1806	Classical	Extended tonality	f	minor	142.4865	373	0.3820013404825737	20	852
+852	ABC	n07op59-1_04	1812.0509746203827	1806	Classical	Extended tonality	F	major	211.7323	604	0.3505501655629139	20	853
+853	ABC	n08op59-2_01	1812.0509746203827	1806	Classical	Extended tonality	e	minor	175.6829	426	0.41240117370892015	20	854
+854	ABC	n08op59-2_02	1812.0509746203827	1806	Classical	Extended tonality	E	major	121.7694	326	0.3735257668711657	20	855
+855	ABC	n08op59-2_03	1812.0509746203827	1806	Classical	Extended tonality	e	minor	84.6997	246	0.3443077235772358	20	856
+856	ABC	n08op59-2_04	1812.0509746203827	1806	Classical	Extended tonality	e	minor	187.9324	567	0.33145044091710757	20	857
+857	ABC	n09op59-3_01	1812.0509746203827	1806	Classical	Extended tonality	C	major	201.899	509	0.3966581532416503	20	858
+858	ABC	n09op59-3_02	1812.0509746203827	1806	Classical	Extended tonality	a	minor	193.849	472	0.4106970338983051	20	859
+859	ABC	n09op59-3_03	1812.0509746203827	1806	Classical	Extended tonality	C	major	68.8998	170	0.4052929411764706	20	860
+860	ABC	n09op59-3_04	1812.0509746203827	1806	Classical	Extended tonality	C	major	250.7988	694	0.3613815561959654	20	861
+861	ABC	n10op74_01	1812.0509746203827	1809	Classical	Extended tonality	Eb	major	168.1596	446	0.3770394618834081	20	862
+862	ABC	n10op74_02	1812.0509746203827	1809	Classical	Extended tonality	Ab	major	103.1331	302	0.34150033112582784	20	863
+863	ABC	n10op74_03	1812.0509746203827	1809	Classical	Extended tonality	c	minor	140.4994	445	0.315728988764045	20	864
+864	ABC	n10op74_04	1812.0509746203827	1809	Classical	Extended tonality	Eb	major	109.7828	321	0.342002492211838	20	865
+865	ABC	n11op95_01	1812.0509746203827	1810	Classical	Extended tonality	f	minor	89.1831	243	0.36700864197530864	20	866
+866	ABC	n11op95_02	1812.0509746203827	1810	Classical	Extended tonality	D	major	149.5058	352	0.42473238636363636	20	867
+867	ABC	n11op95_03	1812.0509746203827	1810	Classical	Extended tonality	f	minor	134.9621	360	0.3748947222222222	20	868
+868	ABC	n11op95_04	1812.0509746203827	1810	Classical	Extended tonality	f	minor	117.093	325	0.36028615384615387	20	869
+869	ABC	n12op127_01	1812.0509746203827	1824	Early Romantic	Extended tonality	Eb	major	199.1551	556	0.3581926258992806	20	870
+870	ABC	n12op127_02	1812.0509746203827	1824	Early Romantic	Extended tonality	Ab	major	213.94910000000002	542	0.394740036900369	20	871
+871	ABC	n12op127_03	1812.0509746203827	1824	Early Romantic	Extended tonality	Eb	major	147.6923	422	0.34998175355450234	20	872
+872	ABC	n12op127_04	1812.0509746203827	1824	Early Romantic	Extended tonality	Eb	major	236.558	679	0.3483917525773196	20	873
+873	ABC	n15op132_01	1812.0509746203827	1825	Early Romantic	Extended tonality	a	minor	239.5692	622	0.38515948553054663	20	874
+874	ABC	n15op132_02	1812.0509746203827	1825	Early Romantic	Extended tonality	A	major	143.7685	472	0.30459427966101693	20	875
+875	ABC	n15op132_03	1812.0509746203827	1825	Early Romantic	Extended tonality	C	major	164.2323	506	0.3245697628458498	20	876
+876	ABC	n15op132_04	1812.0509746203827	1825	Early Romantic	Extended tonality	A	major	39.0598	112	0.3487482142857143	20	877
+877	ABC	n15op132_05	1812.0509746203827	1825	Early Romantic	Extended tonality	a	minor	247.2015	729	0.33909670781893003	20	878
+878	ABC	n13op130_01	1812.0509746203827	1826	Early Romantic	Extended tonality	Bb	major	254.75820000000002	719	0.3543229485396384	20	879
+879	ABC	n13op130_02	1812.0509746203827	1826	Early Romantic	Extended tonality	bb	minor	48.8164	167	0.2923137724550898	20	880
+880	ABC	n13op130_03	1812.0509746203827	1826	Early Romantic	Extended tonality	Db	major	152.743	447	0.3417069351230425	20	881
+881	ABC	n13op130_04	1812.0509746203827	1826	Early Romantic	Extended tonality	G	major	92.1364	295	0.3123267796610169	20	882
+882	ABC	n13op130_05	1812.0509746203827	1826	Early Romantic	Extended tonality	Eb	major	65.4132	187	0.34980320855614977	20	883
+883	ABC	n13op130_06	1812.0509746203827	1826	Early Romantic	Extended tonality	Bb	major	224.59900000000002	618	0.3634288025889968	20	884
+884	ABC	n14op131_01	1812.0509746203827	1826	Early Romantic	Extended tonality	c#	minor	116.9828	334	0.3502479041916168	20	885
+885	ABC	n14op131_02	1812.0509746203827	1826	Early Romantic	Extended tonality	D	major	121.48230000000001	353	0.34414249291784704	20	886
+886	ABC	n14op131_03	1812.0509746203827	1826	Early Romantic	Extended tonality	b	minor	11.7333	30	0.39111	20	887
+887	ABC	n14op131_04	1812.0509746203827	1826	Early Romantic	Extended tonality	A	major	253.4198	653	0.3880854517611026	20	888
+888	ABC	n14op131_05	1812.0509746203827	1826	Early Romantic	Extended tonality	E	major	196.4498	594	0.33072356902356903	20	889
+889	ABC	n14op131_06	1812.0509746203827	1826	Early Romantic	Extended tonality	g#	minor	23.8333	68	0.35048970588235295	20	890
+890	ABC	n14op131_07	1812.0509746203827	1826	Early Romantic	Extended tonality	c#	minor	201.1097	522	0.3852676245210728	20	891
+891	ABC	n16op135_01	1812.0509746203827	1826	Early Romantic	Extended tonality	F	major	137.676	394	0.3494314720812182	20	892
+892	ABC	n16op135_02	1812.0509746203827	1826	Early Romantic	Extended tonality	F	major	126.3428	367	0.344258310626703	20	893
+893	ABC	n16op135_03	1812.0509746203827	1826	Early Romantic	Extended tonality	Db	major	64.5832	178	0.36282696629213484	20	894
+894	ABC	n16op135_04	1812.0509746203827	1826	Early Romantic	Extended tonality	f	minor	189.4788	550	0.3445069090909091	20	895
+895	schubert_winterreise	n01	1828.0	1828	Early Romantic	Extended tonality	d	minor	72.8	214	0.34018691588785044	21	896
+896	schubert_winterreise	n02	1828.0	1828	Early Romantic	Extended tonality	a	minor	22.5332	70	0.32190285714285716	21	897
+897	schubert_winterreise	n03	1828.0	1828	Early Romantic	Extended tonality	f	minor	45.5666	141	0.32316737588652483	21	898
+898	schubert_winterreise	n04	1828.0	1828	Early Romantic	Extended tonality	c	minor	80.4762	187	0.4303540106951872	21	899
+899	schubert_winterreise	n05	1828.0	1828	Early Romantic	Extended tonality	E	major	80.5662	245	0.3288416326530612	21	900
+900	schubert_winterreise	n06	1828.0	1828	Early Romantic	Extended tonality	f#	minor	17.2	44	0.3909090909090909	21	901
+901	schubert_winterreise	n07	1828.0	1828	Early Romantic	Extended tonality	e	minor	55.9666	176	0.31799204545454546	21	902
+902	schubert_winterreise	n08	1828.0	1828	Early Romantic	Extended tonality	g	minor	116.7133	353	0.3306325779036827	21	903
+903	schubert_winterreise	n09	1828.0	1828	Early Romantic	Extended tonality	b	minor	21.9	72	0.30416666666666664	21	904
+904	schubert_winterreise	n10	1828.0	1828	Early Romantic	Extended tonality	c	minor	39.9398	105	0.3803790476190476	21	905
+905	schubert_winterreise	n11	1828.0	1828	Early Romantic	Extended tonality	A	major	62.446600000000004	168	0.3717059523809524	21	906
+906	schubert_winterreise	n12	1828.0	1828	Early Romantic	Extended tonality	b	minor	32.3332	82	0.3943073170731707	21	907
+907	schubert_winterreise	n13	1828.0	1828	Early Romantic	Extended tonality	Eb	major	51.56	111	0.46450450450450453	21	908
+908	schubert_winterreise	n14	1828.0	1828	Early Romantic	Extended tonality	c	minor	22.3499	57	0.39210350877192984	21	909
+909	schubert_winterreise	n15	1828.0	1828	Early Romantic	Extended tonality	c	minor	53.8999	169	0.3189343195266272	21	910
+910	schubert_winterreise	n16	1828.0	1828	Early Romantic	Extended tonality	Eb	major	44.3999	101	0.4396029702970297	21	911
+911	schubert_winterreise	n17	1828.0	1828	Early Romantic	Extended tonality	D	major	41.2599	112	0.3683919642857143	21	912
+912	schubert_winterreise	n18	1828.0	1828	Early Romantic	Extended tonality	d	minor	26.5332	61	0.4349704918032787	21	913
+913	schubert_winterreise	n19	1828.0	1828	Early Romantic	Extended tonality	A	major	27.7266	66	0.42010000000000003	21	914
+914	schubert_winterreise	n20	1828.0	1828	Early Romantic	Extended tonality	g	minor	52.3998	167	0.31377125748502993	21	915
+915	schubert_winterreise	n21	1828.0	1828	Early Romantic	Extended tonality	F	major	53.4232	153	0.34917124183006537	21	916
+916	schubert_winterreise	n22	1828.0	1828	Early Romantic	Extended tonality	a	minor	22.5333	80	0.28166625	21	917
+917	schubert_winterreise	n23	1828.0	1828	Early Romantic	Extended tonality	A	major	31.9333	87	0.3670494252873563	21	918
+918	schubert_winterreise	n24	1828.0	1828	Early Romantic	Extended tonality	a	minor	22.2	79	0.2810126582278481	21	919
+919	mendelssohn_quartets	02op13a	1835.8707229487093	1827	Early Romantic	Extended tonality	A	major	340.28430000000003	793	0.4291100882723834	22	920
+920	mendelssohn_quartets	02op13b	1835.8707229487093	1827	Early Romantic	Extended tonality	F	major	220.5318	544	0.4053893382352941	22	921
+921	mendelssohn_quartets	02op13c	1835.8707229487093	1827	Early Romantic	Extended tonality	a	minor	143.9761	414	0.34776835748792273	22	922
+922	mendelssohn_quartets	02op13d	1835.8707229487093	1827	Early Romantic	Extended tonality	a	minor	326.5606	804	0.40616990049751245	22	923
+923	mendelssohn_quartets	01op12a	1835.8707229487093	1829	Early Romantic	Extended tonality	Eb	major	272.0858	673	0.40428796433878156	22	924
+924	mendelssohn_quartets	01op12b	1835.8707229487093	1829	Early Romantic	Extended tonality	g	minor	110.5492	349	0.3167598853868195	22	925
+925	mendelssohn_quartets	01op12c	1835.8707229487093	1829	Early Romantic	Extended tonality	Bb	major	83.5526	212	0.394116037735849	22	926
+926	mendelssohn_quartets	01op12d	1835.8707229487093	1829	Early Romantic	Extended tonality	c	minor	302.8686	771	0.3928256809338522	22	927
+927	mendelssohn_quartets	04op44,2a	1835.8707229487093	1837	Early Romantic	Extended tonality	e	minor	333.5869	839	0.39760059594755665	22	928
+928	mendelssohn_quartets	04op44,2b	1835.8707229487093	1837	Early Romantic	Extended tonality	E	major	296.6606	829	0.35785355850422196	22	929
+929	mendelssohn_quartets	04op44,2c	1835.8707229487093	1837	Early Romantic	Extended tonality	G	major	126.8927	328	0.3868679878048781	22	930
+930	mendelssohn_quartets	04op44,2d	1835.8707229487093	1837	Early Romantic	Extended tonality	e	minor	314.2671	794	0.3958023929471033	22	931
+931	mendelssohn_quartets	03op44,1a	1835.8707229487093	1838	Early Romantic	Extended tonality	D	major	293.1652	751	0.39036644474034626	22	932
+932	mendelssohn_quartets	03op44,1b	1835.8707229487093	1838	Early Romantic	Extended tonality	D	major	142.882	391	0.36542710997442457	22	933
+933	mendelssohn_quartets	03op44,1c	1835.8707229487093	1838	Early Romantic	Extended tonality	b	minor	193.0826	438	0.4408278538812786	22	934
+934	mendelssohn_quartets	03op44,1d	1835.8707229487093	1838	Early Romantic	Extended tonality	D	major	302.9909	819	0.36995225885225885	22	935
+935	mendelssohn_quartets	05op44,3a	1835.8707229487093	1838	Early Romantic	Extended tonality	Eb	major	431.1898	1044	0.4130170498084291	22	936
+936	mendelssohn_quartets	05op44,3b	1835.8707229487093	1838	Early Romantic	Extended tonality	c	minor	232.4445	635	0.36605433070866145	22	937
+937	mendelssohn_quartets	05op44,3c	1835.8707229487093	1838	Early Romantic	Extended tonality	Ab	major	149.4626	385	0.3882145454545455	22	938
+938	mendelssohn_quartets	05op44,3d	1835.8707229487093	1838	Early Romantic	Extended tonality	Eb	major	402.854	1000	0.402854	22	939
+939	mendelssohn_quartets	06op80a	1835.8707229487093	1847	Early Romantic	Extended tonality	f	minor	283.75440000000003	729	0.3892378600823046	22	940
+940	mendelssohn_quartets	06op80b	1835.8707229487093	1847	Early Romantic	Extended tonality	f	minor	124.0791	338	0.36709792899408283	22	941
+941	mendelssohn_quartets	06op80c	1835.8707229487093	1847	Early Romantic	Extended tonality	Ab	major	156.159	388	0.40247164948453606	22	942
+942	mendelssohn_quartets	06op80d	1835.8707229487093	1847	Early Romantic	Extended tonality	f	minor	201.1583	491	0.40969103869653767	22	943
+943	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	Extended tonality	G	major	19.52	49	0.3983673469387755	23	944
+944	chopin_mazurkas	BI16-2	1838.2307692307693	1826	Early Romantic	Extended tonality	Bb	major	19.52	46	0.42434782608695654	23	945
+945	chopin_mazurkas	BI18op68-2	1838.2307692307693	1827	Early Romantic	Extended tonality	a	minor	42.2	107	0.394392523364486	23	946
+946	chopin_mazurkas	BI34op68-3	1838.2307692307693	1830	Early Romantic	Extended tonality	F	major	27.2163	105	0.2592028571428571	23	947
+947	chopin_mazurkas	BI38op68-1	1838.2307692307693	1830	Early Romantic	Extended tonality	C	major	49.033300000000004	119	0.41204453781512607	23	948
+948	chopin_mazurkas	BI60-1op06-1	1838.2307692307693	1832	Early Romantic	Extended tonality	f#	minor	78.9997	203	0.3891610837438424	23	949
+949	chopin_mazurkas	BI60-2op06-2	1838.2307692307693	1832	Early Romantic	Extended tonality	c#	minor	32.9333	96	0.34305520833333336	23	950
+950	chopin_mazurkas	BI60-3op06-3	1838.2307692307693	1832	Early Romantic	Extended tonality	E	major	48.1999	141	0.3418432624113475	23	951
+951	chopin_mazurkas	BI60-4op06-4	1838.2307692307693	1832	Early Romantic	Extended tonality	eb	minor	27.1332	65	0.41743384615384616	23	952
+952	chopin_mazurkas	BI61-1op07-1	1838.2307692307693	1832	Early Romantic	Extended tonality	Bb	major	41.2133	100	0.41213299999999997	23	953
+953	chopin_mazurkas	BI61-2op07-2	1838.2307692307693	1832	Early Romantic	Extended tonality	a	minor	42.8997	109	0.3935752293577982	23	954
+954	chopin_mazurkas	BI61-3op07-3	1838.2307692307693	1832	Early Romantic	Extended tonality	f	minor	71.7266	205	0.3498858536585366	23	955
+955	chopin_mazurkas	BI61-4op07-4	1838.2307692307693	1832	Early Romantic	Extended tonality	Ab	major	41.1	104	0.39519230769230773	23	956
+956	chopin_mazurkas	BI61-5op07-5	1838.2307692307693	1832	Early Romantic	Extended tonality	C	major	16.04	38	0.4221052631578947	23	957
+957	chopin_mazurkas	BI71	1838.2307692307693	1832	Early Romantic	Extended tonality	D	major	52.8933	120	0.44077750000000004	23	958
+958	chopin_mazurkas	BI73	1838.2307692307693	1832	Early Romantic	Extended tonality	Bb	major	17.41	42	0.4145238095238095	23	959
+959	chopin_mazurkas	BI77-1op17-1	1838.2307692307693	1833	Early Romantic	Extended tonality	Bb	major	54.3366	111	0.4895189189189189	23	960
+960	chopin_mazurkas	BI77-2op17-2	1838.2307692307693	1833	Early Romantic	Extended tonality	e	minor	73.6196	169	0.43561893491124265	23	961
+961	chopin_mazurkas	BI77-3op17-3	1838.2307692307693	1833	Early Romantic	Extended tonality	Ab	major	92.1766	209	0.4410363636363636	23	962
+962	chopin_mazurkas	BI77-4op17-4	1838.2307692307693	1833	Early Romantic	Extended tonality	a	minor	88.8627	223	0.39848744394618835	23	963
+963	chopin_mazurkas	BI89-1op24-1	1838.2307692307693	1833	Early Romantic	Extended tonality	g	minor	51.13	117	0.437008547008547	23	964
+964	chopin_mazurkas	BI89-2op24-2	1838.2307692307693	1833	Early Romantic	Extended tonality	C	major	75.3263	226	0.33330221238938057	23	965
+965	chopin_mazurkas	BI89-3op24-3	1838.2307692307693	1833	Early Romantic	Extended tonality	Ab	major	22.3333	59	0.3785305084745763	23	966
+966	chopin_mazurkas	BI89-4op24-4	1838.2307692307693	1833	Early Romantic	Extended tonality	bb	minor	150.9729	285	0.5297294736842105	23	967
+967	chopin_mazurkas	BI85	1838.2307692307693	1834	Early Romantic	Extended tonality	Ab	major	33.050000000000004	86	0.3843023255813954	23	968
+968	chopin_mazurkas	BI93-1op67-1	1838.2307692307693	1835	Early Romantic	Extended tonality	G	major	40.12	93	0.4313978494623656	23	969
+969	chopin_mazurkas	BI93-2op67-3	1838.2307692307693	1835	Early Romantic	Extended tonality	C	major	45.75	93	0.49193548387096775	23	970
+970	chopin_mazurkas	BI105-2op30-2	1838.2307692307693	1837	Early Romantic	Extended tonality	b	minor	49.26	113	0.435929203539823	23	971
+971	chopin_mazurkas	BI105-3op30-3	1838.2307692307693	1837	Early Romantic	Extended tonality	Db	major	76.4731	158	0.48400696202531646	23	972
+972	chopin_mazurkas	BI105-4op30-4	1838.2307692307693	1837	Early Romantic	Extended tonality	c#	minor	98.6033	227	0.43437577092511015	23	973
+973	chopin_mazurkas	BI115-1op33-1	1838.2307692307693	1838	Early Romantic	Extended tonality	g#	minor	33.11	87	0.38057471264367815	23	974
+974	chopin_mazurkas	BI115-2op33-2	1838.2307692307693	1838	Early Romantic	Extended tonality	D	major	80.2433	193	0.41576839378238345	23	975
+975	chopin_mazurkas	BI115-3op33-3	1838.2307692307693	1838	Early Romantic	Extended tonality	C	major	57.56	116	0.4962068965517242	23	976
+976	chopin_mazurkas	BI115-4op33-4	1838.2307692307693	1838	Early Romantic	Extended tonality	b	minor	122.98	367	0.33509536784741145	23	977
+977	chopin_mazurkas	BI126-3op41-1	1838.2307692307693	1838	Early Romantic	Extended tonality	c#	minor	93.99640000000001	233	0.403418025751073	23	978
+978	chopin_mazurkas	BI122op41-2	1838.2307692307693	1839	Early Romantic	Extended tonality	e	minor	68.2236	142	0.48044788732394367	23	979
+979	chopin_mazurkas	BI126-1op41-4	1838.2307692307693	1839	Early Romantic	Extended tonality	Ab	major	61.3633	148	0.4146168918918919	23	980
+980	chopin_mazurkas	BI126-4op41-3	1838.2307692307693	1839	Early Romantic	Extended tonality	B	major	40.8	120	0.33999999999999997	23	981
+981	chopin_mazurkas	BI134	1838.2307692307693	1840	Early Romantic	Extended tonality	a	minor	99.83970000000001	310	0.3220635483870968	23	982
+982	chopin_mazurkas	BI140	1838.2307692307693	1841	Early Romantic	Extended tonality	a	minor	86.8265	213	0.40763615023474176	23	983
+983	chopin_mazurkas	BI145-1op50-1	1838.2307692307693	1842	Early Romantic	Extended tonality	G	major	82.1529	216	0.3803375	23	984
+984	chopin_mazurkas	BI145-2op50-2	1838.2307692307693	1842	Early Romantic	Extended tonality	Ab	major	67.9066	152	0.44675394736842106	23	985
+985	chopin_mazurkas	BI145-3op50-3	1838.2307692307693	1842	Early Romantic	Extended tonality	c#	minor	119.8959	309	0.3880126213592233	23	986
+986	chopin_mazurkas	BI153-1op56-1	1838.2307692307693	1844	Early Romantic	Extended tonality	B	major	166.2431	442	0.3761156108597285	23	987
+987	chopin_mazurkas	BI153-2op56-2	1838.2307692307693	1844	Early Romantic	Extended tonality	C	major	61.9132	156	0.3968794871794872	23	988
+988	chopin_mazurkas	BI153-3op56-3	1838.2307692307693	1844	Early Romantic	Extended tonality	c	minor	184.0259	474	0.3882402953586498	23	989
+989	chopin_mazurkas	BI157-1op59-1	1838.2307692307693	1845	Early Romantic	Extended tonality	a	minor	104.5264	257	0.40671750972762644	23	990
+990	chopin_mazurkas	BI157-2op59-2	1838.2307692307693	1845	Early Romantic	Extended tonality	Ab	major	88.3064	208	0.42455	23	991
+991	chopin_mazurkas	BI157-3op59-3	1838.2307692307693	1845	Early Romantic	Extended tonality	f#	minor	140.3062	357	0.3930145658263305	23	992
+992	chopin_mazurkas	BI162-1op63-1	1838.2307692307693	1846	Early Romantic	Extended tonality	B	major	76.99000000000001	169	0.45556213017751485	23	993
+993	chopin_mazurkas	BI162-2op63-2	1838.2307692307693	1846	Early Romantic	Extended tonality	f	minor	32.27	80	0.40337500000000004	23	994
+994	chopin_mazurkas	BI162-3op63-3	1838.2307692307693	1846	Early Romantic	Extended tonality	c#	minor	49.8832	123	0.40555447154471547	23	995
+995	chopin_mazurkas	BI163op67-4	1838.2307692307693	1846	Early Romantic	Extended tonality	a	minor	48.43	109	0.44431192660550456	23	996
+996	chopin_mazurkas	BI168op68-4	1838.2307692307693	1846	Early Romantic	Extended tonality	f	minor	40.2333	80	0.50291625	23	997
+997	chopin_mazurkas	BI167op67-2	1838.2307692307693	1849	Early Romantic	Extended tonality	g	minor	32.63	78	0.4183333333333334	23	998
+998	schumann_kinderszenen	n01	1839.0	1839	Early Romantic	Extended tonality	G	major	15.0	43	0.3488372093023256	24	896
+999	schumann_kinderszenen	n02	1839.0	1839	Early Romantic	Extended tonality	D	major	45.0132	119	0.3782621848739496	24	897
+1000	schumann_kinderszenen	n03	1839.0	1839	Early Romantic	Extended tonality	b	minor	18.0666	57	0.3169578947368421	24	898
+1001	schumann_kinderszenen	n04	1839.0	1839	Early Romantic	Extended tonality	D	major	27.026600000000002	53	0.5099358490566038	24	899
+1002	schumann_kinderszenen	n05	1839.0	1839	Early Romantic	Extended tonality	D	major	17.57	41	0.42853658536585365	24	900
+1003	schumann_kinderszenen	n06	1839.0	1839	Early Romantic	Extended tonality	A	major	25.9499	81	0.3203691358024691	24	901
+1004	schumann_kinderszenen	n07	1839.0	1839	Early Romantic	Extended tonality	F	major	26.6666	71	0.3755859154929577	24	902
+1005	schumann_kinderszenen	n08	1839.0	1839	Early Romantic	Extended tonality	F	major	25.616600000000002	66	0.38813030303030305	24	903
+1006	schumann_kinderszenen	n09	1839.0	1839	Early Romantic	Extended tonality	C	major	14.9833	46	0.32572391304347825	24	904
+1007	schumann_kinderszenen	n10	1839.0	1839	Early Romantic	Extended tonality	g#	minor	27.78	60	0.463	24	905
+1008	schumann_kinderszenen	n11	1839.0	1839	Early Romantic	Extended tonality	e	minor	42.9993	135	0.3185133333333333	24	906
+1009	schumann_kinderszenen	n12	1839.0	1839	Early Romantic	Extended tonality	e	minor	31.810000000000002	90	0.35344444444444445	24	907
+1010	schumann_kinderszenen	n13	1839.0	1839	Early Romantic	Extended tonality	G	major	21.8999	49	0.4469367346938775	24	908
+1011	schumann_liederkreis	op39n01	1840.0	1840	Early Romantic	Extended tonality	f#	minor	20.76	47	0.4417021276595745	25	999
+1012	schumann_liederkreis	op39n02	1840.0	1840	Early Romantic	Extended tonality	A	major	28.94	66	0.4384848484848485	25	1000
+1013	schumann_liederkreis	op39n03	1840.0	1840	Early Romantic	Extended tonality	E	major	32.800000000000004	106	0.309433962264151	25	1001
+1014	schumann_liederkreis	op39n04	1840.0	1840	Early Romantic	Extended tonality	G	major	21.3533	53	0.4028924528301887	25	1002
+1015	schumann_liederkreis	op39n05	1840.0	1840	Early Romantic	Extended tonality	E	major	33.8833	83	0.4082325301204819	25	1003
+1016	schumann_liederkreis	op39n06	1840.0	1840	Early Romantic	Extended tonality	B	major	29.5366	68	0.43436176470588234	25	1004
+1017	schumann_liederkreis	op39n07	1840.0	1840	Early Romantic	Extended tonality	e	minor	21.4266	66	0.32464545454545457	25	1005
+1018	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	Extended tonality	a	minor	25.9331	88	0.2946943181818182	25	1006
+1019	schumann_liederkreis	op39n09	1840.0	1840	Early Romantic	Extended tonality	E	major	32.7833	86	0.38120116279069766	25	1007
+1020	schumann_liederkreis	op39n10	1840.0	1840	Early Romantic	Extended tonality	e	minor	46.166000000000004	108	0.427462962962963	25	1008
+1021	schumann_liederkreis	op39n11	1840.0	1840	Early Romantic	Extended tonality	A	major	19.0166	67	0.28382985074626865	25	1009
+1022	schumann_liederkreis	op39n12	1840.0	1840	Early Romantic	Extended tonality	F#	major	23.9533	54	0.4435796296296296	25	1010
+1023	c_schumann_lieder	op13no3 Liebeszauber	1847.2645259938838	1842	Early Romantic	Extended tonality	Eb	major	58.52	155	0.37754838709677424	26	1011
+1024	c_schumann_lieder	op13no4 Der Mond kommt still gegangen	1847.2645259938838	1842	Early Romantic	Extended tonality	Db	major	47.24	120	0.39366666666666666	26	1012
+1025	c_schumann_lieder	op13no6 Die stille Lotosblume	1847.2645259938838	1842	Early Romantic	Extended tonality	Ab	major	51.02	117	0.4360683760683761	26	1013
+1026	c_schumann_lieder	op13no1 Ich stand in dunklen Traumen	1847.2645259938838	1843	Early Romantic	Extended tonality	Eb	major	42.5332	102	0.4169921568627451	26	1014
+1027	c_schumann_lieder	op13no2 Sie liebten sich beide	1847.2645259938838	1843	Early Romantic	Extended tonality	g	minor	49.8331	108	0.46141759259259263	26	1015
+1028	c_schumann_lieder	op13no5 Ich hab in deinem Auge	1847.2645259938838	1843	Early Romantic	Extended tonality	Ab	major	48.7796	109	0.4475192660550459	26	1016
+1029	c_schumann_lieder	op23no1 Was weinst du Blumlein	1847.2645259938838	1853	Early Romantic	Extended tonality	A	major	49.036500000000004	136	0.3605625	26	1017
+1030	c_schumann_lieder	op23no2 An einem lichten Morgen	1847.2645259938838	1853	Early Romantic	Extended tonality	F	major	39.5665	88	0.44961931818181816	26	1018
+1031	c_schumann_lieder	op23no3 Geheimes Flustern hier und dort	1847.2645259938838	1853	Early Romantic	Extended tonality	Db	major	35.05	74	0.4736486486486486	26	1019
+1032	c_schumann_lieder	op23no4 Auf einem grunen Hugel	1847.2645259938838	1853	Early Romantic	Extended tonality	a	minor	31.0	90	0.34444444444444444	26	1020
+1033	c_schumann_lieder	op23no5 Das ist ein Tag der klingen mag	1847.2645259938838	1853	Early Romantic	Extended tonality	D	major	38.660000000000004	119	0.32487394957983196	26	1021
+1034	c_schumann_lieder	op23no6 O Lust o Lust	1847.2645259938838	1853	Early Romantic	Extended tonality	Eb	major	34.86	90	0.3873333333333333	26	1022
+1035	liszt_pelerinage	160.01_Chapelle_de_Guillaume_Tell	1857.079674150606	1855	Early Romantic	Extended tonality	C	major	61.546600000000005	172	0.3578290697674419	27	1023
+1036	liszt_pelerinage	160.02_Au_Lac_de_Wallenstadt	1857.079674150606	1855	Early Romantic	Extended tonality	Ab	major	35.0666	84	0.41745952380952384	27	1024
+1037	liszt_pelerinage	160.03_Pastorale	1857.079674150606	1855	Early Romantic	Extended tonality	E	major	55.6	196	0.2836734693877551	27	1025
+1038	liszt_pelerinage	160.04_Au_Bord_dUne_Source	1857.079674150606	1855	Early Romantic	Extended tonality	Ab	major	209.9665	465	0.45154086021505374	27	1026
+1039	liszt_pelerinage	160.05_Orage	1857.079674150606	1855	Early Romantic	Extended tonality	c	minor	112.783	305	0.36978032786885245	27	1027
+1040	liszt_pelerinage	160.06_Vallee_dObermann	1857.079674150606	1855	Early Romantic	Extended tonality	e	minor	275.5759	631	0.43672884310618065	27	1028
+1041	liszt_pelerinage	160.07_Eglogue	1857.079674150606	1855	Early Romantic	Extended tonality	Ab	major	94.3	214	0.44065420560747665	27	1029
+1042	liszt_pelerinage	160.08_Le_Mal_du_Pays_(Heimweh)	1857.079674150606	1855	Early Romantic	Extended tonality	e	minor	64.0497	199	0.3218577889447236	27	1030
+1043	liszt_pelerinage	160.09_Les_Cloches_de_Geneve_(Nocturne)	1857.079674150606	1855	Early Romantic	Extended tonality	B	major	95.3099	203	0.4695068965517241	27	1031
+1044	liszt_pelerinage	161.01_Sposalizio	1857.079674150606	1858	Early Romantic	Extended tonality	E	major	113.0168	237	0.47686413502109704	27	1032
+1045	liszt_pelerinage	161.02_Il_Pensieroso	1857.079674150606	1858	Early Romantic	Extended tonality	c#	minor	38.9899	83	0.4697578313253012	27	1033
+1046	liszt_pelerinage	161.03_Canzonetta_del_Salvator_Rosa	1857.079674150606	1858	Early Romantic	Extended tonality	A	major	74.7599	269	0.277917843866171	27	1034
+1047	liszt_pelerinage	161.04_Sonetto_47_del_Petrarca	1857.079674150606	1858	Early Romantic	Extended tonality	Db	major	67.2065	152	0.44214802631578953	27	1035
+1048	liszt_pelerinage	161.05_Sonetto_104_del_Petrarca	1857.079674150606	1858	Early Romantic	Extended tonality	E	major	51.43	121	0.42504132231404956	27	1036
+1049	liszt_pelerinage	161.06_Sonetto_123_del_Petrarca	1857.079674150606	1858	Early Romantic	Extended tonality	Ab	major	72.7133	146	0.49803630136986304	27	1037
+1050	liszt_pelerinage	161.07_Apres_une_lecture_du_Dante	1857.079674150606	1858	Early Romantic	Extended tonality	D	major	264.6487	631	0.41941156893819337	27	1038
+1051	liszt_pelerinage	162.01_Gondoliera	1857.079674150606	1861	Early Romantic	Extended tonality	F#	major	46.82	116	0.4036206896551724	27	1039
+1052	liszt_pelerinage	162.02_Canzone	1857.079674150606	1861	Early Romantic	Extended tonality	eb	minor	43.3499	98	0.44234591836734694	27	1040
+1053	liszt_pelerinage	162.03_Tarantella_da_Guillaume_Louis_Cottrau._Presto_e_canzone_napolitana	1857.079674150606	1861	Early Romantic	Extended tonality	g	minor	274.6254	711	0.3862523206751055	27	1041
+1054	wagner_overtures	WWV090_Tristan_01_Vorspiel-Prelude_Ricordi1888Floridia	1864.990230286113	1859	Early Romantic	Extended tonality	a	minor	187.9657	360	0.5221269444444444	28	1042
+1055	wagner_overtures	WWV096-Meistersinger_01_Vorspiel-Prelude_SchottKleinmichel	1864.990230286113	1867	Early Romantic	Extended tonality	C	major	459.4508	1073	0.4281927306616962	28	1043
+1056	tchaikovsky_seasons	op37a01	1876.0	1876	Late Romantic	Extended tonality	A	major	121.69	313	0.38878594249201276	29	1044
+1057	tchaikovsky_seasons	op37a02	1876.0	1876	Late Romantic	Extended tonality	D	major	102.9695	275	0.37443454545454546	29	1045
+1058	tchaikovsky_seasons	op37a03	1876.0	1876	Late Romantic	Extended tonality	g	minor	48.25	115	0.41956521739130437	29	1046
+1059	tchaikovsky_seasons	op37a04	1876.0	1876	Late Romantic	Extended tonality	Bb	major	106.1633	207	0.5128661835748792	29	1047
+1060	tchaikovsky_seasons	op37a05	1876.0	1876	Late Romantic	Extended tonality	G	major	74.7199	191	0.39120366492146597	29	1048
+1061	tchaikovsky_seasons	op37a06	1876.0	1876	Late Romantic	Extended tonality	g	minor	107.7363	249	0.43267590361445785	29	1049
+1062	tchaikovsky_seasons	op37a07	1876.0	1876	Late Romantic	Extended tonality	Eb	major	66.4	175	0.37942857142857145	29	1050
+1063	tchaikovsky_seasons	op37a08	1876.0	1876	Late Romantic	Extended tonality	b	minor	184.93200000000002	492	0.37587804878048786	29	1051
+1064	tchaikovsky_seasons	op37a09	1876.0	1876	Late Romantic	Extended tonality	G	major	118.99940000000001	359	0.331474651810585	29	1052
+1065	tchaikovsky_seasons	op37a10	1876.0	1876	Late Romantic	Extended tonality	d	minor	82.1132	191	0.4299120418848168	29	1053
+1066	tchaikovsky_seasons	op37a11	1876.0	1876	Late Romantic	Extended tonality	E	major	64.3399	165	0.3899387878787879	29	1054
+1067	tchaikovsky_seasons	op37a12	1876.0	1876	Late Romantic	Extended tonality	Ab	major	113.52	260	0.4366153846153846	29	1055
+1068	dvorak_silhouettes	op08n01	1879.0	1879	Late Romantic	Extended tonality	c#	minor	32.3034	75	0.43071200000000004	30	1056
+1069	dvorak_silhouettes	op08n02	1879.0	1879	Late Romantic	Extended tonality	Db	major	23.7733	67	0.3548253731343283	30	1057
+1070	dvorak_silhouettes	op08n03	1879.0	1879	Late Romantic	Extended tonality	Db	major	88.3996	238	0.37142689075630253	30	1058
+1071	dvorak_silhouettes	op08n04	1879.0	1879	Late Romantic	Extended tonality	f#	minor	40.1998	133	0.3022541353383459	30	1059
+1072	dvorak_silhouettes	op08n05	1879.0	1879	Late Romantic	Extended tonality	f#	minor	38.9498	138	0.2822449275362319	30	1060
+1073	dvorak_silhouettes	op08n06	1879.0	1879	Late Romantic	Extended tonality	Bb	major	57.0534	113	0.5048973451327434	30	1061
+1074	dvorak_silhouettes	op08n07	1879.0	1879	Late Romantic	Extended tonality	D	major	52.5328	167	0.3145676646706587	30	1062
+1075	dvorak_silhouettes	op08n08	1879.0	1879	Late Romantic	Extended tonality	b	minor	30.4665	100	0.304665	30	1063
+1076	dvorak_silhouettes	op08n09	1879.0	1879	Late Romantic	Extended tonality	B	minor	34.15	97	0.35206185567010306	30	1064
+1077	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	Extended tonality	G	major	29.9865	103	0.29113106796116506	30	1065
+1078	dvorak_silhouettes	op08n11	1879.0	1879	Late Romantic	Extended tonality	A	major	37.76	88	0.4290909090909091	30	1066
+1079	dvorak_silhouettes	op08n12	1879.0	1879	Late Romantic	Extended tonality	c#	minor	73.836	207	0.356695652173913	30	1067
+1080	grieg_lyric_pieces	op12n01	1890.3354624738975	1867	Early Romantic	Extended tonality	Eb	major	20.15	43	0.46860465116279065	31	1068
+1081	grieg_lyric_pieces	op12n02	1890.3354624738975	1867	Early Romantic	Extended tonality	a	minor	46.5266	125	0.3722128	31	1069
+1082	grieg_lyric_pieces	op12n03	1890.3354624738975	1867	Early Romantic	Extended tonality	E	major	33.1166	103	0.3215203883495145	31	1070
+1083	grieg_lyric_pieces	op12n04	1890.3354624738975	1867	Early Romantic	Extended tonality	e	minor	29.0	95	0.30526315789473685	31	1071
+1084	grieg_lyric_pieces	op12n05	1890.3354624738975	1867	Early Romantic	Extended tonality	f#	minor	45.5366	107	0.4255757009345794	31	1072
+1085	grieg_lyric_pieces	op12n06	1890.3354624738975	1867	Early Romantic	Extended tonality	D	major	42.8333	121	0.35399421487603305	31	1073
+1086	grieg_lyric_pieces	op12n07	1890.3354624738975	1867	Early Romantic	Extended tonality	e	minor	27.7332	72	0.3851833333333333	31	1074
+1087	grieg_lyric_pieces	op12n08	1890.3354624738975	1867	Early Romantic	Extended tonality	Eb	major	30.3	78	0.38846153846153847	31	1075
+1088	grieg_lyric_pieces	op38n08	1890.3354624738975	1878	Late Romantic	Extended tonality	bb	minor	59.1899	128	0.46242109375	31	1076
+1089	grieg_lyric_pieces	op38n01	1890.3354624738975	1883	Late Romantic	Extended tonality	G	major	65.88	140	0.47057142857142853	31	1077
+1090	grieg_lyric_pieces	op38n02	1890.3354624738975	1883	Late Romantic	Extended tonality	e	minor	18.17	46	0.395	31	1078
+1091	grieg_lyric_pieces	op38n03	1890.3354624738975	1883	Late Romantic	Extended tonality	C	major	48.54	87	0.5579310344827586	31	1079
+1092	grieg_lyric_pieces	op38n04	1890.3354624738975	1883	Late Romantic	Extended tonality	g	minor	20.0	63	0.31746031746031744	31	1080
+1093	grieg_lyric_pieces	op38n05	1890.3354624738975	1883	Late Romantic	Extended tonality	G	major	30.1	69	0.43623188405797103	31	1081
+1094	grieg_lyric_pieces	op38n06	1890.3354624738975	1883	Late Romantic	Extended tonality	a	minor	39.4998	104	0.37980576923076925	31	1082
+1095	grieg_lyric_pieces	op38n07	1890.3354624738975	1883	Late Romantic	Extended tonality	e	minor	23.400000000000002	55	0.4254545454545455	31	1083
+1096	grieg_lyric_pieces	op43n01	1890.3354624738975	1886	Late Romantic	Extended tonality	A	major	47.5	102	0.46568627450980393	31	1084
+1097	grieg_lyric_pieces	op43n02	1890.3354624738975	1886	Late Romantic	Extended tonality	b	minor	44.96	97	0.46350515463917524	31	1085
+1098	grieg_lyric_pieces	op43n03	1890.3354624738975	1886	Late Romantic	Extended tonality	F#	major	40.370000000000005	110	0.36700000000000005	31	1086
+1099	grieg_lyric_pieces	op43n04	1890.3354624738975	1886	Late Romantic	Extended tonality	d	minor	17.3	52	0.33269230769230773	31	1087
+1100	grieg_lyric_pieces	op43n05	1890.3354624738975	1886	Late Romantic	Extended tonality	F	major	42.2365	109	0.3874908256880734	31	1088
+1101	grieg_lyric_pieces	op43n06	1890.3354624738975	1886	Late Romantic	Extended tonality	F#	major	45.069900000000004	127	0.35488110236220477	31	1089
+1102	grieg_lyric_pieces	op47n01	1890.3354624738975	1888	Late Romantic	Extended tonality	e	minor	67.2466	158	0.4256113924050633	31	1090
+1103	grieg_lyric_pieces	op47n02	1890.3354624738975	1888	Late Romantic	Extended tonality	F	major	81.6966	180	0.45387	31	1091
+1104	grieg_lyric_pieces	op47n03	1890.3354624738975	1888	Late Romantic	Extended tonality	a	minor	42.5	92	0.46195652173913043	31	1092
+1105	grieg_lyric_pieces	op47n04	1890.3354624738975	1888	Late Romantic	Extended tonality	D	major	7.1	21	0.33809523809523806	31	1093
+1106	grieg_lyric_pieces	op47n05	1890.3354624738975	1888	Late Romantic	Extended tonality	g	minor	46.35	108	0.4291666666666667	31	1094
+1107	grieg_lyric_pieces	op47n06	1890.3354624738975	1888	Late Romantic	Extended tonality	G	major	31.92	83	0.38457831325301206	31	1095
+1108	grieg_lyric_pieces	op47n07	1890.3354624738975	1888	Late Romantic	Extended tonality	b	minor	62.8	134	0.4686567164179104	31	1096
+1109	grieg_lyric_pieces	op54n01	1890.3354624738975	1891	Late Romantic	Extended tonality	g	minor	40.1632	107	0.3753570093457944	31	1097
+1110	grieg_lyric_pieces	op54n02	1890.3354624738975	1891	Late Romantic	Extended tonality	C	major	117.34	286	0.4102797202797203	31	1098
+1111	grieg_lyric_pieces	op54n03	1890.3354624738975	1891	Late Romantic	Extended tonality	d	minor	111.88980000000001	267	0.41906292134831463	31	1099
+1112	grieg_lyric_pieces	op54n04	1890.3354624738975	1891	Late Romantic	Extended tonality	C	major	47.1833	91	0.5184978021978023	31	1100
+1113	grieg_lyric_pieces	op54n05	1890.3354624738975	1891	Late Romantic	Extended tonality	e	minor	42.8332	116	0.369251724137931	31	1101
+1114	grieg_lyric_pieces	op54n06	1890.3354624738975	1891	Late Romantic	Extended tonality	C	major	80.19640000000001	171	0.4689847953216375	31	1102
+1115	grieg_lyric_pieces	op57n01	1890.3354624738975	1893	Late Romantic	Extended tonality	d	minor	137.196	311	0.44114469453376204	31	1103
+1116	grieg_lyric_pieces	op57n02	1890.3354624738975	1893	Late Romantic	Extended tonality	A	major	74.3232	180	0.41290666666666664	31	1104
+1117	grieg_lyric_pieces	op57n03	1890.3354624738975	1893	Late Romantic	Extended tonality	a	minor	83.4199	186	0.44849408602150537	31	1105
+1118	grieg_lyric_pieces	op57n04	1890.3354624738975	1893	Late Romantic	Extended tonality	G	major	52.2398	115	0.4542591304347826	31	1106
+1119	grieg_lyric_pieces	op57n05	1890.3354624738975	1893	Late Romantic	Extended tonality	C	major	102.6033	199	0.5155944723618091	31	1107
+1120	grieg_lyric_pieces	op57n06	1890.3354624738975	1893	Late Romantic	Extended tonality	e	minor	56.88	154	0.3693506493506494	31	1108
+1121	grieg_lyric_pieces	op62n01	1890.3354624738975	1895	Late Romantic	Extended tonality	b	minor	33.1	70	0.47285714285714286	31	1109
+1122	grieg_lyric_pieces	op62n02	1890.3354624738975	1895	Late Romantic	Extended tonality	G	major	65.8332	162	0.4063777777777778	31	1110
+1123	grieg_lyric_pieces	op62n03	1890.3354624738975	1895	Late Romantic	Extended tonality	A	major	39.3	93	0.4225806451612903	31	1111
+1124	grieg_lyric_pieces	op62n04	1890.3354624738975	1895	Late Romantic	Extended tonality	b	minor	37.8066	97	0.38975876288659794	31	1112
+1125	grieg_lyric_pieces	op62n05	1890.3354624738975	1895	Late Romantic	Extended tonality	A	major	19.4	45	0.43111111111111106	31	1113
+1126	grieg_lyric_pieces	op62n06	1890.3354624738975	1895	Late Romantic	Extended tonality	E	major	60.92	173	0.3521387283236994	31	1114
+1127	grieg_lyric_pieces	op65n01	1890.3354624738975	1896	Late Romantic	Extended tonality	d	minor	66.7032	199	0.33519195979899497	31	1115
+1128	grieg_lyric_pieces	op65n02	1890.3354624738975	1896	Late Romantic	Extended tonality	A	major	56.5599	127	0.4453535433070866	31	1116
+1129	grieg_lyric_pieces	op65n03	1890.3354624738975	1896	Late Romantic	Extended tonality	b	minor	35.4	87	0.4068965517241379	31	1117
+1130	grieg_lyric_pieces	op65n04	1890.3354624738975	1896	Late Romantic	Extended tonality	A	major	72.9866	112	0.6516660714285714	31	1118
+1131	grieg_lyric_pieces	op65n05	1890.3354624738975	1896	Late Romantic	Extended tonality	c	minor	41.3666	124	0.3336016129032258	31	1119
+1132	grieg_lyric_pieces	op65n06	1890.3354624738975	1896	Late Romantic	Extended tonality	D	major	85.4298	212	0.4029707547169811	31	1120
+1133	grieg_lyric_pieces	op68n01	1890.3354624738975	1899	Late Romantic	Extended tonality	C	major	43.4666	155	0.2804296774193548	31	1121
+1134	grieg_lyric_pieces	op68n02	1890.3354624738975	1899	Late Romantic	Extended tonality	G	major	53.3466	185	0.28836	31	1122
+1135	grieg_lyric_pieces	op68n03	1890.3354624738975	1899	Late Romantic	Extended tonality	D	major	62.7966	134	0.4686313432835821	31	1123
+1136	grieg_lyric_pieces	op68n04	1890.3354624738975	1899	Late Romantic	Extended tonality	e	minor	33.1599	85	0.3901164705882353	31	1124
+1137	grieg_lyric_pieces	op68n05	1890.3354624738975	1899	Late Romantic	Extended tonality	E	major	34.1732	91	0.37552967032967033	31	1125
+1138	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	Extended tonality	g	minor	96.7167	200	0.4835835	31	1126
+1139	grieg_lyric_pieces	op71n01	1890.3354624738975	1901	Late Romantic	Extended tonality	e	minor	53.71	176	0.30517045454545455	31	1127
+1140	grieg_lyric_pieces	op71n02	1890.3354624738975	1901	Late Romantic	Extended tonality	Db	major	51.47	107	0.48102803738317756	31	1128
+1141	grieg_lyric_pieces	op71n03	1890.3354624738975	1901	Late Romantic	Extended tonality	eb	minor	29.1932	71	0.41117183098591553	31	1129
+1142	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	Extended tonality	B	major	34.49	87	0.39643678160919543	31	1130
+1143	grieg_lyric_pieces	op71n05	1890.3354624738975	1901	Late Romantic	Extended tonality	C	major	65.4466	152	0.4305697368421053	31	1131
+1144	grieg_lyric_pieces	op71n06	1890.3354624738975	1901	Late Romantic	Extended tonality	e	minor	40.6	131	0.3099236641221374	31	1132
+1145	grieg_lyric_pieces	op71n07	1890.3354624738975	1901	Late Romantic	Extended tonality	Eb	major	34.6	74	0.46756756756756757	31	1133
+1146	ravel_piano	Ravel_-_Jeux_dEau	1903.8101851851852	1901	Late Romantic	Extended tonality	E	major	173.0535	257	0.6733599221789884	32	1134
+1147	ravel_piano	Ravel_-_Miroirs_III._Une_Barque_sur_l'ocean	1903.8101851851852	1905	Late Romantic	Extended tonality	f#	minor	130.8531	239	0.5475025104602511	32	1135
+1148	ravel_piano	Ravel_-_Miroirs_IV._Alborada_del_gracioso	1903.8101851851852	1905	Late Romantic	Extended tonality	D	major	182.323	368	0.4954429347826087	32	1136
+1149	mahler_kindertotenlieder	kindertotenlieder_01_nun_will_die_sonn	1904.0	1904	Late Romantic	Extended tonality	d	minor	62.033100000000005	164	0.3782506097560976	33	1137
+1150	mahler_kindertotenlieder	kindertotenlieder_02_nun_seh_ich_wohl	1904.0	1904	Late Romantic	Extended tonality	c	minor	44.2599	91	0.4863725274725275	33	1138
+1151	mahler_kindertotenlieder	kindertotenlieder_03_wenn_dein_mutterlein	1904.0	1904	Late Romantic	Extended tonality	c	minor	36.6	115	0.31826086956521743	33	1139
+1152	mahler_kindertotenlieder	kindertotenlieder_04_oft_denk_ich	1904.0	1904	Late Romantic	Extended tonality	Eb	major	25.026600000000002	53	0.47220000000000006	33	1140
+1153	mahler_kindertotenlieder	kindertotenlieder_05_in_diesem_wetter	1904.0	1904	Late Romantic	Extended tonality	d	minor	52.1866	145	0.35990758620689656	33	1141
+1154	debussy_suite_bergamasque	l075-01_suite_prelude	1905.0	1905	Late Romantic	Extended tonality	F	major	109.63980000000001	274	0.40014525547445257	34	1142
+1155	debussy_suite_bergamasque	l075-02_suite_menuet	1905.0	1905	Late Romantic	Extended tonality	a	minor	124.8395	305	0.40930983606557375	34	1143
+1156	debussy_suite_bergamasque	l075-03_suite_clair	1905.0	1905	Late Romantic	Extended tonality	Db	major	57.3733	150	0.38248866666666664	34	1144
+1157	debussy_suite_bergamasque	l075-04_suite_passepied	1905.0	1905	Late Romantic	Extended tonality	f#	minor	116.5698	284	0.41045704225352114	34	1145
+1158	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	Extended tonality	c#	minor	10.799900000000001	25	0.43199600000000005	35	1146
+1159	bartok_bagatelles	op06n02	1908.0	1908	Late Romantic	Extended tonality	Db	major	33.2466	56	0.5936892857142857	35	1147
+1160	bartok_bagatelles	op06n03	1908.0	1908	Late Romantic	Extended tonality	e	minor	10.513300000000001	32	0.32854062500000003	35	1148
+1161	bartok_bagatelles	op06n04	1908.0	1908	Late Romantic	Extended tonality	d	minor	16.64	40	0.41600000000000004	35	1149
+1162	bartok_bagatelles	op06n05	1908.0	1908	Late Romantic	Extended tonality	g	minor	14.86	27	0.5503703703703704	35	1150
+1163	bartok_bagatelles	op06n06	1908.0	1908	Late Romantic	Extended tonality	b	minor	22.3697	53	0.4220698113207548	35	1151
+1164	bartok_bagatelles	op06n07	1908.0	1908	Late Romantic	Extended tonality	C	major	88.2624	109	0.8097467889908256	35	1152
+1165	bartok_bagatelles	op06n08	1908.0	1908	Late Romantic	Extended tonality	B	major	40.2799	68	0.5923514705882352	35	1153
+1166	bartok_bagatelles	op06n09	1908.0	1908	Late Romantic	Extended tonality	B	major	44.1432	86	0.5132930232558139	35	1154
+1167	bartok_bagatelles	op06n10	1908.0	1908	Late Romantic	Extended tonality	F	major	155.1191	223	0.6956013452914799	35	1155
+1168	bartok_bagatelles	op06n11	1908.0	1908	Late Romantic	Extended tonality	b	minor	58.1633	98	0.5935030612244898	35	1156
+1169	bartok_bagatelles	op06n12	1908.0	1908	Late Romantic	Extended tonality	c	minor	45.6701	77	0.5931181818181818	35	1157
+1170	bartok_bagatelles	op06n13	1908.0	1908	Late Romantic	Extended tonality	eb	minor	26.0834	40	0.652085	35	1158
+1171	bartok_bagatelles	op06n14	1908.0	1908	Late Romantic	Extended tonality	D	major	94.0432	195	0.4822728205128205	35	1159
+1172	medtner_tales	op08n01	1918.2984935548998	1905	Late Romantic	Extended tonality	c	minor	88.8165	206	0.4311480582524272	36	1056
+1173	medtner_tales	op14n01	1918.2984935548998	1907	Late Romantic	Extended tonality	f	minor	90.6365	262	0.3459408396946565	36	1160
+1174	medtner_tales	op26n01	1918.2984935548998	1912	Late Romantic	Extended tonality	Eb	major	69.4398	180	0.3857766666666667	36	1161
+1175	medtner_tales	op26n02	1918.2984935548998	1912	Late Romantic	Extended tonality	Eb	major	61.846700000000006	162	0.3817697530864198	36	1162
+1176	medtner_tales	op26n03	1918.2984935548998	1912	Late Romantic	Extended tonality	f	minor	57.3867	113	0.5078469026548672	36	1163
+1177	medtner_tales	op26n04	1918.2984935548998	1912	Late Romantic	Extended tonality	f#	minor	120.7098	291	0.4148103092783505	36	1164
+1178	medtner_tales	op34n01	1918.2984935548998	1917	Late Romantic	Extended tonality	b	minor	298.5525	668	0.446934880239521	36	1165
+1179	medtner_tales	op34n02	1918.2984935548998	1917	Late Romantic	Extended tonality	e	minor	76.5564	195	0.39259692307692307	36	1166
+1180	medtner_tales	op34n03	1918.2984935548998	1917	Late Romantic	Extended tonality	a	minor	186.48940000000002	404	0.4616074257425743	36	1167
+1181	medtner_tales	op34n04	1918.2984935548998	1917	Late Romantic	Extended tonality	d	minor	119.9199	317	0.378296214511041	36	1168
+1182	medtner_tales	op35n01	1918.2984935548998	1917	Late Romantic	Extended tonality	C	major	114.3965	270	0.42369074074074076	36	1169
+1183	medtner_tales	op35n02	1918.2984935548998	1917	Late Romantic	Extended tonality	G	major	155.1226	418	0.37110669856459333	36	1170
+1184	medtner_tales	op35n03	1918.2984935548998	1917	Late Romantic	Extended tonality	a	minor	121.313	316	0.38390189873417724	36	1171
+1185	medtner_tales	op35n04	1918.2984935548998	1917	Late Romantic	Extended tonality	c#	minor	157.31	345	0.4559710144927536	36	1172
+1186	medtner_tales	op42n01	1918.2984935548998	1924	Late Romantic	Extended tonality	f	minor	167.6397	473	0.3544179704016913	36	1173
+1187	medtner_tales	op42n02	1918.2984935548998	1924	Late Romantic	Extended tonality	c	minor	70.8931	178	0.39827584269662925	36	1174
+1188	medtner_tales	op42n03	1918.2984935548998	1924	Late Romantic	Extended tonality	g#	minor	215.81980000000001	502	0.4299199203187251	36	1175
+1189	medtner_tales	op48n01	1918.2984935548998	1925	Late Romantic	Extended tonality	C	major	361.99580000000003	859	0.42141536670547153	36	1176
+1190	medtner_tales	op48n02	1918.2984935548998	1925	Late Romantic	Extended tonality	g	minor	113.17660000000001	280	0.4042021428571429	36	1177
+1191	poulenc_mouvements_perpetuels	01_assez_modere	1919.0	1919	Late Romantic	Extended tonality	Bb	major	41.5565	93	0.4468440860215054	37	1178
+1192	poulenc_mouvements_perpetuels	02_tres_modere	1919.0	1919	Late Romantic	Extended tonality	d	minor	28.026600000000002	58	0.4832172413793104	37	1179
+1193	poulenc_mouvements_perpetuels	03_alerte	1919.0	1919	Late Romantic	Extended tonality	F	major	50.260000000000005	117	0.4295726495726496	37	1180
+1194	rachmaninoff_piano	op42_01a	1931.0	1931	Late Romantic	Extended tonality	d	minor	8.55	28	0.3053571428571429	38	1181
+1195	rachmaninoff_piano	op42_01b	1931.0	1931	Late Romantic	Extended tonality	d	minor	12.2	35	0.34857142857142853	38	1182
+1196	rachmaninoff_piano	op42_02	1931.0	1931	Late Romantic	Extended tonality	d	minor	11.7	24	0.4875	38	1183
+1197	rachmaninoff_piano	op42_03	1931.0	1931	Late Romantic	Extended tonality	d	minor	22.3167	52	0.4291673076923077	38	1184
+1198	rachmaninoff_piano	op42_04	1931.0	1931	Late Romantic	Extended tonality	d	minor	6.3	22	0.2863636363636364	38	1185
+1199	rachmaninoff_piano	op42_05	1931.0	1931	Late Romantic	Extended tonality	d	minor	5.74	17	0.3376470588235294	38	1186
+1200	rachmaninoff_piano	op42_06	1931.0	1931	Late Romantic	Extended tonality	d	minor	19.85	82	0.24207317073170734	38	1187
+1201	rachmaninoff_piano	op42_07	1931.0	1931	Late Romantic	Extended tonality	d	minor	14.4833	51	0.2839862745098039	38	1188
+1202	rachmaninoff_piano	op42_08	1931.0	1931	Late Romantic	Extended tonality	d	minor	16.93	45	0.37622222222222224	38	1189
+1203	rachmaninoff_piano	op42_09	1931.0	1931	Late Romantic	Extended tonality	d	minor	21.36	52	0.4107692307692308	38	1190
+1204	rachmaninoff_piano	op42_10	1931.0	1931	Late Romantic	Extended tonality	d	minor	19.703300000000002	44	0.4478022727272728	38	1191
+1205	rachmaninoff_piano	op42_11	1931.0	1931	Late Romantic	Extended tonality	d	minor	11.3	54	0.20925925925925928	38	1192
+1206	rachmaninoff_piano	op42_12	1931.0	1931	Late Romantic	Extended tonality	d	minor	34.3133	69	0.4972942028985507	38	1193
+1207	rachmaninoff_piano	op42_13a	1931.0	1931	Late Romantic	Extended tonality	d	minor	36.066700000000004	65	0.5548723076923078	38	1194
+1208	rachmaninoff_piano	op42_13b	1931.0	1931	Late Romantic	Extended tonality	d	minor	20.9199	44	0.4754522727272727	38	1195
+1209	rachmaninoff_piano	op42_14	1931.0	1931	Late Romantic	Extended tonality	Db	major	13.36	33	0.40484848484848485	38	1196
+1210	rachmaninoff_piano	op42_15	1931.0	1931	Late Romantic	Extended tonality	Db	major	26.7	65	0.4107692307692308	38	1197
+1211	rachmaninoff_piano	op42_16	1931.0	1931	Late Romantic	Extended tonality	d	minor	18.42	52	0.35423076923076924	38	1198
+1212	rachmaninoff_piano	op42_17	1931.0	1931	Late Romantic	Extended tonality	d	minor	14.65	36	0.40694444444444444	38	1199
+1213	schulhoff_suite_dansante_en_jazz	suite_dansante_en_jazz_1_stomp	1931.0	1931	Late Romantic	Extended tonality	E	major	61.72	90	0.6857777777777778	39	1200
+1214	schulhoff_suite_dansante_en_jazz	suite_dansante_en_jazz_2_strait	1931.0	1931	Late Romantic	Extended tonality	e	minor	67.8579	85	0.7983282352941177	39	1201
+1215	schulhoff_suite_dansante_en_jazz	suite_dansante_en_jazz_3_waltz	1931.0	1931	Late Romantic	Extended tonality	A	major	68.7438	86	0.7993465116279069	39	1202
+1216	schulhoff_suite_dansante_en_jazz	suite_dansante_en_jazz_4_tango	1931.0	1931	Late Romantic	Extended tonality	D	major	43.7769	60	0.729615	39	1203
+1217	schulhoff_suite_dansante_en_jazz	suite_dansante_en_jazz_5_slow	1931.0	1931	Late Romantic	Extended tonality	D	major	80.3608	93	0.8640946236559139	39	1204
+1218	schulhoff_suite_dansante_en_jazz	suite_dansante_en_jazz_6_fox-trot	1931.0	1931	Late Romantic	Extended tonality	E	major	47.9187	53	0.9041264150943397	39	1205

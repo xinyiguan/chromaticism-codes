@@ -9,6 +9,7 @@ from Code.analysis import get_piece_df_by_localkey_mode
 from Code.utils.auxiliary import create_results_folder
 from Code.utils.util import load_file_as_df
 import seaborn as sns
+
 pd.set_option('display.max_columns', None)
 
 
@@ -51,8 +52,11 @@ def count_chord_occurrence(df: pd.DataFrame, chord: str, repo_dir: str):
     major = df[chord_level['localkey_mode'].isin(['major'])]
     minor = df[chord_level['localkey_mode'].isin(['minor'])]
 
-    num_in_major = major.chord.str.contains(chord).sum()
-    num_in_minor = minor.chord.str.contains(chord).sum()
+    num_in_major = major[major["chord"] == chord].shape[0]
+    num_in_minor = minor[minor["chord"] == chord].shape[0]
+
+    print(num_in_major)
+    print(num_in_minor)
 
     percent_in_major = num_in_major / major.shape[0]
     percent_in_minor = num_in_minor / minor.shape[0]
@@ -123,6 +127,8 @@ def get_piece_subdf(df: pd.DataFrame, corpus: str, piece: str):
     return res_df
 
 
+
+
 if __name__ == "__main__":
     user = os.path.expanduser("~")
     repo = f'{user}/Codes/chromaticism-codes/'
@@ -130,20 +136,20 @@ if __name__ == "__main__":
     chord_level = load_file_as_df(
         "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chord_level_indices.pickle")
 
-
-    schumann=get_piece_subdf(df=chord_level, corpus="schumann_liederkreis", piece="op39n08")
-    sns.regplot(x="WLC", y="WLD", data=schumann)
-    plt.show()
-
-    assert False
-    piece_indices = load_file_as_df(
-        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/piece_level_indices_by_mode.pickle")
-    get_piece_percentage_by_threshold(df=piece_indices, threshold=1, repo_dir=repo)
-
-    assert False
-    res = count_chord_occurrence(df=chord_level, chord="bII6", repo_dir=repo)
+    # schumann=get_piece_subdf(df=chord_level, corpus="schumann_liederkreis", piece="op39n08")
+    # sns.regplot(x="WLC", y="WLD", data=schumann)
+    # plt.show()
+    #
+    # assert False
+    # piece_indices = load_file_as_df(
+    #     "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/piece_level_indices_by_mode.pickle")
+    # get_piece_percentage_by_threshold(df=piece_indices, threshold=1, repo_dir=repo)
+    #
+    # assert False
+    res = count_chord_occurrence(df=chord_level, chord="bII", repo_dir=repo)
     print(res)
 
+    assert False
     minor = get_piece_df_by_localkey_mode(df=piece_indices, mode="minor")
     major = get_piece_df_by_localkey_mode(df=piece_indices, mode="major")
     find_corpora(df=major, year_range=(1850, 1880), lookup_col="corpus")

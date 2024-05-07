@@ -1,0 +1,29 @@
+('WLC', 'WLD') minor positive correlation num:866
+
+('WLC', 'WLD') minor negative correlation num:60
+
+('WLC', 'WLD') minor no correlation num:7
+
+min correlation corpus-piece-mode:                corpus        piece localkey_mode  r_WLC_WLD
+998  couperin_concerts  parnasse_06         minor  -0.447214
+
+max correlation corpus-piece-mode:                     corpus          piece localkey_mode  r_WLC_WLD
+512         chopin_mazurkas  BI145-1op50-1         minor        1.0
+567         chopin_mazurkas           BI85         minor        1.0
+1158     grieg_lyric_pieces        op71n04         minor        1.0
+1275        kozeluh_sonatas     10op08no2b         minor        1.0
+1829  schumann_kinderszenen            n03         minor        1.0
+1855   schumann_liederkreis        op39n06         minor        1.0
+
+regression stats::
+
+slope:0.0010956350888886156
+
+intercept:-1.5441954750040925
+
+r_value:0.3568713272264897
+
+p_value:2.0946531535271797e-29
+
+std_err:9.399347472871168e-05
+

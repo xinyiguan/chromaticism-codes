@@ -464,7 +464,7 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
     # save df:
 
     folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
-    fname = f"chordlevel_indices_corr_by_piece"
+    fname = f"chord_indices_r_vals_by_piece"
     save_df(df=res_df, file_type="both", directory=folder_path, fname=fname)
 
     return res_df

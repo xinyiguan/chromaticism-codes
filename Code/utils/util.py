@@ -300,44 +300,6 @@ corpus_collection_dict = {
 
 # computing stats _____________________________________________________________________________________________________
 
-def compute_fifths_range_max_min_percentage():
-    df = pd.read_csv("../old_data/piecelevel_chromaticities.tsv", sep="\t")
-    diatonic_roots = df["root_fifths_range"]
-
-
-def fifths_range_summary():
-    df = pd.read_csv("../old_data/piecelevel_chromaticities.tsv", sep="\t")
-
-    pd.set_option('display.max_rows', None)  # Show all rows
-    pd.set_option('display.max_columns', None)  # Show all columns
-
-    num_of_piece_with_all_diatonic_root = ((df['root_fifths_range'] >= 0) & (df['root_fifths_range'] <= 6)).sum()
-    perc_of_piece_with_all_diatonic_root = num_of_piece_with_all_diatonic_root / df.shape[0]
-
-    num_of_piece_with_all_diatonic_ct = ((df['ct_fifths_range'] >= 0) & (df['ct_fifths_range'] <= 6)).sum()
-    perc_of_piece_with_all_diatonic_ct = num_of_piece_with_all_diatonic_ct / df.shape[0]
-
-    num_of_piece_with_all_diatonic_pc = ((df['pc_fifths_range'] >= 0) & (df['pc_fifths_range'] <= 6)).sum()
-    perc_of_piece_with_all_diatonic_pc = num_of_piece_with_all_diatonic_pc / df.shape[0]
-
-    result_df = pd.DataFrame({
-        'Num. of pieces with all diatonic root': [num_of_piece_with_all_diatonic_root],
-        'Perc. of pieces with all diatonic root': [perc_of_piece_with_all_diatonic_root],
-
-        'Num. of pieces with all diatonic ct': [num_of_piece_with_all_diatonic_ct],
-        'Perc. of pieces with all diatonic ct': [perc_of_piece_with_all_diatonic_ct],
-
-        'Num. of pieces with all diatonic pc': [num_of_piece_with_all_diatonic_pc],
-        'Perc. of pieces with all diatonic pc': [perc_of_piece_with_all_diatonic_pc],
-
-    })
-
-    result_df = result_df.to_dict()
-    # result_df = result_df.to_latex(index=False, escape=False)
-
-    print(f'{result_df}')
-
-
 def get_corpus_summary_table(metadata_path: str = "../data/all_subcorpora/all_subcorpora.metadata.tsv",
                              result_corpus_path: str = "../data/piecelevel_chromaticities.tsv"):
     piece_df = pd.read_csv(result_corpus_path, sep="\t")

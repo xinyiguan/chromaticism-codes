@@ -1,25 +1,23 @@
 import fractions
 import json
 import os
-from typing import Literal, Optional, Tuple
+from typing import Literal, Optional, Tuple, List
 import pandas as pd
 import seaborn as sns
 import pingouin as pg
 from matplotlib import pyplot as plt
 from matplotlib.axes import Axes
+from scipy import stats
 
 from Code.utils.util import load_file_as_df, corpus_composer_dict, corpus_collection_dict, corpus_prettyprint_dict, \
     save_df
 from Code.utils.auxiliary import create_results_folder, determine_period_id, get_period_df, Johannes_periods, \
-    Fabian_periods, pprint_p_text, color_palette5, color_palette4, determine_group, rand_jitter
+    Fabian_periods, pprint_p_text, color_palette5, color_palette4, determine_group, rand_jitter, \
+    get_piece_df_by_localkey_mode, exclude_piece_from_corpus
+import plotly.express as px
 
 
 # %% Analysis: Basic chrom, diss stats
-
-# cols = ["min(WLC)", "avg(WLC)", "max(WLC)",
-#         "min(OLC)", "avg(OLC)", "max(OLC)",
-#         "min(WLD)", "avg(WLD)", "max(WLD)"]
-
 
 def stats_by_piece(df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
     """
@@ -47,9 +45,37 @@ def stats_by_piece(df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
         max_WLD=("WLD", 'max')
     )
 
-    pieces_df.to_latex(f'{result_dir}basic_stats_by_piece.txt')
+    pieces_df.to_latex(f'{result_dir}piece_level_indices_stats.txt')
 
     return pieces_df
+
+
+def stats_by_piece_by_mode(piece_level_indices_df: pd.DataFrame, repo_dir: str):
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results",
+                                       analysis_name="basic_stats",
+                                       repo_dir=repo_dir)
+
+    major_df = get_piece_df_by_localkey_mode(df=piece_level_indices_df, mode="major")
+    minor_df = get_piece_df_by_localkey_mode(df=piece_level_indices_df, mode="minor")
+
+    WLC_major = major_df["WLC"].mean()
+    WLC_minor = minor_df["WLC"].mean()
+    OLC_major = major_df["OLC"].mean()
+    OLC_minor = minor_df["OLC"].mean()
+    WLD_major = major_df["WLD"].mean()
+    WLD_minor = minor_df["WLD"].mean()
+
+    data = {
+        "Index": ["WLC", "WLC", "OLC", "OLC", "WLD", "WLD"],
+        "mode": ["major", "minor", "major", "minor", "major", "minor"],
+        "value": [WLC_major, WLC_minor, OLC_major, OLC_minor, WLD_major, WLD_minor]
+    }
+
+    df = pd.DataFrame(data=data)
+    df = pd.pivot(df, index='Index', columns='mode', values='value')
+    df.to_latex(f'{result_dir}piece_level_indices_by_mode_stats.txt')
+    return df
 
 
 def stats_by_corpus(df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
@@ -75,7 +101,7 @@ def stats_by_corpus(df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
         max_WLD=("WLD", 'max')
     )
 
-    pieces_df.to_latex(f'{result_dir}basic_stats_by_corpus.txt')
+    pieces_df.to_latex(f'{result_dir}corpora_level_indices_stats.txt')
 
     return pieces_df
 
@@ -122,12 +148,24 @@ def DLC_corpus_stats(chord_level_df: pd.DataFrame, repo_dir: str) -> pd.DataFram
         "num minor segments": num_minor_seg,
         "percentage major segments": percentage_major_seg,
         "percentage minor segments": percentage_minor_seg
-    })
+    }).to_frame()
 
     result.to_string(f'{result_dir}DLC_corpus_stats.txt')
 
     return result
 
+
+def plot_chord_size_across_time(df: pd.DataFrame):
+    """
+    df: assuming we take the preprocessed_DLC df
+    """
+
+    df['chord_size'] = df.chord_tones.apply(lambda x: len(x))
+    sns.jointplot(data=df, x="piece_year", y="chord_size", )
+    plt.show()
+
+
+# %% Analysis: chromaticity distributions
 
 def _ax_chrom_distribution(ax: Axes,
                            df: pd.DataFrame,
@@ -166,7 +204,7 @@ def plot_chrom_distribution(df: pd.DataFrame,
     _ax_chrom_distribution(ax=axs[3, 0], df=df, mode="minor", chromaticity_type="OLC", logscale=False)
     _ax_chrom_distribution(ax=axs[3, 1], df=df, mode="minor", chromaticity_type="OLC", logscale=True)
 
-    plt.savefig(f'{result_dir}distribution_before_after_log_transformation.pdf', dpi=200)
+    plt.savefig(f'{result_dir}chromaticity_dist_before_after_log_trans.pdf', dpi=200)
 
 
 # %% Analysis: Piece distributions fig and table
@@ -260,8 +298,6 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"
         with open(f'{result_dir}FabianPeriod_division.txt', 'w') as f:
             f.write('\n'.join(period_division_txt))
 
-        # save the fig
-        # p = h.get_figure()
         plt.tight_layout()
         plt.savefig(f"{result_dir}fig_histogram_FP.pdf", dpi=200)
 
@@ -285,160 +321,33 @@ def piece_distribution(df: pd.DataFrame, period_by: Literal["Johannes", "Fabian"
         raise ValueError
 
 
-# %% Analysis: mode t-test:
+# %% Analysis: Correlation analyses - Piece-level (global indices)
 
-def perform_two_sample_ttest_for_mode_segment(piece_level_indices_df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
+def _global_indices_pair_correlation_stats(df: pd.DataFrame,
+                                           indices_pair: Tuple[
+                                               Literal["WLC"], Literal["OLC", "WLD"]],
+                                           method: Literal["pearson", "spearman"]) -> Tuple[float, float]:
     """
-    perform a two-sample t-test for major/minor mode segments for the piece-level chromaticity and dissonance
-
-    dfs:  the piece_level_indices_by_mode
+    df: assuming we take the piece-level df
     """
-
-    # save the results to this folder:
-    result_dir = create_results_folder(parent_folder="Results",
-                                       analysis_name="mode_stats",
-                                       repo_dir=repo_dir)
-
-    major_df = get_piece_df_by_localkey_mode(df=piece_level_indices_df, mode="major")
-    minor_df = get_piece_df_by_localkey_mode(df=piece_level_indices_df, mode="minor")
-
-    WLC_major = major_df.loc[:, "WLC"]
-    WLC_minor = minor_df.loc[:, "WLC"]
-
-    OLC_major = major_df.loc[:, "OLC"]
-    OLC_minor = minor_df.loc[:, "OLC"]
-
-    WLD_major = major_df.loc[:, "avg_WLD"]
-    WLD_minor = minor_df.loc[:, "avg_WLD"]
-
-    WLC_ttest_df = pg.ttest(x=WLC_major, y=WLC_minor).rename(index={'T-test': 'WLC'})
-    OLC_ttest_df = pg.ttest(x=OLC_major, y=OLC_minor).rename(index={'T-test': 'OLC'})
-    WLD_ttest_df = pg.ttest(x=WLD_major, y=WLD_minor).rename(index={'T-test': 'WLD'})
-
-    WLC_res = WLC_ttest_df[["T", 'p-val', 'cohen-d']]
-    OLC_res = OLC_ttest_df[["T", 'p-val', 'cohen-d']]
-    WLD_res = WLD_ttest_df[["T", 'p-val', 'cohen-d']]
-
-    ttest_result = pd.concat([WLC_res, OLC_res, WLD_res])
-    ttest_result.to_latex(f'{result_dir}mode_ttest_result.txt')
-    return ttest_result
-
-
-# %% Analysis: Chromaticity-Dissonance:
-
-
-def summarizing_index_stats_by_mode(piece_level_indices_df: pd.DataFrame, repo_dir: str):
-    # save the results to this folder:
-    result_dir = create_results_folder(parent_folder="Results",
-                                       analysis_name="mode_stats",
-                                       repo_dir=repo_dir)
-
-    major_df = get_piece_df_by_localkey_mode(df=piece_level_indices_df, mode="major")
-    minor_df = get_piece_df_by_localkey_mode(df=piece_level_indices_df, mode="minor")
-
-    WLC_major = major_df["WLC"].mean()
-    WLC_minor = minor_df["WLC"].mean()
-    OLC_major = major_df["OLC"].mean()
-    OLC_minor = minor_df["OLC"].mean()
-    WLD_major = major_df["WLD"].mean()
-    WLD_minor = minor_df["WLD"].mean()
-
-    data = {
-        "Index": ["WLC", "WLC", "OLC", "OLC", "WLD", "WLD"],
-        "mode": ["major", "minor", "major", "minor", "major", "minor"],
-        "value": [WLC_major, WLC_minor, OLC_major, OLC_minor, WLD_major, WLD_minor]
-    }
-
-    df = pd.DataFrame(data=data)
-    df = pd.pivot(df, index='Index', columns='mode', values='value')
-    df.to_latex(f'{result_dir}index_stats_by_mode.txt')
-    return df
-
-
-def corr_chord_level_WLC_WLD(df: pd.DataFrame,
-                             period_by: Optional[Literal["Johannes", "Fabian"]],
-                             repo_dir: str):
-    """
-    df: the chord-level indices dataframe containing all chord-level WLC and WLD values
-    """
-    # save the results to this folder:
-    result_dir = create_results_folder(parent_folder="Results",
-                                       analysis_name="chrom_diss_corr",
-                                       repo_dir=repo_dir)
-    if period_by == "Johannes":
-        periods = Johannes_periods
-        colors = ["#580F41", "#173573", "#c4840c", "#176373"]
-        year_div = [f"<1650", f"1650-1750", f"1750-1800", f">1800"]
-        fig_name_suffix = "JP"
-    elif period_by == "Fabian":
-        periods = Fabian_periods
-        colors = ["#6e243b", "#173573", "#c4840c", "#176373", "#816683"]
-        year_div = [f"<1662", f"1662-1763", f"1763-1821", f"1821-1869", f">1869"]
-        fig_name_suffix = "FP"
+    if indices_pair == ("WLC", "OLC") or ("WLC", "WLD"):
+        idx1, idx2 = indices_pair
+        r = pg.corr(df[idx1], df[idx2], method=method).round(3)["r"].values[0]
+        p_val = pg.corr(df[idx1], df[idx2], method=method).round(3)["p-val"].values[0]
     else:
         raise NotImplementedError
-
-    # fig params:
-    num_periods = len(periods)
-    num_rows = 1
-    num_cols = 4 if period_by == "Johannes" else 5
-    fig, axs = plt.subplots(num_rows, num_cols,
-                            layout="constrained",
-                            figsize=(4 * num_periods + 1, 5))
-
-    for i, period in enumerate(periods):
-        period_df = get_period_df(df=df, method=period_by, period=period)
-
-        # Set column subtitle
-        axs[i].set_title(year_div[i], fontweight="bold", fontsize=18, family="sans-serif")
-        g = sns.regplot(ax=axs[i], data=period_df, x="WLC", y="WLD", color=colors[i])
-        g.set_xlabel(f"WLC", fontsize=15)
-        g.set_ylabel(f"WLD", fontsize=15)
-
-        plt.xticks(fontsize=11)
-        plt.yticks(fontsize=11)
-
-        r = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["r"].values[0]
-        p = pg.corr(period_df["WLC"], period_df["WLD"], method="pearson").round(3)["p-val"].values[0]
-
-        p_text = pprint_p_text(p)
-
-        # adding the text
-        x_limit = axs[i].get_xlim()
-        y_limit = axs[i].get_ylim()
-        x_pos = x_limit[1] - 0.03 * (x_limit[1] - x_limit[0])
-        y_pos_1 = y_limit[1] - 0.03 * (y_limit[1] - y_limit[0])
-
-        g.text(x_pos, y_pos_1, f'r = {r}, {p_text}', fontsize=13, fontstyle='italic', ha='right',
-               va='top')
-
-    fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_{fig_name_suffix}.pdf", dpi=100)
-    fig.savefig(f"{result_dir}fig_WLC_WLD_corr_by_{fig_name_suffix}.jpg", dpi=100)
-
-
-# %% Analysis: Chromaticity-correlation between WLC and OLC
-
-def get_piece_df_by_localkey_mode(df: pd.DataFrame, mode: Literal["major", "minor"]) -> pd.DataFrame:
-    if mode == "major":
-        result_df = df[df['localkey_mode'].isin(['major'])]
-    else:
-        result_df = df[df['localkey_mode'].isin(['minor'])]
-
-    return result_df
-
-
-def _WLC_OLC_correlation_stats(df: pd.DataFrame, method: Literal["pearson", "spearman"]) -> Tuple[float, float]:
-    r = pg.corr(df["WLC"], df["OLC"], method=method).round(3)["r"].values[0]
-    p_val = pg.corr(df["WLC"], df["OLC"], method=method).round(3)["p-val"].values[0]
     return r, p_val
 
 
-def _piece_chrom_corr_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFrame,
-                              corr_method: Literal["pearson", "spearman"],
-                              out_type: Literal["df", "tuple"] = "df"
-                              ) -> pd.DataFrame | Tuple:
-    major_r, major_p = _WLC_OLC_correlation_stats(df=major_df, method=corr_method)
-    minor_r, minor_p = _WLC_OLC_correlation_stats(df=minor_df, method=corr_method)
+def _global_indices_corr_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFrame,
+                                 indices_pair: Tuple[
+                                     Literal["WLC"], Literal["OLC", "WLD"]],
+                                 corr_method: Literal["pearson", "spearman"],
+                                 out_type: Literal["df", "tuple"] = "df") -> pd.DataFrame | Tuple:
+    major_r, major_p = _global_indices_pair_correlation_stats(df=major_df, indices_pair=indices_pair,
+                                                              method=corr_method)
+    minor_r, minor_p = _global_indices_pair_correlation_stats(df=minor_df, indices_pair=indices_pair,
+                                                              method=corr_method)
 
     if out_type == "df":
         stats = pd.DataFrame(data=[[major_r, major_p, minor_r, minor_p]], columns=["r (major segment)",
@@ -452,17 +361,35 @@ def _piece_chrom_corr_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFrame,
     return stats
 
 
-def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
-                                          period_by: Optional[Literal["Johannes", "Fabian"]],
-                                          repo_dir: str,
-                                          corr_method: Literal["pearson", "spearman"]) -> pd.DataFrame:
+def compute_piece_corr_stats(df: pd.DataFrame,
+                             indices_pair: Tuple[
+                                 Literal["WLC"], Literal["OLC", "WLD"]],
+                             period_by: Optional[Literal["Johannes", "Fabian"]],
+                             repo_dir: str,
+                             corr_method: Literal["pearson", "spearman"],
+                             exclude_outliers: bool,
+                             save: bool) -> pd.DataFrame:
     # save the results to this folder:
     result_dir = create_results_folder(parent_folder="Results",
-                                       analysis_name="piece_chrom_corr",
+                                       analysis_name="correlation_analyses",
                                        repo_dir=repo_dir)
 
     _major_df = get_piece_df_by_localkey_mode(df=df, mode="major")
     _minor_df = get_piece_df_by_localkey_mode(df=df, mode="minor")
+
+    # manually remove outliers -------:
+    ## current criteria: OLC >10 OR WLC >10
+    major_ER = [("chopin_mazurkas", "BI162-3op63-3"), ("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
+    major_LR = [("tchaikovsky_seasons", "op37a12"), ("dvorak_silhouettes", "op08n12"),
+                ("dvorak_silhouettes", "op08n01")]
+
+    minor_ER = [("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
+    minor_LR = [("bartok_bagatelles", "op06n12")]
+    # end of outlier list -------------
+
+    if exclude_outliers:
+        _major_df = exclude_piece_from_corpus(df=_major_df, corpus_piece_tups=major_ER + major_LR)
+        _minor_df = exclude_piece_from_corpus(df=_minor_df, corpus_piece_tups=minor_ER + minor_LR)
 
     if period_by == "Johannes":
         result_dfs = []
@@ -470,11 +397,12 @@ def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
             major_df = get_period_df(df=_major_df, method="Johannes", period=p)
             minor_df = get_period_df(df=_minor_df, method="Johannes", period=p)
 
-            stats = _piece_chrom_corr_by_mode(major_df=major_df, minor_df=minor_df, corr_method=corr_method)
+            stats = _global_indices_corr_by_mode(major_df=major_df, minor_df=minor_df, indices_pair=indices_pair,
+                                                 corr_method=corr_method)
             stats["period"] = p
             result_dfs.append(stats)
         result_df = pd.concat(result_dfs)
-        result_df.to_latex(buf=f'{result_dir}piece_chrom_corr_JP.txt')
+        file_anno = "_JP"
 
     elif period_by == "Fabian":
         result_dfs = []
@@ -482,29 +410,58 @@ def compute_piece_chromaticity_corr_stats(df: pd.DataFrame,
             major_df = get_period_df(df=_major_df, method="Fabian", period=p)
             minor_df = get_period_df(df=_minor_df, method="Fabian", period=p)
 
-            stats = _piece_chrom_corr_by_mode(major_df=major_df, minor_df=minor_df, corr_method=corr_method)
+            stats = _global_indices_corr_by_mode(major_df=major_df, minor_df=minor_df, indices_pair=indices_pair,
+                                                 corr_method=corr_method)
             stats["period"] = p
             result_dfs.append(stats)
         result_df = pd.concat(result_dfs)
-        result_df.to_latex(buf=f'{result_dir}piece_chrom_corr_FP.txt')
+        file_anno = "_FP"
 
     else:
-        result_df = _piece_chrom_corr_by_mode(major_df=_major_df, minor_df=_minor_df, out_type="df", corr_method=corr_method)
-        result_df.to_latex(buf=f'{result_dir}piece_chrom_corr.txt')
+        result_df = _global_indices_corr_by_mode(major_df=_major_df, minor_df=_minor_df, out_type="df",
+                                                 indices_pair=indices_pair, corr_method=corr_method)
+        file_anno = ""
+    if save:
+        idx1, idx2 = indices_pair
+        sub_corr_analysis_folder = f'{result_dir}global_indices/'
+        if not os.path.exists(sub_corr_analysis_folder):
+            os.makedirs(sub_corr_analysis_folder)
+        result_df.to_latex(buf=f'{sub_corr_analysis_folder}{idx1}_{idx2}_corr{file_anno}.txt')
 
     return result_df
 
 
-def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Optional[Literal["Johannes", "Fabian"]],
-                                         corr_method: Literal["pearson", "spearman"],
-                                         repo_dir: str):
+def plot_piece_pairwise_indices_corr(df: pd.DataFrame,
+                                     indices_pair: Tuple[
+                                         Literal["WLC"], Literal["OLC", "WLD"]],
+                                     period_by: Optional[Literal["Johannes", "Fabian"]],
+                                     corr_method: Literal["pearson", "spearman"],
+                                     repo_dir: str,
+                                     exclude_outliers: bool,
+                                     save: bool = True):
     # save the results to this folder:
     result_dir = create_results_folder(parent_folder="Results",
-                                       analysis_name="piece_chrom_corr",
+                                       analysis_name="correlation_analyses",
                                        repo_dir=repo_dir)
+
+    idx1, idx2 = indices_pair
 
     major_df = get_piece_df_by_localkey_mode(df=df, mode="major")
     minor_df = get_piece_df_by_localkey_mode(df=df, mode="minor")
+
+    # manually remove outliers -------:
+    ## current criteria: OLC >10 OR WLC >10
+    major_ER = [("chopin_mazurkas", "BI162-3op63-3"), ("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
+    major_LR = [("tchaikovsky_seasons", "op37a12"), ("dvorak_silhouettes", "op08n12"),
+                ("dvorak_silhouettes", "op08n01")]
+
+    minor_ER = [("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
+    minor_LR = [("bartok_bagatelles", "op06n12")]
+    # end of outlier list -------------
+
+    if exclude_outliers:
+        major_df = exclude_piece_from_corpus(df=major_df, corpus_piece_tups=major_ER + major_LR)
+        minor_df = exclude_piece_from_corpus(df=minor_df, corpus_piece_tups=minor_ER + minor_LR)
 
     if period_by == "Johannes":
         fname = "JP"
@@ -532,10 +489,11 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Optional[L
             major_period_df = get_period_df(df=major_df, period=period, method=period_by)
             minor_period_df = get_period_df(df=minor_df, period=period, method=period_by)
 
-            major_r, major_p, minor_r, minor_p = _piece_chrom_corr_by_mode(major_df=major_period_df,
-                                                                           minor_df=minor_period_df,
-                                                                           out_type="tuple",
-                                                                           corr_method=corr_method)
+            major_r, major_p, minor_r, minor_p = _global_indices_corr_by_mode(major_df=major_period_df,
+                                                                              minor_df=minor_period_df,
+                                                                              indices_pair=indices_pair,
+                                                                              out_type="tuple",
+                                                                              corr_method=corr_method)
             major_p_txt = pprint_p_text(major_p)
             minor_p_txt = pprint_p_text(minor_p)
 
@@ -543,9 +501,9 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Optional[L
             row_index = i // num_cols
             col_index = i % num_cols
             axs[row_index, col_index].set_title(year_div[i], fontweight="bold", fontsize=18, family="sans-serif")
-            ma = sns.regplot(ax=axs[row_index, col_index], data=major_period_df, x="WLC", y="OLC",
+            ma = sns.regplot(ax=axs[row_index, col_index], data=major_period_df, x=idx1, y=idx2,
                              color=colors[i], marker='o', scatter_kws={'s': 10})
-            mi = sns.regplot(ax=axs[row_index + 1, col_index], data=minor_period_df, x="WLC", y="OLC",
+            mi = sns.regplot(ax=axs[row_index + 1, col_index], data=minor_period_df, x=idx1, y=idx2,
                              color=colors[i], marker='o', scatter_kws={'s': 10})
 
             plt.sca(axs[row_index, col_index])
@@ -574,16 +532,21 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Optional[L
                 ma.set_ylabel("Major", fontsize=15)
                 mi.set_ylabel("Minor", fontsize=15)
                 ma.set_xlabel("")
+                mi.set_xlabel("")
 
             else:
                 ma.set_xlabel("")
+                ma.set_ylabel("")
                 mi.set_ylabel("")
+                mi.set_xlabel("")
+
     else:
 
-        major_r, major_p, minor_r, minor_p = _piece_chrom_corr_by_mode(major_df=major_df,
-                                                                       minor_df=minor_df,
-                                                                       out_type="tuple",
-                                                                       corr_method=corr_method)
+        major_r, major_p, minor_r, minor_p = _global_indices_corr_by_mode(major_df=major_df,
+                                                                          minor_df=minor_df,
+                                                                          indices_pair=indices_pair,
+                                                                          out_type="tuple",
+                                                                          corr_method=corr_method)
         major_p_txt = pprint_p_text(major_p)
         minor_p_txt = pprint_p_text(minor_p)
 
@@ -591,9 +554,9 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Optional[L
                                 layout="constrained",
                                 figsize=(10, 5))
 
-        ma = sns.regplot(ax=axs[0], data=major_df, x="WLC", y="OLC",
+        ma = sns.regplot(ax=axs[0], data=major_df, x=idx1, y=idx2,
                          marker='o', scatter_kws={'s': 10, 'alpha': 0.6}, color='#db5f57')
-        mi = sns.regplot(ax=axs[1], data=minor_df, x="WLC", y="OLC",
+        mi = sns.regplot(ax=axs[1], data=minor_df, x=idx1, y=idx2,
                          marker='o', scatter_kws={'s': 10, 'alpha': 0.6}, color='#39a7d0')
 
         # add stats vals in plot
@@ -619,108 +582,230 @@ def plot_piece_chromaticity_WLC_OLC_corr(df: pd.DataFrame, period_by: Optional[L
         ma.set_xlabel("Major", fontsize=11)
         mi.set_xlabel("Minor", fontsize=11)
 
-    fig.supxlabel("Within-Label Chromaticity (WLC)", fontsize=13, fontdict=dict(weight='bold'))
-    fig.supylabel("Out-of-Label Chromaticity (OLC)", fontsize=13, fontdict=dict(weight='bold'))
+    fig.supxlabel("\nWithin-Label Chromaticity (WLC)", fontsize=18, fontdict=dict(weight='bold'))
+    if idx2 == "OLC":
+        fig.supylabel("Out-of-Label Chromaticity (OLC)\n", fontsize=18, fontdict=dict(weight='bold'))
+    elif idx2 == "WLD":
+        fig.supylabel("Within-Label Dissonance (WLD)\n", fontsize=18, fontdict=dict(weight='bold'))
+    else:
+        raise ValueError
+
     # save plot
-    plt.savefig(f'{result_dir}fig_chrom_corr_period{fname}.pdf', dpi=200)
+    if save:
+        sub_corr_analysis_folder = f'{result_dir}global_indices/'
+        if not os.path.exists(sub_corr_analysis_folder):
+            os.makedirs(sub_corr_analysis_folder)
+        plt.savefig(f'{sub_corr_analysis_folder}{idx1}_{idx2}_corr{fname}.pdf', dpi=200)
 
 
-# %% Analysis: Source of chromaticity in a piece (WLC-OLC percentage)
-
-def plor_scatter_chromaticity_source_ratio_across_time(df: pd.DataFrame,
-                                                       mode: Literal["major", "minor"],
-                                                       era_division: Literal["Fabian", "Johannes"],
-                                                       repo_dir: str):
+def plotly_piece_pairwise_indices_faceting(df: pd.DataFrame, indices_pair: Tuple[
+    Literal["WLC"], Literal["OLC", "WLD"]], save: bool, repo_dir: str):
     """
-    df: assuming we take the "chromaticity_piece_[mode]" df
+        df: assuming we take the piece_level_indices_by_mode df
     """
     # save the results to this folder:
-    result_dir = create_results_folder(parent_folder="Results", analysis_name="chromaticity_source", repo_dir=repo_dir)
+    result_dir = create_results_folder(parent_folder="Results",
+                                       analysis_name="correlation_analyses",
+                                       repo_dir=repo_dir)
 
-    if era_division == "Fabian":
-        color_palette = color_palette5
+    idx1, idx2 = indices_pair
+    fig = px.scatter(df, x=idx1, y=idx2, color="corpus", facet_col="period_Fabian", facet_row="localkey_mode",
+                     hover_data="piece")
+    if save:
+        sub_corr_analysis_folder = f'{result_dir}global_indices/'
+        if not os.path.exists(sub_corr_analysis_folder):
+            os.makedirs(sub_corr_analysis_folder)
+        fig.write_html(f'{sub_corr_analysis_folder}plotly_{idx1}_{idx2}_scatter.html')
+
+
+# %% Analysis: Correlation analyses - chord indices correlation in piece
+
+def _chordlevel_indices_r_in_time(df: pd.DataFrame,
+                                  mode: Literal["major", "minor"],
+                                  indices_pair: Tuple[Literal["WLC", "OLC", "WLD"], Literal["WLC", "OLC", "WLD"]],
+                                  repo_dir: str,
+                                  save: bool = False):
+    """
+    df: assuming we take the chordlevel_indices_corr_by_piece df
+    """
+
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="correlation_analyses", repo_dir=repo_dir)
+
+    if indices_pair == ("WLC", "OLC"):
+        col2look = "r_WLC_OLC"
+    elif indices_pair == ("WLC", "WLD"):
+        col2look = "r_WLC_WLD"
     else:
-        color_palette = color_palette4
+        raise ValueError
 
-    era_div = f'period_{era_division}'
+    # plots
+    major_color = '#ee6c4d'
+    minor_color = '#8db3c9'
 
-    s = sns.scatterplot(data=df, x="piece_year", y="WLC_percentage",
-                        hue=era_div, palette=color_palette)
-    s.axhline(0.5, c="gray", ls="--")
+    df.loc[:, "piece_year_jitter"] = rand_jitter(arr=df["piece_year"], scale=0.01)
 
+    g = sns.jointplot(x="piece_year_jitter", y=col2look, data=df, hue="localkey_mode",
+                      kind='scatter',
+                      palette=[major_color, minor_color], alpha=0.7, legend='brief',
+                      xlim=(1560, 1960), ylim=(-1, 1.1))
+
+    g.set_axis_labels(xlabel="Year", ylabel="r", fontweight="bold", fontsize="large")
+
+    # add a horizontal line at y=0:
+    g.ax_joint.axhline(y=0, color='gray', linestyle='--')
+
+    g.fig.set_size_inches((8, 5))
+
+    sns.move_legend(g.ax_joint, "lower left", title='Mode', frameon=True)
+
+    # stats:
+
+    pos_corr_num = (df[col2look] > 0).sum()
+    neg_corr_num = (df[col2look] < 0).sum()
+    not_corr_num = (df[col2look] == 0).sum()
+
+    major_df = get_piece_df_by_localkey_mode(df=df, mode="major")
+    minor_df = get_piece_df_by_localkey_mode(df=df, mode="minor")
+
+    maj_pos_corr_num = (major_df[col2look] > 0).sum()
+    maj_neg_corr_num = (major_df[col2look] < 0).sum()
+    maj_not_corr_num = (major_df[col2look] == 0).sum()
+
+    min_pos_corr_num = (minor_df[col2look] > 0).sum()
+    min_neg_corr_num = (minor_df[col2look] < 0).sum()
+    min_not_corr_num = (minor_df[col2look] == 0).sum()
+
+    min_corr_row = df[df[col2look] == df[col2look].min()][["corpus", "piece", "localkey_mode", col2look]]
+    max_corr_row = df[df[col2look] == 1][["corpus", "piece", "localkey_mode", col2look]]
+
+    stats_dict = {
+        f'{indices_pair} positive correlation num': pos_corr_num,
+        f'{indices_pair} negative correlation num': neg_corr_num,
+        f'{indices_pair} no correlation num': not_corr_num,
+        f'{indices_pair} major pos correlation num': maj_pos_corr_num,
+        f'{indices_pair} major neg correlation num': maj_neg_corr_num,
+        f'{indices_pair} major not correlation num': maj_not_corr_num,
+        f'{indices_pair} minor pos correlation num': min_pos_corr_num,
+        f'{indices_pair} minor neg correlation num': min_neg_corr_num,
+        f'{indices_pair} minor not correlation num': min_not_corr_num,
+
+        f'min correlation corpus-piece-mode': min_corr_row,
+        f'max correlation corpus-piece-mode': max_corr_row,
+
+    }
     plt.show()
 
+    if save:
+        # save plots and data:
+        sub_corr_analysis_folder = f'{result_dir}chord_indices_r_vals_in_pieces/'
+        if not os.path.exists(sub_corr_analysis_folder):
+            os.makedirs(sub_corr_analysis_folder)
 
-def ridge_plot_chromaticity_ratio(df: pd.DataFrame,
-                                  mode: Literal["major", "minor"],
-                                  step_by: Literal["group", "period_Fabian", "period_Johannes"],
-                                  year_interval: Optional[Literal[25, 50]],
-                                  repo_dir: str):
+        plt.savefig(f'{sub_corr_analysis_folder}Fig_{col2look}_{mode}.pdf', dpi=200)
+        with open(f'{sub_corr_analysis_folder}{col2look}_{mode}.txt', 'w') as f:
+            for key, value in stats_dict.items():
+                f.write('%s:%s\n\n' % (key, value))
+
+
+def chordlevel_indices_r_vals(df: pd.DataFrame,
+                              mode: Literal["major", "minor"],
+                              indices_pair: Tuple[Literal["WLC", "OLC", "WLD"], Literal["WLC", "OLC", "WLD"]],
+                              repo_dir: str,
+                              save: bool = True):
     """
-    df: assuming we take the "chromaticity_piece_[mode]" df
+    df: assuming we take the chordlevel_indices_corr_by_piece df
     """
+    pd.set_option('display.max_columns', None)
+
     # save the results to this folder:
-    result_dir = create_results_folder(parent_folder="Results", analysis_name="chromaticity_source", repo_dir=repo_dir)
-    df = df.sort_values(by=['piece_year'])
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="correlation_analyses", repo_dir=repo_dir)
 
-    if step_by == "group":
-        assert year_interval is not None
-        df["step_by"] = df.apply(lambda row: determine_group(row=row, interval=year_interval), axis=1)
-    elif step_by == "period_Fabian":
-        df["step_by"] = df["period_Fabian"]
+    if indices_pair == ("WLC", "OLC"):
+        col2look = "r_WLC_OLC"
+    elif indices_pair == ("WLC", "WLD"):
+        col2look = "r_WLC_WLD"
     else:
-        df["step_by"] = df["period_Johannes"]
+        raise ValueError
 
-    num_axes = len(df["step_by"].unique())
+    # plots
 
-    # Initialize the FacetGrid object
-    palette = sns.cubehelix_palette(num_axes, rot=-.25, light=.7)
-    g = sns.FacetGrid(df, row="step_by", hue="step_by", aspect=6, height=.8, palette=palette)
+    if mode == "major":
+        # mode_color = '#ee6c4d'
+        scatter_color = '#E18791'  # RED
+        regline_color = '#be0e23'
+    else:
+        # mode_color = '#8db3c9'
+        # scatter_color = '#C1B7CF' # PURPLE
+        # regline_color = '#866aa3'
+        scatter_color = '#83A0BE'  # BLUE
+        regline_color = '#073E7F'
 
-    # Draw the densities
-    bw_adjust = .5
-    linewidth = 1
-    g.map(sns.kdeplot, "WLC_percentage",
-          bw_adjust=bw_adjust,
-          # clip_on=False,
-          fill=True, alpha=1, linewidth=linewidth)
+    mode_df = get_piece_df_by_localkey_mode(df=df, mode=mode)
 
-    # g.map(sns.kdeplot, "WLC_percentage",
-    #       # clip_on=False,
-    #       color="w", lw=linewidth, bw_adjust=bw_adjust)
+    # mode_df.loc[:, "piece_year_jitter"] = rand_jitter(arr=mode_df["piece_year"], scale=0.01)
+    # mode_df["piece_year_jitter"] = rand_jitter(arr=mode_df["piece_year"], scale=0.01)
 
-    # passing color=None to refline() uses the hue mapping
-    g.refline(y=0, linewidth=2, linestyle="-", color=None, clip_on=False)
+    g = sns.jointplot(x="piece_year", y=col2look, data=mode_df,
+                      kind="reg", color=scatter_color, joint_kws={'x_jitter': 0.5,
+                                                                  'scatter_kws': {'alpha': 0.5, 's': 25,
+                                                                                  'linewidths': 0},
+                                                                  'line_kws': {'linewidth': 2, 'color': regline_color
+                                                                               }
+                                                                  },
+                      xlim=(1560, 1960), ylim=(-1, 1.1))
 
-    # Define and use a simple function to label the plot in axes coordinates
-    def label(x, color, label):
-        ax = plt.gca()
-        ax.text(0, .4, label, color=color, fontsize="small",
-                ha="left", va="center", transform=ax.transAxes)
+    g.set_axis_labels(xlabel="Year", ylabel="r", fontweight="bold", fontsize="large")
 
-    g.map(label, "step_by")
+    # add a horizontal line at y=0:
+    g.ax_joint.axhline(y=0, color='gray', linestyle='--')
 
-    # Set the subplots to overlap
-    g.figure.subplots_adjust(hspace=-.25)
+    g.fig.set_size_inches((6, 5))
 
-    # Remove axes details that don't play well with overlap
-    g.set_titles("")
+    # sns.move_legend(g.ax_joint, "lower left", title='Mode', frameon=True)
 
-    g.set(yticks=[], ylabel="")
-    g.set(xticks=[], xlabel="within-label chromaticity percentage")
-    g.despine(bottom=True, left=True)
+    # stats:
 
-    # iterate over axes of FacetGrid
-    for ax in g.axes.flat:
-        labels = [0, 0.5, 1]
-        ax.set_xticks(labels)
+    pos_corr_num = (mode_df[col2look] > 0).sum()
+    neg_corr_num = (mode_df[col2look] < 0).sum()
+    not_corr_num = (mode_df[col2look] == 0).sum()
 
-    g.fig.tight_layout(w_pad=0.25)
-    g.fig.suptitle(f"{mode}")
+    min_corr_row = mode_df[mode_df[col2look] == mode_df[col2look].min()][["corpus", "piece", "localkey_mode", col2look]]
+    max_corr_row = mode_df[mode_df[col2look] == 1][["corpus", "piece", "localkey_mode", col2look]]
 
-    fig_name = f'ridge_plot_{step_by}_{mode}.pdf'
+    slope, intercept, r_value, p_value, std_err = stats.linregress(mode_df.piece_year, mode_df[col2look])
 
-    plt.savefig(f'{result_dir}{fig_name}', dpi=200)
+    stats_dict = {
+        f'{indices_pair} {mode} positive correlation num': pos_corr_num,
+        f'{indices_pair} {mode} negative correlation num': neg_corr_num,
+        f'{indices_pair} {mode} no correlation num': not_corr_num,
+
+        f'min correlation corpus-piece-mode': min_corr_row,
+        f'max correlation corpus-piece-mode': max_corr_row,
+
+        f'regression stats:': '',
+        f'slope': slope,
+        f'intercept': intercept,
+        f'r_value': r_value,
+        f'p_value': p_value,
+        f'std_err': std_err
+
+    }
+
+    if save:
+        # save plots and data:
+        sub_corr_analysis_folder = f'{result_dir}chord_indices_r_vals_in_pieces/'
+        if not os.path.exists(sub_corr_analysis_folder):
+            os.makedirs(sub_corr_analysis_folder)
+
+        plt.savefig(f'{sub_corr_analysis_folder}Fig_{col2look}_{mode}.pdf', dpi=200)
+
+        with open(f'{sub_corr_analysis_folder}{col2look}_{mode}.txt', 'w') as f:
+            for key, value in stats_dict.items():
+                f.write('%s:%s\n\n' % (key, value))
+
+
+
 
 
 # %% Analysis: Mozart k331 theme and variations
@@ -764,10 +849,10 @@ def mozart_analysis(df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
     results.to_latex(f'{result_dir}mozart_CI_table.txt', float_format="%.3f", index=False)
 
 
-# %% Analysis: by corpus
+# %% Analysis: stats by corpus
 
 
-def _barplot_chromaticity_by_corpus(df: pd.DataFrame, repo_dir: str):
+def barplot_chromaticity_by_corpus(df: pd.DataFrame, repo_dir: str):
     """
     df: assume taking the corpora level indices df
     """
@@ -780,8 +865,8 @@ def _barplot_chromaticity_by_corpus(df: pd.DataFrame, repo_dir: str):
     df["corpus_pp"] = df["corpus"].map(corpus_prettyprint_dict)
 
     bar_width = 0.6
-    major_color = "#E1341E"
-    minor_color = '#1ECBE1'
+    major_color = '#95b5d3'
+    minor_color = '#4b698f'
 
     sns.barplot(ax=axs[0], data=df, x="WLC", y="corpus_pp", hue="localkey_mode", errorbar=None, legend='brief',
                 palette=[major_color, minor_color], width=bar_width)
@@ -813,7 +898,7 @@ def _barplot_chromaticity_by_corpus(df: pd.DataFrame, repo_dir: str):
     plt.savefig(f'{fig_path}barplot_corpora_indices.pdf', dpi=200)
 
 
-def barplot_chromaticity_by_corpus(df: pd.DataFrame, repo_dir: str):
+def _barplot_chromaticity_by_corpus(df: pd.DataFrame, repo_dir: str):
     """
     df: assume taking the corpora level indices df
     """
@@ -912,192 +997,102 @@ def barplot_dissonance_by_corpus(df: pd.DataFrame, repo_dir: str):
     plt.savefig(f'{fig_path}barplot_corpora_dissonance.pdf', dpi=200)
 
 
-# %% Analysis: chord indices correlation in piece
-
-def _chordlevel_indices_r_in_time(df: pd.DataFrame,
-                                  indices: Tuple[Literal["WLC", "OLC", "WLD"], Literal["WLC", "OLC", "WLD"]],
-                                  repo_dir: str):
-    """
-    df: assuming we take the chordlevel_indices_corr_by_piece df
-    """
-
-    # save the results to this folder:
-    result_dir = create_results_folder(parent_folder="Results", analysis_name="indices_correlation", repo_dir=repo_dir)
-
-    if indices == ("WLC", "OLC"):
-        col2look = "r_WLC_OLC"
-    elif indices == ("WLC", "WLD"):
-        col2look = "r_WLC_WLD"
-    else:
-        raise ValueError
-
-    # plots
-    major_color = '#ee6c4d'
-    minor_color = '#8db3c9'
-    df.loc[:, "piece_year_jitter"] = rand_jitter(arr=df["piece_year"], scale=0.01)
-
-    g = sns.jointplot(x="piece_year_jitter", y=col2look, data=df, hue="localkey_mode",
-                      kind='scatter',
-                      palette=[major_color, minor_color], alpha=0.7, legend='brief',
-                      xlim=(1560, 1960), ylim=(-1, 1.1))
-
-    g.set_axis_labels(xlabel="Year", ylabel="r", fontweight="bold", fontsize="large")
-
-    # add a horizontal line at y=0:
-    g.ax_joint.axhline(y=0, color='gray', linestyle='--')
-
-    sns.move_legend(g.ax_joint, "lower left", title='Mode', frameon=True)
-
-    # stats:
-
-    pos_corr_num = (df[col2look] > 0).sum()
-    neg_corr_num = (df[col2look] < 0).sum()
-    not_corr_num = (df[col2look] == 0).sum()
-
-    major_df = get_piece_df_by_localkey_mode(df=df, mode="major")
-    minor_df = get_piece_df_by_localkey_mode(df=df, mode="minor")
-
-    maj_pos_corr_num = (major_df[col2look] > 0).sum()
-    maj_neg_corr_num = (major_df[col2look] < 0).sum()
-    maj_not_corr_num = (major_df[col2look] == 0).sum()
-
-    min_pos_corr_num = (minor_df[col2look] > 0).sum()
-    min_neg_corr_num = (minor_df[col2look] < 0).sum()
-    min_not_corr_num = (minor_df[col2look] == 0).sum()
-
-    min_corr_row = df[df[col2look] == df[col2look].min()][["corpus", "piece", "localkey_mode", col2look]]
-    max_corr_row = df[df[col2look] == 1][["corpus", "piece", "localkey_mode", col2look]]
-
-    stats_dict = {
-        f'{indices} positive correlation num': pos_corr_num,
-        f'{indices} negative correlation num': neg_corr_num,
-        f'{indices} no correlation num': not_corr_num,
-        f'{indices} major pos correlation num': maj_pos_corr_num,
-        f'{indices} major neg correlation num': maj_neg_corr_num,
-        f'{indices} major not correlation num': maj_not_corr_num,
-        f'{indices} minor pos correlation num': min_pos_corr_num,
-        f'{indices} minor neg correlation num': min_neg_corr_num,
-        f'{indices} minor not correlation num': min_not_corr_num,
-
-        f'min correlation corpus-piece-mode': min_corr_row,
-        f'max correlation corpus-piece-mode': max_corr_row,
-
-    }
-
-    # save plots and data:
-    fig_path = f'{result_dir}figs/'
-    if not os.path.exists(fig_path):
-        os.makedirs(fig_path)
-    plt.savefig(f'{fig_path}fig_{col2look}.pdf', dpi=200)
-
-    stats_path = f'{result_dir}stats/'
-    if not os.path.exists(stats_path):
-        os.makedirs(stats_path)
-    # with open(stats_file_path, 'w') as file:
-    #     file.write(json.dumps(stats_dict))
-    with open(f'{stats_path}{col2look}.txt', 'w') as f:
-        for key, value in stats_dict.items():
-            f.write('%s:%s\n\n' % (key, value))
-
-
-def plot_chord_indices_corr(df: pd.DataFrame, repo_dir: str):
-    # save the results to this folder:
-
-    _chordlevel_indices_r_in_time(df=df, indices=("WLC", "OLC"), repo_dir=repo_dir)
-    _chordlevel_indices_r_in_time(df=df, indices=("WLC", "WLD"), repo_dir=repo_dir)
-
-
-# %% Analysis: piece indices correlation
-
-def _piecelevel_indices_r(df: pd.DataFrame, indices: Tuple[Literal["WLC", "OLC", "WLD"], Literal["WLC", "OLC", "WLD"]],
-                          repo_dir: str):
-    """
-    df: assume we take the piece-level indices df
-    """
-    # save the results to this folder:
-    result_dir = create_results_folder(parent_folder="Results",
-                                       analysis_name="indices_correlation",
-                                       repo_dir=repo_dir)
-    #
-    # _major_df = get_piece_df_by_localkey_mode(df=df, mode="major")
-    # _minor_df = get_piece_df_by_localkey_mode(df=df, mode="minor")
-
-    if indices == ("WLC", "OLC"):
-
-        plot_piece_chromaticity_WLC_OLC_corr(df=df, period_by=None, repo_dir=repo_dir)
-    else:
-        raise NotImplementedError
-
-
 # %% full analyses set for the paper:
 
 def full_analyses_set_for_paper():
     user = os.path.expanduser("~")
     repo = f'{user}/Codes/chromaticism-codes/'
 
+    # Loading relevant dfs: _____________________________
+    print(f'Loading dfs ...')
+    prep_DLC = load_file_as_df(f"{repo}Data/prep_data/processed_DLC_data.pickle")
+
+    chord_level_indices = load_file_as_df(
+        f"{repo}Data/prep_data/for_analysis/chord_level_indices.pickle")
+
+    chord_indices_r_vals_by_piece = load_file_as_df(
+        f"{repo}Data/prep_data/for_analysis/chord_indices_r_vals_by_piece.pickle")
+
+    piece_level_indices_by_mode = load_file_as_df(
+        f"{repo}Data/prep_data/for_analysis/piece_level_indices_by_mode.pickle")
+
+    chromaticity_piece_by_mode = load_file_as_df(
+        f"{repo}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
+
+    corpora_indices_by_mode = load_file_as_df(f"{repo}Data/prep_data/for_analysis/corpora_level_indices_by_mode.pickle")
+
+    # Analysis: Basic stats and plots _________________________________________________________
+
     print(f'DLC corpus basic stats ...')
-    chord_level_df = load_file_as_df(path=f'{repo}Data/prep_data/processed_DLC_data.pickle')
-    DLC_corpus_stats(chord_level_df=chord_level_df, repo_dir=repo)
+    DLC_corpus_stats(chord_level_df=prep_DLC, repo_dir=repo)
 
-
-    # Analysis: Basic stats _________________________________________________________
-    print(f'Analysis: Basic stats for chromaticity and dissonance ...')
-    chrom_by_mode = load_file_as_df(path=f'{repo}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle')
-    plot_chrom_distribution(df=chrom_by_mode, repo_dir=repo)
+    print(f'Analysis: Chromaticity distribution (assumption of GPR) ...')
+    plot_chrom_distribution(df=chromaticity_piece_by_mode, repo_dir=repo)
 
     print(f'Analysis: Basic stats for chromaticity and dissonance ...')
-    chord_level_df = load_file_as_df(path=f'{repo}Data/prep_data/for_analysis/chord_level_indices.pickle')
-    stats_by_piece(df=chord_level_df, repo_dir=repo)
-    stats_by_corpus(df=chord_level_df, repo_dir=repo)
+    stats_by_piece(df=chord_level_indices, repo_dir=repo)
+    stats_by_corpus(df=chord_level_indices, repo_dir=repo)
 
     # Analysis: Piece distributions fig and table _________________________________________________________
     print(f'Analysis: Piece distributions fig and table ...')
-    prep_DLC_df = load_file_as_df(path=f"{repo}Data/prep_data/processed_DLC_data.pickle")
 
-    piece_distribution(df=prep_DLC_df, period_by="Fabian", repo_dir=repo)
-    print(f'Finished piece distribution analysis for period division (Fabian division)...')
+    piece_distribution(df=prep_DLC, period_by="Fabian", repo_dir=repo)
 
+    # Correlation Analysis: piece-level WLC and OLC ____________________________________
+    print(f'Correlation Analysis: piece-level chromaticities ...')
 
-    # Analysis: Chromaticity-Dissonance: chord-level WLC and WLD ____________________________________
-    print(f'Analysis: Chromaticity-Dissonance: chord-level WLC and WLD')
-    piece_indices_df_by_mode = load_file_as_df("/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/piece_level_indices_by_mode.pickle")
-    summarizing_index_stats_by_mode(piece_indices_df_by_mode, repo_dir=repo)
+    for p in ["Fabian", None]:
+        compute_piece_corr_stats(df=piece_level_indices_by_mode, indices_pair=("WLC", "OLC"), period_by=p,
+                                 repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
+        # compute_piece_corr_stats(df=piece_level_indices_by_mode, indices_pair=("WLC", "OLC"), period_by=None,
+        #                          repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
 
-    print(f'Analysis: correlation between chord-level chromaticity and dissonance')
-    chord_indices_df = load_file_as_df(path=f"{repo}Data/prep_data/for_analysis/chord_level_indices.pickle")
-    print(f'Starting the corr analyses...')
-    corr_chord_level_WLC_WLD(df=chord_indices_df, period_by="Fabian", repo_dir=repo)
+        plot_piece_pairwise_indices_corr(df=piece_level_indices_by_mode, indices_pair=("WLC", "OLC"), period_by=p,
+                                         repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
+        # plot_piece_pairwise_indices_corr(df=piece_level_indices_by_mode, indices_pair=("WLC", "OLC"), period_by=None,
+        #                                  repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
 
-    # Analysis: piece-level chromaticity correlation
+    plotly_piece_pairwise_indices_faceting(df=piece_level_indices_by_mode,
+                                           indices_pair=("WLC", "OLC"),repo_dir=repo, save=True)
 
-    print(f'Analysis: piece-level chromaticity correlation between WLC and OLC by periods ______________________')
-    chromaticity_df = load_file_as_df(path=f"{repo}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
+    # Correlation Analysis: piece-level WLC and WLD ____________________________________
+    print(f'Correlation Analysis: piece-level chromaticity and dissonance ...')
 
-    print(f'    correlation between WLC and OLC ...')
-    compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by="Fabian", repo_dir=repo, corr_method="pearson")
-    compute_piece_chromaticity_corr_stats(df=chromaticity_df, period_by=None, repo_dir=repo, corr_method="pearson")
-    plot_piece_chromaticity_WLC_OLC_corr(df=chromaticity_df, period_by="Fabian", repo_dir=repo,corr_method="pearson")
-    plot_piece_chromaticity_WLC_OLC_corr(df=chromaticity_df, period_by=None, repo_dir=repo,corr_method="pearson")
+    for p in ["Fabian", None]:
+        compute_piece_corr_stats(df=piece_level_indices_by_mode, indices_pair=("WLC", "WLD"), period_by=p,
+                                 repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
+        # compute_piece_corr_stats(df=piece_level_indices_by_mode, indices_pair=("WLC", "WLD"), period_by=None,
+        #                          repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
+        #
+        plot_piece_pairwise_indices_corr(df=piece_level_indices_by_mode, indices_pair=("WLC", "WLD"), period_by=p,
+                                         repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
+        # plot_piece_pairwise_indices_corr(df=piece_level_indices_by_mode, indices_pair=("WLC", "WLD"), period_by=None,
+        #                                  repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
 
-    # Analysis: chord-indices correlation
-    print(f'Anallysis: Chord-level indices correlations ...')
-    chord_indices = load_file_as_df(
-        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chordlevel_indices_corr_by_piece.pickle")
-    plot_chord_indices_corr(df=chord_indices, repo_dir=repo)
+    plotly_piece_pairwise_indices_faceting(df=piece_level_indices_by_mode,
+                                           indices_pair=("WLC", "WLD"),repo_dir=repo, save=True)
+
+    # Correlation Analysis: chord-indices r-vals in pieces _____________________________
+    print(f'Anallysis: Chord-level indices correlations (r-vals) in pieces...')
+
+    # major mode:
+    for m in ["major", "minor"]:
+        chordlevel_indices_r_vals(df=chord_indices_r_vals_by_piece, mode=m, indices_pair=("WLC", "OLC"),
+                                  repo_dir=repo, save=True)
+        chordlevel_indices_r_vals(df=chord_indices_r_vals_by_piece, mode=m, indices_pair=("WLC", "WLD"),
+                                  repo_dir=repo, save=True)
 
     # Analysis: Corpora-level indices:
 
-    corpora_indices = load_file_as_df(
-        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/corpora_level_indices_by_mode.pickle")
-
-    barplot_dissonance_by_corpus(df=corpora_indices, repo_dir=repo)
-    barplot_chromaticity_by_corpus(df=corpora_indices, repo_dir=repo)
+    # barplot_dissonance_by_corpus(df=corpora_indices_by_mode, repo_dir=repo)
+    barplot_chromaticity_by_corpus(df=corpora_indices_by_mode, repo_dir=repo)
 
     print(f'Fini!')
 
 
 if __name__ == "__main__":
     full_analyses_set_for_paper()
-    # user = os.path.expanduser("~")
-    # repo = f'{user}/Codes/chromaticism-codes/'
 
+    # dlc = load_file_as_df("/Users/xguan/Codes/chromaticism-codes/Data/prep_data/processed_DLC_data.pickle")
+    #
+    # plot_chord_size_across_time(df=dlc)

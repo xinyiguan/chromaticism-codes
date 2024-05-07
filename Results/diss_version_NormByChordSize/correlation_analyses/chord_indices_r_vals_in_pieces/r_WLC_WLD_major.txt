@@ -1,0 +1,25 @@
+('WLC', 'WLD') major positive correlation num:809
+
+('WLC', 'WLD') major negative correlation num:66
+
+('WLC', 'WLD') major no correlation num:99
+
+min correlation corpus-piece-mode:                    corpus    piece localkey_mode  r_WLC_WLD
+1858  schumann_liederkreis  op39n08         major  -0.768273
+
+max correlation corpus-piece-mode:        corpus                 piece localkey_mode  r_WLC_WLD
+318  bach_solo  BWV1009_06_BourréeII         major        1.0
+804    corelli              op04n10a         major        1.0
+
+regression stats::
+
+slope:0.0004963101774940693
+
+intercept:-0.5928939067647547
+
+r_value:0.16654247286665186
+
+p_value:1.718230480361373e-07
+
+std_err:9.425123598938873e-05
+

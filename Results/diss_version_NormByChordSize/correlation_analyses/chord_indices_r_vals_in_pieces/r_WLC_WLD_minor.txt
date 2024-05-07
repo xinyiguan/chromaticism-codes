@@ -1,0 +1,25 @@
+('WLC', 'WLD') minor positive correlation num:872
+
+('WLC', 'WLD') minor negative correlation num:54
+
+('WLC', 'WLD') minor no correlation num:7
+
+min correlation corpus-piece-mode:                  corpus    piece localkey_mode  r_WLC_WLD
+1023  dvorak_silhouettes  op08n10         minor  -0.454209
+
+max correlation corpus-piece-mode:                  corpus          piece localkey_mode  r_WLC_WLD
+512      chopin_mazurkas  BI145-1op50-1         minor        1.0
+1158  grieg_lyric_pieces        op71n04         minor        1.0
+
+regression stats::
+
+slope:0.001090597816459917
+
+intercept:-1.5288216035845987
+
+r_value:0.35601186321517025
+
+p_value:2.9109537102178866e-29
+
+std_err:9.382012157578456e-05
+

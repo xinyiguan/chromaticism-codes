@@ -204,6 +204,7 @@ def tpcs_to_ics(tpcs: Optional[List[int]]) -> List[int]:
         return []
 
 
+## normalized by num of ics
 # def dissonance_score(ics: List[int]) -> float:
 #     weights = [1.0, 0.6, 0.4, 0.2, 0.0, 0.8]
 #     pmf = np.array([ics.count(i + 1) for i in range(6)]) / len(ics)
@@ -211,21 +212,67 @@ def tpcs_to_ics(tpcs: Optional[List[int]]) -> List[int]:
 #     res = float(res)
 #     return res
 
+
+# sum version
 def dissonance_score(ics: List[int]) -> float:
     weights = [1.0, 0.6, 0.4, 0.2, 0.0, 0.8]
     pmf = np.array([ics.count(i + 1) for i in range(6)])
     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
-    res = float(res)
+    res = round(res, 5)
     return res
 
 
+# ## log(sum+1)
+# def dissonance_score(ics: List[int]) -> float:
+#     """
+#     Calculate dissonance of `x`, a list of interval classes, given weights for classes 1--6
+#     """
+#     weights = [1.0, 0.6, 0.4, 0.2, 0.0, 0.8]
+#     pmf = np.array([ics.count(i + 1) for i in range(6)])
+#     w_sum = round(np.nansum([pmf[i] * weights[i] for i in range(6)]), 5)
+#     res = round(np.log(w_sum + 1), 5)
+#     return res
+
+
+# def pcs_to_dissonance_score(tpcs: List[int]) -> float:
+#     ics = tpcs_to_ics(tpcs)
+#     diss = dissonance_score(ics)
+#     return diss
+
+# normalize by num of chord tones
 def pcs_to_dissonance_score(tpcs: List[int]) -> float:
     ics = tpcs_to_ics(tpcs)
-    diss = dissonance_score(ics)
-    rounded_diss = round(diss, 4)
-    return rounded_diss
+    diss = round(dissonance_score(ics) / len(tpcs), 4)
+    return diss
 
 
 if __name__ == "__main__":
     # print(f'{dissonance_score(ics=[3, 4, 3, 5, 6,1])}')
-    print(f'{pcs_to_dissonance_score([0, 1, 4])=}')
+
+    major_triad = [0, 4, 1]
+    # sum-version=0.6;
+    # log(sum+1)-version=0.47 ;
+    # normed-by-CT-version=0.2:
+    # print(f'{tpcs_to_ics(major_triad)=}')
+    print(f'{pcs_to_dissonance_score(major_triad)=}')
+
+    dom_sev = [0, 4, 1, -2]
+    # sum-version=2.4;
+    # log(sum+1)-version=1.22 ;
+    # normed-by-CT-version=0.6:
+    # print(f'{tpcs_to_ics(dom_sev)=}')
+    print(f'{pcs_to_dissonance_score(dom_sev)=}')
+
+    dim_triad = [0, -3, -6]
+    # sum-version=1.6;
+    # log(sum+1)-version=0.955 ;
+    # normed-by-CT-version=0.533:
+    # print(f'{tpcs_to_ics(dim_triad)=}')
+    print(f'{pcs_to_dissonance_score(dim_triad)=}')
+
+    dim_sev = [0, -3, -6, -9]
+    # sum-version=3.2;
+    # log(sum+1)-version=1.435 ;
+    # normed-by-CT-version=0.8:
+    # print(f'{tpcs_to_ics(dim_sev)=}')
+    print(f'{pcs_to_dissonance_score(dim_sev)=}')

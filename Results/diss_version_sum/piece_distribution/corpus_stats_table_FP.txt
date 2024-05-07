@@ -1,0 +1,48 @@
+\begin{tabular}{llllr}
+\toprule
+ & Period & Composer & Corpus & Piece Number \\
+\midrule
+0 & Renaissance & Jacopo Peri & peri euridice & 6 \\
+1 & Renaissance & Claudio Monteverdi & monteverdi madrigals & 27 \\
+2 & Renaissance & Jan Pieterszoon Sweelinck & sweelinck keyboard & 1 \\
+3 & Renaissance & Girolamo Frescobaldi & frescobaldi fiori musicali & 44 \\
+4 & Renaissance & Heinrich Schütz & kleine geistliche konzerte & 55 \\
+5 & Baroque & Arcangelo Corelli & corelli & 149 \\
+6 & Baroque & François Couperin & couperin clavecin & 9 \\
+7 & Baroque & George Frideric Handel & handel keyboard & 6 \\
+8 & Baroque & J.S. Bach & bach solo & 68 \\
+9 & Baroque & J.S. Bach & bach en fr suites & 89 \\
+10 & Baroque &  François Couperin & couperin concerts & 84 \\
+11 & Baroque & Giovanni Battista Pergolesi & pergolesi stabat mater & 7 \\
+12 & Baroque & Domenico Scarlatti & scarlatti sonatas & 69 \\
+13 & Baroque & W.F. Bach & wf bach sonatas & 9 \\
+14 & Classical & J.C. Bach & jc bach sonatas & 29 \\
+15 & Classical & Wolfgang Amadeus Mozart & mozart piano sonatas & 54 \\
+16 & Classical & Ignaz Pleyel & pleyel quartets & 6 \\
+17 & Classical & Ludwig van Beethoven & beethoven piano sonatas & 59 \\
+18 & Early Romantic & Ludwig van Beethoven & beethoven piano sonatas & 5 \\
+19 & Classical & Leopold Koželuh & kozeluh sonatas & 49 \\
+20 & Classical & Ludwig van Beethoven & ABC & 44 \\
+21 & Early Romantic & Ludwig van Beethoven & ABC & 26 \\
+22 & Early Romantic & Franz Schubert & schubert winterreise & 24 \\
+23 & Early Romantic & Felix Mendelssohn & mendelssohn quartets & 24 \\
+24 & Early Romantic & Frédéric Chopin & chopin mazurkas & 55 \\
+25 & Early Romantic & Robert Schumann & schumann kinderszenen & 13 \\
+26 & Early Romantic & Robert Schumann & schumann liederkreis & 12 \\
+27 & Early Romantic & Clara Schumann & c schumann lieder & 12 \\
+28 & Early Romantic & Franz Liszt & liszt pelerinage & 19 \\
+29 & Early Romantic & Richard Wagner & wagner overtures & 2 \\
+30 & Late Romantic & Pyotr Tchaikovsky & tchaikovsky seasons & 12 \\
+31 & Late Romantic & Antonín Dvořák & dvorak silhouettes & 12 \\
+32 & Early Romantic & Edvard Grieg & grieg lyric pieces & 8 \\
+33 & Late Romantic & Edvard Grieg & grieg lyric pieces & 58 \\
+34 & Late Romantic & Maurice Ravel & ravel piano & 3 \\
+35 & Late Romantic & Gustav Mahler & mahler kindertotenlieder & 5 \\
+36 & Late Romantic & Claude Debussy & debussy suite bergamasque & 4 \\
+37 & Late Romantic & Béla Bartók & bartok bagatelles & 14 \\
+38 & Late Romantic & Nikolai Medtner & medtner tales & 19 \\
+39 & Late Romantic & Francis Poulenc & poulenc mouvements perpetuels & 3 \\
+40 & Late Romantic & Sergei Rachmaninoff & rachmaninoff piano & 19 \\
+41 & Late Romantic & Erwin Schulhoff & schulhoff suite dansante en jazz & 6 \\
+\bottomrule
+\end{tabular}

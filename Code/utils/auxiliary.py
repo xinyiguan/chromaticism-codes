@@ -222,3 +222,17 @@ def median_CI_after_log(mu: np.ndarray, var: np.ndarray) -> Tuple[np.ndarray, Tu
     z_CI_upper = np.exp(mu + 1.96 * np.sqrt(var))
 
     return z_med, (z_CI_lower, z_CI_upper)
+
+
+# dataframe filtering _________
+def get_piece_df_by_localkey_mode(df: pd.DataFrame, mode: Literal["major", "minor"]) -> pd.DataFrame:
+    if mode == "major":
+        result_df = df[df['localkey_mode'].isin(['major'])]
+    else:
+        result_df = df[df['localkey_mode'].isin(['minor'])]
+
+    return result_df
+def exclude_piece_from_corpus(df: pd.DataFrame, corpus_piece_tups: List[Tuple[str, str]]) -> pd.DataFrame:
+    corpus_list, piece_list = zip(*corpus_piece_tups)
+    res_df = df[~(df['corpus'].isin(corpus_list) & df['piece'].isin(piece_list))]
+    return res_df

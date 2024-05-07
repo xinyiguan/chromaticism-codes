@@ -15,13 +15,24 @@ from scipy.stats import pearsonr
 #     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
 #     return res
 
+## sum-version
+# def dissonance(x, weights):
+#     """
+#     Calculate dissonance of `x`, a list of interval classes, given weights for classes 1--6
+#     """
+#     pmf = np.array([x.count(i + 1) for i in range(6)])
+#     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
+#     return res
+
+
+## log(sum+1)
 def dissonance(x, weights):
     """
     Calculate dissonance of `x`, a list of interval classes, given weights for classes 1--6
     """
     pmf = np.array([x.count(i + 1) for i in range(6)])
     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
-    return res
+    return np.log(res + 1)
 
 
 def test_weights(interval_classes: List, ratings, weights):
