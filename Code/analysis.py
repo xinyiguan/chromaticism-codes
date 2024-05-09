@@ -367,37 +367,43 @@ def compute_piece_corr_stats(df: pd.DataFrame,
                              period_by: Optional[Literal["Johannes", "Fabian"]],
                              repo_dir: str,
                              corr_method: Literal["pearson", "spearman"],
-                             exclude_outliers: bool,
+                             outliers_to_exclude_major: Optional[List[Tuple[str, str]]],
+                             outliers_to_exclude_minor: Optional[List[Tuple[str, str]]],
                              save: bool) -> pd.DataFrame:
     # save the results to this folder:
     result_dir = create_results_folder(parent_folder="Results",
                                        analysis_name="correlation_analyses",
                                        repo_dir=repo_dir)
 
-    _major_df = get_piece_df_by_localkey_mode(df=df, mode="major")
-    _minor_df = get_piece_df_by_localkey_mode(df=df, mode="minor")
+    major_df = get_piece_df_by_localkey_mode(df=df, mode="major")
+    minor_df = get_piece_df_by_localkey_mode(df=df, mode="minor")
 
-    # manually remove outliers -------:
-    ## current criteria: OLC >10 OR WLC >10
-    major_ER = [("chopin_mazurkas", "BI162-3op63-3"), ("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
-    major_LR = [("tchaikovsky_seasons", "op37a12"), ("dvorak_silhouettes", "op08n12"),
-                ("dvorak_silhouettes", "op08n01")]
+    # # manually remove outliers -------:
+    # ## current criteria: OLC >10 OR WLC >10
+    # major_ER = [("chopin_mazurkas", "BI162-3op63-3"), ("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
+    # major_LR = [("tchaikovsky_seasons", "op37a12"), ("dvorak_silhouettes", "op08n12"),
+    #             ("dvorak_silhouettes", "op08n01")]
+    #
+    # minor_ER = [("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
+    # minor_LR = [("bartok_bagatelles", "op06n12")] # WLC>10
+    # # end of outlier list -------------
 
-    minor_ER = [("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
-    minor_LR = [("bartok_bagatelles", "op06n12")]
-    # end of outlier list -------------
-
-    if exclude_outliers:
-        _major_df = exclude_piece_from_corpus(df=_major_df, corpus_piece_tups=major_ER + major_LR)
-        _minor_df = exclude_piece_from_corpus(df=_minor_df, corpus_piece_tups=minor_ER + minor_LR)
+    if outliers_to_exclude_major:
+        major_df = exclude_piece_from_corpus(df=major_df, corpus_piece_tups=outliers_to_exclude_major)
+    else:
+        major_df = major_df
+    if outliers_to_exclude_minor:
+        minor_df = exclude_piece_from_corpus(df=minor_df, corpus_piece_tups=outliers_to_exclude_minor)
+    else:
+        minor_df = minor_df
 
     if period_by == "Johannes":
         result_dfs = []
         for p in Johannes_periods:
-            major_df = get_period_df(df=_major_df, method="Johannes", period=p)
-            minor_df = get_period_df(df=_minor_df, method="Johannes", period=p)
+            major_df_p = get_period_df(df=major_df, method="Johannes", period=p)
+            minor_df_p = get_period_df(df=minor_df, method="Johannes", period=p)
 
-            stats = _global_indices_corr_by_mode(major_df=major_df, minor_df=minor_df, indices_pair=indices_pair,
+            stats = _global_indices_corr_by_mode(major_df=major_df_p, minor_df=minor_df_p, indices_pair=indices_pair,
                                                  corr_method=corr_method)
             stats["period"] = p
             result_dfs.append(stats)
@@ -407,10 +413,10 @@ def compute_piece_corr_stats(df: pd.DataFrame,
     elif period_by == "Fabian":
         result_dfs = []
         for p in Fabian_periods:
-            major_df = get_period_df(df=_major_df, method="Fabian", period=p)
-            minor_df = get_period_df(df=_minor_df, method="Fabian", period=p)
+            major_df_p = get_period_df(df=major_df, method="Fabian", period=p)
+            minor_df_p = get_period_df(df=minor_df, method="Fabian", period=p)
 
-            stats = _global_indices_corr_by_mode(major_df=major_df, minor_df=minor_df, indices_pair=indices_pair,
+            stats = _global_indices_corr_by_mode(major_df=major_df_p, minor_df=minor_df_p, indices_pair=indices_pair,
                                                  corr_method=corr_method)
             stats["period"] = p
             result_dfs.append(stats)
@@ -418,7 +424,7 @@ def compute_piece_corr_stats(df: pd.DataFrame,
         file_anno = "_FP"
 
     else:
-        result_df = _global_indices_corr_by_mode(major_df=_major_df, minor_df=_minor_df, out_type="df",
+        result_df = _global_indices_corr_by_mode(major_df=major_df, minor_df=minor_df, out_type="df",
                                                  indices_pair=indices_pair, corr_method=corr_method)
         file_anno = ""
     if save:
@@ -437,7 +443,8 @@ def plot_piece_pairwise_indices_corr(df: pd.DataFrame,
                                      period_by: Optional[Literal["Johannes", "Fabian"]],
                                      corr_method: Literal["pearson", "spearman"],
                                      repo_dir: str,
-                                     exclude_outliers: bool,
+                                     outliers_to_exclude_major: Optional[List[Tuple[str, str]]],
+                                     outliers_to_exclude_minor: Optional[List[Tuple[str, str]]],
                                      save: bool = True):
     # save the results to this folder:
     result_dir = create_results_folder(parent_folder="Results",
@@ -449,19 +456,14 @@ def plot_piece_pairwise_indices_corr(df: pd.DataFrame,
     major_df = get_piece_df_by_localkey_mode(df=df, mode="major")
     minor_df = get_piece_df_by_localkey_mode(df=df, mode="minor")
 
-    # manually remove outliers -------:
-    ## current criteria: OLC >10 OR WLC >10
-    major_ER = [("chopin_mazurkas", "BI162-3op63-3"), ("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
-    major_LR = [("tchaikovsky_seasons", "op37a12"), ("dvorak_silhouettes", "op08n12"),
-                ("dvorak_silhouettes", "op08n01")]
-
-    minor_ER = [("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca")]
-    minor_LR = [("bartok_bagatelles", "op06n12")]
-    # end of outlier list -------------
-
-    if exclude_outliers:
-        major_df = exclude_piece_from_corpus(df=major_df, corpus_piece_tups=major_ER + major_LR)
-        minor_df = exclude_piece_from_corpus(df=minor_df, corpus_piece_tups=minor_ER + minor_LR)
+    if outliers_to_exclude_major:
+        major_df = exclude_piece_from_corpus(df=major_df, corpus_piece_tups=outliers_to_exclude_major)
+    else:
+        major_df = major_df
+    if outliers_to_exclude_minor:
+        minor_df = exclude_piece_from_corpus(df=minor_df, corpus_piece_tups=outliers_to_exclude_minor)
+    else:
+        minor_df = minor_df
 
     if period_by == "Johannes":
         fname = "JP"
@@ -805,9 +807,6 @@ def chordlevel_indices_r_vals(df: pd.DataFrame,
                 f.write('%s:%s\n\n' % (key, value))
 
 
-
-
-
 # %% Analysis: Mozart k331 theme and variations
 
 def mozart_analysis(df: pd.DataFrame, repo_dir: str) -> pd.DataFrame:
@@ -1041,36 +1040,56 @@ def full_analyses_set_for_paper():
     # Correlation Analysis: piece-level WLC and OLC ____________________________________
     print(f'Correlation Analysis: piece-level chromaticities ...')
 
+    # manually remove outliers -------:
+
+    ## current criteria: OLC >10 OR WLC >10
+    WLC_OLC_major_outliers = [("chopin_mazurkas", "BI162-3op63-3"),
+                              ("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca"),
+                              ("tchaikovsky_seasons", "op37a12"), ("dvorak_silhouettes", "op08n12"),
+                              ("dvorak_silhouettes", "op08n01")]
+
+    WLC_OLC_minor_outliers = [("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca"),
+                              ("bartok_bagatelles", "op06n12")]  # bartok_bagatelles: WLC>10
+    # end of outlier list -------------
+
     for p in ["Fabian", None]:
         compute_piece_corr_stats(df=piece_level_indices_by_mode, indices_pair=("WLC", "OLC"), period_by=p,
-                                 repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
-        # compute_piece_corr_stats(df=piece_level_indices_by_mode, indices_pair=("WLC", "OLC"), period_by=None,
-        #                          repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
+                                 repo_dir=repo, corr_method="pearson",
+                                 outliers_to_exclude_major=WLC_OLC_major_outliers,
+                                 outliers_to_exclude_minor=WLC_OLC_minor_outliers,
+                                 save=True)
 
         plot_piece_pairwise_indices_corr(df=piece_level_indices_by_mode, indices_pair=("WLC", "OLC"), period_by=p,
-                                         repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
-        # plot_piece_pairwise_indices_corr(df=piece_level_indices_by_mode, indices_pair=("WLC", "OLC"), period_by=None,
-        #                                  repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
+                                         repo_dir=repo, corr_method="pearson",
+                                         outliers_to_exclude_major=WLC_OLC_major_outliers,
+                                         outliers_to_exclude_minor=WLC_OLC_minor_outliers,
+                                         save=True)
 
     plotly_piece_pairwise_indices_faceting(df=piece_level_indices_by_mode,
-                                           indices_pair=("WLC", "OLC"),repo_dir=repo, save=True)
+                                           indices_pair=("WLC", "OLC"), repo_dir=repo, save=True)
 
     # Correlation Analysis: piece-level WLC and WLD ____________________________________
     print(f'Correlation Analysis: piece-level chromaticity and dissonance ...')
 
+    # manually remove outliers -------:
+    WLC_WLD_major_outliers = None
+    WLC_WLD_minor_outliers = [("bartok_bagatelles", "op06n12")]  # bartok_bagatelles: WLC>10
+
     for p in ["Fabian", None]:
         compute_piece_corr_stats(df=piece_level_indices_by_mode, indices_pair=("WLC", "WLD"), period_by=p,
-                                 repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
-        # compute_piece_corr_stats(df=piece_level_indices_by_mode, indices_pair=("WLC", "WLD"), period_by=None,
-        #                          repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
-        #
+                                 repo_dir=repo, corr_method="pearson",
+                                 outliers_to_exclude_major=WLC_WLD_major_outliers,
+                                 outliers_to_exclude_minor=WLC_WLD_minor_outliers,
+                                 save=True)
+
         plot_piece_pairwise_indices_corr(df=piece_level_indices_by_mode, indices_pair=("WLC", "WLD"), period_by=p,
-                                         repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
-        # plot_piece_pairwise_indices_corr(df=piece_level_indices_by_mode, indices_pair=("WLC", "WLD"), period_by=None,
-        #                                  repo_dir=repo, corr_method="pearson", exclude_outliers=True, save=True)
+                                         repo_dir=repo, corr_method="pearson",
+                                         outliers_to_exclude_major=WLC_WLD_major_outliers,
+                                         outliers_to_exclude_minor=WLC_WLD_minor_outliers,
+                                         save=True)
 
     plotly_piece_pairwise_indices_faceting(df=piece_level_indices_by_mode,
-                                           indices_pair=("WLC", "WLD"),repo_dir=repo, save=True)
+                                           indices_pair=("WLC", "WLD"), repo_dir=repo, save=True)
 
     # Correlation Analysis: chord-indices r-vals in pieces _____________________________
     print(f'Anallysis: Chord-level indices correlations (r-vals) in pieces...')

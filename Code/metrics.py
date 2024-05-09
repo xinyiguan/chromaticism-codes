@@ -267,7 +267,7 @@ if __name__ == "__main__":
     # sum-version=1.6;
     # log(sum+1)-version=0.955 ;
     # normed-by-CT-version=0.533:
-    # print(f'{tpcs_to_ics(dim_triad)=}')
+    print(f'{tpcs_to_ics(dim_triad)=}')
     print(f'{pcs_to_dissonance_score(dim_triad)=}')
 
     dim_sev = [0, -3, -6, -9]

@@ -1,4 +1,5 @@
 # script slightly adapted from Edward
+import ast
 import os
 from typing import List
 
@@ -15,27 +16,47 @@ from scipy.stats import pearsonr
 #     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
 #     return res
 
-## sum-version
-# def dissonance(x, weights):
-#     """
-#     Calculate dissonance of `x`, a list of interval classes, given weights for classes 1--6
-#     """
-#     pmf = np.array([x.count(i + 1) for i in range(6)])
-#     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
-#     return res
-
-
-## log(sum+1)
+# sum-version
 def dissonance(x, weights):
     """
     Calculate dissonance of `x`, a list of interval classes, given weights for classes 1--6
     """
     pmf = np.array([x.count(i + 1) for i in range(6)])
     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
-    return np.log(res + 1)
+    return res
 
 
-def test_weights(interval_classes: List, ratings, weights):
+# ## log(sum+1)
+# def dissonance(x, weights):
+#     """
+#     Calculate dissonance of `x`, a list of interval classes, given weights for classes 1--6
+#     """
+#     pmf = np.array([x.count(i + 1) for i in range(6)])
+#     res = np.nansum([pmf[i] * weights[i] for i in range(6)])
+#     return np.log(res + 1)
+
+
+# # Ed's version
+# def test_weights(interval_classes: List, ratings, weights):
+#     """
+#     Calculate correlation between dissonance scores and ratings
+#     """
+#     n = len(interval_classes)
+#     if n != len(ratings):
+#         raise Exception("`interval_classes` and `ratings` must be the same length")
+#
+#     res = np.zeros(n)
+#     for i in range(n):
+#         res[i] = dissonance(interval_classes[i], weights)
+#
+#     cor, pvalue = pearsonr(res, ratings)
+#
+#     return cor, pvalue
+
+
+# norm by chord size
+
+def test_weights(interval_classes, chord_size, ratings, weights):
     """
     Calculate correlation between dissonance scores and ratings
     """
@@ -45,12 +66,11 @@ def test_weights(interval_classes: List, ratings, weights):
 
     res = np.zeros(n)
     for i in range(n):
-        res[i] = dissonance(interval_classes[i], weights)
+        res[i] = dissonance(interval_classes[i], weights)/chord_size[i]
 
     cor, pvalue = pearsonr(res, ratings)
 
     return cor, pvalue
-
 
 if __name__ == "__main__":
     user = os.path.expanduser("~")
@@ -63,8 +83,12 @@ if __name__ == "__main__":
     data.interval_class = [[int(y) for y in x.split(",")] for x in data.interval_class]
     data.rating = 4 - data.rating
 
+    data.pitches = data.pitches.apply(lambda s: ast.literal_eval(s))
+    data["chord_size"] = data.pitches.apply(lambda x: len(x))
+    print(data)
+
     # Correlation when using weights [6, 4, 3, 2, 1, 5] (scaled between 0 and 1)
     print(
         "ranks 1--6:",
-        test_weights(data.interval_class, data.rating, [1.0, 0.6, 0.4, 0.2, 0.0, 0.8])
+        test_weights(data.interval_class, data.chord_size, data.rating, [1.0, 0.6, 0.4, 0.2, 0.0, 0.8])
     )
