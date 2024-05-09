@@ -1113,5 +1113,4 @@ if __name__ == "__main__":
     full_analyses_set_for_paper()
 
     # dlc = load_file_as_df("/Users/xguan/Codes/chromaticism-codes/Data/prep_data/processed_DLC_data.pickle")
-    #
     # plot_chord_size_across_time(df=dlc)

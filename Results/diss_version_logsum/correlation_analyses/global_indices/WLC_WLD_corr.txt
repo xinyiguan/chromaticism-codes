@@ -2,6 +2,6 @@
 \toprule
  & r (major segment) & p (major segment) & r (minor segment) & p (minor segment) \\
 \midrule
-0 & 0.694000 & 0.000000 & 0.574000 & 0.000000 \\
+0 & 0.693000 & 0.000000 & 0.574000 & 0.000000 \\
 \bottomrule
 \end{tabular}

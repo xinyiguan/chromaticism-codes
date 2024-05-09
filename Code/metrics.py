@@ -234,16 +234,16 @@ def dissonance_score(ics: List[int]) -> float:
 #     return res
 
 
-# def pcs_to_dissonance_score(tpcs: List[int]) -> float:
-#     ics = tpcs_to_ics(tpcs)
-#     diss = dissonance_score(ics)
-#     return diss
-
-# normalize by num of chord tones
 def pcs_to_dissonance_score(tpcs: List[int]) -> float:
     ics = tpcs_to_ics(tpcs)
-    diss = round(dissonance_score(ics) / len(tpcs), 4)
+    diss = dissonance_score(ics)
     return diss
+
+# # normalize by num of chord tones
+# def pcs_to_dissonance_score(tpcs: List[int]) -> float:
+#     ics = tpcs_to_ics(tpcs)
+#     diss = round(dissonance_score(ics) / len(tpcs), 4)
+#     return diss
 
 
 if __name__ == "__main__":

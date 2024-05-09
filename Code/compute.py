@@ -6,15 +6,14 @@ import pandas as pd
 from Code.utils.auxiliary import determine_period, create_results_folder
 import os
 
-pd.set_option('display.max_columns', None)
-
-pd.options.mode.chained_assignment = None  # default='warn'
-
 from pitchtypes import SpelledPitchClass
 
 from Code.utils.htypes import Numeral, Key
 from Code.metrics import cumulative_distance_to_diatonic_set, tpcs_to_ics, pcs_to_dissonance_score
 from Code.utils.util import flatten, flatten_to_list, safe_literal_eval, save_df, load_file_as_df
+
+pd.set_option('display.max_columns', None)
+pd.options.mode.chained_assignment = None  # default='warn'
 
 
 # %% Define function: Loading with additional preprocessing steps and saving
@@ -63,7 +62,6 @@ def process_DLC_data(data_path: str,
 
         df["added_tones"] = df["added_tones"].apply(lambda s: safe_literal_eval(s)).apply(flatten_to_list)
         df["chord_tones"] = df["chord_tones"].apply(lambda s: list(ast.literal_eval(s)))
-
 
     else:
         df["tones_in_span_in_C"] = df["all_tones_tpc_in_C"].apply(lambda lst: list(flatten(lst))).apply(
@@ -407,7 +405,7 @@ def combined_piece_level_indices(piece_chrom: pd.DataFrame,
 
 
 def get_corpora_level_indices_by_mode(df: pd.DataFrame,
-                              repo_dir: str) -> pd.DataFrame:
+                                      repo_dir: str) -> pd.DataFrame:
     """
     df: piece_indices_by_mode_df
     """
@@ -426,12 +424,14 @@ def get_corpora_level_indices_by_mode(df: pd.DataFrame,
     folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
     fname = f'corpora_level_indices_by_mode'
     save_df(df=result_df, file_type="both", directory=folder_path, fname=fname)
+    return result_df
 
 
 # %% Chord-level indices correlation
 
 def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
-                                              repo_dir: str) -> pd.DataFrame:
+                                              repo_dir: str,
+                                              save: bool) -> pd.DataFrame:
     """
     df: assuming we take the chord-level indices
     """
@@ -462,18 +462,18 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
     res_df["piece_id"] = pd.factorize(res_df["piece"])[0] + 1
 
     # save df:
-
-    folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
-    fname = f"chord_indices_r_vals_by_piece"
-    save_df(df=res_df, file_type="both", directory=folder_path, fname=fname)
+    if save:
+        folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+        fname = f"chord_indices_r_vals_by_piece"
+        save_df(df=res_df, file_type="both", directory=folder_path, fname=fname)
 
     return res_df
 
 
+# %% full set of processed datasets for analyses
 def full_post_preprocessed_datasets_update():
     user = os.path.expanduser("~")
     repo_dir = f'{user}/Codes/chromaticism-codes/'
-
     prep_DLC_data = load_file_as_df(path=f"{repo_dir}Data/prep_data/processed_DLC_data.pickle")
 
     print(f'Computing chord chromaticity indices ...')
@@ -509,7 +509,7 @@ def full_post_preprocessed_datasets_update():
     chord_df = combine_chord_level_indices(chord_chromaticity=chord_chrom, chord_dissonance=chord_diss,
                                            repo_dir=repo_dir)
     print(f'   computing pairwise correlation for chord indices...')
-    compute_pairwise_chord_indices_r_by_piece(df=chord_df, repo_dir=repo_dir)
+    compute_pairwise_chord_indices_r_by_piece(df=chord_df, repo_dir=repo_dir, save=True)
 
     print(f'Combing dfs for piece-level indices ...')
     piece_by_mode = combined_piece_level_indices(piece_chrom=piece_chrom_by_mode, piece_diss=piece_diss_by_mode,
@@ -519,7 +519,6 @@ def full_post_preprocessed_datasets_update():
 
     print(f'Computing corpora-level indices ... ')
     get_corpora_level_indices_by_mode(df=piece_by_mode, repo_dir=repo_dir)
-
 
     print(f'Fini!')
 
@@ -532,4 +531,3 @@ if __name__ == "__main__":
 
     # process_DLC_data(data_path=f"{repo_dir}Data/prep_data/DLC_data.pickle", save=True, repo_dir=repo_dir)
     # prep_DLC_data = load_file_as_df(path=f"{repo_dir}Data/prep_data/processed_DLC_data.pickle")
-
