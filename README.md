@@ -21,3 +21,19 @@ Note: the file `processed_DLC_data.pickle` is too large to push in Github.
 In general, in case any file is missing in the folder `Data/prep_data/for_analysis/` or 
 the `processed_DLC_data.pickle` is missing, just run the script `Code/compute.py` to generate all the files.
 
+### Results
+
+Within the Results folder, you will find different sets of analyses in different folders.
+
+The `correlation_analyses` and `GPR_analysis` also contains plotly figure (in html) that you can explore specific
+datapoints. 
+
+---
+**Update May 9:**
+3 sets of intermediate data and results are included in the repo based on the 3 versions of dissonance metric.
+
+_Current decision_: we chose the version of normalized by chord size (figures and stats updated in manuscript).
+See the following folder path for the data and results for this version:
+
+- Data for analysis: `Data/prep_data/for_analysis/diss_version_NormByChordSize/`
+- Results and figures: `Results/diss_version_NormByChordSize`
