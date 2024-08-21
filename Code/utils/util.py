@@ -410,9 +410,45 @@ def get_corpus_summary_table(metadata_path: str = "../data/all_subcorpora/all_su
     print(latex_table)
 
 
-def corpus_summary_stats():
-    raise NotImplementedError
-
+corpora_colors = ["#a93a55",
+"#fa96a5",
+"#d66767",
+"#a43f3a",
+"#fe917d",
+"#906f67",
+"#8f412b",
+"#e88764",
+"#ac5932",
+"#d6aa89",
+"#d49450",
+"#70532b",
+"#ceae7b",
+"#a28731",
+"#655808",
+"#a1b55a",
+"#adb87f",
+"#31632d",
+"#66a95f",
+"#148f5a",
+"#8cbdaa",
+"#206354",
+"#4cc5af",
+"#4dc3c5",
+"#008fa3",
+"#36c1e4",
+"#115f7c",
+"#6fbaec",
+"#0164a2",
+"#91a9ff",
+"#405598",
+"#6f80d4",
+"#5a62b3",
+"#c1a8df",
+"#be99ee",
+"#aa5ea4",
+"#78496a",
+"#d2a5c1",
+"#f196cc"]
 
 if __name__ == "__main__":
     path = "Data/prep_data/cleaned_distant_listening_corpus_harmonies.tsv"

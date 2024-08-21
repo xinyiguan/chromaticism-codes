@@ -43,7 +43,7 @@ def process_DLC_data(data_path: str,
         return [x + row["localkey2C"] for x in row["tones_in_span_in_C"]]
 
     def tones_not_in_label(row):
-        return [item for item in row['tones_in_span_in_lk'] if item not in row['within_label']]
+        return [item for item in row['tones_in_span_in_lk'] if item not in row['in_label']]
 
     def tpc2spc(row):
         return [Key.get_spc_from_fifths(k=Key(tonic=row["localkey_spc"], mode=row["localkey_mode"]),
@@ -71,14 +71,13 @@ def process_DLC_data(data_path: str,
         df["chord_tones"] = df["chord_tones"].apply(flatten_to_list)
 
     df["tones_in_span_in_lk"] = df.apply(correct_tpc_ref_center, axis=1)
-    df["within_label"] = df.apply(lambda row: [x for x in row["chord_tones"] + row["added_tones"]], axis=1)
+    df["in_label"] = df.apply(lambda row: [x for x in row["chord_tones"] + row["added_tones"]], axis=1)
     df["out_of_label"] = df.apply(tones_not_in_label, axis=1)
 
     df = df.assign(corpus_year=df.groupby("corpus")["piece_year"].transform("mean")).sort_values(
         ['corpus_year', 'piece_year']).reset_index(drop=True)
 
-    df["period_Johannes"] = df.apply(lambda row: determine_period(row=row, method="Johannes"), axis=1)
-    df["period_Fabian"] = df.apply(lambda row: determine_period(row=row, method="Fabian"), axis=1)
+    df["period"] = df.apply(lambda row: determine_period(row=row, method="Fabian"), axis=1)
 
     try:
         df = df.drop(columns=['Unnamed: 0', 'all_tones_tpc_in_C'])
@@ -101,9 +100,9 @@ def compute_chord_chromaticity(df: pd.DataFrame,
     the input df should be the processed df with the load_dcml_harmonies_tsv()
     """
 
-    # within-label chromaticity
-    df["WLC"] = df.apply(
-        lambda row: cumulative_distance_to_diatonic_set(tonic=None, ts=row["within_label"],
+    # in-label chromaticity
+    df["ILC"] = df.apply(
+        lambda row: cumulative_distance_to_diatonic_set(tonic=None, ts=row["in_label"],
                                                         diatonic_mode=row["localkey_mode"]), axis=1)
     # out-of-label chromaticity
     df["OLC"] = df.apply(
@@ -111,9 +110,9 @@ def compute_chord_chromaticity(df: pd.DataFrame,
                                                         diatonic_mode=row["localkey_mode"]), axis=1)
 
     result = df[
-        ["corpus", "piece", "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey", "localkey",
+        ["corpus", "piece", "corpus_year", "piece_year", "period", "globalkey", "localkey",
          "localkey_spc", "localkey_mode", "quarterbeats", "chord", "tones_in_span_in_C", "tones_in_span_in_lk",
-         "within_label", "WLC", "out_of_label", "OLC"]]
+         "in_label", "ILC", "out_of_label", "OLC"]]
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
         save_df(df=result, file_type="both", directory=folder_path, fname="chromaticity_chord")
@@ -131,13 +130,12 @@ def compute_piece_chromaticity(df: pd.DataFrame,
         result_df = df.groupby(['corpus', 'piece', adj_check], as_index=False, sort=False).agg(
             corpus_year=("corpus_year", "first"),
             piece_year=("piece_year", "first"),
-            period_Fabian=("period_Fabian", "first"),
-            period_Johannes=("period_Johannes", "first"),
+            period=("period", "first"),
             globalkey=("globalkey", "first"),
             localkey=("localkey", "first"),
             localkey_mode=("localkey_mode", "first"),
 
-            WLC=("WLC", "mean"),
+            ILC=("ILC", "mean"),
             OLC=("OLC", "mean")
         )
 
@@ -147,14 +145,12 @@ def compute_piece_chromaticity(df: pd.DataFrame,
         result_df = df.groupby(['corpus', 'piece', 'localkey_mode'], as_index=False, sort=False).agg(
             corpus_year=("corpus_year", "first"),
             piece_year=("piece_year", "first"),
-            period_Fabian=("period_Fabian", "first"),
-            period_Johannes=("period_Johannes", "first"),
+            period=("period", "first"),
             globalkey=("globalkey", "first"),
             localkey_mode=("localkey_mode", "first"),
 
-            WLC=("WLC", "mean"),
+            ILC=("ILC", "mean"),
             OLC=("OLC", "mean"),
-
         )
     else:
         raise ValueError()
@@ -181,14 +177,14 @@ def get_piece_chromaticity_by_mode_seg(df: pd.DataFrame,
     result_df = df.loc[df['localkey_mode'] == mode]
 
     def calculate_WLC_percentage(row):
-        denominator = (row["WLC"] + row["OLC"])
+        denominator = (row["ILC"] + row["OLC"])
         if denominator != 0:
-            return row["WLC"] / denominator
+            return row["ILC"] / denominator
         else:
             return 0
 
     def calculate_OLC_percentage(row):
-        denominator = (row["WLC"] + row["OLC"])
+        denominator = (row["ILC"] + row["OLC"])
         if denominator != 0:
             return row["OLC"] / denominator
         else:
@@ -216,13 +212,13 @@ def compute_chord_dissonance(df: pd.DataFrame,
         should be the processed_DLC_data
     """
 
-    # WITHIN-LABEL DISSONANCE
-    df["interval_classes"] = df.apply(lambda row: tpcs_to_ics(tpcs=row["within_label"]), axis=1)
-    df["WLD"] = df.apply(lambda row: pcs_to_dissonance_score(tpcs=row["within_label"]), axis=1)
+    # IN-LABEL DISSONANCE
+    df["interval_classes"] = df.apply(lambda row: tpcs_to_ics(tpcs=row["in_label"]), axis=1)
+    df["ILD"] = df.apply(lambda row: pcs_to_dissonance_score(tpcs=row["in_label"]), axis=1)
 
     result = df[
-        ["corpus", "piece", "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey", "localkey",
-         "localkey_mode", "duration_qb_frac", "quarterbeats", "chord", "within_label", "interval_classes", "WLD"]]
+        ["corpus", "piece", "corpus_year", "piece_year", "period", "globalkey", "localkey",
+         "localkey_mode", "duration_qb_frac", "quarterbeats", "chord", "in_label", "interval_classes", "ILD"]]
 
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -241,12 +237,11 @@ def compute_piece_dissonance(df: pd.DataFrame,
         grouped_df = df.groupby(['corpus', 'piece', adj_check], as_index=False, sort=False).agg(
             corpus_year=("corpus_year", "first"),
             piece_year=("piece_year", "first"),
-            period_Fabian=("period_Fabian", "first"),
-            period_Johannes=("period_Johannes", "first"),
+            period=("period", "first"),
             globalkey=("globalkey", "first"),
             localkey=("localkey", "first"),
             localkey_mode=("localkey_mode", "first"),
-            total_WLD=("WLD", "sum")
+            total_WLD=("ILD", "sum")
         )
         res_df = pd.merge(grouped_df, chord_num_df, on=['corpus', 'piece', 'localkey'], how='left')
 
@@ -256,11 +251,10 @@ def compute_piece_dissonance(df: pd.DataFrame,
         grouped_df = df.groupby(['corpus', 'piece', 'localkey_mode'], as_index=False, sort=False).agg(
             corpus_year=("corpus_year", "first"),
             piece_year=("piece_year", "first"),
-            period_Fabian=("period_Fabian", "first"),
-            period_Johannes=("period_Johannes", "first"),
+            period=("period", "first"),
             globalkey=("globalkey", "first"),
             localkey_mode=("localkey_mode", "first"),
-            total_WLD=("WLD", "sum")
+            total_WLD=("ILD", "sum")
         )
         res_df = pd.merge(grouped_df, chord_num_df, on=['corpus', 'piece', 'localkey_mode'], how='left')
 
@@ -270,11 +264,10 @@ def compute_piece_dissonance(df: pd.DataFrame,
         grouped_df = df.groupby(['corpus', 'piece'], as_index=False, sort=False).agg(
             corpus_year=("corpus_year", "first"),
             piece_year=("piece_year", "first"),
-            period_Fabian=("period_Fabian", "first"),
-            period_Johannes=("period_Johannes", "first"),
+            period=("period", "first"),
             globalkey=("globalkey", "first"),
             localkey_mode=("localkey_mode", "first"),
-            total_WLD=("WLD", "sum"))
+            total_WLD=("ILD", "sum"))
         res_df = pd.merge(grouped_df, chord_num_df, on=['corpus', 'piece'], how='left')
     else:
         raise ValueError
@@ -297,7 +290,7 @@ def compute_piece_fifth_range(df: pd.DataFrame,
                               repo_dir: str,
                               save: bool = True) -> pd.DataFrame:
     """
-    df: taking any chord-level df containing the columns "within_label" and out_of_label" => ("chromaticity_chord")
+    df: taking any chord-level df containing the columns "in_label" and out_of_label" => ("chromaticity_chord")
     """
 
     def calculate_max_min_pc(x):
@@ -306,25 +299,24 @@ def compute_piece_fifth_range(df: pd.DataFrame,
         else:  # hacking the zero-length all_tones
             return 0, 0
 
-    df["max_WL"], df["min_WL"] = zip(*df["within_label"].apply(calculate_max_min_pc))
+    df["max_IL"], df["min_IL"] = zip(*df["in_label"].apply(calculate_max_min_pc))
     df["max_OL"], df["min_OL"] = zip(*df["out_of_label"].apply(calculate_max_min_pc))
 
     result_df = df.groupby(['corpus', 'piece', 'localkey_mode'], as_index=False, sort=False).agg(
         corpus_year=("corpus_year", "first"),
         piece_year=("piece_year", "first"),
-        period_Fabian=("period_Fabian", "first"),
-        period_Johannes=("period_Johannes", "first"),
+        period=("period", "first"),
         globalkey=("globalkey", "first"),
         localkey_mode=("localkey_mode", "first"),
 
-        max_WL=("max_WL", "max"),
-        min_WL=("min_WL", "min"),
+        max_IL=("max_IL", "max"),
+        min_IL=("min_IL", "min"),
         max_OL=("max_OL", "max"),
         min_OL=("min_OL", "min")
     )
 
     result_df = result_df.sort_values(by=["corpus_year", "piece_year"], ignore_index=True)
-    result_df["WL_5th_range"] = (result_df["max_WL"] - result_df["min_WL"]).abs()
+    result_df["IL_5th_range"] = (result_df["max_IL"] - result_df["min_IL"]).abs()
     result_df["OL_5th_range"] = (result_df["max_OL"] - result_df["min_OL"]).abs()
 
     result_df["corpus_id"] = pd.factorize(result_df["corpus"])[0] + 1
@@ -343,21 +335,21 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
                                 chord_dissonance: pd.DataFrame,
                                 repo_dir: str,
                                 save: bool = True) -> pd.DataFrame:
-    common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey",
+    common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "period", "globalkey",
                    "localkey", "localkey_mode", "quarterbeats",
-                   "chord", "within_label"]
+                   "chord", "in_label"]
 
-    chromaticity = chord_chromaticity[common_cols + ["out_of_label", "WLC", "OLC"]]
-    dissonance = chord_dissonance[common_cols + ["interval_classes", "WLD"]]
+    chromaticity = chord_chromaticity[common_cols + ["out_of_label", "ILC", "OLC"]]
+    dissonance = chord_dissonance[common_cols + ["interval_classes", "ILD"]]
 
-    chromaticity.within_label = chromaticity.within_label.apply(tuple)
+    chromaticity.in_label = chromaticity.in_label.apply(tuple)
     chromaticity.out_of_label = chromaticity.out_of_label.apply(tuple)
-    dissonance.within_label = dissonance.within_label.apply(tuple)
+    dissonance.in_label = dissonance.in_label.apply(tuple)
     dissonance.interval_classes = dissonance.interval_classes.apply(tuple)
 
     result_df = chromaticity.merge(dissonance,
                                    on=common_cols,
-                                   how="outer")[common_cols + ["out_of_label", "interval_classes", "WLC", "OLC", "WLD"]]
+                                   how="outer")[common_cols + ["out_of_label", "interval_classes", "ILC", "OLC", "ILD"]]
 
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -371,30 +363,28 @@ def combined_piece_level_indices(piece_chrom: pd.DataFrame,
                                  piece_diss: pd.DataFrame,
                                  groupy_by: Literal["key_segment", "mode"],
                                  repo_dir: str) -> pd.DataFrame:
-    # common_cols = ['corpus', 'piece', "corpus_year", "piece_year", "period_Johannes", "period_Fabian", "globalkey"]
-
     if groupy_by == "mode":
         fname_suffix = f'_by_mode'
-        common_cols = ['corpus', 'piece', "corpus_id", "piece_id", "corpus_year", "piece_year", "period_Johannes",
-                       "period_Fabian", "globalkey",
+        common_cols = ['corpus', 'piece', "corpus_id", "piece_id", "corpus_year", "piece_year",
+                       "period", "globalkey",
                        "localkey_mode"]
 
 
     elif groupy_by == "key_segment":
         fname_suffix = f'_by_localkey'
-        common_cols = ['corpus', 'piece', "corpus_id", "piece_id", "corpus_year", "piece_year", "period_Johannes",
-                       "period_Fabian", "globalkey",
+        common_cols = ['corpus', 'piece', "corpus_id", "piece_id", "corpus_year", "piece_year",
+                       "period", "globalkey",
                        "localkey"]
 
     else:
         raise ValueError()
 
-    chromaticity = piece_chrom[common_cols + ["WLC", "OLC"]]
-    WLD = piece_diss["avg_WLD"].tolist()
+    chromaticity = piece_chrom[common_cols + ["ILC", "OLC"]]
+    ILD = piece_diss["avg_WLD"].tolist()
 
-    assert chromaticity.shape[0] == len(WLD)
+    assert chromaticity.shape[0] == len(ILD)
 
-    res_df = chromaticity.assign(WLD=WLD)
+    res_df = chromaticity.assign(ILD=ILD)
 
     # save data:
     fname = f'piece_level_indices{fname_suffix}'
@@ -416,9 +406,9 @@ def get_corpora_level_indices_by_mode(df: pd.DataFrame,
         localkey_mode=("localkey_mode", "first"),
         corpus_id=("corpus_id", "first"),
 
-        WLC=("WLC", "mean"),
+        ILC=("ILC", "mean"),
         OLC=("OLC", "mean"),
-        WLD=("WLD", "mean")
+        ILD=("ILD", "mean")
 
     )
     folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -438,19 +428,18 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
     piece_df = df.groupby(["corpus", "piece", "localkey_mode"], as_index=False, sort=False).agg(
         corpus_year=("corpus_year", "first"),
         piece_year=("piece_year", "first"),
-        period_Fabian=("period_Fabian", "first"),
-        period_Johannes=("period_Johannes", "first"),
+        period=("period", "first"),
         globalkey=("globalkey", "first"))
 
-    r_wlc_olc = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['WLC', 'OLC']].corr().unstack().iloc[:,
+    r_ilc_olc = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['ILC', 'OLC']].corr().unstack().iloc[:,
                 1].reset_index(
-        name=f'r_WLC_OLC')
+        name=f'r_ilc_olc')
 
-    r_wlc_wld = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['WLC', 'WLD']].corr().unstack().iloc[:,
+    r_ilc_ild = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['ILC', 'ILD']].corr().unstack().iloc[:,
                 1].reset_index(
-        name=f'r_WLC_WLD')
+        name=f'r_ilc_ild')
 
-    r_df = r_wlc_olc.merge(r_wlc_wld,
+    r_df = r_ilc_olc.merge(r_ilc_ild,
                            on=["corpus", "piece", "localkey_mode"],
                            how="outer")
 
@@ -486,7 +475,7 @@ def full_post_preprocessed_datasets_update():
     print(f'    Getting separate piece-level chromaticties for major/minor mode segments...')
 
     piece_chrom_by_mode = load_file_as_df(
-        "/Users/xguan/Codes/chromaticism-codes/Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
+        path=f"{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_by_mode.pickle")
     get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="major", repo_dir=repo_dir)
     get_piece_chromaticity_by_mode_seg(df=piece_chrom_by_mode, mode="minor", repo_dir=repo_dir)
 
@@ -501,7 +490,7 @@ def full_post_preprocessed_datasets_update():
     piece_diss = compute_piece_dissonance(by=None, df=chord_dissonance, repo_dir=repo_dir, save=True)
 
     print(f'Finished dissonance!')
-    #
+
     chord_chrom = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/chromaticity_chord.pickle")
     chord_diss = load_file_as_df(path=f"{repo_dir}Data/prep_data/for_analysis/dissonance_chord.pickle")
 
@@ -525,9 +514,9 @@ def full_post_preprocessed_datasets_update():
 
 if __name__ == "__main__":
     full_post_preprocessed_datasets_update()
-
+    #
     # user = os.path.expanduser("~")
     # repo_dir = f'{user}/Codes/chromaticism-codes/'
-
+    #
     # process_DLC_data(data_path=f"{repo_dir}Data/prep_data/DLC_data.pickle", save=True, repo_dir=repo_dir)
     # prep_DLC_data = load_file_as_df(path=f"{repo_dir}Data/prep_data/processed_DLC_data.pickle")

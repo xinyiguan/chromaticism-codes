@@ -1,8 +1,0 @@
-num sub-corpora                  39.00000
-num pieces                     1205.00000
-num chords                   228978.00000
-num unique chord               5808.00000
-num major segments              974.00000
-num minor segments              933.00000
-percentage major segments         0.51075
-percentage minor segments         0.48925

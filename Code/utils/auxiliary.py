@@ -1,9 +1,10 @@
 # auxiliary functions for analysis
 import os
 from typing import Literal, Tuple, List, Optional
-from matplotlib import colormaps
+from matplotlib import colormaps, pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.axes import Axes
 
 # color palette for period division
 Johannes_periods = ["pre-Baroque", "Baroque", "Classical", "Extended tonality"]
@@ -45,7 +46,6 @@ def determine_period(row: pd.Series, method: Literal["Fabian", "Johannes"]):
         raise ValueError
     return p
 
-
 def determine_period_id(row: pd.Series, method: Literal["Fabian", "Johannes"]):
     if method == "Johannes":
         JP = f'period_Johannes'
@@ -61,8 +61,8 @@ def determine_period_id(row: pd.Series, method: Literal["Fabian", "Johannes"]):
         else:
             raise ValueError
     else:
-        assert 'period_Fabian' in row.index
-        FP = f'period_Fabian'
+        assert 'period' in row.index
+        FP = f'period'
         if row[FP] == "Renaissance":
             ID = 1
         elif row[FP] == "Baroque":
@@ -76,6 +76,38 @@ def determine_period_id(row: pd.Series, method: Literal["Fabian", "Johannes"]):
         else:
             raise ValueError
     return ID
+
+
+# def determine_period_id(row: pd.Series, method: Literal["Fabian", "Johannes"]):
+#     if method == "Johannes":
+#         JP = f'period_Johannes'
+#         assert JP in row.index
+#         if row[JP] == "pre-Baroque":
+#             ID = 1
+#         elif row[JP] == "Baroque":
+#             ID = 2
+#         elif row[JP] == "Classical":
+#             ID = 3
+#         elif row[JP] == "Extended tonality":
+#             ID = 4
+#         else:
+#             raise ValueError
+#     else:
+#         assert 'period_Fabian' in row.index
+#         FP = f'period_Fabian'
+#         if row[FP] == "Renaissance":
+#             ID = 1
+#         elif row[FP] == "Baroque":
+#             ID = 2
+#         elif row[FP] == "Classical":
+#             ID = 3
+#         elif row[FP] == "Early Romantic":
+#             ID = 4
+#         elif row[FP] == "Late Romantic":
+#             ID = 5
+#         else:
+#             raise ValueError
+#     return ID
 
 
 def get_period_df(df: pd.DataFrame,
@@ -191,6 +223,23 @@ def map_array_to_colors(arr: np.ndarray, color_map: str | List[str]) -> List[str
 
     return color_list
 
+def add_period_text_to_ax(ax:Axes, y0:float, fontsize:str="x-small",
+                          ymin:float =0, ymax:float =.05):
+    # add vertical-lines to era boundaries
+
+    div_yrs = [1590, 1662, 1761, 1820, 1869]
+    era_str = ["Renaissance", "Baroque", "Classical", "E.Rom", "L.Rom"]
+    for i, x in enumerate(div_yrs):
+        if i != 0:
+            ax.axvline(x=x, ymax=.05, c="black", lw=0.5)
+        if i == 0:
+            # ax.text(x=x, y=y0+.02, s=era_str[i], fontsize="x-small")
+            ax.text(x=x, y=y0, s=era_str[i], fontsize=fontsize)
+
+        elif i == 1:
+            ax.text(x=x + 25, y=y0, s=era_str[i], fontsize=fontsize)
+        else:
+            ax.text(x=x + 10, y=y0, s=era_str[i], fontsize=fontsize)
 
 # jitter
 def rand_jitter(arr, scale: float = .005):
