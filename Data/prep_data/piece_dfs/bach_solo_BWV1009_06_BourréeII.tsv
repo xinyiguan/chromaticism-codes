@@ -1,0 +1,35 @@
+	corpus	piece	corpus_year	piece_year	period	globalkey	localkey	localkey_mode	quarterbeats	chord	in_label	out_of_label	interval_classes	ILC	OLC	ILD	corpus_id	piece_id
+43785	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	0.0	i	(0, -3, 1)	(2, 5)	(3, 5, 4)	0	3	0.2	9	42
+43786	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	5.0	V	(1, 5, 2)	(0, 3, -3, -1)	(4, 5, 3)	3	1	0.2	9	42
+43787	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	9.0	i6	(-3, 1, 0)	(-1,)	(4, 3, 5)	0	0	0.2	9	42
+43788	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	11.0	#viio6	(2, -1, 5)	(-3,)	(3, 3, 6)	3	0	0.5333	9	42
+43789	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	13.0	i	(0, -3, 1)	(2, 3, 5, -1)	(3, 5, 4)	0	4	0.2	9	42
+43779	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	III	major	17.0	I	(0, 4, 1)	(2, -1)	(4, 5, 3)	0	0	0.2	9	42
+43780	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	III	major	21.0	V6	(5, 2, 1)	(3, 4, -1, 0)	(3, 4, 5)	0	0	0.2	9	42
+43781	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	III	major	25.0	I	(0, 4, 1)	(3, 5, 2, -1)	(4, 5, 3)	0	0	0.2	9	42
+43782	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	III	major	33.0	I6	(4, 1, 0)	(2,)	(3, 4, 5)	0	0	0.2	9	42
+43783	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	III	major	36.0	viio/V	(6, 3, 0)	()	(3, 6, 3)	1	0	0.5333	9	42
+43784	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	III	major	37.0	V	(1, 5, 2)	(3, 6)	(4, 5, 3)	0	1	0.2	9	42
+43805	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	v	minor	41.0	i	(0, -3, 1)	(-1, 2)	(3, 5, 4)	0	0	0.2	9	42
+43806	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	v	minor	45.0	V	(1, 5, 2)	(-1, 3)	(4, 5, 3)	3	1	0.2	9	42
+43807	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	v	minor	50.0	iv6	(-4, 0, -1)	(1,)	(4, 3, 5)	0	0	0.2	9	42
+43808	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	v	minor	53.0	iv	(-1, -4, 0)	(1, 4)	(3, 5, 4)	0	2	0.2	9	42
+43809	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	v	minor	56.0	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	9	42
+43810	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	v	minor	57.0	i	(0, -3, 1)	(-1, 2)	(3, 5, 4)	0	0	0.2	9	42
+43811	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	v	minor	59.0	V6	(5, 2, 1)	(0, -3)	(3, 4, 5)	3	0	0.2	9	42
+43812	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	v	minor	61.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	9	42
+43790	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	64.0	#viio6/iv	(1, -2, 4)	(-4,)	(3, 3, 6)	2	0	0.5333	9	42
+43791	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	67.0	#viio/iv	(4, 1, -2)	(-1,)	(3, 6, 3)	2	0	0.5333	9	42
+43792	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	69.0	iv	(-1, -4, 0)	(1, -2)	(3, 5, 4)	0	0	0.2	9	42
+43793	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	71.0	#viio6	(2, -1, 5)	()	(3, 3, 6)	3	0	0.5333	9	42
+43794	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	73.0	V6	(5, 2, 1)	(0,)	(3, 4, 5)	3	0	0.2	9	42
+43795	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	75.0	i	(0, -3, 1)	(2,)	(3, 5, 4)	0	0	0.2	9	42
+43796	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	77.0	V	(1, 5, 2)	(0, 3, -3, -1)	(4, 5, 3)	3	1	0.2	9	42
+43797	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	81.0	i6	(-3, 1, 0)	(2,)	(4, 3, 5)	0	0	0.2	9	42
+43798	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	82.0	iv	(-1, -4, 0)	(-3,)	(3, 5, 4)	0	0	0.2	9	42
+43799	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	83.0	V	(1, 5, 2)	(-1,)	(4, 5, 3)	3	0	0.2	9	42
+43800	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	84.0	VI	(-4, 0, -3)	(1,)	(4, 5, 3)	0	0	0.2	9	42
+43801	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	85.0	V7	(1, 5, 2, -1)	(0, 3, -3)	(4, 5, 2, 3, 6, 3)	3	1	0.6	9	42
+43802	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	89.0	i	(0, -3, 1)	(2, -1)	(3, 5, 4)	0	0	0.2	9	42
+43803	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	91.0	V6	(5, 2, 1)	(0, -3)	(3, 4, 5)	3	0	0.2	9	42
+43804	bach_solo	BWV1009_06_BourréeII	1721.536293766012	1723	Baroque	c	i	minor	93.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	9	42

@@ -1,0 +1,89 @@
+	corpus	piece	corpus_year	piece_year	period	globalkey	localkey	localkey_mode	quarterbeats	chord	in_label	out_of_label	interval_classes	ILC	OLC	ILD	corpus_id	piece_id
+196538	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	0.0	i	(0, -3, 1)	(-2, -4)	(3, 5, 4)	0	0	0.2	25	8
+196539	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	1.0	iio	(2, -1, -4)	(-3, 1)	(3, 6, 3)	0	0	0.5333	25	8
+196540	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	2.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196541	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	2.5	i6	(-3, 1, 0)	()	(4, 3, 5)	0	0	0.2	25	8
+196542	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	3.0	iv	(-1, -4, 0)	()	(3, 5, 4)	0	0	0.2	25	8
+196543	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	3.5	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	25	8
+196544	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	4.0	i	(0, -3, 1)	(-1, 2)	(3, 5, 4)	0	0	0.2	25	8
+196588	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	5.0	iio	(2, -1, -4)	(-3, 1)	(3, 6, 3)	0	0	0.5333	25	8
+196589	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	6.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196590	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	6.5	i6	(-3, 1, 0)	()	(4, 3, 5)	0	0	0.2	25	8
+196591	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	7.0	iv	(-1, -4, 0)	()	(3, 5, 4)	0	0	0.2	25	8
+196592	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	7.5	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	25	8
+196593	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	8.0	i	(0, -3, 1)	(-5,)	(3, 5, 4)	0	1	0.2	25	8
+196545	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	9.0	iio	(2, -1, -4)	(-3, 1)	(3, 6, 3)	0	0	0.5333	25	8
+196546	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	10.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196547	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	10.5	i6	(-3, 1, 0)	()	(4, 3, 5)	0	0	0.2	25	8
+196548	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	11.0	iv	(-1, -4, 0)	()	(3, 5, 4)	0	0	0.2	25	8
+196549	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	11.5	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	25	8
+196550	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	12.0	i	(0, -3, 1)	(-1, 2)	(3, 5, 4)	0	0	0.2	25	8
+196594	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	13.0	iio	(2, -1, -4)	(-3, 1)	(3, 6, 3)	0	0	0.5333	25	8
+196595	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	14.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196596	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	14.5	i6	(-3, 1, 0)	()	(4, 3, 5)	0	0	0.2	25	8
+196597	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	15.0	iv	(-1, -4, 0)	()	(3, 5, 4)	0	0	0.2	25	8
+196598	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	15.5	V	(1, 5, 2)	(0,)	(4, 5, 3)	3	0	0.2	25	8
+196599	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	16.0	i	(0, -3, 1)	(-5,)	(3, 5, 4)	0	1	0.2	25	8
+196600	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	17.0	vo	(1, -2, -5)	(-4, -3)	(3, 6, 3)	1	0	0.5333	25	8
+196578	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	18.0	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	3	0	0.6	25	8
+196579	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	19.0	ii%43	(-4, 0, 2, -1)	()	(4, 6, 3, 2, 5, 3)	0	0	0.6	25	8
+196580	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	20.0	V7	(1, 5, 2, -1)	(0, 4)	(4, 5, 2, 3, 6, 3)	3	2	0.6	25	8
+196581	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	23.0	iv%43	(-7, -3, -1, -4)	(0, 2)	(4, 6, 3, 2, 5, 3)	3	0	0.6	25	8
+196582	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	24.0	V7	(1, 5, 2, -1)	(0, 4)	(4, 5, 2, 3, 6, 3)	3	2	0.6	25	8
+196524	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	26.0	iv6	(-4, 0, -1)	()	(4, 3, 5)	3	0	0.2	25	8
+196525	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	27.0	bVII	(-2, 2, -1)	()	(4, 5, 3)	1	0	0.2	25	8
+196526	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	27.5	iv6	(-4, 0, -1)	()	(4, 3, 5)	3	0	0.2	25	8
+196527	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	28.0	V7	(1, 5, 2, -1)	(0, 4)	(4, 5, 2, 3, 6, 3)	0	0	0.6	25	8
+196528	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	31.0	bVII	(-2, 2, -1)	(-4,)	(4, 5, 3)	1	3	0.2	25	8
+196529	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	31.75	iv6	(-4, 0, -1)	()	(4, 3, 5)	3	0	0.2	25	8
+196530	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	32.0	V7	(1, 5, 2, -1)	(0, 4)	(4, 5, 2, 3, 6, 3)	0	0	0.6	25	8
+196551	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	33.75	V6	(5, 2, 1)	()	(3, 4, 5)	3	0	0.2	25	8
+196552	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	34.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196553	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	34.5	i6	(-3, 1, 0)	()	(4, 3, 5)	0	0	0.2	25	8
+196554	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	35.0	iv	(-1, -4, 0)	()	(3, 5, 4)	0	0	0.2	25	8
+196555	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	35.5	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	25	8
+196556	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	36.0	i	(0, -3, 1)	(-2, -1, 2, 3)	(3, 5, 4)	0	1	0.2	25	8
+196601	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	38.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196602	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	38.5	i6	(-3, 1, 0)	()	(4, 3, 5)	0	0	0.2	25	8
+196603	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	39.0	iv	(-1, -4, 0)	()	(3, 5, 4)	0	0	0.2	25	8
+196604	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	39.5	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	25	8
+196605	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	40.0	i	(0, -3, 1)	(-5,)	(3, 5, 4)	0	1	0.2	25	8
+196557	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	41.0	iio	(2, -1, -4)	(-3, 1)	(3, 6, 3)	0	0	0.5333	25	8
+196558	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	42.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196559	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	42.5	i6	(-3, 1, 0)	()	(4, 3, 5)	0	0	0.2	25	8
+196560	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	43.0	iv	(-1, -4, 0)	()	(3, 5, 4)	0	0	0.2	25	8
+196561	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	43.5	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	25	8
+196562	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	44.0	i	(0, -3, 1)	(-2, -1, 2, 3)	(3, 5, 4)	0	1	0.2	25	8
+196606	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	46.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196607	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	46.5	i6	(-3, 1, 0)	()	(4, 3, 5)	0	0	0.2	25	8
+196608	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	47.0	iv	(-1, -4, 0)	(1,)	(3, 5, 4)	0	0	0.2	25	8
+196609	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	47.75	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	25	8
+196610	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	48.0	i	(0, -3, 1)	(-5,)	(3, 5, 4)	0	1	0.2	25	8
+196611	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	v	minor	49.0	vo	(1, -2, -5)	(-4, -3)	(3, 6, 3)	1	0	0.5333	25	8
+196583	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	50.0	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	3	0	0.6	25	8
+196584	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	51.0	ii%43	(-4, 0, 2, -1)	()	(4, 6, 3, 2, 5, 3)	0	0	0.6	25	8
+196585	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	52.0	V7	(1, 5, 2, -1)	(0, 4)	(4, 5, 2, 3, 6, 3)	3	2	0.6	25	8
+196586	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	55.0	iv%43	(-7, -3, -1, -4)	(0, 2)	(4, 6, 3, 2, 5, 3)	3	0	0.6	25	8
+196587	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	iv	minor	56.0	V7	(1, 5, 2, -1)	(0, 4)	(4, 5, 2, 3, 6, 3)	3	2	0.6	25	8
+196531	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	58.0	iv6	(-4, 0, -1)	()	(4, 3, 5)	3	0	0.2	25	8
+196532	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	59.0	bVII	(-2, 2, -1)	()	(4, 5, 3)	1	0	0.2	25	8
+196533	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	59.5	iv6	(-4, 0, -1)	()	(4, 3, 5)	3	0	0.2	25	8
+196534	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	60.0	V7	(1, 5, 2, -1)	(0, 4)	(4, 5, 2, 3, 6, 3)	0	0	0.6	25	8
+196535	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	63.0	bVII	(-2, 2, -1)	(-4,)	(4, 5, 3)	1	3	0.2	25	8
+196536	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	63.75	iv6	(-4, 0, -1)	()	(4, 3, 5)	3	0	0.2	25	8
+196537	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	III	major	64.0	V7	(1, 5, 2, -1)	(0, 4)	(4, 5, 2, 3, 6, 3)	0	0	0.6	25	8
+196563	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	65.75	V6	(5, 2, 1)	()	(3, 4, 5)	3	0	0.2	25	8
+196564	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	66.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196565	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	66.5	iv	(-1, -4, 0)	(1,)	(3, 5, 4)	0	0	0.2	25	8
+196566	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	67.0	V(64)	(1, 0, -3)	()	(5, 4, 3)	0	0	0.2	25	8
+196567	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	67.5	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	25	8
+196568	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	68.0	iv6	(-4, 0, -1)	(-2, 1, 4)	(4, 3, 5)	0	2	0.2	25	8
+196569	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	70.0	i6	(-3, 1, 0)	()	(4, 3, 5)	0	0	0.2	25	8
+196570	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	70.5	VI	(-4, 0, -3)	(1,)	(4, 5, 3)	0	0	0.2	25	8
+196571	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	71.0	iv7	(-1, -4, 0, -3)	()	(3, 5, 2, 4, 5, 3)	0	0	0.4	25	8
+196572	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	71.5	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	25	8
+196573	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	72.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	25	8
+196574	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	73.0	i2	(-2, 0, -3, 1)	()	(2, 5, 3, 3, 5, 4)	0	0	0.4	25	8
+196575	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	74.0	iv6	(-4, 0, -1)	(-3, -2, 1, -5)	(4, 3, 5)	0	1	0.2	25	8
+196576	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	75.75	iv	(-1, -4, 0)	()	(3, 5, 4)	0	0	0.2	25	8
+196577	schumann_liederkreis	op39n08	1840.0	1840	Early Romantic	a	i	minor	76.0	I	(0, 4, 1)	()	(4, 5, 3)	2	0	0.2	25	8

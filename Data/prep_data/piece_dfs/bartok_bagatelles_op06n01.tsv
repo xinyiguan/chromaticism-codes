@@ -1,0 +1,26 @@
+	corpus	piece	corpus_year	piece_year	period	globalkey	localkey	localkey_mode	quarterbeats	chord	in_label	out_of_label	interval_classes	ILC	OLC	ILD	corpus_id	piece_id
+219823	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	i	minor	0.0	i(b5)	(0, -3, -6)	(2, -12, -10, -8)	(3, 6, 3)	2	18	0.5333	35	1
+219824	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	i	minor	8.0	V6(^4)	(5, 0, 1)	(-7, -3, 2)	(1, 4, 5)	3	3	0.4	35	1
+219825	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	i	minor	12.0	i(b5)	(0, -3, -6)	(-12, -10, -8)	(3, 6, 3)	2	18	0.5333	35	1
+219826	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	i	minor	16.0	V65	(5, 2, -1, 1)	(-7, -3)	(3, 6, 4, 3, 5, 2)	3	3	0.6	35	1
+219827	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	i	minor	20.0	#III(b5)	(4, 8, -2)	(-7, -6, -4, -11, -9)	(4, 6, 2)	8	17	0.5333	35	1
+219828	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	i	minor	22.0	#III	(4, 8, 5)	(-4, -2, -8, 0)	(4, 5, 3)	11	4	0.2	35	1
+219829	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	i	minor	24.0	iv(4)	(-1, -2, 0)	(-3, 1)	(5, 5, 2)	0	0	0.2	35	1
+219805	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	28.0	IVM7	(-1, 3, 0, 4)	(2,)	(4, 5, 1, 3, 5, 4)	0	0	0.45	35	1
+219806	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	30.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	35	1
+219807	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	32.0	io65	(-3, -6, -9, 0)	(-4, -5, -8, -7)	(3, 6, 3, 3, 6, 3)	15	20	0.8	35	1
+219808	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	36.0	V65/vi	(8, 5, 2, 4)	(-4, 0)	(3, 6, 4, 3, 5, 2)	3	3	0.6	35	1
+219809	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	38.0	V(9)	(1, 5, 2, 3)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	35	1
+219810	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	40.0	io65	(-3, -6, -9, 0)	(-4, 3, -5, -8, -7)	(3, 6, 3, 3, 6, 3)	15	20	0.8	35	1
+219811	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	44.0	iv6	(-4, 0, -1)	()	(4, 3, 5)	3	0	0.2	35	1
+219812	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	46.0	V(9)	(1, 5, 2, 3)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	35	1
+219813	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	48.0	I(9)	(0, 4, 1, 2)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	35	1
+219814	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	50.0	vi(9)	(3, 0, 4, 5)	()	(3, 5, 2, 4, 1, 5)	0	0	0.55	35	1
+219815	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	52.0	IV(9)	(-1, 3, 0, 1)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	35	1
+219816	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	III	major	54.0	vi(4)	(3, 2, 4)	()	(5, 5, 2)	0	0	0.2	35	1
+219817	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	bI	major	56.0	i	(0, -3, 1)	(8, -2, -5, -4, -1)	(3, 5, 4)	2	11	0.2	35	1
+219818	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	bI	major	60.0	bII(4)	(-5, 1, -4)	(8, 6, 7)	(6, 5, 1)	7	6	0.6	35	1
+219819	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	bI	major	62.0	i(b13)	(0, -3, 1, -4)	(-5, -1)	(3, 5, 4, 4, 5, 1)	5	4	0.45	35	1
+219820	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	bI	major	64.0	bvi6	(-7, -3, -4)	(0, 1, 3, 4, 5, -2)	(4, 3, 5)	11	1	0.2	35	1
+219821	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	bI	major	66.0	V(6)	(1, 5, 4)	(-5, -3, -1)	(4, 3, 5)	0	6	0.2	35	1
+219822	bartok_bagatelles	op06n01	1908.0	1908	Late Romantic	c#	bI	major	68.0	I(b10)	(0, 4, 1, -3)	(-5, -1)	(4, 5, 3, 3, 1, 4)	2	4	0.55	35	1

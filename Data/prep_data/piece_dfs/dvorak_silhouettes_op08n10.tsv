@@ -1,0 +1,104 @@
+	corpus	piece	corpus_year	piece_year	period	globalkey	localkey	localkey_mode	quarterbeats	chord	in_label	out_of_label	interval_classes	ILC	OLC	ILD	corpus_id	piece_id
+208821	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	0.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208822	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	4.0	I+	(0, 4, 8)	()	(4, 4, 4)	3	0	0.2	30	10
+208823	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	4.5	vi6	(0, 4, 3)	()	(4, 3, 5)	0	0	0.2	30	10
+208824	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	5.5	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208825	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	6.0	ii	(2, -1, 3)	(0,)	(3, 5, 4)	0	0	0.2	30	10
+208826	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	9.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208827	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	10.0	vi6	(0, 4, 3)	()	(4, 3, 5)	0	0	0.2	30	10
+208828	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	10.5	V	(1, 5, 2)	(0,)	(4, 5, 3)	0	0	0.2	30	10
+208829	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	11.5	ii6	(-1, 3, 2)	(0,)	(4, 3, 5)	0	0	0.2	30	10
+208830	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	12.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208831	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	14.5	viio6	(2, -1, 5)	(0,)	(3, 3, 6)	0	0	0.5333	30	10
+208832	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	15.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208833	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	16.0	I+	(0, 4, 8)	()	(4, 4, 4)	3	0	0.2	30	10
+208834	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	16.5	vi6	(0, 4, 3)	()	(4, 3, 5)	0	0	0.2	30	10
+208835	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	17.5	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208836	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	18.0	ii	(2, -1, 3)	(0, 1, 4)	(3, 5, 4)	0	0	0.2	30	10
+208837	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	21.0	viio6	(2, -1, 5)	(0,)	(3, 3, 6)	0	0	0.5333	30	10
+208838	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	22.0	ii	(2, -1, 3)	(0,)	(3, 5, 4)	0	0	0.2	30	10
+208839	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	22.5	viio6	(2, -1, 5)	(0,)	(3, 3, 6)	0	0	0.5333	30	10
+208840	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	24.0	V7/IV	(0, 4, 1, -2)	()	(4, 5, 2, 3, 6, 3)	1	0	0.6	30	10
+208841	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	25.5	ii43/IV	(2, -1, 1, -2)	(0,)	(3, 5, 4, 2, 5, 3)	1	0	0.4	30	10
+208842	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	27.0	V7/IV	(0, 4, 1, -2)	()	(4, 5, 2, 3, 6, 3)	1	0	0.6	30	10
+208843	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	28.5	i/iv	(-1, -4, 0)	()	(3, 5, 4)	3	0	0.2	30	10
+208844	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	30.0	IV	(-1, 3, 0)	(1, -2, -3)	(4, 5, 3)	0	3	0.2	30	10
+208845	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	31.5	ii6	(-1, 3, 2)	(0, -2, -3)	(4, 3, 5)	0	3	0.2	30	10
+208846	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	32.5	#vii%43	(-1, 3, 5, 2)	(-2, -3)	(4, 6, 3, 2, 5, 3)	0	3	0.6	30	10
+208847	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	33.0	I	(0, 4, 1)	(-1, 2, -2)	(4, 5, 3)	0	1	0.2	30	10
+208848	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	34.5	vi6	(0, 4, 3)	(1, 2, -2)	(4, 3, 5)	0	1	0.2	30	10
+208849	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	36.0	V/ii	(3, 7, 4)	()	(4, 5, 3)	2	0	0.2	30	10
+208850	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	37.5	i/ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	30	10
+208851	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	38.5	V7/ii	(3, 7, 4, 1)	()	(4, 5, 2, 3, 6, 3)	2	0	0.6	30	10
+208852	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	39.0	i/ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	30	10
+208853	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	40.5	i6/ii	(-1, 3, 2)	(1, 4)	(4, 3, 5)	0	0	0.2	30	10
+208854	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	42.0	V2	(-1, 1, 5, 2)	(0, 3, 4)	(2, 6, 3, 4, 5, 3)	0	0	0.6	30	10
+208855	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	48.0	I6	(4, 1, 0)	()	(3, 4, 5)	0	0	0.2	30	10
+208856	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	49.5	IV	(-1, 3, 0)	(5,)	(4, 5, 3)	0	0	0.2	30	10
+208857	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	51.0	I6	(4, 1, 0)	()	(3, 4, 5)	0	0	0.2	30	10
+208858	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	52.5	ii7	(2, -1, 3, 0)	(5,)	(3, 5, 2, 4, 5, 3)	0	0	0.4	30	10
+208859	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	54.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208860	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	55.5	V6	(5, 2, 1)	(4, 6)	(3, 4, 5)	0	1	0.2	30	10
+208861	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	57.0	V43(4)/V	(3, 0, 2, 1)	(4, 6)	(3, 5, 2, 2, 5, 5)	0	1	0.4	30	10
+208862	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	60.0	V	(1, 5, 2)	()	(4, 5, 3)	0	0	0.2	30	10
+208863	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	61.5	IV	(-1, 3, 0)	(5,)	(4, 5, 3)	0	0	0.2	30	10
+208864	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	63.0	I6	(4, 1, 0)	()	(3, 4, 5)	0	0	0.2	30	10
+208865	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	64.5	ii7	(2, -1, 3, 0)	(5,)	(3, 5, 2, 4, 5, 3)	0	0	0.4	30	10
+208866	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	66.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208910	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	67.5	iv6	(-4, 0, -1)	(1,)	(4, 3, 5)	0	0	0.2	30	10
+208911	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	68.5	ii%7	(2, -1, -4, 0)	()	(3, 6, 2, 3, 5, 4)	0	0	0.6	30	10
+208912	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	69.0	V(64)	(1, 0, -3)	()	(5, 4, 3)	0	0	0.2	30	10
+208913	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	70.5	V	(1, 5, 2)	(0,)	(4, 5, 3)	3	0	0.2	30	10
+208914	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	72.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	30	10
+208867	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	77.5	bVI+	(-4, 0, 4)	()	(4, 4, 4)	3	0	0.2	30	10
+208868	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	78.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208869	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	82.5	vi	(3, 0, 4)	()	(3, 5, 4)	0	0	0.2	30	10
+208870	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	83.5	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208871	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	84.0	ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	30	10
+208872	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	87.0	i	(0, -3, 1)	(3, 4)	(3, 5, 4)	2	0	0.2	30	10
+208873	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	88.5	iv	(-1, -4, 0)	(2, 3)	(3, 5, 4)	3	0	0.2	30	10
+208874	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	90.0	i	(0, -3, 1)	(3, 4)	(3, 5, 4)	2	0	0.2	30	10
+208875	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	92.5	ii%43	(-4, 0, 2, -1)	()	(4, 6, 3, 2, 5, 3)	3	0	0.6	30	10
+208876	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	93.0	I	(0, 4, 1)	(5,)	(4, 5, 3)	0	0	0.2	30	10
+208877	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	95.5	V7/IV	(0, 4, 1, -2)	()	(4, 5, 2, 3, 6, 3)	1	0	0.6	30	10
+208878	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	96.0	IV64	(0, -1, 3)	(1, 4)	(5, 3, 4)	0	0	0.2	30	10
+208879	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	99.0	V2/V	(0, 2, 6, 3)	(1,)	(2, 6, 3, 4, 5, 3)	1	0	0.6	30	10
+208880	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	100.5	V	(1, 5, 2)	(3,)	(4, 5, 3)	0	0	0.2	30	10
+208881	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	101.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	30	10
+208882	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	102.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208883	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	103.5	V64	(2, 1, 5)	(0,)	(5, 3, 4)	0	0	0.2	30	10
+208884	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	104.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208885	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	104.5	V2	(-1, 1, 5, 2)	(0,)	(2, 6, 3, 4, 5, 3)	0	0	0.6	30	10
+208886	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	105.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208887	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	106.5	bVI6	(0, -3, -4)	()	(3, 4, 5)	5	0	0.2	30	10
+208888	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	108.0	i	(0, -3, 1)	()	(3, 5, 4)	2	0	0.2	30	10
+208889	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	109.5	vii%7/bVII	(3, 0, -3, 1)	()	(3, 6, 2, 3, 5, 4)	2	0	0.6	30	10
+208890	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	111.0	I/bVII	(-2, 2, -1)	()	(4, 5, 3)	1	0	0.2	30	10
+208891	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	112.5	ii%43/ii	(-2, 2, 4, 1)	()	(4, 6, 3, 2, 5, 3)	1	0	0.6	30	10
+208892	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	113.5	iv6/ii	(-2, 2, 1)	()	(4, 3, 5)	1	0	0.2	30	10
+208893	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	114.0	V/ii	(3, 7, 4)	()	(4, 5, 3)	2	0	0.2	30	10
+208894	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	115.5	i/ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	30	10
+208895	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	116.5	iv64/ii	(2, 1, -2)	()	(5, 4, 3)	1	0	0.2	30	10
+208896	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	117.0	i/ii	(2, -1, 3)	(0, 1, 4, 5, 8)	(3, 5, 4)	0	3	0.2	30	10
+208897	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	123.0	V2	(-1, 1, 5, 2)	(0, 3)	(2, 6, 3, 4, 5, 3)	0	0	0.6	30	10
+208898	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	126.0	I6	(4, 1, 0)	()	(3, 4, 5)	0	0	0.2	30	10
+208899	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	127.5	IV	(-1, 3, 0)	(5,)	(4, 5, 3)	0	0	0.2	30	10
+208900	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	129.0	I6	(4, 1, 0)	()	(3, 4, 5)	0	0	0.2	30	10
+208901	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	130.5	ii7(+4)	(2, -1, 3, 0, 1)	(5,)	(3, 5, 2, 5, 4, 5, 2, 3, 2, 5)	0	0	0.56	30	10
+208902	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	132.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208903	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	133.5	V6	(5, 2, 1)	(4, 6)	(3, 4, 5)	0	1	0.2	30	10
+208904	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	135.0	V43(4)/V	(3, 0, 2, 1)	(4, 6)	(3, 5, 2, 2, 5, 5)	0	1	0.4	30	10
+208905	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	138.0	V	(1, 5, 2)	()	(4, 5, 3)	0	0	0.2	30	10
+208906	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	139.5	IV	(-1, 3, 0)	(5,)	(4, 5, 3)	0	0	0.2	30	10
+208907	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	141.0	I6	(4, 1, 0)	()	(3, 4, 5)	0	0	0.2	30	10
+208908	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	142.5	ii7(+4)	(2, -1, 3, 0, 1)	(5,)	(3, 5, 2, 5, 4, 5, 2, 3, 2, 5)	0	0	0.56	30	10
+208909	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	I	major	144.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	30	10
+208915	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	145.5	iv6	(-4, 0, -1)	(1,)	(4, 3, 5)	0	0	0.2	30	10
+208916	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	146.5	ii%7	(2, -1, -4, 0)	()	(3, 6, 2, 3, 5, 4)	0	0	0.6	30	10
+208917	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	147.0	V(64)	(1, 0, -3)	()	(5, 4, 3)	0	0	0.2	30	10
+208918	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	148.5	V	(1, 5, 2)	()	(4, 5, 3)	3	0	0.2	30	10
+208919	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	150.0	I	(0, 4, 1)	(-1, 2)	(4, 5, 3)	2	0	0.2	30	10
+208920	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	153.0	iio	(2, -1, -4)	(0, 1, 4)	(3, 6, 3)	0	2	0.5333	30	10
+208921	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	156.0	I	(0, 4, 1)	(-1, 2)	(4, 5, 3)	2	0	0.2	30	10
+208922	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	159.0	iio	(2, -1, -4)	(-2, 0, 1)	(3, 6, 3)	0	0	0.5333	30	10
+208923	dvorak_silhouettes	op08n10	1879.0	1879	Late Romantic	G	vi	minor	162.0	I	(0, 4, 1)	(-1, 2)	(4, 5, 3)	2	0	0.2	30	10

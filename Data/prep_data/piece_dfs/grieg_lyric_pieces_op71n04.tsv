@@ -1,0 +1,88 @@
+	corpus	piece	corpus_year	piece_year	period	globalkey	localkey	localkey_mode	quarterbeats	chord	in_label	out_of_label	interval_classes	ILC	OLC	ILD	corpus_id	piece_id
+216916	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	1.0	ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	31	63
+216917	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	5.0	V	(1, 5, 2)	()	(4, 5, 3)	0	0	0.2	31	63
+216918	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	8.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	31	63
+216919	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	16.0	ii(+4)	(2, -1, 3, 1)	(0, 4)	(3, 5, 5, 4, 2, 2)	0	0	0.45	31	63
+216920	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	20.0	I(94)	(0, -1, 1, 2)	(3, 5)	(5, 5, 2, 2, 3, 5)	0	0	0.4	31	63
+216921	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	22.0	I	(0, 4, 1)	(5,)	(4, 5, 3)	0	0	0.2	31	63
+216922	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	24.0	V43/V	(3, 0, 2, 6)	(5,)	(3, 5, 3, 2, 6, 4)	1	0	0.6	31	63
+216923	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	26.0	V7(9)	(1, 5, 2, -1, 3)	()	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	0	0.76	31	63
+216924	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	28.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	31	63
+216925	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	32.0	ii(+4)	(2, -1, 3, 1)	(0, 4)	(3, 5, 5, 4, 2, 2)	0	0	0.45	31	63
+216926	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	36.0	I(94)	(0, -1, 1, 2)	(3, 5)	(5, 5, 2, 2, 3, 5)	0	0	0.4	31	63
+216927	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	38.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216928	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	40.0	V7(9)	(1, 5, 2, -1, 3)	(0, 4)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	0	0.76	31	63
+216929	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	42.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216984	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	V	major	44.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	31	63
+216985	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	V	major	46.0	vi7	(3, 0, 4, 1)	(5,)	(3, 5, 2, 4, 5, 3)	0	0	0.4	31	63
+216986	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	V	major	48.0	V7/V	(2, 6, 3, 0)	(5,)	(4, 5, 2, 3, 6, 3)	1	0	0.6	31	63
+216987	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	V	major	50.0	V	(1, 5, 2)	()	(4, 5, 3)	0	0	0.2	31	63
+216988	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	V	major	52.0	V(64)/V	(2, 1, 5)	(0, 4, 6)	(5, 3, 4)	0	1	0.2	31	63
+216989	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	V	major	56.0	V7/V	(2, 6, 3, 0)	(5,)	(4, 5, 2, 3, 6, 3)	1	0	0.6	31	63
+216990	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	V	major	58.0	I/V	(1, 5, 2)	()	(4, 5, 3)	0	0	0.2	31	63
+217000	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	v	minor	60.0	i	(0, -3, 1)	(-4, -2)	(3, 5, 4)	0	0	0.2	31	63
+217001	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	v	minor	64.0	#viio2	(-4, 5, 2, -1)	(-3, 0)	(3, 6, 3, 3, 6, 3)	3	0	0.8	31	63
+217002	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	v	minor	66.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	31	63
+216981	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	IV	major	68.0	ii	(2, -1, 3)	(-2, 0, 5, 7)	(3, 5, 4)	0	3	0.2	31	63
+216982	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	IV	major	72.0	V43	(2, -1, 1, 5)	(3,)	(3, 5, 3, 2, 6, 4)	0	0	0.6	31	63
+216983	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	IV	major	74.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216997	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	iv	minor	76.0	i	(0, -3, 1)	(-4, -2)	(3, 5, 4)	0	0	0.2	31	63
+216998	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	iv	minor	80.0	#viio2	(-4, 5, 2, -1)	(-3, 0)	(3, 6, 3, 3, 6, 3)	3	0	0.8	31	63
+216999	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	iv	minor	82.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	31	63
+216993	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	bIII	major	84.0	ii	(2, -1, 3)	(-2, 0, 5, 7)	(3, 5, 4)	0	3	0.2	31	63
+216994	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	bIII	major	88.0	V43	(2, -1, 1, 5)	(3,)	(3, 5, 3, 2, 6, 4)	0	0	0.6	31	63
+216995	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	bIII	major	90.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216996	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	biii	minor	92.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	31	63
+216991	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	bII	major	94.0	ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	31	63
+216992	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	bII	major	96.0	V43	(2, -1, 1, 5)	(3,)	(3, 5, 3, 2, 6, 4)	0	0	0.6	31	63
+216930	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	98.0	Ger2	(-3, 6, -4, 0)	(-6,)	(3, 5, 3, 2, 6, 4)	6	5	0.6	31	63
+216931	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	100.0	V7/V	(2, 6, 3, 0)	(5,)	(4, 5, 2, 3, 6, 3)	1	0	0.6	31	63
+216932	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	104.0	V43(9)	(2, -1, 1, 5, 3)	(0, 4)	(3, 5, 3, 5, 2, 6, 4, 4, 2, 2)	0	0	0.76	31	63
+216933	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	120.0	V7(13)	(1, 5, 2, -1, 4)	(3,)	(4, 5, 2, 3, 3, 6, 5, 3, 2, 1)	0	0	0.88	31	63
+216934	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	137.0	ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	31	63
+216935	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	141.0	V	(1, 5, 2)	()	(4, 5, 3)	0	0	0.2	31	63
+216936	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	144.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	31	63
+216937	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	152.0	ii(+4)	(2, -1, 3, 1)	(0, 4)	(3, 5, 5, 4, 2, 2)	0	0	0.45	31	63
+216938	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	156.0	I(94)	(0, -1, 1, 2)	(3, 5)	(5, 5, 2, 2, 3, 5)	0	0	0.4	31	63
+216939	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	158.0	I	(0, 4, 1)	(5,)	(4, 5, 3)	0	0	0.2	31	63
+216940	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	160.0	V43/V	(3, 0, 2, 6)	(5,)	(3, 5, 3, 2, 6, 4)	1	0	0.6	31	63
+216941	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	162.0	V7(9)	(1, 5, 2, -1, 3)	()	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	0	0.76	31	63
+216942	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	164.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	31	63
+216943	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	168.0	ii(+4)	(2, -1, 3, 1)	(0, 4)	(3, 5, 5, 4, 2, 2)	0	0	0.45	31	63
+216944	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	172.0	I(94)	(0, -1, 1, 2)	(3, 5)	(5, 5, 2, 2, 3, 5)	0	0	0.4	31	63
+216945	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	174.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216946	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	176.0	V7(9)	(1, 5, 2, -1, 3)	(0, 4)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	0	0.76	31	63
+216947	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	182.0	iii	(4, 1, 5)	(3,)	(3, 5, 4)	0	0	0.2	31	63
+216948	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	186.0	iii7	(4, 1, 5, 2)	(7,)	(3, 5, 2, 4, 5, 3)	0	2	0.4	31	63
+216949	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	192.0	ii7	(2, -1, 3, 0)	(5,)	(3, 5, 2, 4, 5, 3)	0	0	0.4	31	63
+216950	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	194.0	V(64)	(1, 0, 4)	()	(5, 3, 4)	0	0	0.2	31	63
+216951	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	196.0	V7(9)	(1, 5, 2, -1, 3)	(4,)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	0	0.76	31	63
+216952	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	202.0	iv	(-1, -4, 0)	(-2,)	(3, 5, 4)	3	1	0.2	31	63
+216953	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	206.0	iv7	(-1, -4, 0, -3)	(2,)	(3, 5, 2, 4, 5, 3)	5	0	0.4	31	63
+216954	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	212.0	bII	(-5, -1, -4)	(0,)	(4, 5, 3)	7	0	0.2	31	63
+216955	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	214.0	V(64)	(1, 0, 4)	()	(5, 3, 4)	0	0	0.2	31	63
+216956	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	216.0	V7(9)	(1, 5, 2, -1, 3)	()	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	0	0.76	31	63
+216957	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	218.0	V7(96)	(1, 5, 4, -1, 3)	()	(4, 3, 2, 2, 5, 6, 2, 1, 5, 4)	0	0	0.88	31	63
+216958	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	219.0	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	31	63
+216959	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	220.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216960	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	224.0	V7/IV	(0, 4, 1, -2)	(3,)	(4, 5, 2, 3, 6, 3)	1	0	0.6	31	63
+216961	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	228.0	ii7/IV	(1, -2, 2, -1)	(0, 4)	(3, 5, 2, 4, 5, 3)	1	0	0.4	31	63
+216962	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	232.0	V7/IV	(0, 4, 1, -2)	(3,)	(4, 5, 2, 3, 6, 3)	1	0	0.6	31	63
+216963	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	236.0	ii7/IV	(1, -2, 2, -1)	(0, 4)	(3, 5, 2, 4, 5, 3)	1	0	0.4	31	63
+216964	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	240.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216965	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	244.0	ii7(9)/IV	(1, -2, 2, -1, 3)	(0,)	(3, 5, 2, 2, 4, 5, 1, 3, 5, 4)	1	0	0.68	31	63
+216966	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	247.0	ii7/IV	(1, -2, 2, -1)	(0,)	(3, 5, 2, 4, 5, 3)	1	0	0.4	31	63
+216967	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	248.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216968	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	252.0	ii%7(9)/IV	(1, -2, -5, -1, 3)	(0,)	(3, 6, 2, 2, 3, 5, 1, 4, 4, 4)	5	0	0.88	31	63
+216969	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	255.0	ii%7/IV	(1, -2, -5, -1)	(0,)	(3, 6, 2, 3, 5, 4)	5	0	0.6	31	63
+216970	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	256.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216971	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	266.0	vi	(3, 0, 4)	()	(3, 5, 4)	0	0	0.2	31	63
+216972	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	268.0	V7/vi	(4, 8, 5, 2)	()	(4, 5, 2, 3, 6, 3)	3	0	0.6	31	63
+216973	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	270.0	V43	(2, -1, 1, 5)	()	(3, 5, 3, 2, 6, 4)	0	0	0.6	31	63
+216974	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	272.0	IV64	(0, -1, 3)	()	(5, 3, 4)	0	0	0.2	31	63
+216975	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	276.0	bVIIM7	(-2, 2, -1, 3)	()	(4, 5, 1, 3, 5, 4)	1	0	0.45	31	63
+216976	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	280.0	I	(0, 4, 1)	(2,)	(4, 5, 3)	0	0	0.2	31	63
+216977	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	284.0	v	(1, -2, 2)	()	(3, 5, 4)	1	0	0.2	31	63
+216978	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	288.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63
+216979	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	292.0	bV	(-6, -2, -5)	()	(4, 5, 3)	10	0	0.2	31	63
+216980	grieg_lyric_pieces	op71n04	1890.3354624738975	1901	Late Romantic	B	I	major	296.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	63

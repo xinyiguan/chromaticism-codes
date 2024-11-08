@@ -1,0 +1,201 @@
+	corpus	piece	corpus_year	piece_year	period	globalkey	localkey	localkey_mode	quarterbeats	chord	in_label	out_of_label	interval_classes	ILC	OLC	ILD	corpus_id	piece_id
+216522	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	1.0	V	(1, 5, 2)	(-1, -4)	(4, 5, 3)	3	0	0.2	31	59
+216523	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	3.0	VI	(-4, 0, -3)	()	(4, 5, 3)	0	0	0.2	31	59
+216524	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	15.0	V(13)	(1, 5, 2, -3)	()	(4, 5, 4, 3, 4, 1)	3	0	0.5	31	59
+216525	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	17.0	V7	(1, 5, 2, -1)	(-3,)	(4, 5, 2, 3, 6, 3)	3	0	0.6	31	59
+216526	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	21.0	V(13)	(1, 5, 2, -3)	()	(4, 5, 4, 3, 4, 1)	3	0	0.5	31	59
+216527	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	23.0	V7	(1, 5, 2, -1)	(-3,)	(4, 5, 2, 3, 6, 3)	3	0	0.6	31	59
+216528	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	27.0	V(13)	(1, 5, 2, -3)	()	(4, 5, 4, 3, 4, 1)	3	0	0.5	31	59
+216529	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	29.0	V7(13)	(1, 5, 2, -1, -3)	()	(4, 5, 2, 4, 3, 6, 4, 3, 1, 2)	3	0	0.88	31	59
+216530	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	33.0	V7(9)/iv	(0, 4, 1, -2, -5)	(2,)	(4, 5, 2, 1, 3, 6, 3, 3, 6, 3)	3	0	1.0	31	59
+216531	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	35.0	V7/iv	(0, 4, 1, -2)	()	(4, 5, 2, 3, 6, 3)	2	0	0.6	31	59
+216532	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	39.0	V/VII	(-1, 3, 0)	()	(4, 5, 3)	1	0	0.2	31	59
+216533	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	41.0	V7(9)/VII	(-1, 3, 0, -3, 1)	(2,)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	1	0	0.76	31	59
+216534	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	44.0	V7/VII	(-1, 3, 0, -3)	(2,)	(4, 5, 2, 3, 6, 3)	1	0	0.6	31	59
+216535	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	45.0	V/VII	(-1, 3, 0)	()	(4, 5, 3)	1	0	0.2	31	59
+216536	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	47.0	V7(9)/VII	(-1, 3, 0, -3, 1)	(2,)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	1	0	0.76	31	59
+216537	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	50.0	V7/VII	(-1, 3, 0, -3)	(2,)	(4, 5, 2, 3, 6, 3)	1	0	0.6	31	59
+216538	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	51.0	V/VII	(-1, 3, 0)	()	(4, 5, 3)	1	0	0.2	31	59
+216539	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	53.0	V7(9)/VII	(-1, 3, 0, -3, 1)	()	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	1	0	0.76	31	59
+216540	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	55.0	V(13)/VII	(-1, 3, 0, 2)	(-3,)	(4, 5, 3, 3, 5, 2)	1	0	0.4	31	59
+216541	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	56.5	V7/VII	(-1, 3, 0, -3)	()	(4, 5, 2, 3, 6, 3)	1	0	0.6	31	59
+216542	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	57.0	VII(1311)	(-2, 2, -1, 1, -3)	()	(4, 5, 3, 5, 3, 5, 1, 2, 2, 4)	0	0	0.68	31	59
+216543	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	59.0	VII	(-2, 2, -1)	()	(4, 5, 3)	0	0	0.2	31	59
+216544	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	60.0	bII6	(-1, -4, -5)	(0, -2)	(3, 4, 5)	1	0	0.2	31	59
+216545	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	63.0	V(13)	(1, 5, 2, -3)	()	(4, 5, 4, 3, 4, 1)	3	0	0.5	31	59
+216546	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	65.0	V7	(1, 5, 2, -1)	(-3,)	(4, 5, 2, 3, 6, 3)	3	0	0.6	31	59
+216547	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	69.0	V(13)	(1, 5, 2, -3)	()	(4, 5, 4, 3, 4, 1)	3	0	0.5	31	59
+216548	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	71.0	V7	(1, 5, 2, -1)	(-3,)	(4, 5, 2, 3, 6, 3)	3	0	0.6	31	59
+216549	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	75.0	V(13)	(1, 5, 2, -3)	()	(4, 5, 4, 3, 4, 1)	3	0	0.5	31	59
+216550	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	77.0	V7(13)	(1, 5, 2, -1, -3)	()	(4, 5, 2, 4, 3, 6, 4, 3, 1, 2)	3	0	0.88	31	59
+216551	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	81.0	V7(139)/#vii	(6, 10, 7, 4, 2, 1)	()	(4, 5, 2, 4, 1, 3, 6, 4, 3, 3, 1, 6, 2, 3, 5)	19	0	1.1667	31	59
+216552	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	83.0	V7(9)/#vii	(6, 10, 7, 4, 1)	()	(4, 5, 2, 1, 3, 6, 3, 3, 6, 3)	19	0	1.0	31	59
+216553	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	87.0	V7(13)/#iii	(5, 9, 6, 3, 1)	()	(4, 5, 2, 4, 3, 6, 4, 3, 1, 2)	15	0	0.88	31	59
+216554	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	89.0	V7/#iii	(5, 9, 6, 3)	(1, 4)	(4, 5, 2, 3, 6, 3)	15	2	0.6	31	59
+216555	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	93.0	V7(64)/III	(-2, -3, 1, -4)	()	(5, 3, 2, 4, 5, 1)	0	0	0.55	31	59
+216556	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	95.0	V(64)/III	(-2, -3, 1)	(-1, -4)	(5, 3, 4)	0	0	0.2	31	59
+216557	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	99.0	V7(9)	(1, 5, 2, -1, -4)	()	(4, 5, 2, 1, 3, 6, 3, 3, 6, 3)	3	0	1.0	31	59
+216558	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	103.0	V(13)	(1, 5, 2, -3)	(-1,)	(4, 5, 4, 3, 4, 1)	3	0	0.5	31	59
+216559	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	104.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	3	0	0.6	31	59
+216560	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	105.0	i(1311)	(0, -3, 1, -4, -1)	()	(3, 5, 4, 5, 4, 5, 2, 1, 2, 3)	0	0	0.68	31	59
+216561	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	i	minor	107.0	i	(0, -3, 1)	()	(3, 5, 4)	0	0	0.2	31	59
+216362	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	111.0	I(6)	(0, 4, 3)	()	(4, 3, 5)	0	0	0.2	31	59
+216363	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	113.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	31	59
+216364	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	117.0	I(6)	(0, 4, 3)	()	(4, 3, 5)	0	0	0.2	31	59
+216365	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	119.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	31	59
+216366	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	123.0	I(6)	(0, 4, 3)	()	(4, 3, 5)	0	0	0.2	31	59
+216367	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	125.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	59
+216368	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	126.0	I(9)	(0, 4, 1, 2)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	31	59
+216369	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	128.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	59
+216370	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	129.0	vii%65(9)	(2, -1, 3, 5, 0)	()	(3, 5, 3, 2, 4, 6, 5, 2, 3, 1)	0	0	0.88	31	59
+216371	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	131.0	vii%65	(2, -1, 3, 5)	()	(3, 5, 3, 4, 6, 2)	0	0	0.6	31	59
+216372	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	137.0	ii	(2, -1, 3)	(5, 0)	(3, 5, 4)	0	0	0.2	31	59
+216373	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	141.0	vii%65	(2, -1, 3, 5)	()	(3, 5, 3, 4, 6, 2)	0	0	0.6	31	59
+216374	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	143.0	ii	(2, -1, 3)	(5, 0)	(3, 5, 4)	0	0	0.2	31	59
+216375	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	147.0	vii%65	(2, -1, 3, 5)	()	(3, 5, 3, 4, 6, 2)	0	0	0.6	31	59
+216376	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	149.0	ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	31	59
+216377	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	150.0	ii(9)	(2, -1, 3, 4)	()	(3, 5, 2, 4, 1, 5)	0	0	0.55	31	59
+216378	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	152.0	ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	31	59
+216379	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	153.0	#viio65(9)/ii	(4, 1, -2, 7, 2)	()	(3, 6, 3, 2, 3, 6, 5, 3, 4, 1)	3	0	1.0	31	59
+216380	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	155.0	#viio65/ii	(4, 1, -2, 7)	()	(3, 6, 3, 3, 6, 3)	3	0	0.8	31	59
+216381	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	159.0	I6/#VI	(14, 11, 10)	(7, 8, 12)	(3, 4, 5)	20	12	0.2	31	59
+216382	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	165.0	vii%43/#VI	(9, 13, 15, 12)	(6, 10)	(4, 6, 3, 2, 5, 3)	29	6	0.6	31	59
+216383	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	171.0	I6(6)/#VI	(14, 13, 10)	(11, 7)	(5, 4, 3)	22	8	0.2	31	59
+216384	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	173.0	I6/#VI	(14, 11, 10)	(3, 7, 8, 13)	(3, 4, 5)	20	13	0.2	31	59
+216385	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	177.0	viio43/#VII	(11, 8, 17, 14)	(5,)	(3, 6, 3, 3, 6, 3)	30	0	0.8	31	59
+216386	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	183.0	I6(b6)/#VII	(16, 8, 12)	(13, 5, 9)	(4, 4, 4)	21	12	0.2	31	59
+216387	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	185.0	I6/#VII	(16, 13, 12)	(9, 10, 14)	(3, 4, 5)	26	18	0.2	31	59
+216388	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	189.0	vii%43/#VII	(11, 15, 17, 14)	(12, 8)	(4, 6, 3, 2, 5, 3)	37	10	0.6	31	59
+216389	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	195.0	I6(6)/#VII	(16, 15, 12)	(13, 9)	(5, 4, 3)	28	12	0.2	31	59
+216390	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	197.0	I6/#VII	(16, 13, 12)	(3, 5, 9, 10, -2, 0)	(3, 4, 5)	26	10	0.2	31	59
+216391	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	201.0	viio43/bII	(-6, -9, 0, -3)	(-5, 4, -2, 1)	(3, 6, 3, 3, 6, 3)	15	5	0.8	31	59
+216392	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	207.0	I6(b6)/bII	(-1, -9, -5)	(3,)	(4, 4, 4)	12	0	0.2	31	59
+216393	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	209.0	I6/bII	(-1, -4, -5)	(4, 0, 2)	(3, 4, 5)	7	0	0.2	31	59
+216394	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	213.0	I6(6)/bII	(-1, -2, -5)	(3, 2)	(5, 4, 3)	5	0	0.2	31	59
+216395	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	215.0	I6/bII	(-1, -4, -5)	(4, 0, 2)	(3, 4, 5)	7	0	0.2	31	59
+216396	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	219.0	I6(6)/bII	(-1, -2, -5)	(3, 2)	(5, 4, 3)	5	0	0.2	31	59
+216397	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	221.0	I6/bII	(-1, -4, -5)	(4, 7, -3, 0, 2)	(3, 4, 5)	7	4	0.2	31	59
+216398	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	231.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216399	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	233.0	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216400	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	237.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216401	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	239.0	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216402	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	243.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216403	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	245.0	V7(13)	(1, 5, 2, -1, 4)	(3, 6, 9)	(4, 5, 2, 3, 3, 6, 5, 3, 2, 1)	0	5	0.88	31	59
+216404	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	249.0	V7(9)/iv	(0, 4, 1, -2, -5)	(5, 6, 2)	(4, 5, 2, 1, 3, 6, 3, 3, 6, 3)	5	1	1.0	31	59
+216405	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	251.0	V7/iv	(0, 4, 1, -2)	(5, 8, 2)	(4, 5, 2, 3, 6, 3)	1	3	0.6	31	59
+216406	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	255.0	V/VII	(6, 10, 7)	(3, 4)	(4, 5, 3)	8	0	0.2	31	59
+216407	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	257.0	V7(9)/VII	(6, 10, 7, 4, 8)	(3, 5, 1)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	11	0	0.76	31	59
+216408	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	260.0	V7/VII	(6, 10, 7, 4)	(3, 1)	(4, 5, 2, 3, 6, 3)	8	0	0.6	31	59
+216409	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	261.0	V/VII	(6, 10, 7)	(3, 4)	(4, 5, 3)	8	0	0.2	31	59
+216410	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	263.0	V7(9)/VII	(6, 10, 7, 4, 8)	(3, 5, 1)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	11	0	0.76	31	59
+216411	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	266.0	V7/VII	(6, 10, 7, 4)	(3, 1)	(4, 5, 2, 3, 6, 3)	8	0	0.6	31	59
+216412	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	267.0	V/VII	(6, 10, 7)	(3, 4)	(4, 5, 3)	8	0	0.2	31	59
+216413	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	269.0	V7(9)/VII	(6, 10, 7, 4, 8)	(3, 5, 1)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	11	0	0.76	31	59
+216414	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	271.0	V(13)/VII	(6, 10, 7, 9)	(3, 4, 1)	(4, 5, 3, 3, 5, 2)	12	0	0.4	31	59
+216415	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	272.5	V7/VII	(6, 10, 7, 4)	(1,)	(4, 5, 2, 3, 6, 3)	8	0	0.6	31	59
+216416	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	273.0	VII(1311)	(5, 9, 6, 1, 4)	(3, 2)	(4, 5, 4, 5, 3, 4, 1, 1, 2, 3)	5	0	0.8	31	59
+216417	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	275.0	VII	(5, 9, 6)	(3, 2)	(4, 5, 3)	5	0	0.2	31	59
+216418	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	276.0	bII6	(-1, -4, -5)	(3, 4, 0, 2)	(3, 4, 5)	7	0	0.2	31	59
+216419	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	279.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216420	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	281.0	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216421	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	285.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216422	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	287.0	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216423	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	291.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216424	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	293.0	V7(13)	(1, 5, 2, -1, 4)	(3, 6, 9)	(4, 5, 2, 3, 3, 6, 5, 3, 2, 1)	0	5	0.88	31	59
+216425	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	297.0	V7(139)/#vii	(13, 17, 14, 11, 9, 8)	(5, 6, 10)	(4, 5, 2, 4, 1, 3, 6, 4, 3, 3, 1, 6, 2, 3, 5)	42	6	1.1667	31	59
+216426	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	299.0	V7(9)/#vii	(13, 17, 14, 11, 8)	(5, 10)	(4, 5, 2, 1, 3, 6, 3, 3, 6, 3)	38	5	1.0	31	59
+216427	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	303.0	V7(13)/#iii	(12, 16, 13, 10, 8)	(5, 7, 9)	(4, 5, 2, 4, 3, 6, 4, 3, 1, 2)	34	6	0.88	31	59
+216428	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	305.0	V7/#iii	(12, 16, 13, 10)	(5, 7, 8, 9)	(4, 5, 2, 3, 6, 3)	31	9	0.6	31	59
+216429	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	309.0	V7(64)/III	(5, 4, 8, 3)	(0, 2, 1)	(5, 3, 2, 4, 5, 1)	3	0	0.55	31	59
+216430	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	311.0	V(64)/III	(5, 4, 8)	(3, 1, 0, 2)	(5, 3, 4)	3	0	0.2	31	59
+216431	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	315.0	V7(9)	(1, 5, 2, -1, 3)	(6, 9, 0)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	5	0.76	31	59
+216432	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	319.0	V(13)	(1, 5, 2, 4)	(3, 6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216433	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	320.5	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216434	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	321.0	i(1311)	(0, -3, 1, 3, -1)	(4, 5)	(3, 5, 3, 5, 4, 6, 2, 2, 2, 4)	2	0	0.76	31	59
+216435	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	323.0	i	(0, -3, 1)	(4, 5)	(3, 5, 4)	2	0	0.2	31	59
+216436	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	327.0	I(6)	(0, 4, 3)	()	(4, 3, 5)	0	0	0.2	31	59
+216437	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	329.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	31	59
+216438	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	333.0	I(6)	(0, 4, 3)	()	(4, 3, 5)	0	0	0.2	31	59
+216439	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	335.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	31	59
+216440	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	339.0	I(6)	(0, 4, 3)	()	(4, 3, 5)	0	0	0.2	31	59
+216441	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	341.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	59
+216442	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	342.0	I(9)	(0, 4, 1, 2)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	31	59
+216443	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	344.0	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	31	59
+216444	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	345.0	vii%65(9)	(2, -1, 3, 5, 0)	()	(3, 5, 3, 2, 4, 6, 5, 2, 3, 1)	0	0	0.88	31	59
+216445	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	347.0	vii%65	(2, -1, 3, 5)	()	(3, 5, 3, 4, 6, 2)	0	0	0.6	31	59
+216446	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	353.0	ii	(2, -1, 3)	(5, 0)	(3, 5, 4)	0	0	0.2	31	59
+216447	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	357.0	vii%65	(2, -1, 3, 5)	()	(3, 5, 3, 4, 6, 2)	0	0	0.6	31	59
+216448	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	359.0	ii	(2, -1, 3)	(5, 0)	(3, 5, 4)	0	0	0.2	31	59
+216449	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	363.0	vii%65	(2, -1, 3, 5)	()	(3, 5, 3, 4, 6, 2)	0	0	0.6	31	59
+216450	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	365.0	ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	31	59
+216451	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	366.0	ii(9)	(2, -1, 3, 4)	()	(3, 5, 2, 4, 1, 5)	0	0	0.55	31	59
+216452	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	368.0	ii	(2, -1, 3)	()	(3, 5, 4)	0	0	0.2	31	59
+216453	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	369.0	#viio65(9)/ii	(4, 1, -2, 7, 2)	()	(3, 6, 3, 2, 3, 6, 5, 3, 4, 1)	3	0	1.0	31	59
+216454	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	371.0	#viio65/ii	(4, 1, -2, 7)	()	(3, 6, 3, 3, 6, 3)	3	0	0.8	31	59
+216455	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	375.0	I6/#VI	(14, 11, 10)	(7, 8, 12)	(3, 4, 5)	20	12	0.2	31	59
+216456	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	381.0	vii%43/#VI	(9, 13, 15, 12)	(6, 10)	(4, 6, 3, 2, 5, 3)	29	6	0.6	31	59
+216457	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	387.0	I6(6)/#VI	(14, 13, 10)	(11, 7)	(5, 4, 3)	22	8	0.2	31	59
+216458	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	389.0	I6/#VI	(14, 11, 10)	(3, 7, 8, 13)	(3, 4, 5)	20	13	0.2	31	59
+216459	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	393.0	viio43/#VII	(11, 8, 17, 14)	(5,)	(3, 6, 3, 3, 6, 3)	30	0	0.8	31	59
+216460	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	399.0	I6(b6)/#VII	(16, 8, 12)	(13, 5, 9)	(4, 4, 4)	21	12	0.2	31	59
+216461	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	401.0	I6/#VII	(16, 13, 12)	(9, 10, 14)	(3, 4, 5)	26	18	0.2	31	59
+216462	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	405.0	vii%43/#VII	(11, 15, 17, 14)	(12, 8)	(4, 6, 3, 2, 5, 3)	37	10	0.6	31	59
+216463	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	411.0	I6(6)/#VII	(16, 15, 12)	(13, 9)	(5, 4, 3)	28	12	0.2	31	59
+216464	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	413.0	I6/#VII	(16, 13, 12)	(3, 5, 9, 10, -2, 0)	(3, 4, 5)	26	10	0.2	31	59
+216465	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	417.0	viio43/bII	(-6, -9, 0, -3)	(-5, 4, -2, 1)	(3, 6, 3, 3, 6, 3)	15	5	0.8	31	59
+216466	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	423.0	I6(b6)/bII	(-1, -9, -5)	(3,)	(4, 4, 4)	12	0	0.2	31	59
+216467	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	425.0	I6/bII	(-1, -4, -5)	(4, 0, 2)	(3, 4, 5)	7	0	0.2	31	59
+216468	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	429.0	I6(6)/bII	(-1, -2, -5)	(3, 2)	(5, 4, 3)	5	0	0.2	31	59
+216469	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	431.0	I6/bII	(-1, -4, -5)	(4, 0, 2)	(3, 4, 5)	7	0	0.2	31	59
+216470	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	435.0	I6(6)/bII	(-1, -2, -5)	(3, 2)	(5, 4, 3)	5	0	0.2	31	59
+216471	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	437.0	I6/bII	(-1, -4, -5)	(4, 7, -3, 0, 2)	(3, 4, 5)	7	4	0.2	31	59
+216472	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	447.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216473	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	449.0	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216474	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	453.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216475	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	455.0	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216476	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	459.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216477	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	461.0	V7(13)	(1, 5, 2, -1, 4)	(3, 6, 9)	(4, 5, 2, 3, 3, 6, 5, 3, 2, 1)	0	5	0.88	31	59
+216478	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	465.0	V7(9)/iv	(0, 4, 1, -2, -5)	(5, 6, 2)	(4, 5, 2, 1, 3, 6, 3, 3, 6, 3)	5	1	1.0	31	59
+216479	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	467.0	V7/iv	(0, 4, 1, -2)	(5, 8, 2)	(4, 5, 2, 3, 6, 3)	1	3	0.6	31	59
+216480	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	471.0	V/VII	(6, 10, 7)	(3, 4)	(4, 5, 3)	8	0	0.2	31	59
+216481	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	473.0	V7(9)/VII	(6, 10, 7, 4, 8)	(3, 5, 1)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	11	0	0.76	31	59
+216482	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	476.0	V7/VII	(6, 10, 7, 4)	(3, 1)	(4, 5, 2, 3, 6, 3)	8	0	0.6	31	59
+216483	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	477.0	V/VII	(6, 10, 7)	(3, 4)	(4, 5, 3)	8	0	0.2	31	59
+216484	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	479.0	V7(9)/VII	(6, 10, 7, 4, 8)	(3, 5, 1)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	11	0	0.76	31	59
+216485	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	482.0	V7/VII	(6, 10, 7, 4)	(3, 1)	(4, 5, 2, 3, 6, 3)	8	0	0.6	31	59
+216486	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	483.0	V/VII	(6, 10, 7)	(3, 4)	(4, 5, 3)	8	0	0.2	31	59
+216487	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	485.0	V7(9)/VII	(6, 10, 7, 4, 8)	(3, 5, 1)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	11	0	0.76	31	59
+216488	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	487.0	V(13)/VII	(6, 10, 7, 9)	(3, 4, 1)	(4, 5, 3, 3, 5, 2)	12	0	0.4	31	59
+216489	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	488.5	V7/VII	(6, 10, 7, 4)	(1,)	(4, 5, 2, 3, 6, 3)	8	0	0.6	31	59
+216490	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	489.0	VII(1311)	(5, 9, 6, 1, 4)	(3, 2)	(4, 5, 4, 5, 3, 4, 1, 1, 2, 3)	5	0	0.8	31	59
+216491	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	491.0	VII	(5, 9, 6)	(3, 2)	(4, 5, 3)	5	0	0.2	31	59
+216492	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	492.0	bII6	(-1, -4, -5)	(3, 4, 0, 2)	(3, 4, 5)	7	0	0.2	31	59
+216493	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	495.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216494	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	497.0	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216495	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	501.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216496	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	503.0	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216497	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	507.0	V(13)	(1, 5, 2, 4)	(6, 9)	(4, 5, 3, 3, 5, 2)	0	5	0.4	31	59
+216498	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	509.0	V7(13)	(1, 5, 2, -1, 4)	(3, 6, 9)	(4, 5, 2, 3, 3, 6, 5, 3, 2, 1)	0	5	0.88	31	59
+216499	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	513.0	V7(139)/#vii	(13, 17, 14, 11, 9, 8)	(5, 6, 10)	(4, 5, 2, 4, 1, 3, 6, 4, 3, 3, 1, 6, 2, 3, 5)	42	6	1.1667	31	59
+216500	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	515.0	V7(9)/#vii	(13, 17, 14, 11, 8)	(5, 10)	(4, 5, 2, 1, 3, 6, 3, 3, 6, 3)	38	5	1.0	31	59
+216501	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	519.0	V7(13)/#iii	(12, 16, 13, 10, 8)	(5, 7, 9)	(4, 5, 2, 4, 3, 6, 4, 3, 1, 2)	34	6	0.88	31	59
+216502	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	521.0	V7/#iii	(12, 16, 13, 10)	(5, 7, 8, 9)	(4, 5, 2, 3, 6, 3)	31	9	0.6	31	59
+216503	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	525.0	V7(64)/III	(5, 4, 8, 3)	(0, 2, 1)	(5, 3, 2, 4, 5, 1)	3	0	0.55	31	59
+216504	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	527.0	V(64)/III	(5, 4, 8)	(3, 1, 0, 2)	(5, 3, 4)	3	0	0.2	31	59
+216505	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	531.0	V7(9)	(1, 5, 2, -1, 3)	(6, 7, 9)	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	7	0.76	31	59
+216506	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	535.0	V(13)	(1, 5, 2, 4)	(3, 6, 8, 9)	(4, 5, 3, 3, 5, 2)	0	8	0.4	31	59
+216507	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	536.5	V7	(1, 5, 2, -1)	(3, 6, 9)	(4, 5, 2, 3, 6, 3)	0	5	0.6	31	59
+216508	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	537.0	i(1311)	(0, -3, 1, 3, -1)	(4, 5)	(3, 5, 3, 5, 4, 6, 2, 2, 2, 4)	2	0	0.76	31	59
+216509	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	539.0	i	(0, -3, 1)	(4, 5)	(3, 5, 4)	2	0	0.2	31	59
+216510	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	543.0	Ger2/iv	(-4, 5, -5, -1)	(3, 4, 9, 0)	(3, 5, 3, 2, 6, 4)	7	4	0.6	31	59
+216511	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	549.0	i(6)	(0, -3, 3)	(4, 1)	(3, 3, 6)	2	0	0.5333	31	59
+216512	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	551.0	i	(0, -3, 1)	(3, 4, 5)	(3, 5, 4)	2	0	0.2	31	59
+216513	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	555.0	Ger43/iv	(-1, -4, 5, -5)	(3, 4, 9, 0)	(3, 6, 4, 3, 5, 2)	7	4	0.6	31	59
+216514	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	561.0	i(4)	(0, -1, 1)	(3, 4, 5)	(5, 5, 2)	0	0	0.2	31	59
+216515	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	563.0	i	(0, -3, 1)	(4, 6)	(3, 5, 4)	2	1	0.2	31	59
+216516	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	568.0	i(2)	(2, -3, 1)	(5,)	(1, 5, 4)	2	0	0.4	31	59
+216517	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	569.0	i	(0, -3, 1)	(4, 5, 2)	(3, 5, 4)	2	0	0.2	31	59
+216518	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	573.0	i64(6)	(3, 0, -3)	(4, 1)	(3, 6, 3)	2	0	0.5333	31	59
+216519	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	575.0	i	(0, -3, 1)	(4, 5)	(3, 5, 4)	2	0	0.2	31	59
+216520	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	588.0	V7(96)	(1, 5, 4, -1, 3)	(9, 2, 0)	(4, 3, 2, 2, 5, 6, 2, 1, 5, 4)	0	4	0.88	31	59
+216521	grieg_lyric_pieces	op68n06	1890.3354624738975	1899	Late Romantic	g	VI	major	597.0	i	(0, -3, 1)	(4, 5)	(3, 5, 4)	2	0	0.2	31	59
