@@ -1,4 +1,5 @@
 import ast
+from fractions import Fraction
 from typing import Literal, Optional
 
 import pandas as pd
@@ -84,9 +85,15 @@ def process_DLC_data(data_path: str,
     except KeyError:
         pass
 
+    # sort by quarterbeats
+    df["quarterbeats"] = df["quarterbeats"].apply(lambda x: float(Fraction(x)))
+    sorted_df = df.groupby(['corpus', 'piece'], as_index=False, group_keys=False).apply(
+        lambda x: x.sort_values('quarterbeats'))
+    sorted_df = sorted_df.reset_index(drop=True)
+
     if save:
         print(f'Saving the processed DLC data ...')
-        save_df(df=df, file_type="both", fname="processed_DLC_data", directory=f"{repo_dir}Data/prep_data/")
+        save_df(df=sorted_df, file_type="both", fname="processed_DLC_data", directory=f"{repo_dir}Data/prep_data/")
 
     return df
 
@@ -339,6 +346,8 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
                    "localkey", "localkey_mode", "quarterbeats",
                    "chord", "in_label"]
 
+    assert chord_chromaticity.shape[0] == chord_dissonance.shape[0]
+
     chromaticity = chord_chromaticity[common_cols + ["out_of_label", "ILC", "OLC"]]
     dissonance = chord_dissonance[common_cols + ["interval_classes", "ILD"]]
 
@@ -350,13 +359,15 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
     result_df = chromaticity.merge(dissonance,
                                    on=common_cols,
                                    how="outer")[common_cols + ["out_of_label", "interval_classes", "ILC", "OLC", "ILD"]]
-
+    sort_df = result_df.sort_values(by=["corpus_year", "piece_year"], ignore_index=True, ascending=True)
+    sort_df["corpus_id"] = pd.factorize(sort_df["corpus"])[0] + 1
+    sort_df['piece_id'] = sort_df.groupby('corpus')['piece'].transform(lambda x: pd.factorize(x)[0] + 1)
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
 
-        save_df(df=result_df, file_type="both", directory=folder_path, fname="chord_level_indices")
+        save_df(df=sort_df, file_type="both", directory=folder_path, fname="chord_level_indices")
 
-    return result_df
+    return sort_df
 
 
 def combined_piece_level_indices(piece_chrom: pd.DataFrame,
@@ -426,6 +437,8 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
     df: assuming we take the chord-level indices
     """
     piece_df = df.groupby(["corpus", "piece", "localkey_mode"], as_index=False, sort=False).agg(
+        corpus_id=("corpus_id", "first"),
+        piece_id=("piece_id", "first"),
         corpus_year=("corpus_year", "first"),
         piece_year=("piece_year", "first"),
         period=("period", "first"),
@@ -447,9 +460,6 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
 
     res_df = res_df.fillna(0)
 
-    res_df["corpus_id"] = pd.factorize(res_df["corpus"])[0] + 1
-    res_df["piece_id"] = pd.factorize(res_df["piece"])[0] + 1
-
     # save df:
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -458,6 +468,23 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
 
     return res_df
 
+def get_ilc_ild_diff_df(df: pd.DataFrame, save: bool, repo_dir: str):
+    mode_counts = df.groupby('piece')['localkey_mode'].nunique()
+    pieces_with_both_modes = mode_counts[mode_counts == 2].index
+
+    # Filter the DataFrame to keep only pieces with both modes
+    df_filtered = df[df['piece'].isin(pieces_with_both_modes)]
+
+    # Compute the absolute difference between ILC and ILD for each row
+    df_filtered['ilc_ild_diff'] = (df_filtered['ILC'] - df_filtered['ILD']).abs()
+
+    # save df:
+    if save:
+        folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
+        fname = f"ilc_ild_diff_df"
+        save_df(df=df_filtered, file_type="both", directory=folder_path, fname=fname)
+
+    return df_filtered
 
 # %% full set of processed datasets for analyses
 def full_post_preprocessed_datasets_update():
@@ -509,10 +536,16 @@ def full_post_preprocessed_datasets_update():
     print(f'Computing corpora-level indices ... ')
     get_corpora_level_indices_by_mode(df=piece_by_mode, repo_dir=repo_dir)
 
+    get_ilc_ild_diff_df(df=piece_by_mode, save=True, repo_dir=repo_dir)
+
     print(f'Fini!')
 
 
 if __name__ == "__main__":
+    user = os.path.expanduser("~")
+    repo_dir = f'{user}/Codes/chromaticism-codes/'
+
+
     full_post_preprocessed_datasets_update()
     #
     # user = os.path.expanduser("~")

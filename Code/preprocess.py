@@ -124,7 +124,7 @@ def filter_unannotated_pieces(corpus_name: str,
     unannotated_logger = setup_logger('unannotated_logger', log_path + f"filter_warning_unannotated.log")
 
     metadata, harmonies = load_dfs_from_corpus(corpus_name=corpus_name,
-                                               df_type=["metadata", "harmonies"],repo_dir=repo_dir)
+                                               df_type=["metadata", "harmonies"], repo_dir=repo_dir)
 
     unannotated_pieces = _get_unannotated_pieces(metadata)
     exclude_pieces = unannotated_pieces + additional_pieces_to_exclude
@@ -368,7 +368,8 @@ if __name__ == "__main__":
 
     metadata: pd.DataFrame = load_dfs_from_corpus(corpus_name="distant_listening_corpus",
                                                   df_type=["metadata"], repo_dir=repo_dir)[0]
-    clean_harmonies = load_file_as_df(path=f"{repo_dir}Data/prep_data/cleaned_distant_listening_corpus_harmonies.pickle")
+    clean_harmonies = load_file_as_df(
+        path=f"{repo_dir}Data/prep_data/cleaned_distant_listening_corpus_harmonies.pickle")
     clean_notes = load_file_as_df(path=f"{repo_dir}Data/prep_data/cleaned_distant_listening_corpus_notes.pickle")
 
     preprocess_df_AppendingNotes(metadata=metadata, harmonies=clean_harmonies, notes=clean_notes, repo_dir=repo_dir)

@@ -14,8 +14,8 @@ from matplotlib.axes import Axes
 
 from Code.analysis import get_piece_df_by_localkey_mode
 from Code.utils.auxiliary import create_results_folder, map_array_to_colors, rand_jitter, mean_var_after_log, \
-    median_CI_after_log, add_period_text_to_ax
-from Code.utils.util import load_file_as_df, corpora_colors
+    add_period_text_to_ax
+from Code.utils.util import load_file_as_df
 import plotly.express as px
 import seaborn as sns
 
@@ -55,7 +55,7 @@ def gpr_model(X: np.ndarray, Y: np.ndarray,
 
 def gpr_model_outputs(df: pd.DataFrame,
                       model_name: str,
-                      feature_index: Literal["WLC", "OLC", "avg_WLD", "WL_5th_range", "OL_5th_range", "r_WLC_WLD"],
+                      feature_index: Literal["ILC", "OLC", "ILD", "r_ilc_ild"],
                       logY: bool,
                       lengthscale: Optional[float],
                       sample: Optional[int],
@@ -219,6 +219,7 @@ def ax_gpr_prediction(ax: Axes,
 
 def ax_full_gpr_model(ax: Axes,
                       m_outputs: MODEL_OUTPUT,
+                      logY: bool,
                       ax_title: str,
                       fmean_color: Optional[str],
                       plot_samples: int | None,
@@ -232,17 +233,18 @@ def ax_full_gpr_model(ax: Axes,
                       legend_loc: Optional[str] = None):
     X = np.array(m_outputs[0].data[0])
     Y = np.array(m_outputs[0].data[1])
-    expY = np.exp(Y)  # convert back to the precipitation space (before log)
+    if logY:
+        Y = np.exp(Y)  # convert back to the precipitation space (before log)
 
     ax.set_title(ax_title)
-    ax_scatter_observations(ax=ax, X=X, Y=expY, hue_by=scatter_hue_by,
+    ax_scatter_observations(ax=ax, X=X, Y=Y, hue_by=scatter_hue_by,
                             jitter=scatter_jitter,
                             scatter_colormap=scatter_colormap)
 
     ax_gpr_prediction(ax=ax, m_outputs=m_outputs, fmean_color=fmean_color,
                       plot_samples=plot_samples, plot_f_uncertainty=plot_f_uncertainty,
                       plot_y_uncertainty=plot_y_uncertainty)
-    ax_regplot_observations(ax=ax, X=X, Y=expY)
+    ax_regplot_observations(ax=ax, X=X, Y=Y)
 
     if ylim:
         ax.set_ylim([ylim[0], ylim[1]])
@@ -262,6 +264,7 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                                     plot_samples: int | None,
                                     plot_f_uncertainty: bool,
                                     plot_y_uncertainty: bool,
+                                    logY: bool,
                                     repo_dir: str,
                                     fname_anno: Optional[str],
                                     save: bool = False
@@ -271,14 +274,14 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
 
     # computing the models:
 
-    major_ilc = gpr_model_outputs(df=major_df, logY=True, model_name="ILC(major)", repo_dir=repo_dir,
-                                  feature_index="WLC", lengthscale=lengthscale, sample=plot_samples)
-    major_olc = gpr_model_outputs(df=major_df, logY=True, model_name="OLC(major)", repo_dir=repo_dir,
+    major_ilc = gpr_model_outputs(df=major_df, logY=logY, model_name="ILC(major)", repo_dir=repo_dir,
+                                  feature_index="ILC", lengthscale=lengthscale, sample=plot_samples)
+    major_olc = gpr_model_outputs(df=major_df, logY=logY, model_name="OLC(major)", repo_dir=repo_dir,
                                   feature_index="OLC", lengthscale=lengthscale, sample=plot_samples)
 
-    minor_ilc = gpr_model_outputs(df=minor_df, logY=True, model_name="ILC(minor)", repo_dir=repo_dir,
-                                  feature_index="WLC", lengthscale=lengthscale, sample=plot_samples)
-    minor_olc = gpr_model_outputs(df=minor_df, logY=True, model_name="OLC(minor)", repo_dir=repo_dir,
+    minor_ilc = gpr_model_outputs(df=minor_df, logY=logY, model_name="ILC(minor)", repo_dir=repo_dir,
+                                  feature_index="ILC", lengthscale=lengthscale, sample=plot_samples)
+    minor_olc = gpr_model_outputs(df=minor_df, logY=logY, model_name="OLC(minor)", repo_dir=repo_dir,
                                   feature_index="OLC", lengthscale=lengthscale, sample=plot_samples)
 
     # plotting:
@@ -292,7 +295,7 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
     num_major_corpora = major_df["corpus_id"].unique().shape[0]
     major_scatter_color = sns.color_palette(maj_min_palette, n_colors=num_major_corpora)
 
-    xlim=(1575, 1950)
+    xlim = (1575, 1950)
     # major ilc:
     ax_full_gpr_model(ax=axs[0, 0],
                       ax_title="ILC (major)",
@@ -306,7 +309,8 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                       scatter_jitter=True,
                       ylim=ylim,
                       xlim=xlim,
-                      legend_loc=None)
+                      legend_loc=None,
+                      logY=logY)
     # major olc:
     ax_full_gpr_model(ax=axs[1, 0],
                       ax_title="OLC (major)",
@@ -320,6 +324,7 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                       scatter_jitter=True,
                       ylim=ylim,
                       xlim=xlim,
+                      logY=logY,
                       legend_loc=None)
 
     minor_corpora_col = minor_df["corpus_id"].to_numpy()
@@ -339,6 +344,7 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                       scatter_jitter=True,
                       ylim=ylim,
                       xlim=xlim,
+                      logY=logY,
                       legend_loc=None)
 
     # minor olc:
@@ -354,6 +360,7 @@ def plot_gpr_chromaticities_by_mode(major_df: pd.DataFrame, minor_df: pd.DataFra
                       scatter_colormap=minor_scatter_color,
                       ylim=ylim,
                       xlim=xlim,
+                      logY=logY,
                       legend_loc=None)
 
     # add vertical-lines to era boundaries
@@ -394,6 +401,7 @@ def plot_gpr_dissonance(df: pd.DataFrame,
                         prediction_stat: Literal["mean", "median"],
                         lengthscale: Optional[float],
                         ylim: Optional[Tuple[float, float]],
+                        logY: bool,
                         plot_samples: int | None,
                         plot_f_uncertainty: bool,
                         plot_y_uncertainty: bool,
@@ -409,11 +417,11 @@ def plot_gpr_dissonance(df: pd.DataFrame,
 
     # computing the models:
 
-    major_WLD = gpr_model_outputs(df=major_df, logY=True, model_name="ILD(major)", repo_dir=repo_dir,
-                                  feature_index="avg_WLD", lengthscale=lengthscale, sample=plot_samples)
+    major_WLD = gpr_model_outputs(df=major_df, logY=logY, model_name="Dissonance(major)", repo_dir=repo_dir,
+                                  feature_index="ILD", lengthscale=lengthscale, sample=plot_samples)
 
-    minor_WLD = gpr_model_outputs(df=minor_df, logY=True, model_name="ILD(minor)", repo_dir=repo_dir,
-                                  feature_index="avg_WLD", lengthscale=lengthscale, sample=plot_samples)
+    minor_WLD = gpr_model_outputs(df=minor_df, logY=logY, model_name="Dissonance(minor)", repo_dir=repo_dir,
+                                  feature_index="ILD", lengthscale=lengthscale, sample=plot_samples)
 
     # plotting:
     fig, axs = plt.subplots(ncols=2, nrows=1, figsize=(9.5, 3.5), sharex=True, sharey=True,
@@ -421,15 +429,15 @@ def plot_gpr_dissonance(df: pd.DataFrame,
     # fmean_color = "#074f42"
 
     maj_min_palette = 'husl'
-    xlim=(1575, 1950)
+    xlim = (1575, 1950)
 
-    # major wld:
+    # major ILD:
     major_corpora_col = major_df["corpus_id"].to_numpy()
     num_major_corpora = major_df["corpus_id"].unique().shape[0]
     major_scatter_color = sns.color_palette(maj_min_palette, n_colors=num_major_corpora)
 
     ax_full_gpr_model(ax=axs[0],
-                      ax_title="ILD (major)",
+                      ax_title="Dissonance (major)",
                       m_outputs=major_WLD,
                       fmean_color=MAJOR_regline_COLOR,
                       plot_f_uncertainty=plot_f_uncertainty,
@@ -440,15 +448,16 @@ def plot_gpr_dissonance(df: pd.DataFrame,
                       scatter_jitter=True,
                       ylim=ylim,
                       xlim=xlim,
-                      legend_loc=None)
+                      legend_loc=None,
+                      logY=logY)
 
-    # minor wld:
+    # minor ILD:
     minor_corpora_col = minor_df["corpus_id"].to_numpy()
     num_minor_corpora = minor_df["corpus_id"].unique().shape[0]
     minor_scatter_color = sns.color_palette(maj_min_palette, n_colors=num_minor_corpora)
 
     ax_full_gpr_model(ax=axs[1],
-                      ax_title="ILD (minor)",
+                      ax_title="Dissonance (minor)",
                       m_outputs=minor_WLD,
                       fmean_color=MINOR_regline_COLOR,
                       plot_f_uncertainty=plot_f_uncertainty,
@@ -459,14 +468,15 @@ def plot_gpr_dissonance(df: pd.DataFrame,
                       scatter_jitter=True,
                       ylim=ylim,
                       xlim=xlim,
-                      legend_loc=None
+                      legend_loc=None,
+                      logY=logY
                       )
 
     # add vertical-lines to era boundaries
     for ax in axs:
         add_period_text_to_ax(ax=ax, y0=.02)
 
-    fig.supylabel("Dissonance", fontweight="bold")
+    fig.supylabel("Dissonance index", fontweight="bold")
     fig.supxlabel("Year", fontweight="bold")
 
     fig_path = f'{result_dir}figs/'
@@ -491,7 +501,7 @@ def plot_gpr_indices_r(df: pd.DataFrame,
                        lengthscale: Optional[float],
                        repo_dir: str,
                        fname_anno: Optional[str],
-                       ylim:Optional[Tuple[float, float]],
+                       ylim: Optional[Tuple[float, float]],
                        save: bool = False):
     # save the results to this folder:
     result_dir = create_results_folder(parent_folder="Results", analysis_name="GPR_analysis", repo_dir=repo_dir)
@@ -501,7 +511,7 @@ def plot_gpr_indices_r(df: pd.DataFrame,
     # computing the models:
 
     m_outputs = gpr_model_outputs(df=mode_df, logY=False, model_name="r-ILC-ILD(major)", repo_dir=repo_dir,
-                                  feature_index="r_WLC_WLD", lengthscale=lengthscale, sample=False)
+                                  feature_index="r_ilc_ild", lengthscale=lengthscale, sample=False)
 
     # unpack model outputs:
     _, (f_mean, f_var, y_mean, y_var), f_samples, lengthscale, modeled_feature = m_outputs
@@ -521,7 +531,7 @@ def plot_gpr_indices_r(df: pd.DataFrame,
 
     # plots
     g = sns.JointGrid(height=6, ylim=ylim)
-    x, y = mode_df["piece_year"].to_numpy(), mode_df["r_WLC_WLD"].to_numpy()
+    x, y = mode_df["piece_year"].to_numpy(), mode_df["r_ilc_ild"].to_numpy()
     jitter_x = rand_jitter(arr=x)
     sns.scatterplot(x=jitter_x, y=y, ec=scatter_color, fc="none", s=20, linewidth=1.5,
                     ax=g.ax_joint, alpha=0.65)
@@ -545,6 +555,14 @@ def plot_gpr_indices_r(df: pd.DataFrame,
     g.set_axis_labels(xlabel="Year", ylabel="r", fontweight="bold", fontsize="large")
     g.fig.set_figwidth(8)
 
+    if mode == "major":
+        # Annotate a specific point, e.g., Schumann
+        schumann_x = 1842  # Replace with the specific year for Schumann
+        schumann_y = -0.768  # Replace with the specific r-value for Schumann
+
+        # g.ax_joint.plot(schumann_x, schumann_y, 'x', color='gray', markersize=6, markeredgewidth=1.5)  # Cross marker
+        g.ax_joint.text(schumann_x + 1.8, schumann_y, "Schumann", color="black", fontsize=8, va="center")  # Label
+
     fig_path = f'{result_dir}figs/'
     if not os.path.exists(fig_path):
         os.makedirs(fig_path)
@@ -557,17 +575,18 @@ def plot_gpr_indices_r(df: pd.DataFrame,
     plt.tight_layout()
     if save:
         plt.savefig(f'{fig_path}gpr_ilc_ild_corr_{mode}{fname_anno}.pdf', dpi=200)
+    plt.show()
 
 
 def plotly_gpr(df: pd.DataFrame, mode: Literal["major", "minor"],
-               index_type: Literal["WLC", "OLC", "WLD"]):
+               index_type: Literal["ILC", "OLC", "ILD"]):
     # save the results to this folder:
     result_dir = create_results_folder(parent_folder="Results", analysis_name="GPR_analysis", repo_dir=repo_dir)
 
     mode_df = get_piece_df_by_localkey_mode(df=df, mode=mode)
 
     fig = px.scatter(mode_df, x="piece_year", y=index_type, color="corpus",
-                     hover_data=['corpus', 'corpus_year', 'piece', 'piece_year', 'WLC'])
+                     hover_data=['corpus', 'corpus_year', 'piece', 'piece_year'])
 
     fig_path = f'{result_dir}plotly/'
     if not os.path.exists(fig_path):
@@ -575,52 +594,71 @@ def plotly_gpr(df: pd.DataFrame, mode: Literal["major", "minor"],
     fig.write_html(f'{fig_path}GPR_{index_type}_{mode}.html')
 
 
+def plotly_r_vals(df: pd.DataFrame, mode: Literal["major", "minor"], r_pair: Literal["r_ilc_olc", "r_ilc_ild"], ):
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="GPR_analysis", repo_dir=repo_dir)
+
+    mode_df = get_piece_df_by_localkey_mode(df=df, mode=mode)
+    fig = px.scatter(mode_df, x="piece_year", y=r_pair, color="corpus",
+                     hover_data=['corpus', 'corpus_year', 'piece', r_pair])
+    fig_path = f'{result_dir}plotly/'
+    if not os.path.exists(fig_path):
+        os.makedirs(fig_path)
+    fig.write_html(f'{fig_path}GPR_{r_pair}_{mode}.html')
+
+
 if __name__ == "__main__":
     user = os.path.expanduser("~")
     repo_dir = f'{user}/Codes/chromaticism-codes/'
 
-    print(f'Loading dfs ...')
+    # print(f'Loading dfs ...')
     piece_indices = load_file_as_df(f"{repo_dir}Data/prep_data/for_analysis/piece_level_indices_by_mode.pickle")
 
     dissoance_piece_by_mode = load_file_as_df(f"{repo_dir}Data/prep_data/for_analysis/dissonance_piece_by_mode.pickle")
     chromaticity_piece_major = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_major.pickle')
     chromaticity_piece_minor = load_file_as_df(f"{repo_dir}Data/prep_data/for_analysis/chromaticity_piece_minor.pickle")
 
-    print(f'Plotly figures ...')
-    plotly_gpr(df=piece_indices, index_type="WLC", mode="major")
-    plotly_gpr(df=piece_indices, index_type="WLC", mode="minor")
-    plotly_gpr(df=piece_indices, index_type="OLC", mode="major")
-    plotly_gpr(df=piece_indices, index_type="OLC", mode="minor")
-    plotly_gpr(df=piece_indices, index_type="WLD", mode="major")
-    plotly_gpr(df=piece_indices, index_type="WLD", mode="minor")
-
-    print(f'GPR for chromaticity ...')
-    plot_gpr_chromaticities_by_mode(major_df=chromaticity_piece_major, minor_df=chromaticity_piece_minor,
-                                    lengthscale=20,
-                                    plot_samples=False,
-                                    plot_y_uncertainty=False,
-                                    plot_f_uncertainty=True,
-                                    repo_dir=repo_dir,
-                                    ylim=(0, 5),
-                                    fname_anno="capped", save=True)
-
+    # print(f'Plotly figures ...')
+    # plotly_gpr(df=piece_indices, index_type="ILC", mode="major")
+    # plotly_gpr(df=piece_indices, index_type="ILC", mode="minor")
+    # plotly_gpr(df=piece_indices, index_type="OLC", mode="major")
+    # plotly_gpr(df=piece_indices, index_type="OLC", mode="minor")
+    # plotly_gpr(df=piece_indices, index_type="ILD", mode="major")
+    # plotly_gpr(df=piece_indices, index_type="ILD", mode="minor")
+    #
+    # print(f'GPR for chromaticity ...')
+    # plot_gpr_chromaticities_by_mode(major_df=chromaticity_piece_major, minor_df=chromaticity_piece_minor,
+    #                                 lengthscale=20,
+    #                                 plot_samples=False,
+    #                                 logY=False,
+    #                                 plot_y_uncertainty=False,
+    #                                 plot_f_uncertainty=True,
+    #                                 repo_dir=repo_dir,
+    #                                 ylim=(-1, 5),
+    #                                 fname_anno="capped", save=True)
+    #
     print(f'GPR for dissonance ...')
-    plot_gpr_dissonance(df=dissoance_piece_by_mode,
+    plot_gpr_dissonance(df=piece_indices,
                         prediction_stat="mean",
                         lengthscale=20,
                         plot_samples=False,
                         plot_y_uncertainty=False,
                         plot_f_uncertainty=True,
                         repo_dir=repo_dir,
-                        ylim=(0, 1),
+                        ylim=(0, 1.5),
                         fname_anno=None,
-                        save=True)
+                        save=True,
+                        logY=False)
 
-    print(f'GPR for ILC-ILD correlation ...')
-    r_vals_df = load_file_as_df(f"{repo_dir}Data/prep_data/for_analysis/chord_indices_r_vals_by_piece.pickle")
-    plot_gpr_indices_r(df=r_vals_df, lengthscale=20, repo_dir=repo_dir,
-                       save=True, fname_anno=None, mode="major",
-                       ylim=(-1, 1.25))
-    plot_gpr_indices_r(df=r_vals_df, lengthscale=20, repo_dir=repo_dir,
-                       save=True, fname_anno=None, mode="minor",
-                       ylim=(-1, 1.25))
+    # print(f'GPR for ILC-ILD correlation ...')
+    # r_vals_df = load_file_as_df(f"{repo_dir}Data/prep_data/for_analysis/chord_indices_r_vals_by_piece.pickle")
+    # plot_gpr_indices_r(df=r_vals_df, lengthscale=20, repo_dir=repo_dir,
+    #                    save=True, fname_anno=None, mode="major",
+    #                    ylim=(-1, 1.25))
+    # plot_gpr_indices_r(df=r_vals_df, lengthscale=20, repo_dir=repo_dir,
+    #                    save=True, fname_anno=None, mode="minor",
+    #                    ylim=(-1, 1.25))
+    #
+    #
+    # plotly_r_vals(df=r_vals_df, mode="major", r_pair="r_ilc_ild")
+    # plotly_r_vals(df=r_vals_df, mode="minor", r_pair="r_ilc_ild")

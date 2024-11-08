@@ -1,4 +1,3 @@
-# This script contains the functions for different measures of chromaticism and
 import itertools
 from typing import List, Optional, Literal
 

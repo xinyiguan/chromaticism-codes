@@ -1,13 +1,21 @@
-
 import os
+from fractions import Fraction
 from typing import Literal, Optional, Tuple, List
+
+import numpy as np
 import pandas as pd
 import seaborn as sns
 import pingouin as pg
+from PIL import Image
 from matplotlib import pyplot as plt
+from matplotlib.image import imread
+from matplotlib.lines import Line2D
+from matplotlib.offsetbox import (OffsetImage, AnnotationBbox)
 
-from Code.utils.util import load_file_as_df, corpus_composer_dict, corpus_collection_dict, corpus_prettyprint_dict
-from Code.utils.auxiliary import create_results_folder, determine_period_id, get_period_df,  Fabian_periods, pprint_p_text, get_piece_df_by_localkey_mode, exclude_piece_from_corpus
+from Code.utils.util import load_file_as_df, corpus_composer_dict, corpus_collection_dict, corpus_prettyprint_dict, \
+    save_df
+from Code.utils.auxiliary import create_results_folder, determine_period_id, get_period_df, Fabian_periods, \
+    pprint_p_text, get_piece_df_by_localkey_mode, exclude_piece_from_corpus
 import plotly.express as px
 
 
@@ -426,7 +434,7 @@ def plot_piece_pairwise_indices_corr(df: pd.DataFrame,
                 mi.set_ylabel("")
                 mi.set_xlabel("")
 
-        anno=f'_byPeriod'
+        anno = f'_byPeriod'
 
     else:
 
@@ -469,8 +477,7 @@ def plot_piece_pairwise_indices_corr(df: pd.DataFrame,
         mi.set_ylabel("")
         ma.set_xlabel("Major", fontsize=11)
         mi.set_xlabel("Minor", fontsize=11)
-        anno=""
-
+        anno = ""
 
     fig.supxlabel("\nIn-Label Chromaticity (ILC)", fontsize=15, fontdict=dict(weight='bold'))
     if idx2 == "OLC":
@@ -720,6 +727,401 @@ def barplot_indices_by_corpus(df: pd.DataFrame, mode: Literal["major", "minor"],
     plt.savefig(f'{fig_path}barplot_corpora_indices_{mode}{txt}.pdf', dpi=200)
 
 
+# %% Analysis: piece analysis: chord-level chromaticity and dissonance across piece
+
+
+def get_piece_df(df: pd.DataFrame, corpus: str | int, piece: str | int, save: bool | str = False) -> pd.DataFrame:
+    if isinstance(corpus, str):
+        piece_df = df.loc[(df['corpus'] == corpus) & (df['piece'] == piece)]
+    elif isinstance(corpus, int):
+        piece_df = df.loc[(df['corpus_id'] == corpus) & (df['piece_id'] == piece)]
+    else:
+        raise NotImplementedError
+    piece_df.loc[:, "quarterbeats"] = piece_df["quarterbeats"].apply(lambda x: float(Fraction(x)))
+    piece_df = piece_df.sort_values(["quarterbeats"])
+    c = piece_df["corpus"].tolist()[0]
+    p = piece_df["piece"].tolist()[0]
+    if save:
+        assert isinstance(save, str)
+        if not os.path.exists(save):
+            os.makedirs(save)
+        corpus_piece_name = f'{c}_{p}.tsv'
+        piece_df.to_csv(f'{save}{corpus_piece_name}', sep='\t')
+    return piece_df
+
+
+def plot_chord_ilc_ild_in_piece(df: pd.DataFrame):
+    # Convert quarterbeats to float
+    df["quarterbeats"] = df["quarterbeats"].apply(lambda x: float(Fraction(x)))
+
+    # Plot ILC and ILD over quarterbeats
+    plt.figure(figsize=(20, 4))
+
+    # Plot ILC and ILD as line plots for a smooth time series appearance
+    plt.plot(df["quarterbeats"], df["ILC"], 'o-', label="ILC", color="lightseagreen")
+    plt.plot(df["quarterbeats"], df["ILD"], 'x-', label="ILD", color="sienna")
+
+    # Shade regions where mode is minor, avoiding re-shading already shaded regions
+    in_minor_section = False
+    start = None
+
+    for i, row in df.iterrows():
+        if row["localkey_mode"] == "minor" and not in_minor_section:
+            # Start of a new minor section
+            start = row["quarterbeats"]
+            in_minor_section = True
+        elif row["localkey_mode"] != "minor" and in_minor_section:
+            # End of the current minor section
+            end = row["quarterbeats"]
+            plt.axvspan(start, end, color='gray', alpha=0.2, edgecolor='none')
+            in_minor_section = False
+
+    # Ensure the last minor section gets shaded if it runs to the end
+    if in_minor_section:
+        plt.axvspan(start, df["quarterbeats"].iloc[-1], color='gray', alpha=0.2, edgecolor='none')
+
+    corpus = df["corpus"].tolist()[0]
+    piece = df["piece"].tolist()[0]
+    # Labeling
+    plt.xlabel("Chord")
+    plt.ylabel("Values")
+    plt.title(f"{corpus} : {piece}")
+    plt.legend()
+    plt.xticks([], [])
+    plt.xlim(-0.5, df["quarterbeats"].iloc[-1] + 0.5)
+    plt.tight_layout()
+    plt.show()
+
+
+
+def plot_schumann_ilc_ild_in_piece(df: pd.DataFrame, normalize_method: Literal["standardize", "min-max"], repo_dir: str):
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="piece_fig_ilc_ild", repo_dir=repo_dir)
+
+    # Convert quarterbeats to float
+    df["quarterbeats"] = df["quarterbeats"].apply(lambda x: float(Fraction(x)))
+
+    if normalize_method == "standardize":
+        wo_repeat_df = (
+            df[(df['quarterbeats'] <= 1.0) | (df['quarterbeats'] >= 34)]
+            .assign(quarterbeats=lambda x: x['quarterbeats'].replace(
+                {df['quarterbeats'].iloc[0]: 32, df['quarterbeats'].iloc[1]: 33}))
+            .assign(quarterbeats=lambda x: x['quarterbeats'] - x['quarterbeats'].min())
+            .assign(
+                ILC=lambda x: (x['ILC'] - x['ILC'].mean()) / x['ILC'].std(),
+                ILD=lambda x: (x['ILD'] - x['ILD'].mean()) / x['ILD'].std()
+            )
+        )
+    elif normalize_method == "min-max":
+        wo_repeat_df = (
+            df[(df['quarterbeats'] <= 1.0) | (df['quarterbeats'] >= 34)]
+            .assign(quarterbeats=lambda x: x['quarterbeats'].replace(
+                {df['quarterbeats'].iloc[0]: 32, df['quarterbeats'].iloc[1]: 33}))
+            .assign(quarterbeats=lambda x: x['quarterbeats'] - x['quarterbeats'].min())
+            .assign(
+                ILC=lambda x: (x['ILC'] - x['ILC'].min()) / (x['ILC'].max() - x['ILC'].min()),
+                ILD=lambda x: (x['ILD'] - x['ILD'].min()) / (x['ILD'].max() - x['ILD'].min())
+            )
+        )
+    else:
+        raise NotImplementedError
+    # Plot ILC and ILD over quarterbeats
+    fig, ax = plt.subplots(figsize=(20, 4))
+
+    # Plot ILC and ILD as line plots for a smooth time series appearance
+    plt.plot(wo_repeat_df["quarterbeats"], wo_repeat_df["ILC"], 'o-', label="ILC", color="lightseagreen")
+    plt.plot(wo_repeat_df["quarterbeats"], wo_repeat_df["ILD"], 'x-', label="ILD", color="sienna")
+
+    # Shade regions where mode is minor, avoiding re-shading already shaded regions
+
+    if normalize_method == "standardize":
+        # Set the maximum height of the shaded region
+        max_y_value = max(wo_repeat_df["ILC"].max(),wo_repeat_df["ILD"].max())
+        min_y_value = min(wo_repeat_df["ILC"].min(),wo_repeat_df["ILD"].min())
+        in_minor_section = False
+        start = None
+
+        for i, row in wo_repeat_df.iterrows():
+            if row["localkey_mode"] == "minor" and not in_minor_section:
+                # Start of a new minor section
+                start = row["quarterbeats"]
+                in_minor_section = True
+            elif row["localkey_mode"] != "minor" and in_minor_section:
+                # End of the current minor section
+                end = row["quarterbeats"]
+                plt.fill_between([start, end], min_y_value-0.05, max_y_value+0.05, color='gray', alpha=0.2)
+                in_minor_section = False
+
+        # Ensure the last minor section gets shaded if it runs to the end
+        if in_minor_section:
+            plt.fill_between([start, wo_repeat_df["quarterbeats"].iloc[-1]], min_y_value-0.05, max_y_value+0.05, color='gray', alpha=0.2)
+
+    # if normalize_method == "standardize":
+    #     for i, row in wo_repeat_df.iterrows():
+    #         if row["localkey_mode"] == "minor" and not in_minor_section:
+    #             # Start of a new minor section
+    #             start = row["quarterbeats"]
+    #             in_minor_section = True
+    #         elif row["localkey_mode"] != "minor" and in_minor_section:
+    #             # End of the current minor section
+    #             end = row["quarterbeats"]
+    #             plt.axvspan(start, end, color='gray', alpha=0.2)
+    #             in_minor_section = False
+    #
+    #     # Ensure the last minor section gets shaded if it runs to the end
+    #     if in_minor_section:
+    #         plt.axvspan(start, wo_repeat_df["quarterbeats"].iloc[-1], color='gray', alpha=0.2)
+
+    elif normalize_method == "min-max":
+        in_minor_section = False
+        start = None
+        for i, row in wo_repeat_df.iterrows():
+            if row["localkey_mode"] == "minor" and not in_minor_section:
+                # Start of a new minor section
+                start = row["quarterbeats"]
+                in_minor_section = True
+            elif row["localkey_mode"] != "minor" and in_minor_section:
+                # End of the current minor section
+                end = row["quarterbeats"]
+                # Use fill_between to shade between start and end, limiting y-values
+                plt.fill_between([start, end], y1=-0.05, y2=1.05, color='gray', alpha=0.2)
+                in_minor_section = False
+        ax.set_ylim(-0.1, 1.15)
+
+        # Ensure the last minor section gets shaded if it runs to the end
+        if in_minor_section:
+            plt.fill_between([start, wo_repeat_df["quarterbeats"].iloc[-1]], y1=-0.05, y2=1.05, color='gray', alpha=0.2)
+    else:
+        raise NotImplementedError
+    corpus = wo_repeat_df["corpus"].tolist()[0]
+    piece = wo_repeat_df["piece"].tolist()[0]
+    # Labeling
+    xticks = wo_repeat_df["quarterbeats"].tolist()  # Get the positions for the ticks
+    xtickslabels = wo_repeat_df["chord"].tolist()
+
+    ax.set_xticks(xticks)
+    ax.set_xticklabels(xtickslabels, rotation='vertical', fontsize=10)
+
+    ax.set_xlabel("Chord", fontweight="bold", fontsize="large")
+    ax.set_ylabel("Values", fontweight="bold", fontsize="large")
+    ax.set_xlim(-0.5, wo_repeat_df["quarterbeats"].iloc[-1] + 0.5)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    # add repeat signs
+    repeatL = imread(f"{repo_dir}/Results/piece_fig_ilc_ild/repeat_left.png")
+    repeatR = imread(f"{repo_dir}/Results/piece_fig_ilc_ild/repeat_right.png")
+    endsign = imread(f"{repo_dir}/Results/piece_fig_ilc_ild/end_sign.png")
+    imagebox1 = OffsetImage(repeatL, zoom=0.04)
+    imagebox2 = OffsetImage(repeatR, zoom=0.04)
+    imagebox3 = OffsetImage(endsign, zoom=0.04)
+
+    _, y_max = plt.gca().get_ylim()
+    # L = AnnotationBbox(imagebox1, (2, 2.1), frameon=False)
+    L = AnnotationBbox(imagebox1, (2, y_max-0.03), frameon=False)
+    R = AnnotationBbox(imagebox2, (34, y_max-0.03), frameon=False)
+    E = AnnotationBbox(imagebox3, (44, y_max-0.03), frameon=False)
+    ax.add_artist(L)
+    ax.add_artist(R)
+    ax.add_artist(E)
+    # legend
+    current_handles, current_labels = plt.gca().get_legend_handles_labels()
+
+    # compute r vals
+    major_df = wo_repeat_df[wo_repeat_df['localkey_mode'] == 'major']
+    minor_df = wo_repeat_df[wo_repeat_df['localkey_mode'] == 'minor']
+
+    r_major = major_df[["ILC", "ILD"]].corr(method='pearson').iloc[0, 1]
+    r_minor = minor_df[["ILD", "ILC"]].corr(method='pearson').iloc[0, 1]
+
+    legend_item1 = Line2D([0], [0], color='none', label=r"$r_{\text{major}} = " + f"{r_major:.2f}$")
+    legend_item2 = Line2D([0], [0], color='none', label=r"$r_{\text{minor}} = " + f"{r_minor:.2f}$")
+    legend_items = current_handles + [legend_item1, legend_item2]
+
+    # Add the custom legend item to the plot
+    # ax.legend(handles=legend_items, loc='outside upper right', fontsize='small')
+    fig.legend(handles=legend_items, bbox_to_anchor=(0.97, 0.88), loc='upper right', fontsize='small')
+
+    plt.tight_layout()
+
+    # save fig
+    fig_path = f'{result_dir}'
+    if not os.path.exists(fig_path):
+        os.makedirs(fig_path)
+    plt.savefig(f'{fig_path}{corpus}_{piece}.pdf', dpi=200)
+    plt.show()
+
+
+def plot_ilc_ild_in_piece(df: pd.DataFrame, normalize_method: Literal["standardize", "min-max"], legend_pos: Tuple[float, float], repo_dir: str):
+    # save the results to this folder:
+    result_dir = create_results_folder(parent_folder="Results", analysis_name="piece_fig_ilc_ild", repo_dir=repo_dir)
+
+    # Convert quarterbeats to float
+    df["quarterbeats"] = df["quarterbeats"].apply(lambda x: float(Fraction(x)))
+
+    if normalize_method == "standardize":
+        df = df.assign(
+            ILC=lambda x: (x['ILC'] - x['ILC'].mean()) / x['ILC'].std(),
+            ILD=lambda x: (x['ILD'] - x['ILD'].mean()) / x['ILD'].std()
+        )
+    elif normalize_method == "min-max":
+        df = df.assign(
+            ILC=lambda x: (x['ILC'] - x['ILC'].min()) / (x['ILC'].max() - x['ILC'].min()),
+            ILD=lambda x: (x['ILD'] - x['ILD'].min()) / (x['ILD'].max() - x['ILD'].min())
+        )
+    else:
+        raise NotImplementedError
+    # Plot ILC and ILD over quarterbeats
+    fig, ax = plt.subplots(figsize=(20, 4))
+
+    # Plot ILC and ILD as line plots for a smooth time series appearance
+    plt.plot(df["quarterbeats"], df["ILC"], 'o-', label="ILC", color="lightseagreen")
+    plt.plot(df["quarterbeats"], df["ILD"], 'x-', label="ILD", color="sienna")
+
+    # Shade regions where mode is minor, using fill_between for custom height
+    if normalize_method == "standardize":
+        # Set the maximum height of the shaded region
+        max_y_value = max(df["ILC"].max(),df["ILD"].max())
+        min_y_value = min(df["ILC"].min(),df["ILD"].min())
+        in_minor_section = False
+        start = None
+
+        for i, row in df.iterrows():
+            if row["localkey_mode"] == "minor" and not in_minor_section:
+                # Start of a new minor section
+                start = row["quarterbeats"]
+                in_minor_section = True
+            elif row["localkey_mode"] != "minor" and in_minor_section:
+                # End of the current minor section
+                end = row["quarterbeats"]
+                plt.fill_between([start, end], min_y_value-0.05, max_y_value+0.05, color='gray', alpha=0.2)
+                in_minor_section = False
+
+        # Ensure the last minor section gets shaded if it runs to the end
+        if in_minor_section:
+            plt.fill_between([start, df["quarterbeats"].iloc[-1]], min_y_value-0.05, max_y_value+0.05, color='gray', alpha=0.2)
+
+    # in_minor_section = False
+    # start = None
+    #
+    # if normalize_method=="min-max":
+    #     for i, row in df.iterrows():
+    #         if row["localkey_mode"] == "minor" and not in_minor_section:
+    #             # Start of a new minor section
+    #             start = row["quarterbeats"]
+    #             in_minor_section = True
+    #         elif row["localkey_mode"] != "minor" and in_minor_section:
+    #             # End of the current minor section
+    #             end = row["quarterbeats"]
+    #             plt.fill_between([start, end], -0.05, 1.05, color='gray', alpha=0.2)
+    #             in_minor_section = False
+    #
+    #     # Ensure the last minor section gets shaded if it runs to the end
+    #     if in_minor_section:
+    #         plt.fill_between([start, df["quarterbeats"].iloc[-1]], -0.05, 1.05, color='gray', alpha=0.2)
+    else:
+        in_minor_section = False
+        start = None
+
+        for i, row in df.iterrows():
+            if row["localkey_mode"] == "minor" and not in_minor_section:
+                # Start of a new minor section
+                start = row["quarterbeats"]
+                in_minor_section = True
+            elif row["localkey_mode"] != "minor" and in_minor_section:
+                # End of the current minor section
+                end = row["quarterbeats"]
+                plt.axvspan(start, end, color='gray', alpha=0.2)
+                in_minor_section = False
+        ax.set_ylim(-0.1, 1.1)
+
+        # Ensure the last minor section gets shaded if it runs to the end
+        if in_minor_section:
+            plt.axvspan(start, df["quarterbeats"].iloc[-1], color='gray', alpha=0.2)
+
+    corpus = df["corpus"].tolist()[0]
+    piece = df["piece"].tolist()[0]
+    # Labeling
+    xticks = df["quarterbeats"].tolist()  # Get the positions for the ticks
+    xtickslabels = df["chord"].tolist()
+
+    ax.set_xticks(xticks)
+    ax.set_xticklabels(xtickslabels, rotation='vertical', fontsize=10)
+
+    ax.set_xlabel("Chord")
+    ax.set_ylabel("Values")
+    ax.set_xlim(-0.5, df["quarterbeats"].iloc[-1] + 0.5)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    current_handles, current_labels = plt.gca().get_legend_handles_labels()
+
+    # compute r vals
+    major_df = df[df['localkey_mode'] == 'major']
+    minor_df = df[df['localkey_mode'] == 'minor']
+
+    r_major = major_df[["ILC", "ILD"]].corr(method='pearson').iloc[0, 1]
+    r_minor = minor_df[["ILD", "ILC"]].corr(method='pearson').iloc[0, 1]
+
+    # Define a custom legend item with just the text, no line.
+    legend_item1 = Line2D([0], [0], color='none', label=r"$r_{\text{major}} = " + f"{r_major:.2f}$")
+    legend_item2 = Line2D([0], [0], color='none', label=r"$r_{\text{minor}} = " + f"{r_minor:.2f}$")
+    legend_items = current_handles + [legend_item1, legend_item2]
+
+    # Add the custom legend item to the plot
+    plt.legend(handles=legend_items, bbox_to_anchor=legend_pos, loc='upper right', fontsize='small')
+
+    plt.tight_layout()
+
+    # save fig
+    fig_path = f'{result_dir}'
+    if not os.path.exists(fig_path):
+        os.makedirs(fig_path)
+    plt.savefig(f'{fig_path}{corpus}_{piece}.pdf', dpi=200)
+    plt.show()
+
+
+def stats_r_vals_ilc_ild(df:pd.DataFrame, repo_dir: str):
+
+    major_df = df[df['localkey_mode'] == 'major']
+    minor_df = df[df['localkey_mode'] == 'minor']
+    major_seg_num = major_df.shape[0]
+    minor_seg_num = minor_df.shape[0]
+    # r=0
+    r0 = df[df['r_ilc_ild'] == 0]
+    r0_major = major_df[major_df['r_ilc_ild'] == 0]
+    r0_minor = minor_df[minor_df['r_ilc_ild'] == 0]
+
+    r_pos = df[df['r_ilc_ild'] > 0]
+    r_pos_major = major_df[major_df['r_ilc_ild'] > 0]
+    r_pos_minor = minor_df[minor_df['r_ilc_ild'] > 0]
+
+    r_neg = df[df['r_ilc_ild'] < 0]
+    r_neg_major = major_df[major_df['r_ilc_ild'] < 0]
+    r_neg_minor = minor_df[minor_df['r_ilc_ild'] < 0]
+
+    res_dict = {
+                "total seg num:": df.shape[0],
+                "major seg num:": major_seg_num,
+                "minor seg num:": minor_seg_num,
+
+                "r=0 num:": r0.shape[0],
+                "r=0 (major) num:": r0_major.shape[0],
+                "r=0 (minor) num:": r0_minor.shape[0],
+
+                "r>0 num:": r_pos.shape[0],
+                "r>0 (major) num:": r_pos_major.shape[0],
+                "r>0 (minor) num:": r_pos_minor.shape[0],
+
+                "r<0 num:": r_neg.shape[0],
+                "r<0 (major) num:": r_neg_major.shape[0],
+                "r<0 (minor) num:": r_neg_minor.shape[0],
+                }
+    print(res_dict)
+
+
+
+
 # %% full analyses set for the paper:
 
 def full_analyses_set_for_paper():
@@ -772,7 +1174,6 @@ def full_analyses_set_for_paper():
     ILC_OLC_minor_outliers = [("liszt_pelerinage", "161.04_Sonetto_47_del_Petrarca"),
                               ("bartok_bagatelles", "op06n12")]  # bartok_bagatelles: ILC>10
     # end of outlier list -------------
-
 
     compute_piece_corr_stats(df=piece_level_indices_by_mode, indices_pair=("ILC", "OLC"),
                              repo_dir=repo, corr_method="pearson",
@@ -837,16 +1238,27 @@ def full_analyses_set_for_paper():
 
 
 if __name__ == "__main__":
-    full_analyses_set_for_paper()
+    user = os.path.expanduser("~")
+    repo = f'{user}/Codes/chromaticism-codes/'
 
-    # dlc = load_file_as_df("/Users/xguan/Codes/chromaticism-codes/Data/prep_data/processed_DLC_data.pickle")
-    # plot_chord_size_across_time(df=dlc)
+    # r_df = load_file_as_df(path=f'{repo}Data/prep_data/for_analysis/chord_indices_r_vals_by_piece.pickle')
+    # stats_r_vals_ilc_ild(r_df, repo_dir=repo)
 
-    # user = os.path.expanduser("~")
-    # repo = f'{user}/Codes/chromaticism-codes/'
-    # corpora_indices_by_mode = load_file_as_df(f"{repo}Data/prep_data/for_analysis/corpora_level_indices_by_mode.pickle")
-    # barplot_indices_by_corpus(df=corpora_indices_by_mode, repo_dir=repo, mode="major", anno="withVals")
-    # barplot_indices_by_corpus(df=corpora_indices_by_mode, repo_dir=repo, mode="minor", anno="withVals")
-    # Correlation Analysis: piece-level ILC and OLC ____________________________________
+    # assert False
+    df = load_file_as_df(path=f"{repo}Data/prep_data/for_analysis/chord_level_indices.pickle")
+
+    test = get_piece_df(df=df, corpus="bartok_bagatelles", piece="op06n01", save=f'{repo}Data/prep_data/piece_dfs/')
+    plot_ilc_ild_in_piece(df=test, repo_dir=repo, normalize_method="standardize", legend_pos=(0.97, 0.98))
 
 
+    # grieg = get_piece_df(df=df, corpus="grieg_lyric_pieces", piece="op68n06", save=f'{repo}Data/prep_data/piece_dfs/')
+    # bach_1009 = get_piece_df(df=df, corpus="bach_solo", piece="BWV1009_06_BourréeII",
+    #                          save=f'{repo}Data/prep_data/piece_dfs/')
+    #
+    # # plot_ilc_ild_in_piece(df=bach_1009, repo_dir=repo, normalize_method="min-max", legend_pos=(0.26, 0.93))
+    # plot_ilc_ild_in_piece(df=grieg, repo_dir=repo, normalize_method="standardize", legend_pos=(0.97, 0.98))
+    #
+    assert False
+    shumann = get_piece_df(df=df, corpus=25, piece=8, save=f'{repo}Data/prep_data/piece_dfs/')
+    schuman_kind = get_piece_df(df=df, corpus="schumann_kinderszenen", piece="n03")
+    plot_ilc_ild_in_piece(df=schuman_kind, repo_dir=repo, normalize_method="standardize", legend_pos=(0.2,0.9))
