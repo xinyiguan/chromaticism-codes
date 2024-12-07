@@ -1,0 +1,50 @@
+	corpus	piece	corpus_year	piece_year	period	globalkey	localkey	localkey_mode	quarterbeats	chord	in_label	out_of_label	interval_classes	ILC	OLC	ILD	corpus_id	piece_id
+186167	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	0.0	I	(0, 4, 1)	(2, 3, 5)	(4, 5, 3)	0	0	0.2	23	1
+186168	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	3.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186169	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	4.5	V(64)	(1, 0, 4)	(-1,)	(5, 3, 4)	0	0	0.2	23	1
+186170	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	6.5	V(9)	(1, 5, 2, 3)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	23	1
+186171	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	7.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186172	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	9.5	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	23	1
+186173	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	10.5	I(6#4#2)	(0, 9, 6, 3)	()	(3, 6, 3, 3, 6, 3)	5	0	0.8	23	1
+186174	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	11.5	I	(0, 4, 1)	(2, 3, 5)	(4, 5, 3)	0	0	0.2	23	1
+186175	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	15.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186176	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	16.5	V(64)	(1, 0, 4)	(-1,)	(5, 3, 4)	0	0	0.2	23	1
+186177	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	18.5	V(9)	(1, 5, 2, 3)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	23	1
+186178	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	19.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186179	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	21.5	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	23	1
+186204	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	24.0	V	(1, 5, 2)	(0, 3)	(4, 5, 3)	3	1	0.2	23	1
+186205	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	27.5	viio2/V	(-3, 6, 3, 0)	()	(3, 6, 3, 3, 6, 3)	5	0	0.8	23	1
+186206	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	28.5	V64	(2, 1, 5)	()	(5, 3, 4)	3	0	0.2	23	1
+186207	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	30.5	V	(1, 5, 2)	(0, 3)	(4, 5, 3)	3	1	0.2	23	1
+186208	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	33.5	viio2/V	(-3, 6, 3, 0)	()	(3, 6, 3, 3, 6, 3)	5	0	0.8	23	1
+186209	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	34.5	V64	(2, 1, 5)	()	(5, 3, 4)	3	0	0.2	23	1
+186210	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	36.5	V	(1, 5, 2)	(0, 3)	(4, 5, 3)	3	1	0.2	23	1
+186211	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	39.5	viio2/V	(-3, 6, 3, 0)	()	(3, 6, 3, 3, 6, 3)	5	0	0.8	23	1
+186212	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	40.5	V64	(2, 1, 5)	()	(5, 3, 4)	3	0	0.2	23	1
+186213	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	42.5	V	(1, 5, 2)	(0, 3)	(4, 5, 3)	3	1	0.2	23	1
+186214	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	45.5	viio2/V	(-3, 6, 3, 0)	()	(3, 6, 3, 3, 6, 3)	5	0	0.8	23	1
+186215	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	vi	minor	46.5	V64	(2, 1, 5)	(-2,)	(5, 3, 4)	3	0	0.2	23	1
+186180	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	48.5	I	(0, 4, 1)	(2, 3, 5)	(4, 5, 3)	0	0	0.2	23	1
+186181	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	51.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186182	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	52.5	V(64)	(1, 0, 4)	(-1,)	(5, 3, 4)	0	0	0.2	23	1
+186183	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	54.5	V(9)	(1, 5, 2, 3)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	23	1
+186184	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	55.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186185	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	57.5	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	23	1
+186186	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	58.5	I(6#4#2)	(0, 9, 6, 3)	()	(3, 6, 3, 3, 6, 3)	5	0	0.8	23	1
+186187	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	59.5	I	(0, 4, 1)	(2, 3, 5)	(4, 5, 3)	0	0	0.2	23	1
+186188	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	63.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186189	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	64.5	V(64)	(1, 0, 4)	(-1,)	(5, 3, 4)	0	0	0.2	23	1
+186190	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	66.5	V(9)	(1, 5, 2, 3)	()	(4, 5, 2, 3, 2, 5)	0	0	0.45	23	1
+186191	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	67.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186192	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	I	major	69.5	I	(0, 4, 1)	()	(4, 5, 3)	0	0	0.2	23	1
+186193	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	72.0	I	(0, 4, 1)	(3, 5)	(4, 5, 3)	0	0	0.2	23	1
+186194	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	75.5	IV6	(3, 0, -1)	(1,)	(3, 4, 5)	0	0	0.2	23	1
+186195	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	76.5	V(64)	(1, 0, 4)	(8,)	(5, 3, 4)	0	3	0.2	23	1
+186196	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	78.5	V7(9)	(1, 5, 2, -1, 3)	()	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	0	0.76	23	1
+186197	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	80.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186198	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	81.5	I	(0, 4, 1)	(2, 3, 5, -1)	(4, 5, 3)	0	0	0.2	23	1
+186199	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	87.5	IV6	(3, 0, -1)	(1,)	(3, 4, 5)	0	0	0.2	23	1
+186200	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	88.5	V(64)	(1, 0, 4)	(8,)	(5, 3, 4)	0	3	0.2	23	1
+186201	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	90.5	V7(9)	(1, 5, 2, -1, 3)	()	(4, 5, 2, 2, 3, 6, 2, 3, 5, 4)	0	0	0.76	23	1
+186202	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	92.5	V7	(1, 5, 2, -1)	()	(4, 5, 2, 3, 6, 3)	0	0	0.6	23	1
+186203	chopin_mazurkas	BI16-1	1838.2307692307693	1826	Early Romantic	G	IV	major	93.5	I	(0, 4, 1)	(2,)	(4, 5, 3)	0	0	0.2	23	1

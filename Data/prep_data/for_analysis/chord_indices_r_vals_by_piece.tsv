@@ -1,4 +1,4 @@
-	corpus	piece	localkey_mode	corpus_id	piece_id	corpus_year	piece_year	period	globalkey	r_ilc_olc	r_ilc_ild
+	corpus	piece	localkey_mode	corpus_id	piece_id	corpus_year	piece_year	period	globalkey	r_ILC_OLC	r_ILC_DI
 0	peri_euridice	peri_euridice_scene_0	major	1	1	1600.0	1600	Renaissance	F	-0.035714285714285705	0.0
 1	peri_euridice	peri_euridice_scene_1	major	1	2	1600.0	1600	Renaissance	G	0.024918002505166157	0.29766465681021476
 2	peri_euridice	peri_euridice_scene_1	minor	1	2	1600.0	1600	Renaissance	G	0.07965436651656424	0.007493130529956932

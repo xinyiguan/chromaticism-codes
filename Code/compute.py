@@ -221,11 +221,11 @@ def compute_chord_dissonance(df: pd.DataFrame,
 
     # IN-LABEL DISSONANCE
     df["interval_classes"] = df.apply(lambda row: tpcs_to_ics(tpcs=row["in_label"]), axis=1)
-    df["ILD"] = df.apply(lambda row: pcs_to_dissonance_score(tpcs=row["in_label"]), axis=1)
+    df["DI"] = df.apply(lambda row: pcs_to_dissonance_score(tpcs=row["in_label"]), axis=1)
 
     result = df[
         ["corpus", "piece", "corpus_year", "piece_year", "period", "globalkey", "localkey",
-         "localkey_mode", "duration_qb_frac", "quarterbeats", "chord", "in_label", "interval_classes", "ILD"]]
+         "localkey_mode", "duration_qb_frac", "quarterbeats", "chord", "in_label", "interval_classes", "DI"]]
 
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -248,7 +248,7 @@ def compute_piece_dissonance(df: pd.DataFrame,
             globalkey=("globalkey", "first"),
             localkey=("localkey", "first"),
             localkey_mode=("localkey_mode", "first"),
-            total_WLD=("ILD", "sum")
+            total_DI=("DI", "sum")
         )
         res_df = pd.merge(grouped_df, chord_num_df, on=['corpus', 'piece', 'localkey'], how='left')
 
@@ -261,7 +261,7 @@ def compute_piece_dissonance(df: pd.DataFrame,
             period=("period", "first"),
             globalkey=("globalkey", "first"),
             localkey_mode=("localkey_mode", "first"),
-            total_WLD=("ILD", "sum")
+            total_DI=("DI", "sum")
         )
         res_df = pd.merge(grouped_df, chord_num_df, on=['corpus', 'piece', 'localkey_mode'], how='left')
 
@@ -274,12 +274,12 @@ def compute_piece_dissonance(df: pd.DataFrame,
             period=("period", "first"),
             globalkey=("globalkey", "first"),
             localkey_mode=("localkey_mode", "first"),
-            total_WLD=("ILD", "sum"))
+            total_DI=("DI", "sum"))
         res_df = pd.merge(grouped_df, chord_num_df, on=['corpus', 'piece'], how='left')
     else:
         raise ValueError
 
-    res_df["avg_WLD"] = res_df.total_WLD / res_df.chord_num
+    res_df["avg_DI"] = res_df.total_DI / res_df.chord_num
 
     res_df["corpus_id"] = pd.factorize(res_df["corpus"])[0] + 1
     res_df["piece_id"] = pd.factorize(res_df["piece"])[0] + 1
@@ -349,7 +349,7 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
     assert chord_chromaticity.shape[0] == chord_dissonance.shape[0]
 
     chromaticity = chord_chromaticity[common_cols + ["out_of_label", "ILC", "OLC"]]
-    dissonance = chord_dissonance[common_cols + ["interval_classes", "ILD"]]
+    dissonance = chord_dissonance[common_cols + ["interval_classes", "DI"]]
 
     chromaticity.in_label = chromaticity.in_label.apply(tuple)
     chromaticity.out_of_label = chromaticity.out_of_label.apply(tuple)
@@ -358,7 +358,7 @@ def combine_chord_level_indices(chord_chromaticity: pd.DataFrame,
 
     result_df = chromaticity.merge(dissonance,
                                    on=common_cols,
-                                   how="outer")[common_cols + ["out_of_label", "interval_classes", "ILC", "OLC", "ILD"]]
+                                   how="outer")[common_cols + ["out_of_label", "interval_classes", "ILC", "OLC", "DI"]]
     sort_df = result_df.sort_values(by=["corpus_year", "piece_year"], ignore_index=True, ascending=True)
     sort_df["corpus_id"] = pd.factorize(sort_df["corpus"])[0] + 1
     sort_df['piece_id'] = sort_df.groupby('corpus')['piece'].transform(lambda x: pd.factorize(x)[0] + 1)
@@ -391,11 +391,11 @@ def combined_piece_level_indices(piece_chrom: pd.DataFrame,
         raise ValueError()
 
     chromaticity = piece_chrom[common_cols + ["ILC", "OLC"]]
-    ILD = piece_diss["avg_WLD"].tolist()
+    DI = piece_diss["avg_DI"].tolist()
 
-    assert chromaticity.shape[0] == len(ILD)
+    assert chromaticity.shape[0] == len(DI)
 
-    res_df = chromaticity.assign(ILD=ILD)
+    res_df = chromaticity.assign(DI=DI)
 
     # save data:
     fname = f'piece_level_indices{fname_suffix}'
@@ -419,7 +419,7 @@ def get_corpora_level_indices_by_mode(df: pd.DataFrame,
 
         ILC=("ILC", "mean"),
         OLC=("OLC", "mean"),
-        ILD=("ILD", "mean")
+        DI=("DI", "mean")
 
     )
     folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
@@ -444,15 +444,15 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
         period=("period", "first"),
         globalkey=("globalkey", "first"))
 
-    r_ilc_olc = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['ILC', 'OLC']].corr().unstack().iloc[:,
+    r_ILC_OLC = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['ILC', 'OLC']].corr().unstack().iloc[:,
                 1].reset_index(
-        name=f'r_ilc_olc')
+        name=f'r_ILC_OLC')
 
-    r_ilc_ild = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['ILC', 'ILD']].corr().unstack().iloc[:,
+    r_ILC_DI = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['ILC', 'DI']].corr().unstack().iloc[:,
                 1].reset_index(
-        name=f'r_ilc_ild')
+        name=f'r_ILC_DI')
 
-    r_df = r_ilc_olc.merge(r_ilc_ild,
+    r_df = r_ILC_OLC.merge(r_ILC_DI,
                            on=["corpus", "piece", "localkey_mode"],
                            how="outer")
 
@@ -468,20 +468,20 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
 
     return res_df
 
-def get_ilc_ild_diff_df(df: pd.DataFrame, save: bool, repo_dir: str):
+def get_ilc_di_diff_df(df: pd.DataFrame, save: bool, repo_dir: str):
     mode_counts = df.groupby('piece')['localkey_mode'].nunique()
     pieces_with_both_modes = mode_counts[mode_counts == 2].index
 
     # Filter the DataFrame to keep only pieces with both modes
     df_filtered = df[df['piece'].isin(pieces_with_both_modes)]
 
-    # Compute the absolute difference between ILC and ILD for each row
-    df_filtered['ilc_ild_diff'] = (df_filtered['ILC'] - df_filtered['ILD']).abs()
+    # Compute the absolute difference between ILC and DI for each row
+    df_filtered['ILC_DI_diff'] = (df_filtered['ILC'] - df_filtered['DI']).abs()
 
     # save df:
     if save:
         folder_path = create_results_folder(parent_folder="Data", analysis_name=None, repo_dir=repo_dir)
-        fname = f"ilc_ild_diff_df"
+        fname = f"ILC_DI_diff_df"
         save_df(df=df_filtered, file_type="both", directory=folder_path, fname=fname)
 
     return df_filtered
@@ -514,7 +514,6 @@ def full_post_preprocessed_datasets_update():
     print(f'Computing piece dissonance indices ...')
     piece_diss_by_mode = compute_piece_dissonance(by="mode", df=chord_dissonance, repo_dir=repo_dir, save=True)
     piece_diss_by_lk = compute_piece_dissonance(by="key_segment", df=chord_dissonance, repo_dir=repo_dir, save=True)
-    piece_diss = compute_piece_dissonance(by=None, df=chord_dissonance, repo_dir=repo_dir, save=True)
 
     print(f'Finished dissonance!')
 
@@ -530,13 +529,11 @@ def full_post_preprocessed_datasets_update():
     print(f'Combing dfs for piece-level indices ...')
     piece_by_mode = combined_piece_level_indices(piece_chrom=piece_chrom_by_mode, piece_diss=piece_diss_by_mode,
                                                  repo_dir=repo_dir, groupy_by="mode")
-    piece_by_lk = combined_piece_level_indices(piece_chrom=piece_chrom_by_localkey, piece_diss=piece_diss_by_lk,
-                                               repo_dir=repo_dir, groupy_by="key_segment")
 
     print(f'Computing corpora-level indices ... ')
     get_corpora_level_indices_by_mode(df=piece_by_mode, repo_dir=repo_dir)
 
-    get_ilc_ild_diff_df(df=piece_by_mode, save=True, repo_dir=repo_dir)
+    get_ilc_di_diff_df(df=piece_by_mode, save=True, repo_dir=repo_dir)
 
     print(f'Fini!')
 

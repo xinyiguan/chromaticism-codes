@@ -1,4 +1,4 @@
-	corpus	piece	corpus_year	piece_year	period	globalkey	localkey_mode	total_WLD	chord_num	avg_WLD	corpus_id	piece_id
+	corpus	piece	corpus_year	piece_year	period	globalkey	localkey_mode	total_DI	chord_num	avg_DI	corpus_id	piece_id
 0	peri_euridice	peri_euridice_scene_0	1600.0	1600	Renaissance	F	major	5.800000000000001	29	0.2	1	1
 1	peri_euridice	peri_euridice_scene_1	1600.0	1600	Renaissance	G	major	39.816500000000005	182	0.21877197802197804	1	2
 2	peri_euridice	peri_euridice_scene_1	1600.0	1600	Renaissance	G	minor	26.366600000000002	126	0.20925873015873017	1	2
