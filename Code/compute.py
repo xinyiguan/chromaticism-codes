@@ -449,7 +449,7 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
         name=f'r_ILC_OLC')
 
     r_ILC_DI = df.groupby(["corpus", "piece", "localkey_mode"], sort=False)[['ILC', 'DI']].corr().unstack().iloc[:,
-                1].reset_index(
+               1].reset_index(
         name=f'r_ILC_DI')
 
     r_df = r_ILC_OLC.merge(r_ILC_DI,
@@ -468,6 +468,7 @@ def compute_pairwise_chord_indices_r_by_piece(df: pd.DataFrame,
 
     return res_df
 
+
 def get_ilc_di_diff_df(df: pd.DataFrame, save: bool, repo_dir: str):
     mode_counts = df.groupby('piece')['localkey_mode'].nunique()
     pieces_with_both_modes = mode_counts[mode_counts == 2].index
@@ -485,6 +486,160 @@ def get_ilc_di_diff_df(df: pd.DataFrame, save: bool, repo_dir: str):
         save_df(df=df_filtered, file_type="both", directory=folder_path, fname=fname)
 
     return df_filtered
+
+
+def corr_stats_by_era_rvals(df: pd.DataFrame, mode: Literal["major", "minor"],
+                            era: Literal["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic"],
+                            rval: Literal["pos", "neg", "uncorr"]):
+    sub_df = df.loc[(df['localkey_mode'] == mode) & (df['period'] == era)]
+    if rval == "pos":
+        res = sub_df.loc[sub_df["r_ILC_DI"] > 0]
+    elif rval == "neg":
+        res = sub_df.loc[sub_df["r_ILC_DI"] < 0]
+    elif rval == "uncorr":
+        res = sub_df.loc[sub_df["r_ILC_DI"] == 0]
+    else:
+        raise ValueError
+
+    return res.shape[0]
+
+
+def corr_stats_report(df: pd.DataFrame):
+    era_df = df.loc[(df['period'] == "Renaissance") | (df['period'] == "Baroque")]
+    res = era_df.loc[era_df["r_ILC_DI"] == 0]
+    print(f'{era_df.shape=}')
+    print(f'{res.shape=}')
+    print(f'{res.shape[0]/era_df.shape[0]=}')
+
+    # era_df = df.loc[(df['period'] == "Classical") | (df['period'] == "Early Romantic")]
+    # res = era_df.loc[era_df["r_ILC_DI"] >= 0.5]
+    # print(f'{era_df.shape=}')
+    # print(f'{res.shape=}')
+    # print(f'{res.shape[0]/era_df.shape[0]=}')
+
+    # for e in ["Renaissance", "Baroque", "Classical", "Early Romantic", "Late Romantic"]:
+    #     era_df = df.loc[df['period'] == e]
+    # for m in ["major", "minor"]:
+    #     era_mode_df = era_df[era_df['localkey_mode'] == m]
+    #     for r in ["pos", "neg", "uncorr"]:
+    #         print(f'{e} {m} {r}')
+    #         res = corr_stats_by_era_rvals(df=df, mode=m, era=e, rval=r)
+    #         all_res = era_mode_df.shape[0]
+    #         ratio = res/all_res *100
+    #         print(f'{ratio=}')
+    #         print(f'\n')
+
+
+def generate_r_value_latex_table(df: pd.DataFrame):
+    """
+    Generate a LaTeX table showing counts of pieces with r > 0, r = 0, and r < 0 for each period.
+    Returns:
+    str: LaTeX table as a string
+    """
+    # Predefined period order
+    period_order = [
+        'Renaissance',
+        'Baroque',
+        'Classical',
+        'Early Romantic',
+        'Late Romantic'
+    ]
+
+    # Ensure all specified periods exist in the DataFrame
+    for period in period_order:
+        if period not in df['period'].unique():
+            df = pd.concat([df, pd.DataFrame({'period': [period], 'r': [0], 'localkey_mode': ['major']})],
+                           ignore_index=True)
+
+    # Categorize r values
+    def categorize_r(r):
+        if r > 0:
+            return 'r > 0'
+        elif r == 0:
+            return 'r = 0'
+        else:
+            return 'r < 0'
+
+    # Add a category column
+    df['r_category'] = df['r_ILC_DI'].apply(categorize_r)
+
+    # Create pivot tables for major and minor separately
+    pivot_major = pd.pivot_table(df[df['localkey_mode'] == 'major'],
+                                 index='r_category',
+                                 columns='period',
+                                 aggfunc='size',
+                                 fill_value=0)
+
+    pivot_minor = pd.pivot_table(df[df['localkey_mode'] == 'minor'],
+                                 index='r_category',
+                                 columns='period',
+                                 aggfunc='size',
+                                 fill_value=0)
+
+    # Reorder columns based on the predefined period order
+    pivot_major = pivot_major.reindex(columns=period_order)
+    pivot_minor = pivot_minor.reindex(columns=period_order)
+
+    # Calculate percentages
+    def calculate_percentages(pivot):
+        return pivot.apply(lambda x: x / x.sum() * 100 if x.sum() > 0 else 0, axis=0)
+
+    percent_major = calculate_percentages(pivot_major)
+    percent_minor = calculate_percentages(pivot_minor)
+
+    # Start building the LaTeX table
+    # Specify exactly 11 columns: 1 for label + 10 for periods (2 per period) + 1 for total
+    latex_table = "\\begin{tabular}{l*{10}{c}c}\n"
+    latex_table += "\\hline\n"
+
+    # Add multi-column header for periods
+    period_headers = " & ".join([f"\\multicolumn{{2}}{{c}}{{{period}}}" for period in period_order]) + " & Total \\\\\n"
+    latex_table += "& " + period_headers
+    latex_table += "\\cline{2-11}\n"
+
+    # Add major/minor subheader
+    mode_headers = " & ".join(["maj & min"] * len(period_order)) + " & \\\\\n"
+    latex_table += "& " + mode_headers
+    latex_table += "\\hline\n"
+
+    # Add data rows with percentages
+    total_row = pd.Series(0, index=list(pivot_major.columns) + ['Total'])
+    for r_category in ['r > 0', 'r = 0', 'r < 0']:
+        # Prepare row values
+        row_values = []
+        for period in period_order:
+            # Major percentage
+            major_val = percent_major.loc[r_category, period] if r_category in percent_major.index else 0
+            # Minor percentage
+            minor_val = percent_minor.loc[r_category, period] if r_category in percent_minor.index else 0
+
+            row_values.extend([f"{major_val:.1f}", f"{minor_val:.1f}"])
+
+            # Update total row (using absolute counts)
+            total_row[period] += pivot_major.loc[r_category, period] if r_category in pivot_major.index else 0
+            total_row[period] += pivot_minor.loc[r_category, period] if r_category in pivot_minor.index else 0
+
+        # Add total for the row
+        total_row['Total'] = sum(total_row[period_order])
+
+        # Format row
+        row_str = " & ".join(row_values + [f"{total_row['Total']}"])
+        latex_table += f"{r_category} & {row_str} \\\\\n"
+
+    latex_table += "\\hline\n"
+
+    # Add column totals row
+    total_values = [f"{total_row[period]}" for period in period_order]
+    total_str = (" & 0 & 0" * len(period_order)) + f" & {total_row['Total']}"
+    latex_table += f"Total & {' & '.join(total_values)}{total_str} \\\\\n"
+
+    latex_table += "\\hline\n"
+    latex_table += "\\end{tabular}"
+
+    return latex_table
+
+
+
 
 # %% full set of processed datasets for analyses
 def full_post_preprocessed_datasets_update():
@@ -542,7 +697,12 @@ if __name__ == "__main__":
     user = os.path.expanduser("~")
     repo_dir = f'{user}/Codes/chromaticism-codes/'
 
-
+    df = load_file_as_df(f'{repo_dir}Data/prep_data/for_analysis/chord_indices_r_vals_by_piece.pickle')
+    # corr_stats_by_era_rvals(df=df, mode="major", rval="pos", era='Baroque')
+    res = generate_r_value_latex_table(df=df)
+    print(res)
+    assert False
+    corr_stats_report(df=df)
     full_post_preprocessed_datasets_update()
     #
     # user = os.path.expanduser("~")

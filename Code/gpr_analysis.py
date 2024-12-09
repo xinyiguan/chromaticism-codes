@@ -202,10 +202,10 @@ def ax_gpr_prediction(ax: Axes,
 
     fvar_color = 'gray'
     if plot_f_uncertainty:
-        ax.plot(Xplot, f_lower, "--", color=fvar_color, label="f 95% confidence", alpha=0.2)
-        ax.plot(Xplot, f_upper, "--", color=fvar_color, alpha=0.2)
+        ax.plot(Xplot, f_lower, "--", color=fvar_color, label="f 95% confidence", alpha=0.25)
+        ax.plot(Xplot, f_upper, "--", color=fvar_color, alpha=0.25)
         ax.fill_between(
-            Xplot[:, 0], f_lower[:, 0], f_upper[:, 0], color=fvar_color, alpha=0.2
+            Xplot[:, 0], f_lower[:, 0], f_upper[:, 0], color=fvar_color, alpha=0.25
         )
     if plot_y_uncertainty:
         ax.plot(Xplot, y_lower, "-", color=fvar_color, label="Y 95% confidence", linewidth=1, alpha=0.5)
@@ -265,8 +265,19 @@ def corpora_col_df_mode(df: pd.DataFrame, mode: Literal["major", "minor"]) -> np
     return filter_df_by_mode(df, mode)["corpus_id"].to_numpy()
 
 
+def era_col_df_mode(df: pd.DataFrame, mode: Literal["major", "minor"]) -> np.ndarray:
+    return filter_df_by_mode(df, mode)["period"].to_numpy()
+
+
 def scatter_color_df_mode(df: pd.DataFrame, mode: Literal["major", "minor"]):
-    return sns.color_palette('husl', n_colors=filter_df_by_mode(df, mode)["corpus_id"].unique().shape[0])
+    s = ["#61ad65",
+         "#9350a1",
+         "#b88a3a",
+         "#697cd4",
+         "#b8475f"]
+    return s
+
+    # return sns.color_palette('husl', n_colors=filter_df_by_mode(df, mode)["corpus_id"].unique().shape[0])
 
 
 def add_era_text_to_ax(ax: Axes,
@@ -298,7 +309,6 @@ Metric = Literal["Chromaticity", "Dissonance"]
 def plot_gpr(df: pd.DataFrame,
              metric: Metric,
              log_transform: bool,
-             upper_env_curve: bool,
              lengthscale: Optional[float],
              variance: Optional[float] | Literal["sample_var"],
              optimize: bool,
@@ -324,7 +334,6 @@ def plot_gpr(df: pd.DataFrame,
         else:
             var = variance
 
-        print(f'{var=}')
         ax_full_gpr_model(ax=ax,
                           ax_title=f"{feature_index} ({m})",
                           m_outputs=gpr_model_outputs_(df=filter_df_by_mode(df, m),
@@ -333,7 +342,7 @@ def plot_gpr(df: pd.DataFrame,
                                                        variance=var
                                                        ),
                           fmean_color=regline_COLOR[m],
-                          scatter_hue_by=corpora_col_df_mode(df, m),
+                          scatter_hue_by=era_col_df_mode(df, m),
                           scatter_colormap=scatter_color_df_mode(df, m),
                           ylim=ylim,
                           log_transform=log_transform,
@@ -446,6 +455,15 @@ def plot_gpr_indices_r(df: pd.DataFrame,
         sns.histplot(x=x, fill=True, linewidth=1, ax=g.ax_marg_x, color=scatter_color, alpha=0.6)
         sns.histplot(y=y, fill=True, linewidth=1, ax=g.ax_marg_y, color=scatter_color, alpha=0.6)
 
+    # Add horizontal line at y=0
+    g.ax_joint.axhline(y=0, color='gray', linestyle='--', linewidth=1, alpha=0.5)
+
+    # Conditionally modify y-axis tick labels if ylim is above 1
+    if ylim[1] > 1:
+        current_yticks = g.ax_joint.get_yticks()
+        filtered_yticks = [tick for tick in current_yticks if tick <= 1]
+        g.ax_joint.set_yticks(filtered_yticks)
+
     # add era info
     add_era_text_to_ax(ax=g.ax_joint, era_dict=ERA, ylim=ylim, linelength=0.04, text_pos="bottom")
 
@@ -490,7 +508,8 @@ def plotly_scatter(df: pd.DataFrame, mode: Literal["major", "minor"],
     fig.write_html(f'{fig_path}GPR_{metric}_{mode}.html')
 
 
-def compute_var(df: pd.DataFrame, mode: Literal["major", "minor"], feature_index: Literal["ILC", "OLC", "DI", "r_ILC_DI"]):
+def compute_var(df: pd.DataFrame, mode: Literal["major", "minor"],
+                feature_index: Literal["ILC", "OLC", "DI", "r_ILC_DI"]):
     mode_df = get_piece_df_by_localkey_mode(df=df, mode=mode)
     var = mode_df[feature_index].var(numeric_only=True)
     return var
@@ -516,29 +535,33 @@ if __name__ == "__main__":
         log_transform=False,
         lengthscale=25.0, variance="sample_var",
         plot_f_uncertainty=True, plot_y_uncertainty=False,
-        scatter_jitter=True, xlim=(1575, 1950), upper_env_curve=False,
+        scatter_jitter=True, xlim=(1575, 1950),
         legend_loc=None, save=True)
 
-    print(f'GPR for chromaticity ...')
-    plot_gpr(df=piece_indices,
-             metric="Chromaticity",
-             optimize=False,
-             ylim=(-1, 5),
-             fname_anno="capped",
-             **plotting_common_params)
+    # print(f'GPR for chromaticity ...')
+    # plot_gpr(df=piece_indices,
+    #          metric="Chromaticity",
+    #          optimize=False,
+    #          ylim=(-1, 5),
+    #          fname_anno="capped",
+    #          **plotting_common_params)
+    #
+    # print(f'GPR for dissonance ...')
+    # plot_gpr(df=piece_indices,
+    #          metric="Dissonance",
+    #          optimize=False,
+    #          ylim=(0, 1),
+    #          fname_anno=None,
+    #          **plotting_common_params)
 
-    print(f'GPR for dissonance ...')
-    plot_gpr(df=piece_indices,
-             metric="Dissonance",
-             optimize=False,
-             ylim=(0, 1),
-             fname_anno=None,
-             **plotting_common_params)
+    # assert False
 
     print(f'GPR for ILC-DI correlation ...')
     r_models_params = dict(optimize=False,
                            ylim=(-1, 1.25), fname_anno=None,
                            df=r_vals_df)
+
+
 
     for m in ["major", "minor"]:
         plot_gpr_indices_r(mode=m,
@@ -547,6 +570,7 @@ if __name__ == "__main__":
                            )
 
     assert False
+
     print(f'Plotly figures ...')
     plotly_scatter(df=piece_indices, metric="ILC", mode="major")
     plotly_scatter(df=piece_indices, metric="ILC", mode="minor")
